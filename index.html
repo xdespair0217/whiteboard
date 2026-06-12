@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BLACK BOX 廠務營運與技術綜合控制台 V7.2</title>
+    <title>BLACK BOX 廠務營運與技術綜合控制台 V7.3</title>
     <style>
         /* 1. 全域大版面配置 - 確保字體氣勢與寬敞感 */
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -56,14 +56,14 @@
         .grid-layout { display: grid; gap: 12px; height: 100%; width: 100%; }
         .grid-4 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
         
-        /* 右上角大便簽完美割裂：左側大格(佔2縱列)，右側上下兩小格 */
+        /* 右上角大便簽非對稱切割 */
         .grid-split-three {
             grid-template-columns: 1.2fr 0.8fr;
             grid-template-rows: 1fr 1fr;
         }
 
         .unit-cell { display: flex; flex-direction: column; border: 1px solid #cbd5e1; border-radius: 6px; overflow: hidden; }
-        .unit-header { padding: 6px 10px; font-size: 0.85rem; font-weight: bold; }
+        .unit-header { padding: 6px 10px; font-size: 0.85rem; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .unit-divider { height: 1px; background-color: #cbd5e1; }
         .unit-content { flex: 1; padding: 10px; font-size: 0.9rem; line-height: 1.5; color: #334155; background: #ffffff; white-space: pre-wrap; overflow-y: auto; }
 
@@ -73,7 +73,7 @@
         .cell-factory { border-color: #bbf7d0; }
         .cell-factory .unit-header { background: #dcfce7; color: #15803d; }
         
-        /* 大便簽三格均維持您指定的溫潤米色 */
+        /* 大便簽三格均維持溫潤米色 */
         .cell-beige-main { border-color: #fde68a; grid-row: 1 / 3; }
         .cell-beige-main .unit-header { background: #fef3c7; color: #92400e; }
         .cell-beige-main .unit-content { background: #fdfbf7; color: #451a03; }
@@ -82,7 +82,7 @@
         .cell-beige-sub .unit-header { background: #fef3c7; color: #92400e; }
         .cell-beige-sub .unit-content { background: #fdfbf7; color: #451a03; }
 
-        /* 3. 左下核心資安區 - 10組無捲軸極致平衡排列 */
+        /* 3. 左下核心資安區 - 10組無捲軸明文直顯排列 */
         .cred-compact-container { display: flex; flex-direction: column; height: 100%; gap: 3px; }
         .cred-row {
             display: flex;
@@ -91,7 +91,7 @@
             border-left: 4px solid #475569;
             border-radius: 0 4px 4px 0;
             padding: 0 8px;
-            height: 23px; /* 鎖定高度，10組完美定格不觸發捲軸 */
+            height: 23px; 
             justify-content: space-between;
             font-size: 0.82rem;
         }
@@ -115,7 +115,7 @@
 <body>
 
     <header>
-        <h1>⚙️ BLACK BOX 廠務營運與技術綜合控制台 (V7.2 雲端連動修復版)</h1>
+        <h1>⚙️ BLACK BOX 廠務營運與技術綜合控制台 (V7.3 終極完美對接版)</h1>
         <div class="status-zone">
             <div class="sync-tag" id="sync-status">雲端對接中...</div>
             <div class="active-tag" id="live-date">載入中...</div>
@@ -147,21 +147,21 @@
 
         <div class="column">
             <div class="card h-55">
-                <div class="card-header">📝 營運對帳與團隊異動大便簽 (輸入自動保存)</div>
+                <div class="card-header">📝 營運對帳與團隊異動大便簽</div>
                 <div class="card-body">
                     <div class="grid-layout grid-split-three">
                         <div class="unit-cell cell-beige-main">
-                            <div class="unit-header" id="rt_h1">營運對帳大便簽</div>
+                            <div class="unit-header" id="rt_h1">載入中...</div>
                             <div class="unit-divider"></div>
                             <div class="unit-content" id="rt_c1">正在同步雲端筆記...</div>
                         </div>
                         <div class="unit-cell cell-beige-sub">
-                            <div class="unit-header" id="rt_h2">團隊重要異動</div>
+                            <div class="unit-header" id="rt_h2">載入中...</div>
                             <div class="unit-divider"></div>
                             <div class="unit-content" id="rt_c2">...</div>
                         </div>
                         <div class="unit-cell cell-beige-sub">
-                            <div class="unit-header" id="rt_h3">即時更新項目</div>
+                            <div class="unit-header" id="rt_h3">載入中...</div>
                             <div class="unit-divider"></div>
                             <div class="unit-content" id="rt_c3">...</div>
                         </div>
@@ -173,10 +173,10 @@
                 <div class="card-header">🛠️ 廠務即時調度、排休異動四格板</div>
                 <div class="card-body">
                     <div class="grid-layout grid-4">
-                        <div class="unit-cell cell-factory"><div class="unit-header" id="f_h1">SA排休</div><div class="unit-divider"></div><div class="unit-content" id="f_c1">...</div></div>
-                        <div class="unit-cell cell-factory"><div class="unit-header" id="f_h2">引擎組</div><div class="unit-divider"></div><div class="unit-content" id="f_c2">...</div></div>
-                        <div class="unit-cell cell-factory"><div class="unit-header" id="f_h3">特休更正</div><div class="unit-divider"></div><div class="unit-content" id="f_c3">...</div></div>
-                        <div class="unit-cell cell-factory"><div class="unit-header" id="f_h4">臨時派工</div><div class="unit-divider"></div><div class="unit-content" id="f_c4">...</div></div>
+                        <div class="unit-cell cell-factory"><div class="unit-header" id="f_h1">載入中...</div><div class="unit-divider"></div><div class="unit-content" id="f_c1">...</div></div>
+                        <div class="unit-cell cell-factory"><div class="unit-header" id="f_h2">載入中...</div><div class="unit-divider"></div><div class="unit-content" id="f_c2">...</div></div>
+                        <div class="unit-cell cell-factory"><div class="unit-header" id="f_h3">載入中...</div><div class="unit-divider"></div><div class="unit-content" id="f_c3">...</div></div>
+                        <div class="unit-cell cell-factory"><div class="unit-header" id="f_h4">載入中...</div><div class="unit-divider"></div><div class="unit-content" id="f_c4">...</div></div>
                     </div>
                 </div>
             </div>
@@ -185,7 +185,6 @@
     </div>
 
     <script>
-        // 🔒 您的專屬 Google 試算表對接 ID
         const SPREADSHEET_ID = '1lwByNWi7pOkl6hBV--15-_c4n2NaaAlWnVjY44itnlw';
 
         function updateDate() {
@@ -205,38 +204,80 @@
             window.open(url.startsWith('http') ? url : 'https://' + url, '_blank');
         }
 
+        // 高階高防呆 CSV 雙重斷行解析引擎
+        function parseAdvancedCSV(csvText) {
+            const lines = [];
+            let currentLine = [];
+            let currentCell = '';
+            let inQuotes = false;
+
+            for (let i = 0; i < csvText.length; i++) {
+                const char = csvText[i];
+                const nextChar = csvText[i + 1];
+
+                if (char === '"') {
+                    if (inQuotes && nextChar === '"') {
+                        currentCell += '"'; i++; // 處理雙引號轉義
+                    } else {
+                        inQuotes = !inQuotes; // 切換引號狀態
+                    }
+                } else if (char === ',' && !inQuotes) {
+                    currentLine.push(currentCell.trim());
+                    currentCell = '';
+                } else if ((char === '\r' || char === '\n') && !inQuotes) {
+                    if (char === '\r' && nextChar === '\n') i++;
+                    currentLine.push(currentCell.trim());
+                    if (currentLine.length > 0 && currentLine[0] !== '') {
+                        lines.push(currentLine);
+                    }
+                    currentLine = [];
+                    currentCell = '';
+                } else {
+                    currentCell += char;
+                }
+            }
+            if (currentCell || currentLine.length > 0) {
+                currentLine.push(currentCell.trim());
+                lines.push(currentLine);
+            }
+            return lines;
+        }
+
         async function sync() {
             try {
-                // A. 聯動修復：重新綁定 SA、大便簽與廠務調度資料
+                // A. 讀取並渲染 11 宮格資料
                 const urlNotes = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=SA_Factory_Notes`;
                 const resNotes = await fetch(urlNotes);
                 const csvNotes = await resNotes.text();
                 
-                const rows = csvNotes.split(/\r?\n/).slice(1);
-                rows.forEach(r => {
-                    const cols = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(v => v.replace(/^"|"$/g, ''));
-                    const id = cols[0];
-                    if(id) {
-                        // 精準修復對齊代碼，防止卡在「載入中」
-                        const targetId = id.trim().replace('rt_','rt_c').replace('sa_','sa_c').replace('f_','f_c');
-                        const headerId = id.trim().replace('1','h1').replace('2','h2').replace('3','h3').replace('4','h4');
-                        
-                        const hEl = document.getElementById(headerId);
-                        const cEl = document.getElementById(targetId);
-                        if(hEl) hEl.innerText = cols[1] || '';
-                        if(cEl) cEl.innerText = cols[2] || '';
-                    }
+                const parsedNotes = parseAdvancedCSV(csvNotes).slice(1); // 移除標頭
+                
+                parsedNotes.forEach(cols => {
+                    if (cols.length < 2) return;
+                    const id = cols[0].trim();
+                    const title = cols[1];
+                    const content = cols[2] || '';
+
+                    // 動態對齊前端 DOM 節點
+                    const targetContentId = id.replace('rt_','rt_c').replace('sa_','sa_c').replace('f_','f_c');
+                    const targetHeaderId = id.replace('1','h1').replace('2','h2').replace('3','h3').replace('4','h4');
+                    
+                    const hEl = document.getElementById(targetHeaderId);
+                    const cEl = document.getElementById(targetContentId);
+                    
+                    if(hEl) hEl.innerText = title || '';
+                    if(cEl) cEl.innerText = content || '';
                 });
 
-                // B. 抓取 10 組系統帳密 (強制渲染 10 列，一鍵複製功能完整保留)
+                // B. 讀取並渲染 10 組核心資安庫
                 const urlCreds = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=Credentials`;
                 const resCreds = await fetch(urlCreds);
                 const csvCreds = await resCreds.text();
-                const cRows = csvCreds.split(/\r?\n/).slice(1, 11); 
+                
+                const parsedCreds = parseAdvancedCSV(csvCreds).slice(1, 11); // 精準抽取前 10 筆
                 
                 let html = '<div class="cred-compact-container">';
-                cRows.forEach(r => {
-                    const cols = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(v => v.replace(/^"|"$/g, ''));
+                parsedCreds.forEach(cols => {
                     if(cols.length < 2) return;
                     
                     const sys = cols[1] || '未設定';
@@ -263,13 +304,14 @@
                 document.getElementById('sync-status').innerText = '🛡️ 雲端資安已聯動';
                 document.getElementById('sync-status').style.color = '#34d399';
             } catch (e) {
+                console.error(e);
                 document.getElementById('sync-status').innerText = '❌ 同步異常';
                 document.getElementById('sync-status').style.color = '#ef4444';
             }
         }
 
         sync();
-        setInterval(sync, 300000); // 每 5 分鐘自動背景更新
+        setInterval(sync, 300000); // 每 5 分鐘後台輪詢自動更新
     </script>
 </body>
 </html>
