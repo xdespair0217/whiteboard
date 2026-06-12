@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BLACK BOX 廠務營運與技術綜合控制台 V6.1 - 雲端資安版</title>
+    <title>BLACK BOX 廠務營運與技術綜合控制台 V7.1</title>
     <style>
+        /* 1. 核心版面幾何學 - 恢復原本的大版面感受 */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Segoe UI', Microsoft JhengHei, sans-serif;
@@ -13,10 +14,10 @@
             height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
+            overflow: hidden; /* 確保全螢幕不產生外部捲軸 */
         }
 
-        /* 頂部深藍控制台列 */
+        /* 頂部深藍控制台列 - 恢復原始大小 */
         header {
             background-color: #132a3a;
             color: #ffffff;
@@ -24,16 +25,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 60px;
+            height: 60px; /* 恢復標準高度 */
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
         }
         header h1 { font-size: 1.3rem; font-weight: bold; letter-spacing: 0.5px; }
         
-        .status-zone {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
+        .status-zone { display: flex; gap: 12px; align-items: center; }
         .active-tag {
             background-color: rgba(245, 158, 11, 0.2);
             border: 1px solid #f59e0b;
@@ -53,7 +50,7 @@
             font-weight: bold;
         }
 
-        /* 主戰情室版面配置 (左右平分) */
+        /* 主戰情室版面配置 - 左右平分 */
         .dashboard-container {
             flex: 1;
             display: grid;
@@ -61,7 +58,6 @@
             gap: 16px;
             padding: 16px;
             height: calc(100vh - 60px);
-            overflow: hidden;
         }
 
         .column {
@@ -72,7 +68,7 @@
             overflow: hidden;
         }
 
-        /* 控制台卡片基本樣式 */
+        /* 卡片樣式 - 恢復原本的紮實感 */
         .card {
             background: #ffffff;
             border-radius: 8px;
@@ -88,7 +84,7 @@
 
         .card-header {
             background-color: #ffffff;
-            padding: 12px 16px;
+            padding: 12px 16px; /* 恢復大間距標題 */
             font-size: 1.05rem;
             font-weight: bold;
             color: #0f172a;
@@ -99,482 +95,215 @@
         }
 
         .card-body {
-            padding: 12px;
+            padding: 12px; /* 恢復內容區間距 */
             flex: 1;
             overflow: hidden;
         }
 
-        /* 左下帳密在庫專用：允許內部垂直滾動 */
-        .cred-scroll-zone {
-            height: 100%;
-            overflow-y: auto;
-            padding-right: 4px;
+        /* 2. 網格單元格樣式 - 恢復大字體美學 */
+        .grid-layout { display: grid; gap: 12px; height: 100%; width: 100%; }
+        .grid-4 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+        .grid-tri { grid-template-columns: 1.1fr 0.9fr; grid-template-rows: 1fr 1fr; }
+
+        .unit-cell { display: flex; flex-direction: column; border: 1px solid #cbd5e1; border-radius: 6px; overflow: hidden; }
+        .unit-header { padding: 6px 10px; font-size: 0.85rem; font-weight: bold; }
+        .unit-divider { height: 1px; background-color: #cbd5e1; }
+        .unit-content { 
+            flex: 1; padding: 10px; font-size: 0.9rem; line-height: 1.5; color: #334155; 
+            background: #ffffff; white-space: pre-wrap; overflow-y: auto; 
         }
 
-        /* 帳密條目樣式與微調間距 */
-        .info-list-item {
-            padding: 10px 12px;
+        /* 職能美學配色 */
+        .cell-sa { border-color: #bae6fd; }
+        .cell-sa .unit-header { background: #e0f2fe; color: #0369a1; }
+        .cell-factory { border-color: #bbf7d0; }
+        .cell-factory .unit-header { background: #dcfce7; color: #15803d; }
+        .cell-beige { border-color: #fef3c7; grid-row: 1 / 3; }
+        .cell-beige .unit-header { background: #fef3c7; color: #92400e; }
+        .cell-beige .unit-content { background: #fdfbf7; color: #451a03; }
+
+        /* 3. 【帳密核心區】 - 10組專屬緊湊排列 (唯一縮小的地方) */
+        .cred-compact-zone {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            gap: 3px; /* 緊湊間距 */
+        }
+
+        .cred-row {
+            display: flex;
+            align-items: center;
             background: #f8fafc;
             border-left: 4px solid #475569;
-            border-radius: 0 6px 6px 0;
-            margin-bottom: 8px;
-            display: flex;
+            border-radius: 0 4px 4px 0;
+            padding: 0 8px;
+            height: 23px; /* 精準控制高度，確保10組不產生捲軸 */
             justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-        }
-        .info-list-item:last-child { margin-bottom: 0; }
-
-        .credential-inputs {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        
-        .system-title-row {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-        .display-system-name {
-            font-size: 0.95rem;
-            font-weight: bold;
-            color: #0f172a;
-            flex: 1;
-        }
-        
-        .display-system-url {
-            font-size: 0.75rem;
-            color: #94a3b8;
-            max-width: 180px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            font-size: 0.82rem;
         }
 
-        .credential-row {
-            font-size: 0.85rem;
-            color: #64748b;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .display-value {
-            color: #334155;
-            font-weight: 600;
-            background: #f1f5f9;
-            padding: 1px 6px;
-            border-radius: 4px;
-        }
+        .cred-main { display: flex; align-items: center; gap: 8px; flex: 1; overflow: hidden; }
+        .sys-title { font-weight: bold; color: #0f172a; width: 140px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .cred-vals { color: #64748b; white-space: nowrap; }
+        .cred-vals b { color: #ef4444; background: #f1f5f9; padding: 0 4px; border-radius: 3px; font-weight: bold; }
 
-        /* 複製與連結按鈕區 */
-        .credential-actions {
-            display: flex;
-            gap: 4px;
+        .cred-btns { display: flex; gap: 4px; }
+        .mini-btn {
+            background-color: #3b82f6; color: white; border: none; padding: 1px 6px; 
+            border-radius: 3px; font-size: 0.7rem; font-weight: bold; cursor: pointer;
         }
-        .btn-action {
-            background-color: #10b981;
-            color: white;
-            border: none;
-            padding: 5px 8px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            font-weight: bold;
-            white-space: nowrap;
-            transition: background 0.2s;
-        }
-        .btn-action:hover { background-color: #059669; }
-        .btn-account { background-color: #3b82f6; }
-        .btn-account:hover { background-color: #1d4ed8; }
-        .btn-link { background-color: #6366f1; }
-        .btn-link:hover { background-color: #4f46e5; }
+        .mini-btn.pwd { background-color: #10b981; }
+        .mini-btn.link { background-color: #6366f1; }
 
-        /* 網格基礎底板 */
-        .four-grid-container, .tri-grid-container {
-            display: grid;
-            gap: 12px;
-            height: 100%;
-            width: 100%;
-        }
-        .four-grid-container {
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr 1fr;
-        }
-        .tri-grid-container {
-            grid-template-columns: 1.1fr 0.9fr;
-            grid-template-rows: 1fr 1fr;
-        }
-
-        /* ──────────────── 美學職能卡片樣式 ──────────────── */
-        .grid-cell {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-        }
-
-        .cell-header-text {
-            width: 100%;
-            padding: 6px 10px;
-            font-size: 0.85rem;
-            font-weight: bold;
-        }
-
-        .cell-divider {
-            height: 1px;
-            background-color: #cbd5e1;
-        }
-
-        .cell-content-display {
-            flex: 1;
-            width: 100%;
-            padding: 10px;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            color: #334155;
-            background: #ffffff;
-            white-space: pre-wrap;
-            overflow-y: auto;
-        }
-
-        /* 左上：SA接待區美學 ➔ 柔和晴空藍 */
-        .cell-sa { border-color: #bae6fd; }
-        .cell-sa .cell-header-text { background: #e0f2fe; color: #0369a1; }
-        .cell-sa .cell-divider { background-color: #bae6fd; }
-
-        /* 右下：廠務調度區美學 ➔ 莫蘭迪鼠尾草綠 */
-        .cell-factory { border-color: #bbf7d0; }
-        .cell-factory .cell-header-text { background: #dcfce7; color: #15803d; }
-        .cell-factory .cell-divider { background-color: #bbf7d0; }
-
-        /* 右上大便簽：典雅米色紙美學 */
-        .grid-cell-large-beige {
-            grid-row: 1 / 3;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            border: 1px solid #fef3c7;
-            border-radius: 6px;
-            overflow: hidden;
-            box-shadow: 1px 2px 4px rgba(0,0,0,0.03);
-        }
-        .grid-cell-large-beige .cell-header-text { background: #fef3c7; color: #92400e; }
-        .grid-cell-large-beige .cell-divider { background-color: #fde68a; }
-        .grid-cell-large-beige .cell-content-display { background: #fdfbf7; color: #451a03; }
-
-        /* 右上伴隨小格子 */
-        .cell-companion { border-color: #e2e8f0; }
-        .cell-companion .cell-header-text { background: #f1f5f9; color: #475569; }
-        .cell-companion .cell-divider { background-color: #e2e8f0; }
-
-        /* 美化微型滾動條 */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        ::-webkit-scrollbar-track { background: transparent; }
+        /* 美化滾動條 */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>⚙️ BLACK BOX 廠務營運與技術綜合控制台 (雲端 Sheets 同步版)</h1>
+        <h1>⚙️ BLACK BOX 廠務營運與技術綜合控制台 (V7.1 正式版)</h1>
         <div class="status-zone">
             <div class="sync-tag" id="sync-status">雲端同步中...</div>
-            <div class="active-tag" id="live-date">目前時間載入中...</div>
+            <div class="active-tag" id="live-date">載入中...</div>
         </div>
     </header>
 
     <div class="dashboard-container">
         
         <div class="column">
-            
             <div class="card h-55">
-                <div class="card-header">
-                    <span>📋 SA 接待區域與重要注意事項</span>
-                </div>
+                <div class="card-header"><span>📋 SA 接待區域與重要注意事項</span></div>
                 <div class="card-body">
-                    <div class="four-grid-container">
-                        <div class="grid-cell cell-sa">
-                            <div class="cell-header-text" id="sa_h1">載入中...</div>
-                            <div class="cell-divider"></div>
-                            <div class="cell-content-display" id="sa_c1">正在從雲端抓取最新廠務資料...</div>
-                        </div>
-                        <div class="grid-cell cell-sa">
-                            <div class="cell-header-text" id="sa_h2">載入中...</div>
-                            <div class="cell-divider"></div>
-                            <div class="cell-content-display" id="sa_c2">正在從雲端抓取最新廠務資料...</div>
-                        </div>
-                        <div class="grid-cell cell-sa">
-                            <div class="cell-header-text" id="sa_h3">載入中...</div>
-                            <div class="cell-divider"></div>
-                            <div class="cell-content-display" id="sa_c3">正在從雲端抓取最新廠務資料...</div>
-                        </div>
-                        <div class="grid-cell cell-sa">
-                            <div class="cell-header-text" id="sa_h4">載入中...</div>
-                            <div class="cell-divider"></div>
-                            <div class="cell-content-display" id="sa_c4">正在從雲端抓取最新廠務資料...</div>
-                        </div>
+                    <div class="grid-layout grid-4">
+                        <div class="unit-cell cell-sa"><div class="unit-header" id="sa_h1">載入中...</div><div class="unit-divider"></div><div class="unit-content" id="sa_c1">...</div></div>
+                        <div class="unit-cell cell-sa"><div class="unit-header" id="sa_h2">載入中...</div><div class="unit-divider"></div><div class="unit-content" id="sa_c2">...</div></div>
+                        <div class="unit-cell cell-sa"><div class="unit-header" id="sa_h3">載入中...</div><div class="unit-divider"></div><div class="unit-content" id="sa_c3">...</div></div>
+                        <div class="unit-cell cell-sa"><div class="unit-header" id="sa_h4">載入中...</div><div class="unit-divider"></div><div class="unit-content" id="sa_c4">...</div></div>
                     </div>
                 </div>
             </div>
 
             <div class="card h-45">
-                <div class="card-header">
-                    <span>🔒 核心系統帳密庫 (資料源自雲端試算表安全保護)</span>
-                </div>
-                <div class="card-body">
-                    <div class="cred-scroll-zone" id="credentials-container">
-                        <div style="padding: 20px; color:#64748b; text-align:center;">安全安全防護通道建立中...</div>
-                    </div>
+                <div class="card-header"><span>🔒 核心系統資安庫 (10組巔峰配置 / 明文直顯)</span></div>
+                <div class="card-body" id="credentials-target">
+                    <div style="text-align:center; padding-top:50px; color:#94a3b8;">正在建立雲端資安連結...</div>
                 </div>
             </div>
-
         </div>
 
         <div class="column">
-            
             <div class="card h-55">
-                <div class="card-header">
-                    <span>📝 營運對帳與團隊異動大便簽 (三宮格結構)</span>
-                </div>
+                <div class="card-header"><span>📝 營運對帳與團隊異動大便簽</span></div>
                 <div class="card-body">
-                    <div class="tri-grid-container">
-                        
-                        <div class="grid-cell-large-beige">
-                            <div class="cell-header-text" id="rt_h1">載入中...</div>
-                            <div class="cell-divider"></div>
-                            <div class="cell-content-display" id="rt_c1">正在讀取米色便簽...</div>
-                        </div>
-
-                        <div class="grid-cell cell-companion">
-                            <div class="cell-header-text" id="rt_h2">載入中...</div>
-                            <div class="cell-divider"></div>
-                            <div class="cell-content-display" id="rt_c2">正在讀取...</div>
-                        </div>
-
-                        <div class="grid-cell cell-companion">
-                            <div class="cell-header-text" id="rt_h3">載入中...</div>
-                            <div class="cell-divider"></div>
-                            <div class="cell-content-display" id="rt_c3">正在讀取...</div>
-                        </div>
-
+                    <div class="grid-layout grid-tri">
+                        <div class="unit-cell cell-beige"><div class="unit-header" id="rt_h1">營運對帳大便簽</div><div class="unit-divider"></div><div class="unit-content" id="rt_c1">...</div></div>
+                        <div class="unit-cell"><div class="unit-header" id="rt_h2">團隊異動</div><div class="unit-divider"></div><div class="unit-content" id="rt_c2">...</div></div>
+                        <div class="unit-cell"><div class="unit-header" id="rt_h3">客訴追蹤</div><div class="unit-divider"></div><div class="unit-content" id="rt_c3">...</div></div>
                     </div>
                 </div>
             </div>
 
             <div class="card h-45">
-                <div class="card-header">
-                    <span>🛠️ 廠務即時調度、排休異動四格板</span>
-                </div>
+                <div class="card-header"><span>🛠️ 廠務即時調度、排休異動四格板</span></div>
                 <div class="card-body">
-                    <div class="four-grid-container">
-                        <div class="grid-cell cell-factory">
-                            <div class="cell-header-text" id="f_h1">載入中...</div>
-                            <div class="cell-divider"></div>
-                            <div class="cell-content-display" id="f_c1">正在讀取調度資訊...</div>
-                        </div>
-                        <div class="grid-cell cell-factory">
-                            <div class="cell-header-text" id="f_h2">載入中...</div>
-                            <div class="cell-divider"></div>
-                            <div class="cell-content-display" id="f_c2">正在讀取調度資訊...</div>
-                        </div>
-                        <div class="grid-cell cell-factory">
-                            <div class="cell-header-text" id="f_h3">載入中...</div>
-                            <div class="cell-divider"></div>
-                            <div class="cell-content-display" id="f_c3">正在讀取調度資訊...</div>
-                        </div>
-                        <div class="grid-cell cell-factory">
-                            <div class="cell-header-text" id="f_h4">載入中...</div>
-                            <div class="cell-divider"></div>
-                            <div class="cell-content-display" id="f_c4">正在讀取調度資訊...</div>
-                        </div>
+                    <div class="grid-layout grid-4">
+                        <div class="unit-cell cell-factory"><div class="unit-header" id="f_h1">SA排休</div><div class="unit-divider"></div><div class="unit-content" id="f_c1">...</div></div>
+                        <div class="unit-cell cell-factory"><div class="unit-header" id="f_h2">引擎組</div><div class="unit-divider"></div><div class="unit-content" id="f_c2">...</div></div>
+                        <div class="unit-cell cell-factory"><div class="unit-header" id="f_h3">特休更正</div><div class="unit-divider"></div><div class="unit-content" id="f_c3">...</div></div>
+                        <div class="unit-cell cell-factory"><div class="unit-header" id="f_h4">臨時派工</div><div class="unit-divider"></div><div class="unit-content" id="f_c4">...</div></div>
                     </div>
                 </div>
             </div>
-
         </div>
 
     </div>
 
     <script>
-        // 🔒 【核心安全通道】已成功對接您提供的唯一 Google 試算表 ID
-        const SPREADSHEET_ID = '1lwByNWi7pOkl6hBV--15-_c4n2NaaAlWnVjY44itnlw'; 
+        // 🔒 自動聯動您提供的試算表 ID
+        const SPREADSHEET_ID = '1lwByNWi7pOkl6hBV--15-_c4n2NaaAlWnVjY44itnlw';
 
-        // 1. 時間即時刷新
         function updateDate() {
             const now = new Date();
-            const options = { year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'long' };
-            document.getElementById('live-date').innerText = `目前時間：${now.toLocaleDateString('zh-TW', options)}`;
+            document.getElementById('live-date').innerText = now.toLocaleDateString('zh-TW', {year:'numeric', month:'2-digit', day:'2-digit', weekday:'long'});
         }
         updateDate();
         setInterval(updateDate, 60000);
 
-        // 2. 獨立複製功能
-        function copyText(text, label) {
-            if(!text || text === '未設定') {
-                alert(`此欄位無資料可複製！`);
-                return;
-            }
-            navigator.clipboard.writeText(text);
-            alert(`${label}已複製！`);
+        function copy(txt) {
+            if(!txt || txt === '未設定' || txt === '-') return;
+            navigator.clipboard.writeText(txt);
         }
 
-        // 3. 智慧跳轉
-        function openUrl(url) {
-            if (!url || url === '未設定') {
-                alert("此系統尚未設定跳轉網址。");
-                return;
-            }
-            if (!/^https?:\/\//i.test(url)) {
-                url = 'https://' + url;
-            }
-            window.open(url, '_blank');
+        function go(url) {
+            if(!url || url === '未設定' || url === '-') return;
+            window.open(url.startsWith('http') ? url : 'https://' + url, '_blank');
         }
 
-        // 4. 核心非同步架構：讀取並轉換試算表 CSV 分頁
-        async function fetchSheetsData() {
+        async function sync() {
             try {
-                document.getElementById('sync-status').innerText = '正在即時同步雲端...';
-                document.getElementById('sync-status').style.color = '#fbbf24';
-
-                // A. 讀取網格筆記 (工作表：SA_Factory_Notes)
+                // A. 抓取筆記內容 (工作表: SA_Factory_Notes)
                 const urlNotes = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=SA_Factory_Notes`;
-                const responseNotes = await fetch(urlNotes);
-                const csvNotes = await responseNotes.text();
-                parseAndRenderNotes(csvNotes);
+                const resNotes = await fetch(urlNotes);
+                const csvNotes = await resNotes.text();
+                
+                const rows = csvNotes.split(/\r?\n/).slice(1);
+                rows.forEach(r => {
+                    const cols = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(v => v.replace(/^"|"$/g, ''));
+                    const id = cols[0];
+                    if(id) {
+                        const targetId = id.replace('rt_','rt_c').replace('sa_','sa_c').replace('f_','f_c');
+                        const headerId = id.replace('1','h1').replace('2','h2').replace('3','h3').replace('4','h4');
+                        const hEl = document.getElementById(headerId);
+                        const cEl = document.getElementById(targetId);
+                        if(hEl) hEl.innerText = cols[1] || '';
+                        if(cEl) cEl.innerText = cols[2] || '';
+                    }
+                });
 
-                // B. 讀取核心帳密庫 (工作表：Credentials)
+                // B. 抓取 10 組帳密 (工作表: Credentials)
                 const urlCreds = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=Credentials`;
-                const responseCreds = await fetch(urlCreds);
-                const csvCreds = await responseCreds.text();
-                parseAndRenderCredentials(csvCreds);
+                const resCreds = await fetch(urlCreds);
+                const csvCreds = await resCreds.text();
+                const cRows = csvCreds.split(/\r?\n/).slice(1, 11); // 強制取 10 筆
+                
+                let html = '<div class="cred-compact-zone">';
+                cRows.forEach(r => {
+                    const cols = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(v => v.replace(/^"|"$/g, ''));
+                    if(cols.length < 2) return;
+                    
+                    const sys = cols[1] || '未設定';
+                    const url = cols[2] || '-';
+                    const user = cols[3] || '-';
+                    const pass = cols[4] || '-';
 
-                document.getElementById('sync-status').innerText = '🛡️ 雲端資安防護已聯動';
+                    html += `
+                    <div class="cred-row">
+                        <div class="cred-main">
+                            <span class="sys-title">🖥️ ${sys}</span>
+                            <span class="cred-vals">帳: ${user} | 密: <b>${pass}</b></span>
+                        </div>
+                        <div class="cred-btns">
+                            <button class="mini-btn" onclick="copy('${user}')">帳</button>
+                            <button class="mini-btn pwd" onclick="copy('${pass}')">密</button>
+                            <button class="mini-btn link" onclick="go('${url}')">🌐</button>
+                        </div>
+                    </div>`;
+                });
+                html += '</div>';
+                document.getElementById('credentials-target').innerHTML = html;
+
+                document.getElementById('sync-status').innerText = '🛡️ 雲端資安已聯動';
                 document.getElementById('sync-status').style.color = '#34d399';
-            } catch (error) {
-                console.error(error);
-                document.getElementById('sync-status').innerText = '❌ 雲端同步異常，請檢查試算表權限';
+            } catch (e) {
+                document.getElementById('sync-status').innerText = '❌ 同步異常';
                 document.getElementById('sync-status').style.color = '#ef4444';
             }
         }
 
-        // CSV 解析安全包裝器
-        function parseCSVLine(line) {
-            const result = [];
-            let current = '';
-            let inQuotes = false;
-            for (let i = 0; i < line.length; i++) {
-                const char = line[i];
-                if (char === '"') {
-                    inQuotes = !inQuotes;
-                } else if (char === ',' && !inQuotes) {
-                    result.push(current.trim());
-                    current = '';
-                } else {
-                    current += char;
-                }
-            }
-            result.push(current.trim());
-            return result.map(v => v.replace(/^"|"$/g, '').replace(/""/g, '"'));
-        }
-
-        // 渲染 11 格隨手筆記網格內容
-        function parseAndRenderNotes(csvText) {
-            const lines = [];
-            let currentLine = '';
-            let inQuotes = false;
-            
-            for (let i = 0; i < csvText.length; i++) {
-                const char = csvText[i];
-                if (char === '"') inQuotes = !inQuotes;
-                if (char === '\n' && !inQuotes) {
-                    lines.push(currentLine);
-                    currentLine = '';
-                } else {
-                    currentLine += char;
-                }
-            }
-            if (currentLine) lines.push(currentLine);
-            
-            const dataLines = lines.slice(1);
-
-            dataLines.forEach(line => {
-                if (!line.trim()) return;
-                const columns = parseCSVLine(line);
-                if (columns.length < 3) return;
-
-                const id = columns[0];
-                const title = columns[1];
-                const content = columns[2];
-
-                if (id === 'sa_1') { updateCell('sa_h1', 'sa_c1', title, content); }
-                if (id === 'sa_2') { updateCell('sa_h2', 'sa_c2', title, content); }
-                if (id === 'sa_3') { updateCell('sa_h3', 'sa_c3', title, content); }
-                if (id === 'sa_4') { updateCell('sa_h4', 'sa_c4', title, content); }
-                
-                if (id === 'rt_1') { updateCell('rt_h1', 'rt_c1', title, content); }
-                if (id === 'rt_2') { updateCell('rt_h2', 'rt_c2', title, content); }
-                if (id === 'rt_3') { updateCell('rt_h3', 'rt_c3', title, content); }
-                
-                if (id === 'f_1') { updateCell('f_h1', 'f_c1', title, content); }
-                if (id === 'f_2') { updateCell('f_h2', 'f_c2', title, content); }
-                if (id === 'f_3') { updateCell('f_h3', 'f_c3', title, content); }
-                if (id === 'f_4') { updateCell('f_h4', 'f_c4', title, content); }
-            });
-        }
-
-        function updateCell(headerId, contentId, title, content) {
-            const hEl = document.getElementById(headerId);
-            const cEl = document.getElementById(contentId);
-            if (hEl) hEl.innerText = title || '（無標題）';
-            if (cEl) cEl.innerText = content || '（目前無紀錄事項）';
-        }
-
-        // 動態生成左下 8 組核心帳密介面
-        function parseAndRenderCredentials(csvText) {
-            const lines = csvText.split('\n').slice(1);
-            let htmlBuffer = '';
-
-            lines.forEach(line => {
-                if (!line.trim()) return;
-                const cols = parseCSVLine(line);
-                if (cols.length < 2) return;
-
-                const systemName = cols[1];
-                const url = cols[2] || '';
-                const username = cols[3] || '';
-                const password = cols[4] || '';
-
-                htmlBuffer += `
-                <div class="info-list-item">
-                    <div class="credential-inputs">
-                        <div class="system-title-row">
-                            <div class="display-system-name">🖥️ ${systemName}</div>
-                            <div class="display-system-url" title="${url}">${url ? url.replace(/^https?:\/\//i, '') : '（未設網址）'}</div>
-                        </div>
-                        <div class="credential-row">
-                            帳：<span class="display-value">${username || '未設定'}</span> 
-                            | 密：<span class="display-value">${password ? '••••••' : '未設定'}</span>
-                        </div>
-                    </div>
-                    <div class="credential-actions">
-                        <button class="btn-action btn-account" onclick="copyText('${username}', '帳號')">複製帳</button>
-                        <button class="btn-action" onclick="copyText('${password}', '密碼')">複製密</button>
-                        <button class="btn-action btn-link" onclick="openUrl('${url}')">🌐 開啟</button>
-                    </div>
-                </div>`;
-            });
-
-            document.getElementById('credentials-container').innerHTML = htmlBuffer;
-        }
-
-        // 啟動加載，並設定每 5 分鐘（300000微秒）自動在背景輪詢最新 Sheets 變更
-        fetchSheetsData();
-        setInterval(fetchSheetsData, 300000); 
+        sync();
+        setInterval(sync, 300000); 
     </script>
 </body>
 </html>
