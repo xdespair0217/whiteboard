@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BLACK BOX 廠務營運與技術綜合控制台 V7.3</title>
+    <title>BLACK BOX 廠務營運與技術綜合控制台 V7.5</title>
     <style>
         /* 1. 全域大版面配置 - 確保字體氣勢與寬敞感 */
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -115,7 +115,7 @@
 <body>
 
     <header>
-        <h1>⚙️ BLACK BOX 廠務營運與技術綜合控制台 (V7.3 終極完美對接版)</h1>
+        <h1>⚙️ BLACK BOX 廠務營運與技術綜合控制台 (V7.5 核心識別修復版)</h1>
         <div class="status-zone">
             <div class="sync-tag" id="sync-status">雲端對接中...</div>
             <div class="active-tag" id="live-date">載入中...</div>
@@ -204,7 +204,6 @@
             window.open(url.startsWith('http') ? url : 'https://' + url, '_blank');
         }
 
-        // 高階高防呆 CSV 雙重斷行解析引擎
         function parseAdvancedCSV(csvText) {
             const lines = [];
             let currentLine = [];
@@ -217,9 +216,9 @@
 
                 if (char === '"') {
                     if (inQuotes && nextChar === '"') {
-                        currentCell += '"'; i++; // 處理雙引號轉義
+                        currentCell += '"'; i++;
                     } else {
-                        inQuotes = !inQuotes; // 切換引號狀態
+                        inQuotes = !inQuotes;
                     }
                 } else if (char === ',' && !inQuotes) {
                     currentLine.push(currentCell.trim());
@@ -250,17 +249,22 @@
                 const resNotes = await fetch(urlNotes);
                 const csvNotes = await resNotes.text();
                 
-                const parsedNotes = parseAdvancedCSV(csvNotes).slice(1); // 移除標頭
+                const parsedNotes = parseAdvancedCSV(csvNotes).slice(1);
                 
                 parsedNotes.forEach(cols => {
                     if (cols.length < 2) return;
-                    const id = cols[0].trim();
+                    const id = cols[0].trim().toLowerCase(); 
                     const title = cols[1];
                     const content = cols[2] || '';
 
-                    // 動態對齊前端 DOM 節點
-                    const targetContentId = id.replace('rt_','rt_c').replace('sa_','sa_c').replace('f_','f_c');
-                    const targetHeaderId = id.replace('1','h1').replace('2','h2').replace('3','h3').replace('4','h4');
+                    // 🛠️ 終極修復核心：使用正規表達式取代，精準識別所有的數字後綴（1, 2, 3, 4）
+                    const prefix = id.split('_')[0]; // sa, rt, f
+                    const num = id.split('_')[1];    // 1, 2, 3, 4
+                    
+                    if(!prefix || !num) return;
+
+                    const targetContentId = `${prefix}_c${num}`;
+                    const targetHeaderId = `${prefix}_h${num}`;
                     
                     const hEl = document.getElementById(targetHeaderId);
                     const cEl = document.getElementById(targetContentId);
@@ -274,7 +278,7 @@
                 const resCreds = await fetch(urlCreds);
                 const csvCreds = await resCreds.text();
                 
-                const parsedCreds = parseAdvancedCSV(csvCreds).slice(1, 11); // 精準抽取前 10 筆
+                const parsedCreds = parseAdvancedCSV(csvCreds).slice(1, 11);
                 
                 let html = '<div class="cred-compact-container">';
                 parsedCreds.forEach(cols => {
@@ -311,7 +315,7 @@
         }
 
         sync();
-        setInterval(sync, 300000); // 每 5 分鐘後台輪詢自動更新
+        setInterval(sync, 300000); 
     </script>
 </body>
 </html>
