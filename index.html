@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>廠務營運與技術綜合控制台 V5.3 - 網址聯動版</title>
+    <title>BLACK BOX 廠務營運與技術綜合控制台 V6.1 - 雲端資安版</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -28,10 +28,25 @@
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
         }
         header h1 { font-size: 1.3rem; font-weight: bold; letter-spacing: 0.5px; }
+        
+        .status-zone {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
         .active-tag {
             background-color: rgba(245, 158, 11, 0.2);
             border: 1px solid #f59e0b;
             color: #fbbf24;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+        .sync-tag {
+            background-color: rgba(16, 185, 129, 0.2);
+            border: 1px solid #10b981;
+            color: #34d399;
             padding: 4px 12px;
             border-radius: 20px;
             font-size: 0.85rem;
@@ -117,33 +132,26 @@
             gap: 4px;
         }
         
-        /* 系統名稱與網址複合區域 */
         .system-title-row {
             display: flex;
             gap: 8px;
             align-items: center;
         }
-        .input-system-name {
+        .display-system-name {
             font-size: 0.95rem;
             font-weight: bold;
             color: #0f172a;
-            border: none;
-            background: transparent;
-            outline: none;
             flex: 1;
         }
-        .input-system-name:focus { background: #e2e8f0; border-radius: 3px; }
         
-        .input-system-url {
+        .display-system-url {
             font-size: 0.75rem;
             color: #94a3b8;
-            border: none;
-            background: transparent;
-            outline: none;
-            width: 150px;
-            text-align: right;
+            max-width: 180px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
-        .input-system-url:focus { background: #e2e8f0; color: #334155; border-radius: 3px; }
 
         .credential-row {
             font-size: 0.85rem;
@@ -152,16 +160,13 @@
             align-items: center;
             gap: 4px;
         }
-        .input-cred {
-            border: none;
-            background: transparent;
+        .display-value {
             color: #334155;
-            font-size: 0.85rem;
-            outline: none;
-            width: 120px;
-            font-weight: 500;
+            font-weight: 600;
+            background: #f1f5f9;
+            padding: 1px 6px;
+            border-radius: 4px;
         }
-        .input-cred:focus { background: #e2e8f0; border-radius: 3px; }
 
         /* 複製與連結按鈕區 */
         .credential-actions {
@@ -183,7 +188,7 @@
         .btn-action:hover { background-color: #059669; }
         .btn-account { background-color: #3b82f6; }
         .btn-account:hover { background-color: #1d4ed8; }
-        .btn-link { background-color: #6366f1; } /* 靛藍色代表外部連結 */
+        .btn-link { background-color: #6366f1; }
         .btn-link:hover { background-color: #4f46e5; }
 
         /* 網格基礎底板 */
@@ -213,13 +218,11 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.02);
         }
 
-        .cell-header-input {
+        .cell-header-text {
             width: 100%;
-            border: none;
             padding: 6px 10px;
             font-size: 0.85rem;
             font-weight: bold;
-            outline: none;
         }
 
         .cell-divider {
@@ -227,31 +230,27 @@
             background-color: #cbd5e1;
         }
 
-        .cell-content-textarea {
+        .cell-content-display {
             flex: 1;
             width: 100%;
-            border: none;
             padding: 10px;
             font-size: 0.9rem;
-            line-height: 1.4;
+            line-height: 1.5;
             color: #334155;
-            resize: none;
-            outline: none;
+            background: #ffffff;
+            white-space: pre-wrap;
+            overflow-y: auto;
         }
 
         /* 左上：SA接待區美學 ➔ 柔和晴空藍 */
         .cell-sa { border-color: #bae6fd; }
-        .cell-sa .cell-header-input { background: #e0f2fe; color: #0369a1; }
+        .cell-sa .cell-header-text { background: #e0f2fe; color: #0369a1; }
         .cell-sa .cell-divider { background-color: #bae6fd; }
-        .cell-sa .cell-content-textarea { background: #ffffff; }
-        .cell-sa .cell-content-textarea:focus { background: #f0f9ff; }
 
         /* 右下：廠務調度區美學 ➔ 莫蘭迪鼠尾草綠 */
         .cell-factory { border-color: #bbf7d0; }
-        .cell-factory .cell-header-input { background: #dcfce7; color: #15803d; }
+        .cell-factory .cell-header-text { background: #dcfce7; color: #15803d; }
         .cell-factory .cell-divider { background-color: #bbf7d0; }
-        .cell-factory .cell-content-textarea { background: #ffffff; }
-        .cell-factory .cell-content-textarea:focus { background: #f0fdf4; }
 
         /* 右上大便簽：典雅米色紙美學 */
         .grid-cell-large-beige {
@@ -264,17 +263,14 @@
             overflow: hidden;
             box-shadow: 1px 2px 4px rgba(0,0,0,0.03);
         }
-        .grid-cell-large-beige .cell-header-input { background: #fef3c7; color: #92400e; }
+        .grid-cell-large-beige .cell-header-text { background: #fef3c7; color: #92400e; }
         .grid-cell-large-beige .cell-divider { background-color: #fde68a; }
-        .grid-cell-large-beige .cell-content-textarea { background: #fdfbf7; color: #451a03; }
-        .grid-cell-large-beige .cell-content-textarea:focus { background: #fffdf9; }
+        .grid-cell-large-beige .cell-content-display { background: #fdfbf7; color: #451a03; }
 
         /* 右上伴隨小格子 */
         .cell-companion { border-color: #e2e8f0; }
-        .cell-companion .cell-header-input { background: #f1f5f9; color: #475569; }
+        .cell-companion .cell-header-text { background: #f1f5f9; color: #475569; }
         .cell-companion .cell-divider { background-color: #e2e8f0; }
-        .cell-companion .cell-content-textarea { background: #ffffff; }
-        .cell-companion .cell-content-textarea:focus { background: #f8fafc; }
 
         /* 美化微型滾動條 */
         ::-webkit-scrollbar { width: 6px; }
@@ -285,8 +281,11 @@
 <body>
 
     <header>
-        <h1>⚙️ BLACK BOX 廠務營運與技術綜合控制台</h1>
-        <div class="active-tag" id="live-date">系統載入中...</div>
+        <h1>⚙️ BLACK BOX 廠務營運與技術綜合控制台 (雲端 Sheets 同步版)</h1>
+        <div class="status-zone">
+            <div class="sync-tag" id="sync-status">雲端同步中...</div>
+            <div class="active-tag" id="live-date">目前時間載入中...</div>
+        </div>
     </header>
 
     <div class="dashboard-container">
@@ -300,24 +299,24 @@
                 <div class="card-body">
                     <div class="four-grid-container">
                         <div class="grid-cell cell-sa">
-                            <input type="text" class="cell-header-input" id="sa_h1" value="每日檢測確認">
+                            <div class="cell-header-text" id="sa_h1">載入中...</div>
                             <div class="cell-divider"></div>
-                            <textarea class="cell-content-textarea" id="sa_c1" placeholder="輸入隨手紀錄內容..."></textarea>
+                            <div class="cell-content-display" id="sa_c1">正在從雲端抓取最新廠務資料...</div>
                         </div>
                         <div class="grid-cell cell-sa">
-                            <input type="text" class="cell-header-input" id="sa_h2" value="保固申報提醒">
+                            <div class="cell-header-text" id="sa_h2">載入中...</div>
                             <div class="cell-divider"></div>
-                            <textarea class="cell-content-textarea" id="sa_c2" placeholder="輸入隨手紀錄內容..."></textarea>
+                            <div class="cell-content-display" id="sa_c2">正在從雲端抓取最新廠務資料...</div>
                         </div>
                         <div class="grid-cell cell-sa">
-                            <input type="text" class="cell-header-input" id="sa_h3" placeholder="點擊修改 SA 項目 3 標題...">
+                            <div class="cell-header-text" id="sa_h3">載入中...</div>
                             <div class="cell-divider"></div>
-                            <textarea class="cell-content-textarea" id="sa_c3" placeholder="輸入隨手紀錄內容..."></textarea>
+                            <div class="cell-content-display" id="sa_c3">正在從雲端抓取最新廠務資料...</div>
                         </div>
                         <div class="grid-cell cell-sa">
-                            <input type="text" class="cell-header-input" id="sa_h4" placeholder="點擊修改 SA 項目 4 標題...">
+                            <div class="cell-header-text" id="sa_h4">載入中...</div>
                             <div class="cell-divider"></div>
-                            <textarea class="cell-content-textarea" id="sa_c4" placeholder="輸入隨手紀錄內容..."></textarea>
+                            <div class="cell-content-display" id="sa_c4">正在從雲端抓取最新廠務資料...</div>
                         </div>
                     </div>
                 </div>
@@ -325,155 +324,11 @@
 
             <div class="card h-45">
                 <div class="card-header">
-                    <span>🔒 核心系統帳密庫 (支援自訂連結網址與一鍵開啟跳轉)</span>
+                    <span>🔒 核心系統帳密庫 (資料源自雲端試算表安全保護)</span>
                 </div>
                 <div class="card-body">
-                    <div class="cred-scroll-zone">
-                        
-                        <div class="info-list-item">
-                            <div class="credential-inputs">
-                                <div class="system-title-row">
-                                    <input type="text" class="input-system-name" id="sys_n1" value="DMS 經銷商管理系統">
-                                    <input type="text" class="input-system-url" id="sys_u1" value="https://dms.example.com" placeholder="點擊輸入系統網址...">
-                                </div>
-                                <div class="credential-row">
-                                    帳：<input type="text" class="input-cred" id="acc_v1" value="Claim_Admin"> 
-                                    | 密：<input type="text" class="input-cred" id="pwd_v1" value="DidiXie7788">
-                                </div>
-                            </div>
-                            <div class="credential-actions">
-                                <button class="btn-action btn-account" onclick="copyInputVal('acc_v1', '帳號')">複製帳</button>
-                                <button class="btn-action" onclick="copyInputVal('pwd_v1', '密碼')">複製密</button>
-                                <button class="btn-action btn-link" onclick="openSystemUrl('sys_u1')">🌐 開啟</button>
-                            </div>
-                        </div>
-
-                        <div class="info-list-item">
-                            <div class="credential-inputs">
-                                <div class="system-title-row">
-                                    <input type="text" class="input-system-name" id="sys_n2" value="PSA 原廠診斷平台入口">
-                                    <input type="text" class="input-system-url" id="sys_u2" value="https://diagnostics.psa-peugeot-citroen.com" placeholder="點擊輸入系統網址...">
-                                </div>
-                                <div class="credential-row">
-                                    帳：<input type="text" class="input-cred" id="acc_v2" value="Tech_Nangang01"> 
-                                    | 密：<input type="text" class="input-cred" id="pwd_v2" value="Psa@2026_Secure">
-                                </div>
-                            </div>
-                            <div class="credential-actions">
-                                <button class="btn-action btn-account" onclick="copyInputVal('acc_v2', '帳號')">複製帳</button>
-                                <button class="btn-action" onclick="copyInputVal('pwd_v2', '密碼')">複製密</button>
-                                <button class="btn-action btn-link" onclick="openSystemUrl('sys_u2')">🌐 開啟</button>
-                            </div>
-                        </div>
-
-                        <div class="info-list-item">
-                            <div class="credential-inputs">
-                                <div class="system-title-row">
-                                    <input type="text" class="input-system-name" id="sys_n3" value="DIDI 保固與漆面申報端">
-                                    <input type="text" class="input-system-url" id="sys_u3" value="https://didi.warranty-portal.com" placeholder="點擊輸入系統網址...">
-                                </div>
-                                <div class="credential-row">
-                                    帳：<input type="text" class="input-cred" id="acc_v3" value="Claim_User02"> 
-                                    | 密：<input type="text" class="input-cred" id="pwd_v3" value="DidiPdiPass!">
-                                </div>
-                            </div>
-                            <div class="credential-actions">
-                                <button class="btn-action btn-account" onclick="copyInputVal('acc_v3', '帳號')">複製帳</button>
-                                <button class="btn-action" onclick="copyInputVal('pwd_v3', '密碼')">複製密</button>
-                                <button class="btn-action btn-link" onclick="openSystemUrl('sys_u3')">🌐 開啟</button>
-                            </div>
-                        </div>
-
-                        <div class="info-list-item">
-                            <div class="credential-inputs">
-                                <div class="system-title-row">
-                                    <input type="text" class="input-system-name" id="sys_n4" value="廠內技術文件與 SOP 共享雲端">
-                                    <input type="text" class="input-system-url" id="sys_u4" value="https://drive.google.com" placeholder="點擊輸入系統網址...">
-                                </div>
-                                <div class="credential-row">
-                                    帳：<input type="text" class="input-cred" id="acc_v4" value="bb_share@gmail.com"> 
-                                    | 密：<input type="text" class="input-cred" id="pwd_v4" value="BbNangangCloud">
-                                </div>
-                            </div>
-                            <div class="credential-actions">
-                                <button class="btn-action btn-account" onclick="copyInputVal('acc_v4', '帳號')">複製帳</button>
-                                <button class="btn-action" onclick="copyInputVal('pwd_v4', '密碼')">複製密</button>
-                                <button class="btn-action btn-link" onclick="openSystemUrl('sys_u4')">🌐 開啟</button>
-                            </div>
-                        </div>
-
-                        <div class="info-list-item">
-                            <div class="credential-inputs">
-                                <div class="system-title-row">
-                                    <input type="text" class="input-system-name" id="sys_n5" value="引擎專用特殊工具借調登記系統">
-                                    <input type="text" class="input-system-url" id="sys_u5" value="" placeholder="點擊輸入系統網址...">
-                                </div>
-                                <div class="credential-row">
-                                    帳：<input type="text" class="input-cred" id="acc_v5" value="Tool_Master"> 
-                                    | 密：<input type="text" class="input-cred" id="pwd_v5" value="EngineTool99">
-                                </div>
-                            </div>
-                            <div class="credential-actions">
-                                <button class="btn-action btn-account" onclick="copyInputVal('acc_v5', '帳號')">複製帳</button>
-                                <button class="btn-action" onclick="copyInputVal('pwd_v5', '密碼')">複製密</button>
-                                <button class="btn-action btn-link" onclick="openSystemUrl('sys_u5')">🌐 開啟</button>
-                            </div>
-                        </div>
-
-                        <div class="info-list-item">
-                            <div class="credential-inputs">
-                                <div class="system-title-row">
-                                    <input type="text" class="input-system-name" id="sys_n6" value="【自訂系統名稱 06】">
-                                    <input type="text" class="input-system-url" id="sys_u6" value="" placeholder="點擊輸入系統網址...">
-                                </div>
-                                <div class="credential-row">
-                                    帳：<input type="text" class="input-cred" id="acc_v6" placeholder="請輸入帳號"> 
-                                    | 密：<input type="text" class="input-cred" id="pwd_v6" placeholder="請輸入密碼">
-                                </div>
-                            </div>
-                            <div class="credential-actions">
-                                <button class="btn-action btn-account" onclick="copyInputVal('acc_v6', '帳號')">複製帳</button>
-                                <button class="btn-action" onclick="copyInputVal('pwd_v6', '密碼')">複製密</button>
-                                <button class="btn-action btn-link" onclick="openSystemUrl('sys_u6')">🌐 開啟</button>
-                            </div>
-                        </div>
-
-                        <div class="info-list-item">
-                            <div class="credential-inputs">
-                                <div class="system-title-row">
-                                    <input type="text" class="input-system-name" id="sys_n7" value="【自訂系統名稱 07】">
-                                    <input type="text" class="input-system-url" id="sys_u7" value="" placeholder="點擊輸入系統網址...">
-                                </div>
-                                <div class="credential-row">
-                                    帳：<input type="text" class="input-cred" id="acc_v7" placeholder="請輸入帳號"> 
-                                    | 密：<input type="text" class="input-cred" id="pwd_v7" placeholder="請輸入密碼">
-                                </div>
-                            </div>
-                            <div class="credential-actions">
-                                <button class="btn-action btn-account" onclick="copyInputVal('acc_v7', '帳號')">複製帳</button>
-                                <button class="btn-action" onclick="copyInputVal('pwd_v7', '密碼')">複製密</button>
-                                <button class="btn-action btn-link" onclick="openSystemUrl('sys_u7')">🌐 開啟</button>
-                            </div>
-                        </div>
-
-                        <div class="info-list-item">
-                            <div class="credential-inputs">
-                                <div class="system-title-row">
-                                    <input type="text" class="input-system-name" id="sys_n8" value="【自訂系統名稱 08】">
-                                    <input type="text" class="input-system-url" id="sys_u8" value="" placeholder="點擊輸入系統網址...">
-                                </div>
-                                <div class="credential-row">
-                                    帳：<input type="text" class="input-cred" id="acc_v8" placeholder="請輸入帳號"> 
-                                    | 密：<input type="text" class="input-cred" id="pwd_v8" placeholder="請輸入密碼">
-                                </div>
-                            </div>
-                            <div class="credential-actions">
-                                <button class="btn-action btn-account" onclick="copyInputVal('acc_v8', '帳號')">複製帳</button>
-                                <button class="btn-action" onclick="copyInputVal('pwd_v8', '密碼')">複製密</button>
-                                <button class="btn-action btn-link" onclick="openSystemUrl('sys_u8')">🌐 開啟</button>
-                            </div>
-                        </div>
-
+                    <div class="cred-scroll-zone" id="credentials-container">
+                        <div style="padding: 20px; color:#64748b; text-align:center;">安全安全防護通道建立中...</div>
                     </div>
                 </div>
             </div>
@@ -490,21 +345,21 @@
                     <div class="tri-grid-container">
                         
                         <div class="grid-cell-large-beige">
-                            <input type="text" class="cell-header-input" id="rt_h1" value="營運對帳大便簽">
+                            <div class="cell-header-text" id="rt_h1">載入中...</div>
                             <div class="cell-divider"></div>
-                            <textarea class="cell-content-textarea" id="rt_c1" placeholder="在此處直接輸入今日對帳備忘、突發狀況等大宗資訊..."></textarea>
+                            <div class="cell-content-display" id="rt_c1">正在讀取米色便簽...</div>
                         </div>
 
                         <div class="grid-cell cell-companion">
-                            <input type="text" class="cell-header-input" id="rt_h2" placeholder="點擊修改右上小格標題...">
+                            <div class="cell-header-text" id="rt_h2">載入中...</div>
                             <div class="cell-divider"></div>
-                            <textarea class="cell-content-textarea" id="rt_c2" placeholder="輸入紀錄內容..."></textarea>
+                            <div class="cell-content-display" id="rt_c2">正在讀取...</div>
                         </div>
 
                         <div class="grid-cell cell-companion">
-                            <input type="text" class="cell-header-input" id="rt_h3" placeholder="點擊修改右下小格標題...">
+                            <div class="cell-header-text" id="rt_h3">載入中...</div>
                             <div class="cell-divider"></div>
-                            <textarea class="cell-content-textarea" id="rt_c3" placeholder="輸入紀錄內容..."></textarea>
+                            <div class="cell-content-display" id="rt_c3">正在讀取...</div>
                         </div>
 
                     </div>
@@ -518,24 +373,24 @@
                 <div class="card-body">
                     <div class="four-grid-container">
                         <div class="grid-cell cell-factory">
-                            <input type="text" class="cell-header-input" id="h1" value="SA 排休異動">
+                            <div class="cell-header-text" id="f_h1">載入中...</div>
                             <div class="cell-divider"></div>
-                            <textarea class="cell-content-textarea" id="c1" placeholder="輸入隨手紀錄內容..."></textarea>
+                            <div class="cell-content-display" id="f_c1">正在讀取調度資訊...</div>
                         </div>
                         <div class="grid-cell cell-factory">
-                            <input type="text" class="cell-header-input" id="h2" value="引擎組調度">
+                            <div class="cell-header-text" id="f_h2">載入中...</div>
                             <div class="cell-divider"></div>
-                            <textarea class="cell-content-textarea" id="c2" placeholder="輸入隨手紀錄內容..."></textarea>
+                            <div class="cell-content-display" id="f_c2">正在讀取調度資訊...</div>
                         </div>
                         <div class="grid-cell cell-factory">
-                            <input type="text" class="cell-header-input" id="h3" value="特休更正">
+                            <div class="cell-header-text" id="f_h3">載入中...</div>
                             <div class="cell-divider"></div>
-                            <textarea class="cell-content-textarea" id="c3" placeholder="輸入隨手紀錄內容..."></textarea>
+                            <div class="cell-content-display" id="f_c3">正在讀取調度資訊...</div>
                         </div>
                         <div class="grid-cell cell-factory">
-                            <input type="text" class="cell-header-input" id="h4" value="臨時派工">
+                            <div class="cell-header-text" id="f_h4">載入中...</div>
                             <div class="cell-divider"></div>
-                            <textarea class="cell-content-textarea" id="c4" placeholder="輸入隨手紀錄內容..."></textarea>
+                            <div class="cell-content-display" id="f_c4">正在讀取調度資訊...</div>
                         </div>
                     </div>
                 </div>
@@ -546,68 +401,180 @@
     </div>
 
     <script>
-        // 1. 即時時間顯示
+        // 🔒 【核心安全通道】已成功對接您提供的唯一 Google 試算表 ID
+        const SPREADSHEET_ID = '1lwByNWi7pOkl6hBV--15-_c4n2NaaAlWnVjY44itnlw'; 
+
+        // 1. 時間即時刷新
         function updateDate() {
             const now = new Date();
             const options = { year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'long' };
             document.getElementById('live-date').innerText = `目前時間：${now.toLocaleDateString('zh-TW', options)}`;
         }
         updateDate();
+        setInterval(updateDate, 60000);
 
-        // 2. 動態複製功能
-        function copyInputVal(inputId, label) {
-            const val = document.getElementById(inputId).value;
-            if(!val) {
-                alert(`此欄位目前沒有輸入資訊，無法複製！`);
+        // 2. 獨立複製功能
+        function copyText(text, label) {
+            if(!text || text === '未設定') {
+                alert(`此欄位無資料可複製！`);
                 return;
             }
-            navigator.clipboard.writeText(val);
-            alert(`${label}已複製：${val}`);
+            navigator.clipboard.writeText(text);
+            alert(`${label}已複製！`);
         }
 
-        // 3. 智能網格自動跳轉功能
-        function openSystemUrl(urlInputId) {
-            let url = document.getElementById(urlInputId).value.trim();
-            if (!url) {
-                alert("未設定此系統的連結網址！請先在系統名稱右側填寫 URL。");
+        // 3. 智慧跳轉
+        function openUrl(url) {
+            if (!url || url === '未設定') {
+                alert("此系統尚未設定跳轉網址。");
                 return;
             }
-            // 自動修復未填寫協定頭的網址
             if (!/^https?:\/\//i.test(url)) {
                 url = 'https://' + url;
             }
             window.open(url, '_blank');
         }
 
-        // 4. 終極記憶清單：全新納入 8 組系統的專屬自訂網址槽位 (共 42 個資料點)
-        const storageKeys = [
-            'sa_h1', 'sa_c1', 'sa_h2', 'sa_c2', 'sa_h3', 'sa_c3', 'sa_h4', 'sa_c4',
-            'h1', 'c1', 'h2', 'c2', 'h3', 'c3', 'h4', 'c4',
-            'rt_h1', 'rt_c1', 'rt_h2', 'rt_c2', 'rt_h3', 'rt_c3',
-            // 完整 8 組（系統名、網址、帳號、密碼）
-            'sys_n1', 'sys_u1', 'acc_v1', 'pwd_v1',
-            'sys_n2', 'sys_u2', 'acc_v2', 'pwd_v2',
-            'sys_n3', 'sys_u3', 'acc_v3', 'pwd_v3',
-            'sys_n4', 'sys_u4', 'acc_v4', 'pwd_v4',
-            'sys_n5', 'sys_u5', 'acc_v5', 'pwd_v5',
-            'sys_n6', 'sys_u6', 'acc_v6', 'pwd_v6',
-            'sys_n7', 'sys_u7', 'acc_v7', 'pwd_v7',
-            'sys_n8', 'sys_u8', 'acc_v8', 'pwd_v8'
-        ];
+        // 4. 核心非同步架構：讀取並轉換試算表 CSV 分頁
+        async function fetchSheetsData() {
+            try {
+                document.getElementById('sync-status').innerText = '正在即時同步雲端...';
+                document.getElementById('sync-status').style.color = '#fbbf24';
 
-        // 網頁讀取時還原資料 (升級快取標記為 v5.3 網址連動版)
-        storageKeys.forEach(id => {
-            const element = document.getElementById(id);
-            if (element) {
-                const savedValue = localStorage.getItem(`bb_v5.3_board_${id}`);
-                if (savedValue !== null) {
-                    element.value = savedValue;
-                }
-                element.addEventListener('input', function() {
-                    localStorage.setItem(`bb_v5.3_board_${id}`, this.value);
-                });
+                // A. 讀取網格筆記 (工作表：SA_Factory_Notes)
+                const urlNotes = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=SA_Factory_Notes`;
+                const responseNotes = await fetch(urlNotes);
+                const csvNotes = await responseNotes.text();
+                parseAndRenderNotes(csvNotes);
+
+                // B. 讀取核心帳密庫 (工作表：Credentials)
+                const urlCreds = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=Credentials`;
+                const responseCreds = await fetch(urlCreds);
+                const csvCreds = await responseCreds.text();
+                parseAndRenderCredentials(csvCreds);
+
+                document.getElementById('sync-status').innerText = '🛡️ 雲端資安防護已聯動';
+                document.getElementById('sync-status').style.color = '#34d399';
+            } catch (error) {
+                console.error(error);
+                document.getElementById('sync-status').innerText = '❌ 雲端同步異常，請檢查試算表權限';
+                document.getElementById('sync-status').style.color = '#ef4444';
             }
-        });
+        }
+
+        // CSV 解析安全包裝器
+        function parseCSVLine(line) {
+            const result = [];
+            let current = '';
+            let inQuotes = false;
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    result.push(current.trim());
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            result.push(current.trim());
+            return result.map(v => v.replace(/^"|"$/g, '').replace(/""/g, '"'));
+        }
+
+        // 渲染 11 格隨手筆記網格內容
+        function parseAndRenderNotes(csvText) {
+            const lines = [];
+            let currentLine = '';
+            let inQuotes = false;
+            
+            for (let i = 0; i < csvText.length; i++) {
+                const char = csvText[i];
+                if (char === '"') inQuotes = !inQuotes;
+                if (char === '\n' && !inQuotes) {
+                    lines.push(currentLine);
+                    currentLine = '';
+                } else {
+                    currentLine += char;
+                }
+            }
+            if (currentLine) lines.push(currentLine);
+            
+            const dataLines = lines.slice(1);
+
+            dataLines.forEach(line => {
+                if (!line.trim()) return;
+                const columns = parseCSVLine(line);
+                if (columns.length < 3) return;
+
+                const id = columns[0];
+                const title = columns[1];
+                const content = columns[2];
+
+                if (id === 'sa_1') { updateCell('sa_h1', 'sa_c1', title, content); }
+                if (id === 'sa_2') { updateCell('sa_h2', 'sa_c2', title, content); }
+                if (id === 'sa_3') { updateCell('sa_h3', 'sa_c3', title, content); }
+                if (id === 'sa_4') { updateCell('sa_h4', 'sa_c4', title, content); }
+                
+                if (id === 'rt_1') { updateCell('rt_h1', 'rt_c1', title, content); }
+                if (id === 'rt_2') { updateCell('rt_h2', 'rt_c2', title, content); }
+                if (id === 'rt_3') { updateCell('rt_h3', 'rt_c3', title, content); }
+                
+                if (id === 'f_1') { updateCell('f_h1', 'f_c1', title, content); }
+                if (id === 'f_2') { updateCell('f_h2', 'f_c2', title, content); }
+                if (id === 'f_3') { updateCell('f_h3', 'f_c3', title, content); }
+                if (id === 'f_4') { updateCell('f_h4', 'f_c4', title, content); }
+            });
+        }
+
+        function updateCell(headerId, contentId, title, content) {
+            const hEl = document.getElementById(headerId);
+            const cEl = document.getElementById(contentId);
+            if (hEl) hEl.innerText = title || '（無標題）';
+            if (cEl) cEl.innerText = content || '（目前無紀錄事項）';
+        }
+
+        // 動態生成左下 8 組核心帳密介面
+        function parseAndRenderCredentials(csvText) {
+            const lines = csvText.split('\n').slice(1);
+            let htmlBuffer = '';
+
+            lines.forEach(line => {
+                if (!line.trim()) return;
+                const cols = parseCSVLine(line);
+                if (cols.length < 2) return;
+
+                const systemName = cols[1];
+                const url = cols[2] || '';
+                const username = cols[3] || '';
+                const password = cols[4] || '';
+
+                htmlBuffer += `
+                <div class="info-list-item">
+                    <div class="credential-inputs">
+                        <div class="system-title-row">
+                            <div class="display-system-name">🖥️ ${systemName}</div>
+                            <div class="display-system-url" title="${url}">${url ? url.replace(/^https?:\/\//i, '') : '（未設網址）'}</div>
+                        </div>
+                        <div class="credential-row">
+                            帳：<span class="display-value">${username || '未設定'}</span> 
+                            | 密：<span class="display-value">${password ? '••••••' : '未設定'}</span>
+                        </div>
+                    </div>
+                    <div class="credential-actions">
+                        <button class="btn-action btn-account" onclick="copyText('${username}', '帳號')">複製帳</button>
+                        <button class="btn-action" onclick="copyText('${password}', '密碼')">複製密</button>
+                        <button class="btn-action btn-link" onclick="openUrl('${url}')">🌐 開啟</button>
+                    </div>
+                </div>`;
+            });
+
+            document.getElementById('credentials-container').innerHTML = htmlBuffer;
+        }
+
+        // 啟動加載，並設定每 5 分鐘（300000微秒）自動在背景輪詢最新 Sheets 變更
+        fetchSheetsData();
+        setInterval(fetchSheetsData, 300000); 
     </script>
 </body>
 </html>
