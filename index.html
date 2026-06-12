@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>廠務營運與技術綜合控制台 V5.2 - 美學大師版</title>
+    <title>廠務營運與技術綜合控制台 V5.3 - 網址聯動版</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -116,6 +116,13 @@
             flex-direction: column;
             gap: 4px;
         }
+        
+        /* 系統名稱與網址複合區域 */
+        .system-title-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
         .input-system-name {
             font-size: 0.95rem;
             font-weight: bold;
@@ -123,10 +130,21 @@
             border: none;
             background: transparent;
             outline: none;
-            width: 100%;
+            flex: 1;
         }
         .input-system-name:focus { background: #e2e8f0; border-radius: 3px; }
         
+        .input-system-url {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 150px;
+            text-align: right;
+        }
+        .input-system-url:focus { background: #e2e8f0; color: #334155; border-radius: 3px; }
+
         .credential-row {
             font-size: 0.85rem;
             color: #64748b;
@@ -140,21 +158,21 @@
             color: #334155;
             font-size: 0.85rem;
             outline: none;
-            width: 130px;
+            width: 120px;
             font-weight: 500;
         }
         .input-cred:focus { background: #e2e8f0; border-radius: 3px; }
 
-        /* 複製按鈕區 */
+        /* 複製與連結按鈕區 */
         .credential-actions {
             display: flex;
-            gap: 6px;
+            gap: 4px;
         }
         .btn-action {
             background-color: #10b981;
             color: white;
             border: none;
-            padding: 5px 10px;
+            padding: 5px 8px;
             border-radius: 4px;
             cursor: pointer;
             font-size: 0.8rem;
@@ -165,6 +183,8 @@
         .btn-action:hover { background-color: #059669; }
         .btn-account { background-color: #3b82f6; }
         .btn-account:hover { background-color: #1d4ed8; }
+        .btn-link { background-color: #6366f1; } /* 靛藍色代表外部連結 */
+        .btn-link:hover { background-color: #4f46e5; }
 
         /* 網格基礎底板 */
         .four-grid-container, .tri-grid-container {
@@ -183,8 +203,6 @@
         }
 
         /* ──────────────── 美學職能卡片樣式 ──────────────── */
-        
-        /* 1. 標準格子基礎結構 */
         .grid-cell {
             display: flex;
             flex-direction: column;
@@ -195,7 +213,6 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.02);
         }
 
-        /* 灰色/彩色橫線標題列共通 */
         .cell-header-input {
             width: 100%;
             border: none;
@@ -205,13 +222,11 @@
             outline: none;
         }
 
-        /* 中間劃分的細緻橫線 */
         .cell-divider {
             height: 1px;
             background-color: #cbd5e1;
         }
 
-        /* 輸入內容區共通 */
         .cell-content-textarea {
             flex: 1;
             width: 100%;
@@ -224,21 +239,21 @@
             outline: none;
         }
 
-        /* 2. 【左上：SA接待區美學 ➔ 柔和晴空藍】 */
+        /* 左上：SA接待區美學 ➔ 柔和晴空藍 */
         .cell-sa { border-color: #bae6fd; }
         .cell-sa .cell-header-input { background: #e0f2fe; color: #0369a1; }
         .cell-sa .cell-divider { background-color: #bae6fd; }
         .cell-sa .cell-content-textarea { background: #ffffff; }
         .cell-sa .cell-content-textarea:focus { background: #f0f9ff; }
 
-        /* 3. 【右下：廠務調度區美學 ➔ 莫蘭迪鼠尾草綠】 */
+        /* 右下：廠務調度區美學 ➔ 莫蘭迪鼠尾草綠 */
         .cell-factory { border-color: #bbf7d0; }
         .cell-factory .cell-header-input { background: #dcfce7; color: #15803d; }
         .cell-factory .cell-divider { background-color: #bbf7d0; }
         .cell-factory .cell-content-textarea { background: #ffffff; }
         .cell-factory .cell-content-textarea:focus { background: #f0fdf4; }
 
-        /* 4. 【右上大便簽：你指定的溫潤米色紙美學】 */
+        /* 右上大便簽：典雅米色紙美學 */
         .grid-cell-large-beige {
             grid-row: 1 / 3;
             display: flex;
@@ -251,10 +266,10 @@
         }
         .grid-cell-large-beige .cell-header-input { background: #fef3c7; color: #92400e; }
         .grid-cell-large-beige .cell-divider { background-color: #fde68a; }
-        .grid-cell-large-beige .cell-content-textarea { background: #fdfbf7; color: #451a03; } /* 溫潤米底、深褐字 */
+        .grid-cell-large-beige .cell-content-textarea { background: #fdfbf7; color: #451a03; }
         .grid-cell-large-beige .cell-content-textarea:focus { background: #fffdf9; }
 
-        /* 5. 右上伴隨小格子 ➔ 優雅微薰衣草紫藍 */
+        /* 右上伴隨小格子 */
         .cell-companion { border-color: #e2e8f0; }
         .cell-companion .cell-header-input { background: #f1f5f9; color: #475569; }
         .cell-companion .cell-divider { background-color: #e2e8f0; }
@@ -310,120 +325,152 @@
 
             <div class="card h-45">
                 <div class="card-header">
-                    <span>🔒 核心系統帳密庫 (共 8 組，可直接點擊修改與獨立一鍵複製)</span>
+                    <span>🔒 核心系統帳密庫 (支援自訂連結網址與一鍵開啟跳轉)</span>
                 </div>
                 <div class="card-body">
                     <div class="cred-scroll-zone">
                         
                         <div class="info-list-item">
                             <div class="credential-inputs">
-                                <input type="text" class="input-system-name" id="sys_n1" value="DMS 經銷商管理系統">
+                                <div class="system-title-row">
+                                    <input type="text" class="input-system-name" id="sys_n1" value="DMS 經銷商管理系統">
+                                    <input type="text" class="input-system-url" id="sys_u1" value="https://dms.example.com" placeholder="點擊輸入系統網址...">
+                                </div>
                                 <div class="credential-row">
-                                    帳號：<input type="text" class="input-cred" id="acc_v1" value="Claim_Admin"> 
-                                    | 密碼：<input type="text" class="input-cred" id="pwd_v1" value="DidiXie7788">
+                                    帳：<input type="text" class="input-cred" id="acc_v1" value="Claim_Admin"> 
+                                    | 密：<input type="text" class="input-cred" id="pwd_v1" value="DidiXie7788">
                                 </div>
                             </div>
                             <div class="credential-actions">
-                                <button class="btn-action btn-account" onclick="copyInputVal('acc_v1', '帳號')">複製帳號</button>
-                                <button class="btn-action" onclick="copyInputVal('pwd_v1', '密碼')">複製密碼</button>
+                                <button class="btn-action btn-account" onclick="copyInputVal('acc_v1', '帳號')">複製帳</button>
+                                <button class="btn-action" onclick="copyInputVal('pwd_v1', '密碼')">複製密</button>
+                                <button class="btn-action btn-link" onclick="openSystemUrl('sys_u1')">🌐 開啟</button>
                             </div>
                         </div>
 
                         <div class="info-list-item">
                             <div class="credential-inputs">
-                                <input type="text" class="input-system-name" id="sys_n2" value="PSA 原廠診斷平台入口">
+                                <div class="system-title-row">
+                                    <input type="text" class="input-system-name" id="sys_n2" value="PSA 原廠診斷平台入口">
+                                    <input type="text" class="input-system-url" id="sys_u2" value="https://diagnostics.psa-peugeot-citroen.com" placeholder="點擊輸入系統網址...">
+                                </div>
                                 <div class="credential-row">
-                                    帳號：<input type="text" class="input-cred" id="acc_v2" value="Tech_Nangang01"> 
-                                    | 密碼：<input type="text" class="input-cred" id="pwd_v2" value="Psa@2026_Secure">
+                                    帳：<input type="text" class="input-cred" id="acc_v2" value="Tech_Nangang01"> 
+                                    | 密：<input type="text" class="input-cred" id="pwd_v2" value="Psa@2026_Secure">
                                 </div>
                             </div>
                             <div class="credential-actions">
-                                <button class="btn-action btn-account" onclick="copyInputVal('acc_v2', '帳號')">複製帳號</button>
-                                <button class="btn-action" onclick="copyInputVal('pwd_v2', '密碼')">複製密碼</button>
+                                <button class="btn-action btn-account" onclick="copyInputVal('acc_v2', '帳號')">複製帳</button>
+                                <button class="btn-action" onclick="copyInputVal('pwd_v2', '密碼')">複製密</button>
+                                <button class="btn-action btn-link" onclick="openSystemUrl('sys_u2')">🌐 開啟</button>
                             </div>
                         </div>
 
                         <div class="info-list-item">
                             <div class="credential-inputs">
-                                <input type="text" class="input-system-name" id="sys_n3" value="DIDI 保固與漆面申報端">
+                                <div class="system-title-row">
+                                    <input type="text" class="input-system-name" id="sys_n3" value="DIDI 保固與漆面申報端">
+                                    <input type="text" class="input-system-url" id="sys_u3" value="https://didi.warranty-portal.com" placeholder="點擊輸入系統網址...">
+                                </div>
                                 <div class="credential-row">
-                                    帳號：<input type="text" class="input-cred" id="acc_v3" value="Claim_User02"> 
-                                    | 密碼：<input type="text" class="input-cred" id="pwd_v3" value="DidiPdiPass!">
+                                    帳：<input type="text" class="input-cred" id="acc_v3" value="Claim_User02"> 
+                                    | 密：<input type="text" class="input-cred" id="pwd_v3" value="DidiPdiPass!">
                                 </div>
                             </div>
                             <div class="credential-actions">
-                                <button class="btn-action btn-account" onclick="copyInputVal('acc_v3', '帳號')">複製帳號</button>
-                                <button class="btn-action" onclick="copyInputVal('pwd_v3', '密碼')">複製密碼</button>
+                                <button class="btn-action btn-account" onclick="copyInputVal('acc_v3', '帳號')">複製帳</button>
+                                <button class="btn-action" onclick="copyInputVal('pwd_v3', '密碼')">複製密</button>
+                                <button class="btn-action btn-link" onclick="openSystemUrl('sys_u3')">🌐 開啟</button>
                             </div>
                         </div>
 
                         <div class="info-list-item">
                             <div class="credential-inputs">
-                                <input type="text" class="input-system-name" id="sys_n4" value="廠內技術文件與 SOP 共享雲端">
+                                <div class="system-title-row">
+                                    <input type="text" class="input-system-name" id="sys_n4" value="廠內技術文件與 SOP 共享雲端">
+                                    <input type="text" class="input-system-url" id="sys_u4" value="https://drive.google.com" placeholder="點擊輸入系統網址...">
+                                </div>
                                 <div class="credential-row">
-                                    帳號：<input type="text" class="input-cred" id="acc_v4" value="bb_share@gmail.com"> 
-                                    | 密碼：<input type="text" class="input-cred" id="pwd_v4" value="BbNangangCloud">
+                                    帳：<input type="text" class="input-cred" id="acc_v4" value="bb_share@gmail.com"> 
+                                    | 密：<input type="text" class="input-cred" id="pwd_v4" value="BbNangangCloud">
                                 </div>
                             </div>
                             <div class="credential-actions">
-                                <button class="btn-action btn-account" onclick="copyInputVal('acc_v4', '帳號')">複製帳號</button>
-                                <button class="btn-action" onclick="copyInputVal('pwd_v4', '密碼')">複製密碼</button>
+                                <button class="btn-action btn-account" onclick="copyInputVal('acc_v4', '帳號')">複製帳</button>
+                                <button class="btn-action" onclick="copyInputVal('pwd_v4', '密碼')">複製密</button>
+                                <button class="btn-action btn-link" onclick="openSystemUrl('sys_u4')">🌐 開啟</button>
                             </div>
                         </div>
 
                         <div class="info-list-item">
                             <div class="credential-inputs">
-                                <input type="text" class="input-system-name" id="sys_n5" value="引擎專用特殊工具借調登記系統">
+                                <div class="system-title-row">
+                                    <input type="text" class="input-system-name" id="sys_n5" value="引擎專用特殊工具借調登記系統">
+                                    <input type="text" class="input-system-url" id="sys_u5" value="" placeholder="點擊輸入系統網址...">
+                                </div>
                                 <div class="credential-row">
-                                    帳號：<input type="text" class="input-cred" id="acc_v5" value="Tool_Master"> 
-                                    | 密碼：<input type="text" class="input-cred" id="pwd_v5" value="EngineTool99">
+                                    帳：<input type="text" class="input-cred" id="acc_v5" value="Tool_Master"> 
+                                    | 密：<input type="text" class="input-cred" id="pwd_v5" value="EngineTool99">
                                 </div>
                             </div>
                             <div class="credential-actions">
-                                <button class="btn-action btn-account" onclick="copyInputVal('acc_v5', '帳號')">複製帳號</button>
-                                <button class="btn-action" onclick="copyInputVal('pwd_v5', '密碼')">複製密碼</button>
+                                <button class="btn-action btn-account" onclick="copyInputVal('acc_v5', '帳號')">複製帳</button>
+                                <button class="btn-action" onclick="copyInputVal('pwd_v5', '密碼')">複製密</button>
+                                <button class="btn-action btn-link" onclick="openSystemUrl('sys_u5')">🌐 開啟</button>
                             </div>
                         </div>
 
                         <div class="info-list-item">
                             <div class="credential-inputs">
-                                <input type="text" class="input-system-name" id="sys_n6" value="【自訂系統名稱 06】">
+                                <div class="system-title-row">
+                                    <input type="text" class="input-system-name" id="sys_n6" value="【自訂系統名稱 06】">
+                                    <input type="text" class="input-system-url" id="sys_u6" value="" placeholder="點擊輸入系統網址...">
+                                </div>
                                 <div class="credential-row">
-                                    帳號：<input type="text" class="input-cred" id="acc_v6" placeholder="請輸入帳號"> 
-                                    | 密碼：<input type="text" class="input-cred" id="pwd_v6" placeholder="請輸入密碼">
+                                    帳：<input type="text" class="input-cred" id="acc_v6" placeholder="請輸入帳號"> 
+                                    | 密：<input type="text" class="input-cred" id="pwd_v6" placeholder="請輸入密碼">
                                 </div>
                             </div>
                             <div class="credential-actions">
-                                <button class="btn-action btn-account" onclick="copyInputVal('acc_v6', '帳號')">複製帳號</button>
-                                <button class="btn-action" onclick="copyInputVal('pwd_v6', '密碼')">複製密碼</button>
+                                <button class="btn-action btn-account" onclick="copyInputVal('acc_v6', '帳號')">複製帳</button>
+                                <button class="btn-action" onclick="copyInputVal('pwd_v6', '密碼')">複製密</button>
+                                <button class="btn-action btn-link" onclick="openSystemUrl('sys_u6')">🌐 開啟</button>
                             </div>
                         </div>
 
                         <div class="info-list-item">
                             <div class="credential-inputs">
-                                <input type="text" class="input-system-name" id="sys_n7" value="【自訂系統名稱 07】">
+                                <div class="system-title-row">
+                                    <input type="text" class="input-system-name" id="sys_n7" value="【自訂系統名稱 07】">
+                                    <input type="text" class="input-system-url" id="sys_u7" value="" placeholder="點擊輸入系統網址...">
+                                </div>
                                 <div class="credential-row">
-                                    帳號：<input type="text" class="input-cred" id="acc_v7" placeholder="請輸入帳號"> 
-                                    | 密碼：<input type="text" class="input-cred" id="pwd_v7" placeholder="請輸入密碼">
+                                    帳：<input type="text" class="input-cred" id="acc_v7" placeholder="請輸入帳號"> 
+                                    | 密：<input type="text" class="input-cred" id="pwd_v7" placeholder="請輸入密碼">
                                 </div>
                             </div>
                             <div class="credential-actions">
-                                <button class="btn-action btn-account" onclick="copyInputVal('acc_v7', '帳號')">複製帳號</button>
-                                <button class="btn-action" onclick="copyInputVal('pwd_v7', '密碼')">複製密碼</button>
+                                <button class="btn-action btn-account" onclick="copyInputVal('acc_v7', '帳號')">複製帳</button>
+                                <button class="btn-action" onclick="copyInputVal('pwd_v7', '密碼')">複製密</button>
+                                <button class="btn-action btn-link" onclick="openSystemUrl('sys_u7')">🌐 開啟</button>
                             </div>
                         </div>
 
                         <div class="info-list-item">
                             <div class="credential-inputs">
-                                <input type="text" class="input-system-name" id="sys_n8" value="【自訂系統名稱 08】">
+                                <div class="system-title-row">
+                                    <input type="text" class="input-system-name" id="sys_n8" value="【自訂系統名稱 08】">
+                                    <input type="text" class="input-system-url" id="sys_u8" value="" placeholder="點擊輸入系統網址...">
+                                </div>
                                 <div class="credential-row">
-                                    帳號：<input type="text" class="input-cred" id="acc_v8" placeholder="請輸入帳號"> 
-                                    | 密碼：<input type="text" class="input-cred" id="pwd_v8" placeholder="請輸入密碼">
+                                    帳：<input type="text" class="input-cred" id="acc_v8" placeholder="請輸入帳號"> 
+                                    | 密：<input type="text" class="input-cred" id="pwd_v8" placeholder="請輸入密碼">
                                 </div>
                             </div>
                             <div class="credential-actions">
-                                <button class="btn-action btn-account" onclick="copyInputVal('acc_v8', '帳號')">複製帳號</button>
-                                <button class="btn-action" onclick="copyInputVal('pwd_v8', '密碼')">複製密碼</button>
+                                <button class="btn-action btn-account" onclick="copyInputVal('acc_v8', '帳號')">複製帳</button>
+                                <button class="btn-action" onclick="copyInputVal('pwd_v8', '密碼')">複製密</button>
+                                <button class="btn-action btn-link" onclick="openSystemUrl('sys_u8')">🌐 開啟</button>
                             </div>
                         </div>
 
@@ -518,27 +565,46 @@
             alert(`${label}已複製：${val}`);
         }
 
-        // 3. 終極記憶清單（完全繼承自您指定的上一版）
+        // 3. 智能網格自動跳轉功能
+        function openSystemUrl(urlInputId) {
+            let url = document.getElementById(urlInputId).value.trim();
+            if (!url) {
+                alert("未設定此系統的連結網址！請先在系統名稱右側填寫 URL。");
+                return;
+            }
+            // 自動修復未填寫協定頭的網址
+            if (!/^https?:\/\//i.test(url)) {
+                url = 'https://' + url;
+            }
+            window.open(url, '_blank');
+        }
+
+        // 4. 終極記憶清單：全新納入 8 組系統的專屬自訂網址槽位 (共 42 個資料點)
         const storageKeys = [
             'sa_h1', 'sa_c1', 'sa_h2', 'sa_c2', 'sa_h3', 'sa_c3', 'sa_h4', 'sa_c4',
             'h1', 'c1', 'h2', 'c2', 'h3', 'c3', 'h4', 'c4',
             'rt_h1', 'rt_c1', 'rt_h2', 'rt_c2', 'rt_h3', 'rt_c3',
-            'sys_n1', 'acc_v1', 'pwd_v1', 'sys_n2', 'acc_v2', 'pwd_v2',
-            'sys_n3', 'acc_v3', 'pwd_v3', 'sys_n4', 'acc_v4', 'pwd_v4',
-            'sys_n5', 'acc_v5', 'pwd_v5', 'sys_n6', 'acc_v6', 'pwd_v6',
-            'sys_n7', 'acc_v7', 'pwd_v7', 'sys_n8', 'acc_v8', 'pwd_v8'
+            // 完整 8 組（系統名、網址、帳號、密碼）
+            'sys_n1', 'sys_u1', 'acc_v1', 'pwd_v1',
+            'sys_n2', 'sys_u2', 'acc_v2', 'pwd_v2',
+            'sys_n3', 'sys_u3', 'acc_v3', 'pwd_v3',
+            'sys_n4', 'sys_u4', 'acc_v4', 'pwd_v4',
+            'sys_n5', 'sys_u5', 'acc_v5', 'pwd_v5',
+            'sys_n6', 'sys_u6', 'acc_v6', 'pwd_v6',
+            'sys_n7', 'sys_u7', 'acc_v7', 'pwd_v7',
+            'sys_n8', 'sys_u8', 'acc_v8', 'pwd_v8'
         ];
 
-        // 網頁讀取時還原資料 (升級快取標記為 v5.2 美學版)
+        // 網頁讀取時還原資料 (升級快取標記為 v5.3 網址連動版)
         storageKeys.forEach(id => {
             const element = document.getElementById(id);
             if (element) {
-                const savedValue = localStorage.getItem(`bb_v5.2_board_${id}`);
+                const savedValue = localStorage.getItem(`bb_v5.3_board_${id}`);
                 if (savedValue !== null) {
                     element.value = savedValue;
                 }
                 element.addEventListener('input', function() {
-                    localStorage.setItem(`bb_v5.2_board_${id}`, this.value);
+                    localStorage.setItem(`bb_v5.3_board_${id}`, this.value);
                 });
             }
         });
