@@ -20,22 +20,20 @@
         .modal.active .modal-content { transform: scale(1); }
     </style>
 </head>
-<body class="text-slate-200 min-h-screen p-6 md:p-12 selection:bg-teal-500 selection:text-slate-900">
+<body class="text-slate-200 min-h-screen p-4 md:p-12 selection:bg-teal-500 selection:text-slate-900">
 
-    <!-- 頂部標題區 -->
-    <header class="max-w-7xl mx-auto mb-16 flex flex-col md:flex-row justify-between items-start md:items-end border-b border-slate-800 pb-6">
+    <header class="max-w-7xl mx-auto mb-12 flex flex-col md:flex-row justify-between items-start md:items-end border-b border-slate-800 pb-6 space-y-4 md:space-y-0">
         <div>
             <div class="text-xs font-mono tracking-widest text-teal-400 mb-2">INTERNAL TECHNICAL & MANAGEMENT REGULATION</div>
-            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-white neon-text-blue">庫存維護跟新車準備不同概念以及管制卡</h1>
+            <h1 class="text-2xl md:text-4xl font-extrabold tracking-tight text-white neon-text-blue">庫存維護跟新車準備不同概念以及管制卡</h1>
             <p class="text-sm text-slate-400 mt-2">發布主管：尚鵬內湖廠長 謝或翰 ｜ 發布日期：2026年06月20日</p>
         </div>
-        <div class="mt-4 md:mt-0 text-right font-mono text-xs text-slate-500">
+        <div class="text-left md:text-right font-mono text-xs text-slate-500">
             <div>TARGET: 全體技術同仁、接待SA、廠內管理團隊</div>
             <div>STATUS: LINE LIVE VERSION</div>
         </div>
     </header>
 
-    <!-- 核心組織權責（頂部面板） -->
     <section class="max-w-7xl mx-auto mb-12 glass-panel rounded-2xl p-6">
         <h2 class="text-xs font-mono tracking-wider text-teal-400 uppercase mb-4">組織職掌與權責編組</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -46,7 +44,7 @@
             </div>
             <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
                 <div class="text-xs text-slate-400 mb-1">數量盤點與監督</div>
-                <div class="text-base font-bold text-slate-100">SA組長 徐漢威 × 楊志元經理</div>
+                <div class="text-base font-bold text-slate-100">SA組長 徐漢威 × 楊志遠經理</div>
                 <p class="text-xs text-slate-500 mt-1">負責雙重稽核確認場內庫存車之精確數量。</p>
             </div>
             <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
@@ -57,13 +55,11 @@
         </div>
     </section>
 
-    <!-- n8n 風格動態工作流主體 -->
     <main class="max-w-7xl mx-auto relative overflow-x-auto pb-12">
-        <div class="min-w-[1000px] flex flex-col items-center space-y-12 py-6">
+        <div class="w-full lg:min-w-[1000px] flex flex-col items-center space-y-8 lg:space-y-12 py-6">
             
-            <!-- STAGE 1: 入口起點 -->
             <div class="flex items-center justify-center w-full relative">
-                <div class="node-card glass-panel w-72 p-5 rounded-2xl border-l-4 border-l-teal-400" onclick="openModal('m-start')">
+                <div class="node-card glass-panel w-full max-w-sm lg:w-72 p-5 rounded-2xl border-l-4 border-l-teal-400" onclick="openModal('m-start')">
                     <div class="flex justify-between items-start mb-3">
                         <span class="bg-teal-500/10 text-teal-400 px-2 py-0.5 rounded text-[10px] font-mono tracking-wider">START</span>
                         <span class="text-slate-500 text-xs">📄 管制卡確認</span>
@@ -74,28 +70,25 @@
                 </div>
             </div>
 
-            <!-- 連線 1 -->
             <div class="w-1 h-12 neon-line-v"></div>
 
-            <!-- STAGE 2: 決策分流點 (菱形美學變體) -->
             <div class="flex items-center justify-center w-full relative">
-                <div class="node-card bg-slate-900 border-2 border-amber-500/50 w-64 p-6 rounded-xl text-center shadow-[0_0_15px_rgba(245,158,11,0.15)]" onclick="openModal('m-split')">
+                <div class="node-card bg-slate-900 border-2 border-amber-500/50 w-full max-w-sm lg:w-64 p-6 rounded-xl text-center shadow-[0_0_15px_rgba(245,158,11,0.15)]" onclick="openModal('m-split')">
                     <div class="text-xs font-mono text-amber-500 mb-1">DECISION NODE</div>
                     <h3 class="text-base font-extrabold text-white">SA 屬性身分識別分流</h3>
                     <p class="text-xs text-slate-400 mt-2">核對管制卡內容進行分流</p>
                     <div class="text-[10px] text-amber-400 font-mono mt-2">點擊查看判斷基準與照片 ➜</div>
                 </div>
                 
-                <!-- 左右分流連線 -->
-                <div class="absolute top-1/2 left-[calc(50%-280px)] right-[calc(50%+128px)] h-0.5 neon-line-h"></div>
-                <div class="absolute top-1/2 left-[calc(50%+128px)] right-[calc(50%-280px)] h-0.5 neon-line-h"></div>
+                <div class="hidden lg:block absolute top-1/2 left-[calc(50%-280px)] right-[calc(50%+128px)] h-0.5 neon-line-h"></div>
+                <div class="hidden lg:block absolute top-1/2 left-[calc(50%+128px)] right-[calc(50%-280px)] h-0.5 neon-line-h"></div>
             </div>
 
-            <!-- STAGE 3: 雙軌平行路徑 -->
-            <div class="flex justify-between w-full px-12 relative">
+            <div class="block lg:hidden w-1 h-12 neon-line-v"></div>
+
+            <div class="flex flex-col lg:flex-row justify-between w-full lg:px-12 relative space-y-8 lg:space-y-0 items-center lg:items-start">
                 
-                <!-- 左側：概念一 庫存車流程 -->
-                <div class="flex flex-col items-center w-[350px]">
+                <div class="flex flex-col items-center w-full max-w-sm lg:w-[350px]">
                     <div class="node-card glass-panel w-full p-5 rounded-2xl border-l-4 border-l-amber-500" onclick="openModal('m-stock')">
                         <div class="flex justify-between items-start mb-3">
                             <span class="bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded text-[10px] font-mono tracking-wider">PATH A</span>
@@ -107,12 +100,11 @@
                             <div class="text-xs text-slate-300">📌 巡檢週期：兩週一檢（內湖⇄昆陽）</div>
                             <div class="text-xs text-slate-300">📌 實體防呆：隨車放置維護單 + 櫃檯集中稽核</div>
                         </div>
-                        <div class="text-[10px] text-amber-400 font-mono mt-3 text-right">點擊展開 ➜</div>
+                        <div class="text-[10px] text-amber-400 font-mono mt-3 text-right">點擊展開與照片 ➜</div>
                     </div>
                     
                     <div class="w-1 h-12 neon-line-v"></div>
                     
-                    <!-- 庫存車技術核心 -->
                     <div class="node-card bg-slate-900 border border-slate-800 w-full p-4 rounded-xl" onclick="openModal('m-argos')">
                         <div class="text-[10px] font-mono text-cyan-400 mb-1">TECHNICAL CORE</div>
                         <h4 class="text-sm font-bold text-white">12V 與 48V 電瓶檢測</h4>
@@ -121,8 +113,9 @@
                     </div>
                 </div>
 
-                <!-- 右側：概念二 待交車流程 -->
-                <div class="flex flex-col items-center w-[350px]">
+                <div class="block lg:hidden w-1 h-12 neon-line-v"></div>
+
+                <div class="flex flex-col items-center w-full max-w-sm lg:w-[350px]">
                     <div class="node-card glass-panel w-full p-5 rounded-2xl border-l-4 border-l-emerald-500" onclick="openModal('m-pdi')">
                         <div class="flex justify-between items-start mb-3">
                             <span class="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded text-[10px] font-mono tracking-wider">PATH B</span>
@@ -134,23 +127,21 @@
                             <div class="text-xs text-slate-300">📌 核心動作：精密量測 12V / 48V 電池健康度</div>
                             <div class="text-xs text-slate-300">📌 歸檔要求：相關文件完整上傳至 DMS 系統</div>
                         </div>
-                        <div class="text-[10px] text-emerald-400 font-mono mt-3 text-right">點擊查看品牌分流文件清單 ➜</div>
+                        <div class="text-[10px] text-emerald-400 font-mono mt-3 text-right">點擊查看品牌分流文件清單與照片 ➜</div>
                     </div>
                 </div>
 
             </div>
 
-            <!-- 下方匯流與資訊閉環連線 -->
-            <div class="w-full relative h-16">
+            <div class="hidden lg:block w-full relative h-16">
                 <div class="absolute top-0 left-[calc(25%+50px)] w-0.5 h-16 neon-line-v"></div>
                 <div class="absolute top-0 right-[calc(25%+50px)] w-0.5 h-16 neon-line-v"></div>
                 <div class="absolute bottom-0 left-[calc(25%+50px)] right-[calc(25%+50px)] h-0.5 neon-line-h"></div>
             </div>
             <div class="w-1 h-12 neon-line-v"></div>
 
-            <!-- STAGE 4: 結案防呆與資訊閉環 -->
             <div class="flex items-center justify-center w-full relative">
-                <div class="node-card glass-panel w-80 p-5 rounded-2xl border border-rose-500/40 shadow-[0_0_20px_rgba(239,68,68,0.1)]" onclick="openModal('m-close')">
+                <div class="node-card glass-panel w-full max-w-sm lg:w-80 p-5 rounded-2xl border border-rose-500/40 shadow-[0_0_20px_rgba(239,68,68,0.1)]" onclick="openModal('m-close')">
                     <div class="flex justify-between items-start mb-3">
                         <span class="bg-rose-500/10 text-rose-400 px-2 py-0.5 rounded text-[10px] font-mono tracking-wider">FINISH</span>
                         <span class="text-slate-500 text-xs">🔒 結案防呆</span>
@@ -167,11 +158,8 @@
         </div>
     </main>
 
-    <!-- 💡 互動彈出式視窗 (Modals Layer) -->
-    
-    <!-- START MODAL (STAGE 1: 包含 A02 高清原圖檔) -->
     <div id="m-start" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
-        <div class="bg-slate-900 border border-slate-800 max-w-2xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[90vh] modal-content shadow-2xl">
+        <div class="bg-slate-900 border border-slate-800 max-w-2xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[85vh] modal-content shadow-2xl">
             <h3 class="text-lg font-bold text-teal-400 mb-2">一、核心管理概念說明</h3>
             <p class="text-sm text-slate-300 leading-relaxed mb-4">為建立嚴謹的車輛品質管控體系，必須嚴格釐清「庫存維護」與「新車交車前檢查」的本質差別。以實體「新車整備管制卡 (PDI CONTROL)」作為總開關，確保每台車進入正確路徑，杜絕管理漏洞。</p>
             
@@ -184,16 +172,15 @@
         </div>
     </div>
 
-    <!-- SPLIT MODAL (STAGE 2: 包含 A03 高清原圖檔) -->
     <div id="m-split" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
-        <div class="bg-slate-900 border border-slate-800 max-w-2xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[90vh] modal-content shadow-2xl">
+        <div class="bg-slate-900 border border-slate-800 max-w-2xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[85vh] modal-content shadow-2xl">
             <h3 class="text-lg font-bold text-amber-500 mb-3">管制卡屬性分流基準</h3>
             <div class="space-y-3 text-sm text-slate-300 mb-4">
                 <div class="p-3 bg-amber-950/30 border border-amber-900/40 rounded-xl">
                     <span class="font-bold text-amber-400">概念一【庫存車】：</span><br>新車到貨超過 <span class="text-white underline decoration-amber-400">14 天未綁定訂單者</span>，強制導入後端庫存維護管理程序。
                 </div>
                 <div class="p-3 bg-emerald-950/30 border border-emerald-900/40 rounded-xl">
-                    <span class="font-bold text-emerald-400">概念二【待交車】：</span><br><span class="text-white underline decoration-emerald-400">已綁定訂單</span>並準備交付客戶者，即刻切換至交車前黃金 48 小時檢查流程。
+                    <span class="font-bold text-emerald-400">概念二【待交車】：</span><br><span class="text-white underline decoration-emerald-400">Ref: 20</span>已綁定訂單並準備交付客戶者，即刻切換至交車前黃金 48 小時檢查流程。
                 </div>
             </div>
 
@@ -206,24 +193,23 @@
         </div>
     </div>
 
-    <!-- STOCK MODAL (PATH A 庫存車: 包含 A01 高清原圖檔) -->
     <div id="m-stock" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
-        <div class="bg-slate-900 border border-slate-800 max-w-2xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[90vh] modal-content shadow-2xl">
+        <div class="bg-slate-900 border border-slate-800 max-w-2xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[85vh] modal-content shadow-2xl">
             <h3 class="text-lg font-bold text-amber-400 mb-3">【庫存車】巡檢空間動線與防呆機制</h3>
             <div class="space-y-3 text-xs md:text-sm text-slate-300 mb-4">
                 <div>
-                    <span class="text-slate-400 font-mono">1. 內湖廠區三大特定巡檢區域（絕不可有盲點）：</span>
+                    <span class="text-slate-400 font-mono">1. 內湖廠區三大特定巡檢區域（Ref: 24）：</span>
                     <ul class="list-disc list-inside pl-2 text-amber-300/90 mt-1">
-                        <li>一樓側邊</li>
-                        <li>頂樓停放區</li>
-                        <li>樓上庫存區（技師必須特別注意）</li>
+                        <li>一樓側邊 (Ref: 25)</li>
+                        <li>頂樓停放區 (Ref: 26)</li>
+                        <li>樓上庫存區（技師必須特別注意）(Ref: 27)</li>
                     </ul>
                 </div>
                 <div class="border-t border-slate-800 pt-3">
-                    <span class="text-slate-400 font-mono">2. 雙軌表單防呆管理位置：</span>
+                    <span class="text-slate-400 font-mono">2. 雙軌表單防呆管理位置（Ref: 30）：</span>
                     <ul class="list-disc list-inside pl-2 text-slate-300 mt-1">
-                        <li><span class="text-white font-bold">位置一：</span>放置於車輛內的儀表板顯眼處（隨車查核）。</li>
-                        <li><span class="text-white font-bold">位置二：</span>集中於值班櫃檯進行行政進度掌控與稽核。</li>
+                        <li><span class="text-white font-bold">位置一：</span>放置於車輛內的儀表板顯眼處（隨車查核）。(Ref: 31)</li>
+                        <li><span class="text-white font-bold">位置二：</span>集中於值班櫃檯進行行政進度掌控與稽核。(Ref: 32)</li>
                     </ul>
                 </div>
             </div>
@@ -237,11 +223,10 @@
         </div>
     </div>
 
-    <!-- ARGOS MODAL (TECHNICAL CORE: 包含 A04 高清原圖檔) -->
     <div id="m-argos" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
-        <div class="bg-slate-900 border border-slate-800 max-w-2xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[90vh] modal-content shadow-2xl">
+        <div class="bg-slate-900 border border-slate-800 max-w-2xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[85vh] modal-content shadow-2xl">
             <h3 class="text-lg font-bold text-cyan-400 mb-2">庫存技術核心：電瓶管理數據留痕</h3>
-            <p class="text-sm text-slate-300 leading-relaxed mb-4">依照維護單週期落實檢查，重點在於 <span class="text-white font-bold">12V 與 48V 的電瓶檢測與報告列印</span>。每一次電瓶量測之檢測報告，皆必須即時上傳至 <span class="text-cyan-400 font-mono">ARGOS 伺服器</span>，不得延遲或遺漏。</p>
+            <p class="text-sm text-slate-300 leading-relaxed mb-4">依照維護單週期落實檢查，重點在於 <span class="text-white font-bold">12V 與 48V 的電瓶檢測與報告列印</span> (Ref: 33)。每一次電瓶量測之檢測報告，皆必須即時上傳至 <span class="text-cyan-400 font-mono">ARGOS 伺服器</span> (Ref: 33)。</p>
             
             <div class="p-2 bg-slate-950 rounded-xl border border-slate-800">
                 <span class="text-[11px] text-slate-500 block mb-1.5 font-mono">📋 REFERENCE IMAGE: 12V & 48V BATTERY LOG (A04)</span>
@@ -252,62 +237,59 @@
         </div>
     </div>
 
-    <!-- PDI MODAL (PATH B 待交車: 包含 A05 高清原圖檔) -->
     <div id="m-pdi" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
         <div class="bg-slate-900 border border-slate-800 max-w-2xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[85vh] modal-content shadow-2xl">
-            <h3 class="text-lg font-bold text-emerald-400 mb-4">總代理交車文件上傳清單 (依車系與車型分流)</h3>
+            <h3 class="text-lg font-bold text-emerald-400 mb-4">總代理交車文件上傳清單 (依車系與車型分流) (Ref: 40)</h3>
             
             <div class="space-y-4 text-xs md:text-sm mb-4">
                 <div class="p-4 bg-slate-950 rounded-xl border border-slate-800">
-                    <span class="text-teal-400 font-bold block mb-2">【車系分類一：Peugeot / Citroën (PSA)】</span>
+                    <span class="text-teal-400 font-bold block mb-2">【車系分類一：Peugeot / Citroën (PSA)】 (Ref: 41)</span>
                     <ul class="list-decimal list-inside space-y-1 text-slate-300">
-                        <li>常規車型（必須備妥標準 5 張單上傳 DMS）：</li>
+                        <li>常規車型（必須備妥標準 5 張單上傳 DMS）：(Ref: 42)</li>
                         <ul class="list-disc list-inside pl-4 text-slate-400 space-y-0.5">
-                            <li>發貨驗收單</li>
-                            <li>12V 電池檢測報告（48 小時內）</li>
-                            <li>48V 電池檢測報告（48 小時內）</li>
-                            <li>新車交車前檢查表</li>
-                            <li>經銷商庫存維護單（隨車之歷次維護紀錄）</li>
+                            <li>發貨驗收單 (Ref: 43)</li>
+                            <li>12V 電池檢測報告（48 小時內） (Ref: 44)</li>
+                            <li>48V 電池檢測報告（48 小時內） (Ref: 45)</li>
+                            <li>新車交車前檢查表 (Ref: 46)</li>
+                            <li>經銷商庫存維護單（隨車之歷次維護紀錄） (Ref: 47)</li>
                         </ul>
-                        <li class="text-amber-400 font-bold mt-2">特定車型（408 / 3008 / 5008）之加強規範：<br><span class="text-slate-300 font-normal">除上述 5 張單外，必須額外加附第 6 張表格：</span>「新車交車前功能檢查項目表」。</li>
+                        <li class="text-amber-400 font-bold mt-2">特定車型（408 / 3008 / 5008）之加強規範：<br><span class="text-slate-300 font-normal">除上述 5 張單外，必須額外加附第 6 張表格：</span>「新車交車前功能檢查項目表」。 (Ref: 48, 49)</li>
                     </ul>
                 </div>
 
                 <div class="p-4 bg-slate-950 rounded-xl border border-slate-800">
-                    <span class="text-purple-400 font-bold block mb-2">【車系分類二：Alfa Romeo】</span>
-                    <span class="text-amber-400 block mb-1">指標車型（Giulia / Stelvio 專屬規範）：</span>
-                    <p class="text-slate-400 mb-2">由於電控與品牌架構特殊，不適用常規交車檢查表。必須依總代理規範，將第四項文件替換為專屬表單：</p>
+                    <span class="text-purple-400 font-bold block mb-2">【車系分類二：Alfa Romeo】 (Ref: 50)</span>
+                    <span class="text-amber-400 block mb-1">指標車型（Giulia / Stelvio 專屬規範）： (Ref: 51)</span>
+                    <p class="text-slate-400 mb-2">由於電控與品牌架構特殊，不適用常規交車檢查表。必須依總代理規範，將第四項文件替換為專屬表單： (Ref: 52)</p>
                     <ul class="list-disc list-inside space-y-1 text-slate-300 font-mono">
-                        <li>發貨驗收單</li>
-                        <li>12V 電池檢測報告（48 小時內）</li>
-                        <li>「Giulia / Stelvio 專屬全新交車前檢查表」</li>
-                        <li>經銷商庫存維護單</li>
+                        <li>發貨驗收單 (Ref: 53)</li>
+                        <li>12V 電池檢測報告（48 小時內） (Ref: 54)</li>
+                        <li>「Giulia / Stelvio 專屬全新交車前檢查表」 (Ref: 55)</li>
+                        <li>經銷商庫存維護單 (Ref: 56)</li>
                     </ul>
                 </div>
             </div>
 
             <div class="p-2 bg-slate-950 rounded-xl border border-slate-800">
                 <span class="text-[11px] text-slate-500 block mb-1.5 font-mono">📋 REFERENCE IMAGE: PDI FILE STORAGE REGULATION (A05)</span>
-                <img src="https://raw.githubusercontent.com/xdespair0217/whiteboard/main/A05.jpg" alt="待交車規範 brand 分流對照圖" class="w-full h-auto rounded-lg border border-slate-800 shadow-md block">
+                <img src="https://raw.githubusercontent.com/xdespair0217/whiteboard/main/A05.jpg" alt="待交車規範品牌分流對照圖" class="w-full h-auto rounded-lg border border-slate-800 shadow-md block">
             </div>
 
             <button class="mt-4 bg-slate-800 hover:bg-slate-700 text-xs text-white px-4 py-2 rounded-lg float-right" onclick="closeModal('m-pdi')">關閉視窗</button>
         </div>
     </div>
 
-    <!-- CLOSE MODAL (STAGE 4 資訊閉環: 🚀 已成功嵌入 A06 高清原圖檔) -->
     <div id="m-close" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
-        <div class="bg-slate-900 border border-slate-800 max-w-2xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[90vh] modal-content shadow-2xl">
+        <div class="bg-slate-900 border border-slate-800 max-w-2xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[85vh] modal-content shadow-2xl">
             <h3 class="text-lg font-bold text-rose-400 mb-3">⚠️ 經銷商通報防範條款與處罰機制</h3>
             <div class="p-4 bg-rose-950/30 border border-rose-900/40 rounded-xl text-xs md:text-sm text-slate-300 space-y-2 mb-4">
-                <p>若未確實依照規定流程作業，致使後續發生以下情事者，<span class="text-rose-400 font-bold underline">其損失將由該經銷商全額自行負責</span>，總代理恕不予補償：</p>
+                <p>若未確實依照規定流程作業，致使後續發生以下情事者，<span class="text-rose-400 font-bold underline">其損失將由該經銷商全額自行負責</span>，總代理恕不予補償： (Ref: 225)</p>
                 <ul class="list-decimal list-inside space-y-1 text-slate-300">
-                    <li><span class="text-white font-bold">保固申請遭拒：</span>因未留存檢查紀錄或作業程序不符規範，導致原廠判定保固不予通過者。</li>
-                    <li><span class="text-white font-bold">原廠稽核扣款：</span>於原廠年度稽核或專案查核中，因檢查清單缺失、造假或漏項，導致之追溯扣款、罰鍰或相關財務損失者。</li>
+                    <li><span class="text-white font-bold">保固申請遭拒：</span>因未留存檢查紀錄或作業程序不符規範，導致原廠判定保固不予通過者。 (Ref: 226)</li>
+                    <li><span class="text-white font-bold">原廠稽核扣款：</span>於原廠年度稽核或專案查核中，因檢查清單缺失、造假或漏項，導致之追溯扣款、罰鍰或相關財務損失者。 (Ref: 226)</li>
                 </ul>
             </div>
 
-            <!-- 📸 全流程數據留痕對照區（獨立圖層，完美不模糊） -->
             <div class="p-2 bg-slate-950 rounded-xl border border-slate-800">
                 <span class="text-[11px] text-slate-500 block mb-1.5 font-mono">📋 REFERENCE IMAGE: FINAL CLOSE LOOP ARCHIVE (A06)</span>
                 <img src="https://raw.githubusercontent.com/xdespair0217/whiteboard/main/A06.jpg" alt="資訊閉環結案防呆對照圖" class="w-full h-auto rounded-lg border border-slate-800 shadow-md block">
@@ -317,23 +299,27 @@
         </div>
     </div>
 
-    <!-- JavaScript 腳本控制 -->
     <script>
         function openModal(id) {
             const modal = document.getElementById(id);
             modal.classList.remove('opacity-0', 'pointer-events-none');
             modal.classList.add('opacity-100', 'active');
+            // 防止手機端底層網頁跟著滾動
+            document.body.style.overflow = 'hidden';
         }
         function closeModal(id) {
             const modal = document.getElementById(id);
             modal.classList.add('opacity-0', 'pointer-events-none');
             modal.classList.remove('opacity-100', 'active');
+            // 恢復底層網頁滾動
+            document.body.style.overflow = 'auto';
         }
         // 點擊背景關閉
         window.onclick = function(event) {
             if (event.target.classList.contains('modal')) {
                 event.target.classList.add('opacity-0', 'pointer-events-none');
                 event.target.classList.remove('opacity-100', 'active');
+                document.body.style.overflow = 'auto';
             }
         }
     </script>
