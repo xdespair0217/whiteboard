@@ -25,15 +25,13 @@
         .download-btn-neon { background: #2563eb; transition: all 0.2s ease; box-shadow: 0 0 10px rgba(37, 99, 235, 0.4); }
         .download-btn-neon:hover { background: #1d4ed8; transform: scale(1.03); box-shadow: 0 0 15px rgba(37, 99, 235, 0.7); }
         
-        /* 🆕 按鈕群組專屬樣式：未選取狀態 */
         .btn-factory-toggle { background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); color: #94a3b8; transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
-        /* 🆕 按鈕群組專屬樣式：變色點亮選取狀態 */
         .btn-factory-toggle.active { border-color: #38bdf8; background-color: rgba(56, 189, 248, 0.18); color: #ffffff; box-shadow: 0 0 14px rgba(56, 189, 248, 0.45); text-shadow: 0 0 6px rgba(56, 189, 248, 0.6); }
     </style>
 </head>
 <body class="text-slate-200 min-h-screen p-4 md:p-12 selection:bg-amber-500 selection:text-slate-900">
 
-    <!-- 頂部標題區 + 🛠️全新按鈕點擊變色控制面板 (紅框對齊區域) -->
+    <!-- 頂部標題區 -->
     <header class="max-w-7xl mx-auto mb-12 flex flex-col xl:flex-row justify-between items-start xl:items-end border-b border-slate-800 pb-6 space-y-6 xl:space-y-0">
         <div>
             <div class="text-xs font-mono tracking-widest text-amber-400 mb-2">OFFICIAL WARRANTY & REVENUE CONTROL REGULATION</div>
@@ -41,10 +39,9 @@
             <p class="text-sm text-slate-400 mt-2">發布主管：尚鵬內湖廠長 謝或翰 ｜ 公告日期：2026年06月21日</p>
         </div>
         
-        <!-- 🎯 跨廠區常駐動態郵件面板 -->
+        <!-- 🎯 跨廠區常駐多選郵件面板 -->
         <div class="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-6 w-full xl:w-auto justify-end">
-            
-            <!-- 🛠️ 廠長指定：拔除勾勾，改為正統純按鈕點擊變色控制區 -->
+            <!-- 廠區複選點擊變色按紐 -->
             <div class="grid grid-cols-2 gap-2 p-2 bg-slate-950/80 rounded-xl border border-slate-800/80 text-sm font-sans w-full sm:w-auto">
                 <button type="button" id="btn-neihu" data-value="內湖" class="btn-factory-toggle active px-4 py-2 rounded-lg font-medium text-center transition-all cursor-pointer" onclick="toggleFactoryBtn(this)">內湖廠</button>
                 <button type="button" id="btn-beitou" data-value="北投" class="btn-factory-toggle px-4 py-2 rounded-lg font-medium text-center transition-all cursor-pointer" onclick="toggleFactoryBtn(this)">北投廠</button>
@@ -52,7 +49,7 @@
                 <button type="button" id="btn-songjiang" data-value="松江" class="btn-factory-toggle px-4 py-2 rounded-lg font-medium text-center transition-all cursor-pointer" onclick="toggleFactoryBtn(this)">松江廠</button>
             </div>
 
-            <!-- 常駐寄信觸發鈕 -->
+            <!-- 常駐一鍵寄信鈕 -->
             <div class="flex flex-col items-start sm:items-end space-y-2">
                 <a id="topMailBtn" href="#" class="email-top-neon-btn bg-emerald-600/90 font-sans font-bold text-white text-xs px-5 py-3 rounded-xl flex items-center space-x-2 border border-emerald-500 shadow-xl whitespace-nowrap">
                     <span>📧 一鍵發送清單總表 Email (預填罐頭)</span>
@@ -416,7 +413,7 @@
         </div>
     </div>
 
-    <!-- 總代理通報文件彈窗 -->
+    <!-- 總代理通報與案例預覽 -->
     <div id="doc-114062" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-4 relative modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-3">
@@ -534,7 +531,7 @@
         </div>
     </div>
 
-    <!-- 4. 車輛購買清單總表 (橫向清單專用寬幅視窗) -->
+    <!-- 4. 車輛購買清單總表 (橫向寬幅視窗) -->
     <div id="doc-sheets" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
         <div class="bg-slate-900 border border-slate-800 max-w-7xl w-full rounded-2xl p-4 relative modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-3 space-x-4">
@@ -553,7 +550,7 @@
     </div>
 
 
-    <!-- ================== 工作流 01~06 詳細導引視窗層 (維持不動) ================== -->
+    <!-- ================== 工作流 01~06 詳細導引視窗層 ================== -->
 
     <!-- 01 DMS 系統送件申請 -->
     <div id="step-b11" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
@@ -678,55 +675,56 @@
         </div>
     </div>
 
-    <!-- 🛠️ 智能跨廠區按鈕變色與副本疊加 JavaScript 核心控制碼 -->
+    <!-- 🛠️ 智能跨廠區按鈕變色與副本疊加、動態中文職稱內文 JavaScript 核心控制碼 -->
     <script>
-        // 廠長信箱資料庫
         const emailDatabase = {
             "內湖": "huohan@starunited.tw",
             "北投": "matt_chen@starunited.tw",
             "板橋": "alex_chen@starunited.tw",
             "松江": "shihcheng@starunited.tw"
         };
-        const supervisorEmail = "george@starunited.tw"; // 售後總監
+        const supervisorEmail = "george@starunited.tw"; 
 
-        // 🆕 處理按鈕切換與變色邏輯
         function toggleFactoryBtn(btn) {
-            // 切換 active 變色類別
             btn.classList.toggle('active');
-            // 即時重新計算副本郵件連結
             updateEmailLink();
         }
 
         function updateEmailLink() {
-            // 1. 抓取目前所有處於高亮變色選取狀態（active）的按鈕
             const activeBtns = document.querySelectorAll('.btn-factory-toggle.active');
-            
-            // 2. 預設強制置入總監 George
             let ccEmails = [supervisorEmail];
             
-            // 3. 遍歷被點亮的按鈕，將對應廠長信箱疊加進陣列
+            // 🆕 動態中文職稱串聯陣列
+            let managerTitles = [];
+            
             activeBtns.forEach(btn => {
                 const factoryKey = btn.getAttribute('data-value');
                 if(emailDatabase[factoryKey]) {
                     ccEmails.push(emailDatabase[factoryKey]);
+                    // 根據被點亮的廠區，塞入對應的中文職稱
+                    managerTitles.push(`【${factoryKey}廠長】`);
                 }
             });
 
-            // 4. 固定輸出主旨與罐頭內文
+            // 🆕 組合最終純中文職稱的內文通報抬頭
+            let noticeSection = "本信已同步通報：\r\n【售後總監】";
+            if (managerTitles.length > 0) {
+                noticeSection += `\r\n${managerTitles.join("、")}`;
+            }
+
             const targetTo = "jack.wu@pgu.com.tw";
             const targetCc = ccEmails.join(","); 
             const targetSubject = "【星聯/尚鵬】延長保固車輛購買清單總表回傳";
-            const targetBody = "Dear Jack\r\n\r\n這是本月星聯/尚鵬的延長保固清單，\r\n請查收附件。";
+            
+            // 🆕 將純中文職稱段落無縫注入信件內文開頭
+            const targetBody = `Dear Jack\r\n\r\n${noticeSection}\r\n\r\n這是本月星聯/尚鵬的延長保固清單，\r\n請查收附件。`;
 
-            // 5. 進行高相容性安全編碼轉譯並寫入
             const encodedMailto = `mailto:${targetTo}?cc=${encodeURIComponent(targetCc)}&subject=${encodeURIComponent(targetSubject)}&body=${encodeURIComponent(targetBody)}`;
             document.getElementById('topMailBtn').href = encodedMailto;
         }
 
-        // 頁面初次載入，自動跑一次初始化（因內湖廠預設點亮變色）
         window.addEventListener('DOMContentLoaded', updateEmailLink);
 
-        // 彈窗基礎開關
         function openModal(id) {
             const modal = document.getElementById(id);
             if (modal) {
