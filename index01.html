@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -15,11 +13,13 @@
         .neon-line-h { background: linear-gradient(90deg, #00f2fe, #4facfe); box-shadow: 0 0 8px #00f2fe; }
         .neon-line-v { background: linear-gradient(180deg, #00f2fe, #4facfe); box-shadow: 0 0 8px #00f2fe; }
         .neon-text-blue { text-shadow: 0 0 8px rgba(0, 242, 254, 0.6); }
-        /* 背景模糊遮罩層：確保只有最底層網頁底色被模糊 */
         .modal-backdrop { background: rgba(5, 11, 20, 0.85); backdrop-filter: blur(8px); }
-        /* 彈窗內容主體：獨立圖層，完全不吃任何模糊濾鏡，確保圖片與文字 100% 銳利清晰 */
         .modal-content { transform: scale(0.95); transition: all 0.3s ease; }
         .modal.active .modal-content { transform: scale(1); }
+        .doc-card { transition: all 0.3s ease; cursor: pointer; }
+        .doc-card:hover { border-color: rgba(45, 212, 191, 0.4); background: rgba(15, 32, 66, 0.8); }
+        /* ALFA 專屬微調 hover */
+        .alfa-card:hover { border-color: rgba(239, 68, 68, 0.5); background: rgba(35, 15, 20, 0.8); box-shadow: 0 0 15px rgba(239, 68, 68, 0.15); }
     </style>
 </head>
 <body class="text-slate-200 min-h-screen p-4 md:p-12 selection:bg-teal-500 selection:text-slate-900">
@@ -129,7 +129,7 @@
                             <div class="text-xs text-slate-300">📌 核心動作：精密量測 12V / 48V 電池健康度</div>
                             <div class="text-xs text-slate-300">📌 歸檔要求：相關文件完整上傳至 DMS 系統</div>
                         </div>
-                        <div class="text-[10px] text-emerald-400 font-mono mt-3 text-right">點擊查看品牌分流文件清單與照片 ➜</div>
+                        <div class="text-[10px] text-emerald-400 font-mono mt-3 text-right">點擊查看 brand 分流文件清單與照片 ➜</div>
                     </div>
                 </div>
 
@@ -160,163 +160,153 @@
         </div>
     </main>
 
-    <div id="m-start" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
-        <div class="bg-slate-900 border border-slate-800 max-w-2xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[85vh] modal-content shadow-2xl">
-            <h3 class="text-lg font-bold text-teal-400 mb-2">一、核心管理概念說明</h3>
-            <p class="text-sm text-slate-300 leading-relaxed mb-4">為建立嚴謹的車輛品質管控體系，必須嚴格釐清「庫存維護」與「新車交車前檢查」的本質差別。以實體「新車整備管制卡 (PDI CONTROL)」作為總開關，確保每台車進入正確路徑，杜絕管理漏洞。</p>
-            
-            <div class="mt-4 p-2 bg-slate-950 rounded-xl border border-slate-800">
-                <span class="text-[11px] text-slate-500 block mb-1.5 font-mono">📋 REFERENCE IMAGE: PDI ARRIVAL ARRANGEMENT (A02)</span>
-                <img src="https://raw.githubusercontent.com/xdespair0217/whiteboard/main/A02.jpg" alt="新車整備管制現場對照圖" class="w-full h-auto rounded-lg border border-slate-800 shadow-md block">
-            </div>
-
-            <button class="bg-slate-800 hover:bg-slate-700 text-xs text-white px-4 py-2 rounded-lg float-right mt-4" onclick="closeModal('m-start')">關閉視窗</button>
-        </div>
-    </div>
-
-    <div id="m-split" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
-        <div class="bg-slate-900 border border-slate-800 max-w-2xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[85vh] modal-content shadow-2xl">
-            <h3 class="text-lg font-bold text-amber-500 mb-3">管制卡屬性分流基準</h3>
-            <div class="space-y-3 text-sm text-slate-300 mb-4">
-                <div class="p-3 bg-amber-950/30 border border-amber-900/40 rounded-xl">
-                    <span class="font-bold text-amber-400">概念一【庫存車】：</span><br>新車到貨超過 <span class="text-white underline decoration-amber-400">14 天未綁定訂單者</span>，強制導入後端庫存維護管理程序。
+    <!-- 底部管制中心：升級為三欄鼎立排版（公告區、通用表單區、ALFA專區） -->
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8 mb-12">
+        
+        <!-- 第一欄（左）：官方通報與文獻管制區 -->
+        <section class="glass-panel rounded-2xl p-5 border-t-2 border-t-teal-500/30 flex flex-col justify-between">
+            <div>
+                <div class="mb-4">
+                    <h2 class="text-xs font-mono tracking-wider text-teal-400 uppercase">OFFICIAL ANNOUNCEMENT</h2>
+                    <h3 class="text-base font-bold text-white mt-1">全車系官方通報公告</h3>
                 </div>
-                <div class="p-3 bg-emerald-950/30 border border-emerald-900/40 rounded-xl">
-                    <span class="font-bold text-emerald-400">概念二【待交車】：</span><br><span class="text-white underline decoration-emerald-400">Ref: 20</span>已綁定訂單並準備交付客戶者，即刻切換至交車前黃金 48 小時檢查流程。
-                </div>
-            </div>
-
-            <div class="p-2 bg-slate-950 rounded-xl border border-slate-800">
-                <span class="text-[11px] text-slate-500 block mb-1.5 font-mono">📋 REFERENCE IMAGE: SA IDENTIFICATION DIAGRAM (A03)</span>
-                <img src="https://raw.githubusercontent.com/xdespair0217/whiteboard/main/A03.jpg" alt="SA屬性身分識別對照圖" class="w-full h-auto rounded-lg border border-slate-800 shadow-md block">
-            </div>
-
-            <button class="mt-4 bg-slate-800 hover:bg-slate-700 text-xs text-white px-4 py-2 rounded-lg float-right" onclick="closeModal('m-split')">關閉視窗</button>
-        </div>
-    </div>
-
-    <div id="m-stock" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
-        <div class="bg-slate-900 border border-slate-800 max-w-2xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[85vh] modal-content shadow-2xl">
-            <h3 class="text-lg font-bold text-amber-400 mb-3">【庫存車】巡檢空間動線與防呆機制</h3>
-            <div class="space-y-3 text-xs md:text-sm text-slate-300 mb-4">
-                <div>
-                    <span class="text-slate-400 font-mono">1. 內湖廠區三大特定巡檢區域（Ref: 24）：</span>
-                    <ul class="list-disc list-inside pl-2 text-amber-300/90 mt-1">
-                        <li>一樓側邊 (Ref: 25)</li>
-                        <li>頂樓停放區 (Ref: 26)</li>
-                        <li>樓上庫存區（技師必須特別注意）(Ref: 27)</li>
-                    </ul>
-                </div>
-                <div class="border-t border-slate-800 pt-3">
-                    <span class="text-slate-400 font-mono">2. 雙軌表單防呆管理位置（Ref: 30）：</span>
-                    <ul class="list-disc list-inside pl-2 text-slate-300 mt-1">
-                        <li><span class="text-white font-bold">位置一：</span>放置於車輛內的儀表板顯眼處（隨車查核）。(Ref: 31)</li>
-                        <li><span class="text-white font-bold">位置二：</span>集中於值班櫃檯進行行政進度掌控與稽核。(Ref: 32)</li>
-                    </ul>
+                <div class="space-y-3">
+                    <!-- 通報 1 -->
+                    <div onclick="openModal('m-doc-114027')" class="doc-card bg-slate-950/60 p-3.5 rounded-xl border border-slate-800/80 group">
+                        <div class="flex justify-between items-start mb-1">
+                            <span class="bg-teal-500/10 text-teal-400 text-[9px] font-mono px-1.5 py-0.5 rounded border border-teal-500/20">流程規範</span>
+                            <span class="text-[9px] font-mono text-slate-500">114027號</span>
+                        </div>
+                        <h4 class="text-xs font-bold text-slate-200 group-hover:text-white transition-colors line-clamp-1">公告 經銷商新車交車流程</h4>
+                        <p class="text-[11px] text-slate-400 mt-1.5 leading-relaxed line-clamp-2">規範整體通路新車交付作業核心基準與數據留痕要求。</p>
+                    </div>
+                    <!-- 通報 2 -->
+                    <div onclick="openModal('m-doc-202605001')" class="doc-card bg-slate-950/60 p-3.5 rounded-xl border border-slate-800/80 group">
+                        <div class="flex justify-between items-start mb-1">
+                            <span class="bg-cyan-500/10 text-cyan-400 text-[9px] font-mono px-1.5 py-0.5 rounded border border-cyan-500/20">技術功能</span>
+                            <span class="text-[9px] font-mono text-slate-500">202605001號</span>
+                        </div>
+                        <h4 class="text-xs font-bold text-slate-200 group-hover:text-white transition-colors line-clamp-1">公告 新增交車前功能檢查項目說明</h4>
+                        <p class="text-[11px] text-slate-400 mt-1.5 leading-relaxed line-clamp-2">細化交車前關鍵功能檢測項目，配合管制卡執行閉環稽核。</p>
+                    </div>
                 </div>
             </div>
+        </section>
 
-            <div class="p-2 bg-slate-950 rounded-xl border border-slate-800">
-                <span class="text-[11px] text-slate-500 block mb-1.5 font-mono">📋 REFERENCE IMAGE: STOCK MAINTENANCE MANAGEMENT (A01)</span>
-                <img src="https://raw.githubusercontent.com/xdespair0217/whiteboard/main/A01.jpg" alt="庫存車維護管理對照圖" class="w-full h-auto rounded-lg border border-slate-800 shadow-md block">
-            </div>
-
-            <button class="mt-4 bg-slate-800 hover:bg-slate-700 text-xs text-white px-4 py-2 rounded-lg float-right" onclick="closeModal('m-stock')">關閉視窗</button>
-        </div>
-    </div>
-
-    <div id="m-argos" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
-        <div class="bg-slate-900 border border-slate-800 max-w-2xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[85vh] modal-content shadow-2xl">
-            <h3 class="text-lg font-bold text-cyan-400 mb-2">庫存技術核心：電瓶管理數據留痕</h3>
-            <p class="text-sm text-slate-300 leading-relaxed mb-4">依照維護單週期落實檢查，重點在於 <span class="text-white font-bold">12V 與 48V 的電瓶檢測與報告列印</span> (Ref: 33)。每一次電瓶量測之檢測報告，皆必須即時上傳至 <span class="text-cyan-400 font-mono">ARGOS 伺服器</span> (Ref: 33)。</p>
-            
-            <div class="p-2 bg-slate-950 rounded-xl border border-slate-800">
-                <span class="text-[11px] text-slate-500 block mb-1.5 font-mono">📋 REFERENCE IMAGE: 12V & 48V BATTERY LOG (A04)</span>
-                <img src="https://raw.githubusercontent.com/xdespair0217/whiteboard/main/A04.jpg" alt="電瓶管理數據留痕對照圖" class="w-full h-auto rounded-lg border border-slate-800 shadow-md block">
-            </div>
-
-            <button class="bg-slate-800 hover:bg-slate-700 text-xs text-white px-4 py-2 rounded-lg float-right mt-4" onclick="closeModal('m-argos')">關閉視窗</button>
-        </div>
-    </div>
-
-    <div id="m-pdi" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
-        <div class="bg-slate-900 border border-slate-800 max-w-2xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[85vh] modal-content shadow-2xl">
-            <h3 class="text-lg font-bold text-emerald-400 mb-4">總代理交車文件上傳清單 (依車系與車型分流) (Ref: 40)</h3>
-            
-            <div class="space-y-4 text-xs md:text-sm mb-4">
-                <div class="p-4 bg-slate-950 rounded-xl border border-slate-800">
-                    <span class="text-teal-400 font-bold block mb-2">【車系分類一：Peugeot / Citroën (PSA)】 (Ref: 41)</span>
-                    <ul class="list-decimal list-inside space-y-1 text-slate-300">
-                        <li>常規車型（必須備妥標準 5 張單上傳 DMS）：(Ref: 42)</li>
-                        <ul class="list-disc list-inside pl-4 text-slate-400 space-y-0.5">
-                            <li>發貨驗收單 (Ref: 43)</li>
-                            <li>12V 電池檢測報告（48 小時內） (Ref: 44)</li>
-                            <li>48V 電池檢測報告（48 小時內） (Ref: 45)</li>
-                            <li>新車交車前檢查表 (Ref: 46)</li>
-                            <li>經銷商庫存維護單（隨車之歷次維護紀錄） (Ref: 47)</li>
-                        </ul>
-                        <li class="text-amber-400 font-bold mt-2">特定車型（408 / 3008 / 5008）之加強規範：<br><span class="text-slate-300 font-normal">除上述 5 張單外，必須額外加附第 6 張表格：</span>「新車交車前功能檢查項目表」。 (Ref: 48, 49)</li>
-                    </ul>
+        <!-- 第二欄（中）：現場作業通用隨車表單 -->
+        <section class="glass-panel rounded-2xl p-5 border-t-2 border-t-purple-500/30 flex flex-col justify-between">
+            <div>
+                <div class="mb-4">
+                    <h2 class="text-xs font-mono tracking-wider text-purple-400 uppercase">FIELD OPERATION FORMS</h2>
+                    <h3 class="text-base font-bold text-white mt-1">現場通用隨車表單</h3>
                 </div>
-
-                <div class="p-4 bg-slate-950 rounded-xl border border-slate-800">
-                    <span class="text-purple-400 font-bold block mb-2">【車系分類二：Alfa Romeo】 (Ref: 50)</span>
-                    <span class="text-amber-400 block mb-1">指標車型（Giulia / Stelvio 專屬規範）： (Ref: 51)</span>
-                    <p class="text-slate-400 mb-2">由於電控與品牌架構特殊，不適用常規交車檢查表。必須依總代理規範，將第四項文件替換為專屬表單： (Ref: 52)</p>
-                    <ul class="list-disc list-inside space-y-1 text-slate-300 font-mono">
-                        <li>發貨驗收單 (Ref: 53)</li>
-                        <li>12V 電池檢測報告（48 小時內） (Ref: 54)</li>
-                        <li>「Giulia / Stelvio 專屬全新交車前檢查表」 (Ref: 55)</li>
-                        <li>經銷商庫存維護單 (Ref: 56)</li>
-                    </ul>
+                <div class="grid grid-cols-2 gap-3">
+                    <!-- 表單 1 -->
+                    <div onclick="openModal('m-form-stock-202602')" class="doc-card bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 group flex flex-col justify-between h-24">
+                        <h4 class="text-xs font-bold text-slate-200 group-hover:text-white transition-colors line-clamp-2">新車庫存維護單</h4>
+                        <span class="text-[9px] font-mono text-purple-400 border-t border-slate-900 pt-1 mt-2">2026-02 版 ➜</span>
+                    </div>
+                    <!-- 表單 2 -->
+                    <div onclick="openModal('m-form-pdi-checklist')" class="doc-card bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 group flex flex-col justify-between h-24">
+                        <h4 class="text-xs font-bold text-slate-200 group-hover:text-white transition-colors line-clamp-2">新車交車前檢查表</h4>
+                        <span class="text-[9px] font-mono text-purple-400 border-t border-slate-900 pt-1 mt-2">PDI CORE ➜</span>
+                    </div>
+                    <!-- 表單 3 -->
+                    <div onclick="openModal('m-form-feature-check')" class="doc-card bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 group flex flex-col justify-between h-24">
+                        <h4 class="text-xs font-bold text-slate-200 group-hover:text-white transition-colors line-clamp-2">特定車型功能檢查表</h4>
+                        <span class="text-[9px] font-mono text-purple-400 border-t border-slate-900 pt-1 mt-2">408/3008/5008 ➜</span>
+                    </div>
+                    <!-- 表單 4 -->
+                    <div onclick="openModal('m-form-stock-control')" class="doc-card bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 group flex flex-col justify-between h-24">
+                        <h4 class="text-xs font-bold text-slate-200 group-hover:text-white transition-colors line-clamp-2">庫存車管制卡文獻</h4>
+                        <span class="text-[9px] font-mono text-purple-400 border-t border-slate-900 pt-1 mt-2">實體防呆 ➜</span>
+                    </div>
                 </div>
             </div>
+        </section>
 
-            <div class="p-2 bg-slate-950 rounded-xl border border-slate-800">
-                <span class="text-[11px] text-slate-500 block mb-1.5 font-mono">📋 REFERENCE IMAGE: PDI FILE STORAGE REGULATION (A05)</span>
-                <img src="https://raw.githubusercontent.com/xdespair0217/whiteboard/main/A05.jpg" alt="待交車規範品牌分流對照圖" class="w-full h-auto rounded-lg border border-slate-800 shadow-md block">
+        <!-- 第三欄（右）：ALFA ROMEO 專屬核心專區 -->
+        <section class="glass-panel rounded-2xl p-5 border-t-2 border-t-red-500/40 flex flex-col justify-between bg-gradient-to-b from-red-950/10 to-transparent">
+            <div>
+                <div class="mb-4">
+                    <h2 class="text-xs font-mono tracking-wider text-red-400 uppercase tracking-widest">ALFA ROMEO SPECIAL ZONE</h2>
+                    <h3 class="text-base font-bold text-white mt-1 flex items-center">
+                        <span class="w-2 h-2 rounded-full bg-red-500 mr-2 animate-pulse"></span>ALFA 專屬核心管制區
+                    </h3>
+                </div>
+                <div class="space-y-3">
+                    <!-- ALFA 通報 -->
+                    <div onclick="openModal('m-alfa-doc-202603010')" class="doc-card alfa-card bg-slate-950/60 p-3.5 rounded-xl border border-slate-800/80 group">
+                        <div class="flex justify-between items-start mb-1">
+                            <span class="bg-red-500/10 text-red-400 text-[9px] font-mono px-1.5 py-0.5 rounded border border-red-500/20">專屬通報</span>
+                            <span class="text-[9px] font-mono text-slate-500">202603010號</span>
+                        </div>
+                        <h4 class="text-xs font-bold text-slate-200 group-hover:text-red-400 transition-colors line-clamp-1">公告 經銷商新車交車檢查表</h4>
+                        <p class="text-[11px] text-slate-400 mt-1.5 leading-relaxed line-clamp-2">Giulia & Stelvio 專用規範通報，定義該義系車種特殊點檢流程。</p>
+                    </div>
+                    <!-- ALFA 檢查表 -->
+                    <div onclick="openModal('m-alfa-form-checklist')" class="doc-card alfa-card bg-slate-950/60 p-3.5 rounded-xl border border-slate-800/80 group">
+                        <div class="flex justify-between items-start mb-1">
+                            <span class="bg-red-500/10 text-red-400 text-[9px] font-mono px-1.5 py-0.5 rounded border border-red-500/20">實體表單</span>
+                            <span class="text-[9px] font-mono text-slate-500">Giulia/Stelvio</span>
+                        </div>
+                        <h4 class="text-xs font-bold text-slate-200 group-hover:text-red-400 transition-colors line-clamp-1">新車交車前檢查表</h4>
+                        <p class="text-[11px] text-slate-400 mt-1.5 leading-relaxed line-clamp-2">專門針對義大利原廠電控與底盤架構量身打造之高階點檢表單。</p>
+                    </div>
+                </div>
             </div>
+        </section>
 
-            <button class="mt-4 bg-slate-800 hover:bg-slate-700 text-xs text-white px-4 py-2 rounded-lg float-right" onclick="closeModal('m-pdi')">關閉視窗</button>
-        </div>
     </div>
 
-    <div id="m-close" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
-        <div class="bg-slate-900 border border-slate-800 max-w-2xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[85vh] modal-content shadow-2xl">
-            <h3 class="text-lg font-bold text-rose-400 mb-3">⚠️ 經銷商通報防範條款與處罰機制</h3>
-            <div class="p-4 bg-rose-950/30 border border-rose-900/40 rounded-xl text-xs md:text-sm text-slate-300 space-y-2 mb-4">
-                <p>若未確實依照規定流程作業，致使後續發生以下情事者，<span class="text-rose-400 font-bold underline">其損失將由該經銷商全額自行負責</span>，總代理恕不予補償： (Ref: 225)</p>
-                <ul class="list-decimal list-inside space-y-1 text-slate-300">
-                    <li><span class="text-white font-bold">保固申請遭拒：</span>因未留存檢查紀錄或作業程序不符規範，導致原廠判定保固不予通過者。 (Ref: 226)</li>
-                    <li><span class="text-white font-bold">原廠稽核扣款：</span>於原廠年度稽核或專案查核中，因檢查清單缺失、造假或漏項，導致之追溯扣款、罰鍰或相關財務損失者。 (Ref: 226)</li>
-                </ul>
-            </div>
+    <!-- 原有模組彈窗內容 (略，維持系統輕量安全) -->
+    <div id="m-start" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop"><div class="bg-slate-900 border border-slate-800 max-w-2xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[85vh] modal-content shadow-2xl"><h3 class="text-lg font-bold text-teal-400 mb-2">一、核心管理概念說明</h3><p class="text-sm text-slate-300 leading-relaxed mb-4">為建立嚴謹的車輛品質管控體系，必須嚴格釐清「庫存維護」與「新車交車前檢查」的本質差別。以實體「新車整備管制卡 (PDI CONTROL)」作為總開關，確保每台車進入正確路徑，杜絕管理漏洞。</p><div class="mt-4 p-2 bg-slate-950 rounded-xl border border-slate-800"><span class="text-[11px] text-slate-500 block mb-1.5 font-mono">📋 REFERENCE IMAGE: PDI ARRIVAL ARRANGEMENT (A02)</span><img src="https://raw.githubusercontent.com/xdespair0217/whiteboard/main/A02.jpg" alt="新車整備管制現場對照圖" class="w-full h-auto rounded-lg border border-slate-800 shadow-md block"></div><button class="bg-slate-800 hover:bg-slate-700 text-xs text-white px-4 py-2 rounded-lg float-right mt-4" onclick="closeModal('m-start')">關閉視窗</button></div></div>
+    <div id="m-split" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop"><div class="bg-slate-900 border border-slate-800 max-w-2xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[85vh] modal-content shadow-2xl"><h3 class="text-lg font-bold text-amber-500 mb-3">管制卡屬性分流基準</h3><div class="space-y-3 text-sm text-slate-300 mb-4"><div class="p-3 bg-amber-950/30 border border-amber-900/40 rounded-xl"><span class="font-bold text-amber-400">概念一【庫存車】：</span><br>新車到貨超過 <span class="text-white underline decoration-amber-400">14 天未綁定訂單者</span>，強制導入後端庫存維護管理程序。</div><div class="p-3 bg-emerald-950/30 border border-emerald-900/40 rounded-xl"><span class="font-bold text-emerald-400">概念二【待交車】：</span><br>已綁定訂單並準備交付客戶者，即刻切換至交車前黃金 48 小時檢查流程。</div></div><div class="p-2 bg-slate-950 rounded-xl border border-slate-800"><span class="text-[11px] text-slate-500 block mb-1.5 font-mono">📋 REFERENCE IMAGE: SA IDENTIFICATION DIAGRAM (A03)</span><img src="https://raw.githubusercontent.com/xdespair0217/whiteboard/main/A03.jpg" alt="SA屬性身分識別對照圖" class="w-full h-auto rounded-lg border border-slate-800 shadow-md block"></div><button class="mt-4 bg-slate-800 hover:bg-slate-700 text-xs text-white px-4 py-2 rounded-lg float-right" onclick="closeModal('m-split')">關閉視窗</button></div></div>
+    <div id="m-stock" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop"><div class="bg-slate-900 border border-slate-800 max-w-2xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[85vh] modal-content shadow-2xl"><h3 class="text-lg font-bold text-amber-400 mb-3">【庫存車】巡檢空間動線與防呆機制</h3><div class="space-y-3 text-xs md:text-sm text-slate-300 mb-4"><div><span class="text-slate-400 font-mono">1. 內湖廠區三大特定巡檢區域：</span><ul class="list-disc list-inside pl-2 text-amber-300/90 mt-1"><li>一樓側邊</li><li>頂樓停放區</li><li>樓上庫存區（技師必須特別注意）</li></ul></div><div class="border-t border-slate-800 pt-3"><span class="text-slate-400 font-mono">2. 雙軌表單防呆管理位置：</span><ul class="list-disc list-inside pl-2 text-slate-300 mt-1"><li><span class="text-white font-bold">位置一：</span>放置於車輛內的儀表板顯眼處（隨車查核）。</li><li><span class="text-white font-bold">位置二：</span>集中於值班櫃檯進行行政進度掌控與稽核。</li></ul></div></div><div class="p-2 bg-slate-950 rounded-xl border border-slate-800"><span class="text-[11px] text-slate-500 block mb-1.5 font-mono">📋 REFERENCE IMAGE: STOCK MAINTENANCE MANAGEMENT (A01)</span><img src="https://raw.githubusercontent.com/xdespair0217/whiteboard/main/A01.jpg" alt="庫存車維護管理對照圖" class="w-full h-auto rounded-lg border border-slate-800 shadow-md block"></div><button class="mt-4 bg-slate-800 hover:bg-slate-700 text-xs text-white px-4 py-2 rounded-lg float-right" onclick="closeModal('m-stock')">關閉視窗</button></div></div>
+    <div id="m-argos" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop"><div class="bg-slate-900 border border-slate-800 max-w-2xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[85vh] modal-content shadow-2xl"><h3 class="text-lg font-bold text-cyan-400 mb-2">庫存技術核心：電瓶管理數據留痕</h3><p class="text-sm text-slate-300 leading-relaxed mb-4">依照維護單週期落實檢查，重點在於 <span class="text-white font-bold">12V 與 48V 的電瓶檢測與報告列印</span>。每一次電瓶量測之檢測報告，皆必須即時上傳至 <span class="text-cyan-400 font-mono">ARGOS 伺服器</span>。</p><div class="p-2 bg-slate-950 rounded-xl border border-slate-800"><span class="text-[11px] text-slate-500 block mb-1.5 font-mono">📋 REFERENCE IMAGE: 12V & 48V BATTERY LOG (A04)</span><img src="https://raw.githubusercontent.com/xdespair0217/whiteboard/main/A04.jpg" alt="電瓶管理數據留痕對照圖" class="w-full h-auto rounded-lg border border-slate-800 shadow-md block"></div><button class="bg-slate-800 hover:bg-slate-700 text-xs text-white px-4 py-2 rounded-lg float-right mt-4" onclick="closeModal('m-argos')">關閉視窗</button></div></div>
+    <div id="m-pdi" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop"><div class="bg-slate-900 border border-slate-800 max-w-2xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[85vh] modal-content shadow-2xl"><h3 class="text-lg font-bold text-emerald-400 mb-4">總代理交車文件上傳清單 (依車系與車型分流)</h3><div class="space-y-4 text-xs md:text-sm mb-4"><div class="p-4 bg-slate-950 rounded-xl border border-slate-800"><span class="text-teal-400 font-bold block mb-2">【車系分類一：Peugeot / Citroën (PSA)】</span><ul class="list-decimal list-inside space-y-1 text-slate-300"><li>常規車型（必須備妥標準 5 張單上傳 DMS）：</li><ul class="list-disc list-inside pl-4 text-slate-400 space-y-0.5"><li>發貨驗收單</li><li>12V 電池檢測報告（48 小時內）</li><li>48V 電池檢測報告（48 小時內）</li><li>新車交車前檢查表</li><li>經銷商庫存維護單（隨車之歷次維護紀錄）</li></ul><li class="text-amber-400 font-bold mt-2">特定車型（408 / 3008 / 5008）之加強規範：<br><span class="text-slate-300 font-normal">除上述 5 張單外，必須額外加附第 6 張表格：</span>「新車交車前功能檢查項目表」。</li></ul></div><div class="p-4 bg-slate-950 rounded-xl border border-slate-800"><span class="text-purple-400 font-bold block mb-2">【車系分類二：Alfa Romeo】</span><span class="text-amber-400 block mb-1">指標車型（Giulia / Stelvio 專屬規範）：</span><p class="text-slate-400 mb-2">由於電控與品牌架構特殊，不適用常規交車檢查表。必須依總代理規範，將第四項文件替換為專屬表單：</p><ul class="list-disc list-inside space-y-1 text-slate-300 font-mono"><li>發貨驗收單</li><li>12V 電池檢測報告（48 小時內）</li><li>「Giulia / Stelvio 專屬全新交車前檢查表」</li><li>經銷商庫存維護單</li></ul></div></div><div class="p-2 bg-slate-950 rounded-xl border border-slate-800"><span class="text-[11px] text-slate-500 block mb-1.5 font-mono">📋 REFERENCE IMAGE: PDI FILE STORAGE REGULATION (A05)</span><img src="https://raw.githubusercontent.com/xdespair0217/whiteboard/main/A05.jpg" alt="待交車規範 brand 分流對照圖" class="w-full h-auto rounded-lg border border-slate-800 shadow-md block"></div><button class="mt-4 bg-slate-800 hover:bg-slate-700 text-xs text-white px-4 py-2 rounded-lg float-right" onclick="closeModal('m-pdi')">關閉視窗</button></div></div>
+    <div id="m-close" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop"><div class="bg-slate-900 border border-slate-800 max-w-2xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[85vh] modal-content shadow-2xl"><h3 class="text-lg font-bold text-rose-400 mb-3">⚠️ 經銷商通報防範條款與處罰機制</h3><div class="p-4 bg-rose-950/30 border border-rose-900/40 rounded-xl text-xs md:text-sm text-slate-300 space-y-2 mb-4"><p>若未確實依照規定流程作業，致使後續發生以下情事者，<span class="text-rose-400 font-bold underline">其損失將由該經銷商全額自行負責</span>，總代理恕不予補償：</p><ul class="list-decimal list-inside space-y-1 text-slate-300"><li><span class="text-white font-bold">保固申請遭拒：</span>因未留存檢查紀錄或作業程序不符規範，導致原廠判定保固不予通過者。</li><li><span class="text-white font-bold">原廠稽核扣款：</span>於原廠年度稽核或專案查核中，因檢查清單缺失、造假或漏項，導致之追溯扣款、罰鍰或相關財務損失者。</li></ul></div><div class="p-2 bg-slate-950 rounded-xl border border-slate-800"><span class="text-[11px] text-slate-500 block mb-1.5 font-mono">📋 REFERENCE IMAGE: FINAL CLOSE LOOP ARCHIVE (A06)</span><img src="https://raw.githubusercontent.com/xdespair0217/whiteboard/main/A06.jpg" alt="資訊閉環結案防呆對照圖" class="w-full h-auto rounded-lg border border-slate-800 shadow-md block"></div><button class="bg-slate-800 hover:bg-slate-700 text-xs text-white px-4 py-2 rounded-lg float-right mt-4" onclick="closeModal('m-close')">關閉視窗</button></div></div>
 
-            <div class="p-2 bg-slate-950 rounded-xl border border-slate-800">
-                <span class="text-[11px] text-slate-500 block mb-1.5 font-mono">📋 REFERENCE IMAGE: FINAL CLOSE LOOP ARCHIVE (A06)</span>
-                <img src="https://raw.githubusercontent.com/xdespair0217/whiteboard/main/A06.jpg" alt="資訊閉環結案防呆對照圖" class="w-full h-auto rounded-lg border border-slate-800 shadow-md block">
-            </div>
+    <!-- ================= 彈窗文獻預覽管制面板（全面符合圖片控制列標準） ================= -->
+    
+    <!-- 全車系通報 114027 -->
+    <div id="m-doc-114027" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop"><div class="bg-[#0a192f] border border-slate-800 max-w-5xl w-full rounded-xl relative overflow-hidden modal-content shadow-2xl flex flex-col h-[85vh]"><div class="bg-slate-900 border-b border-slate-800 px-4 py-3 flex justify-between items-center shrink-0"><div class="flex items-center space-x-2"><span class="text-amber-400 text-sm">📄</span><h3 class="text-sm font-bold text-slate-200 tracking-wide">技服通字第114027號 公告 經銷商新車交車流程</h3></div><div class="flex items-center space-x-2 font-mono text-xs"><a href="https://drive.google.com/file/d/1RjDzVgSCAVfqvc1tztIbjkznq956_jIH/view?usp=sharing" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded transition-colors">↗ 開啟新連結</a><a href="https://drive.google.com/uc?export=download&id=1RjDzVgSCAVfqvc1tztIbjkznq956_jIH" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded transition-colors shadow-lg">📥 下載原檔</a><button onclick="closeModal('m-doc-114027')" class="bg-slate-800 hover:bg-slate-700 text-slate-400 px-3 py-1.5 rounded">關閉</button></div></div><div class="grow bg-slate-950"><iframe src="https://drive.google.com/file/d/1RjDzVgSCAVfqvc1tztIbjkznq956_jIH/preview" class="w-full h-full border-0"></iframe></div></div></div>
 
-            <button class="bg-slate-800 hover:bg-slate-700 text-xs text-white px-4 py-2 rounded-lg float-right mt-4" onclick="closeModal('m-close')">關閉視窗</button>
-        </div>
-    </div>
+    <!-- 全車系通報 202605001 -->
+    <div id="m-doc-202605001" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop"><div class="bg-[#0a192f] border border-slate-800 max-w-5xl w-full rounded-xl relative overflow-hidden modal-content shadow-2xl flex flex-col h-[85vh]"><div class="bg-slate-900 border-b border-slate-800 px-4 py-3 flex justify-between items-center shrink-0"><div class="flex items-center space-x-2"><span class="text-cyan-400 text-sm">📄</span><h3 class="text-sm font-bold text-slate-200 tracking-wide">通報編號第202605001號 - 公告 新增新車交車前功能檢查項目說明</h3></div><div class="flex items-center space-x-2 font-mono text-xs"><a href="https://drive.google.com/file/d/14Kgdle4giHvuKsf4wNkNIl4HylN3mbJk/view?usp=sharing" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded transition-colors">↗ 開啟新連結</a><a href="https://drive.google.com/uc?export=download&id=14Kgdle4giHvuKsf4wNkNIl4HylN3mbJk" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded transition-colors shadow-lg">📥 下載原檔</a><button onclick="closeModal('m-doc-202605001')" class="bg-slate-800 hover:bg-slate-700 text-slate-400 px-3 py-1.5 rounded">關閉</button></div></div><div class="grow bg-slate-950"><iframe src="https://drive.google.com/file/d/14Kgdle4giHvuKsf4wNkNIl4HylN3mbJk/preview" class="w-full h-full border-0"></iframe></div></div></div>
+
+    <!-- 通用表單 1：庫存維護單 -->
+    <div id="m-form-stock-202602" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop"><div class="bg-[#0a192f] border border-slate-800 max-w-5xl w-full rounded-xl relative overflow-hidden modal-content shadow-2xl flex flex-col h-[85vh]"><div class="bg-slate-900 border-b border-slate-800 px-4 py-3 flex justify-between items-center shrink-0"><div class="flex items-center space-x-2"><span class="text-purple-400 text-sm">📋</span><h3 class="text-sm font-bold text-slate-200 tracking-wide">附件 經銷商新車庫存維護單_202602</h3></div><div class="flex items-center space-x-2 font-mono text-xs"><a href="https://drive.google.com/file/d/1Li47z8PifB-o1OqY_w6aOjOwQyTHlZyI/view?usp=sharing" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded transition-colors">↗ 開啟新連結</a><a href="https://drive.google.com/uc?export=download&id=1Li47z8PifB-o1OqY_w6aOjOwQyTHlZyI" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded transition-colors shadow-lg">📥 下載原檔</a><button onclick="closeModal('m-form-stock-202602')" class="bg-slate-800 hover:bg-slate-700 text-slate-400 px-3 py-1.5 rounded">關閉</button></div></div><div class="grow bg-slate-950"><iframe src="https://drive.google.com/file/d/1Li47z8PifB-o1OqY_w6aOjOwQyTHlZyI/preview" class="w-full h-full border-0"></iframe></div></div></div>
+
+    <!-- 通用表單 2：PDI 檢查表 -->
+    <div id="m-form-pdi-checklist" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop"><div class="bg-[#0a192f] border border-slate-800 max-w-5xl w-full rounded-xl relative overflow-hidden modal-content shadow-2xl flex flex-col h-[85vh]"><div class="bg-slate-900 border-b border-slate-800 px-4 py-3 flex justify-between items-center shrink-0"><div class="flex items-center space-x-2"><span class="text-emerald-400 text-sm">📋</span><h3 class="text-sm font-bold text-slate-200 tracking-wide">經銷商新車交車前檢查表(PDI Checklist)</h3></div><div class="flex items-center space-x-2 font-mono text-xs"><a href="https://drive.google.com/file/d/1VjQpQ1jDI8eguP5VIp9ot9TboNGJXL9Y/view?usp=sharing" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded transition-colors">↗ 開啟新連結</a><a href="https://drive.google.com/uc?export=download&id=1VjQpQ1jDI8eguP5VIp9ot9TboNGJXL9Y" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded transition-colors shadow-lg">📥 下載原檔</a><button onclick="closeModal('m-form-pdi-checklist')" class="bg-slate-800 hover:bg-slate-700 text-slate-400 px-3 py-1.5 rounded">關閉</button></div></div><div class="grow bg-slate-950"><iframe src="https://drive.google.com/file/d/1VjQpQ1jDI8eguP5VIp9ot9TboNGJXL9Y/preview" class="w-full h-full border-0"></iframe></div></div></div>
+
+    <!-- 通用表單 3：特定車型檢查 -->
+    <div id="m-form-feature-check" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop"><div class="bg-[#0a192f] border border-slate-800 max-w-5xl w-full rounded-xl relative overflow-hidden modal-content shadow-2xl flex flex-col h-[85vh]"><div class="bg-slate-900 border-b border-slate-800 px-4 py-3 flex justify-between items-center shrink-0"><div class="flex items-center space-x-2"><span class="text-amber-400 text-sm">📋</span><h3 class="text-sm font-bold text-slate-200 tracking-wide">新車交車前功能檢查項目(408、3008、5008適用)</h3></div><div class="flex items-center space-x-2 font-mono text-xs"><a href="https://drive.google.com/file/d/19mQRQBp2Juj4Zmhfd2o584HrH46tvXY2/view?usp=sharing" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded transition-colors">↗ 開啟新連結</a><a href="https://drive.google.com/uc?export=download&id=19mQRQBp2Juj4Zmhfd2o584HrH46tvXY2" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded transition-colors shadow-lg">📥 下載原檔</a><button onclick="closeModal('m-form-feature-check')" class="bg-slate-800 hover:bg-slate-700 text-slate-400 px-3 py-1.5 rounded">關閉</button></div></div><div class="grow bg-slate-950"><iframe src="https://drive.google.com/file/d/19mQRQBp2Juj4Zmhfd2o584HrH46tvXY2/preview" class="w-full h-full border-0"></iframe></div></div></div>
+
+    <!-- 通用表單 4：庫存車管制卡 -->
+    <div id="m-form-stock-control" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop"><div class="bg-[#0a192f] border border-slate-800 max-w-5xl w-full rounded-xl relative overflow-hidden modal-content shadow-2xl flex flex-col h-[85vh]"><div class="bg-slate-900 border-b border-slate-800 px-4 py-3 flex justify-between items-center shrink-0"><div class="flex items-center space-x-2"><span class="text-blue-400 text-sm">📋</span><h3 class="text-sm font-bold text-slate-200 tracking-wide">庫存車管制卡文獻</h3></div><div class="flex items-center space-x-2 font-mono text-xs"><a href="https://drive.google.com/file/d/1IVHkeKghV2OmMkzfZLkaTCwUi6lYe6fB/view?usp=sharing" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded transition-colors">↗ 開啟新連結</a><a href="https://drive.google.com/uc?export=download&id=1IVHkeKghV2OmMkzfZLkaTCwUi6lYe6fB" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded transition-colors shadow-lg">📥 下載原檔</a><button onclick="closeModal('m-form-stock-control')" class="bg-slate-800 hover:bg-slate-700 text-slate-400 px-3 py-1.5 rounded">關閉</button></div></div><div class="grow bg-slate-950"><iframe src="https://drive.google.com/file/d/1IVHkeKghV2OmMkzfZLkaTCwUi6lYe6fB/preview" class="w-full h-full border-0"></iframe></div></div></div>
+
+    <!-- 🔴 ALFA 專屬文件 1：202603010 通報 -->
+    <div id="m-alfa-doc-202603010" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop"><div class="bg-[#0a192f] border border-slate-800 max-w-5xl w-full rounded-xl relative overflow-hidden modal-content shadow-2xl flex flex-col h-[85vh]"><div class="bg-slate-900 border-b border-slate-800 px-4 py-3 flex justify-between items-center shrink-0"><div class="flex items-center space-x-2"><span class="text-red-500 text-sm">🍀</span><h3 class="text-sm font-bold text-slate-200 tracking-wide">經銷商通報 - 第202603010 公告 經銷商新車交車檢查表 for Giulia & Stelvio專用</h3></div><div class="flex items-center space-x-2 font-mono text-xs"><a href="https://drive.google.com/file/d/1AB-vHUi95rxNjKxHSOl7kcNXRn5TylwS/view?usp=sharing" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded transition-colors">↗ 開啟新連結</a><a href="https://drive.google.com/uc?export=download&id=1AB-vHUi95rxNjKxHSOl7kcNXRn5TylwS" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded transition-colors shadow-lg">📥 下載原檔</a><button onclick="closeModal('m-alfa-doc-202603010')" class="bg-slate-800 hover:bg-slate-700 text-slate-400 px-3 py-1.5 rounded">關閉</button></div></div><div class="grow bg-slate-950"><iframe src="https://drive.google.com/file/d/1AB-vHUi95rxNjKxHSOl7kcNXRn5TylwS/preview" class="w-full h-full border-0"></iframe></div></div></div>
+
+    <!-- 🔴 ALFA 專屬文件 2：Giuila & Stelvio 專用檢查表 -->
+    <div id="m-alfa-form-checklist" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop"><div class="bg-[#0a192f] border border-slate-800 max-w-5xl w-full rounded-xl relative overflow-hidden modal-content shadow-2xl flex flex-col h-[85vh]"><div class="bg-slate-900 border-b border-slate-800 px-4 py-3 flex justify-between items-center shrink-0"><div class="flex items-center space-x-2"><span class="text-red-500 text-sm">📋</span><h3 class="text-sm font-bold text-slate-200 tracking-wide">經銷商新車交車前檢查表_Giuila & Stelvio 專用</h3></div><div class="flex items-center space-x-2 font-mono text-xs"><a href="https://drive.google.com/file/d/1IlIE-hJn7Puqtl9kPbPjCfM3NyJDEp0c/view?usp=sharing" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded transition-colors">↗ 開啟新連結</a><a href="https://drive.google.com/uc?export=download&id=1IlIE-hJn7Puqtl9kPbPjCfM3NyJDEp0c" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded transition-colors shadow-lg">📥 下載原檔</a><button onclick="closeModal('m-alfa-form-checklist')" class="bg-slate-800 hover:bg-slate-700 text-slate-400 px-3 py-1.5 rounded">關閉</button></div></div><div class="grow bg-slate-950"><iframe src="https://drive.google.com/file/d/1IlIE-hJn7Puqtl9kPbPjCfM3NyJDEp0c/preview" class="w-full h-full border-0"></iframe></div></div></div>
+
 
     <script>
         function openModal(id) {
             const modal = document.getElementById(id);
             modal.classList.remove('opacity-0', 'pointer-events-none');
             modal.classList.add('opacity-100', 'active');
-            // 防止手機端底層網頁跟著滾動
             document.body.style.overflow = 'hidden';
         }
         function closeModal(id) {
             const modal = document.getElementById(id);
             modal.classList.add('opacity-0', 'pointer-events-none');
             modal.classList.remove('opacity-100', 'active');
-            // 恢復底層網頁滾動
             document.body.style.overflow = 'auto';
         }
-        // 點擊背景關閉
         window.onclick = function(event) {
             if (event.target.classList.contains('modal')) {
                 event.target.classList.add('opacity-0', 'pointer-events-none');
