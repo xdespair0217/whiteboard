@@ -256,7 +256,7 @@
                                 <span class="text-white font-bold block text-sm">結帳與開立發票</span>
                                 <span class="text-[10px] text-sky-400 font-mono font-bold">點擊展開圖文 ➜</span>
                             </div>
-                            <p class="text-slate-400 leading-relaxed text-[11px]">辦理結帳、開發票程序，向車主收取延長保固之含稅費用。</p>
+                            <p class="text-slate-400 leading-relaxed text-[11px]">辦辦理結帳、開發票程序，向車主收取延長保固之含稅費用。</p>
                         </div>
                     </div>
 
@@ -395,7 +395,7 @@
                 <button class="bg-slate-800 hover:bg-slate-700 text-xs text-white px-3 py-1.5 rounded-lg" onclick="closeModal('doc-114062')">關閉</button>
             </div>
             <div class="w-full bg-slate-950 rounded-xl border border-slate-800 overflow-hidden h-[70vh]">
-                <iframe src="https://drive.google.com/file/d/1ViUSssN_TXl2h_oYAK5kZ3Wqh_ryR8QY/preview" class="w-full h-full border-none" allow="autoplay"></iframe>
+                <iframe src="https://drive.google.com/file/d/1ViUSssN_TXl2h_oYAK5kZ3Wqh_ryR8QY/preview" class="w-full h-full border-none"></iframe>
             </div>
         </div>
     </div>
@@ -407,7 +407,7 @@
                 <button class="bg-slate-800 hover:bg-slate-700 text-xs text-white px-3 py-1.5 rounded-lg" onclick="closeModal('doc-202605014')">關閉</button>
             </div>
             <div class="w-full bg-slate-950 rounded-xl border border-slate-800 overflow-hidden h-[70vh]">
-                <iframe src="https://drive.google.com/file/d/1mW2K3VmQUG_XfhLdD5T715iRqu6MW2Rb/preview" class="w-full h-full border-none" allow="autoplay"></iframe>
+                <iframe src="https://drive.google.com/file/d/1mW2K3VmQUG_XfhLdD5T715iRqu6MW2Rb/preview" class="w-full h-full border-none"></iframe>
             </div>
         </div>
     </div>
@@ -424,7 +424,7 @@
                 </div>
             </div>
             <div class="w-full bg-slate-950 rounded-xl border border-slate-800 overflow-hidden h-[72vh]">
-                <iframe src="https://drive.google.com/file/d/1T-n3JxBJk7t-CkSjCF-lzlzt--5oDUhI/preview" class="w-full h-full border-none" allow="autoplay"></iframe>
+                <iframe src="https://drive.google.com/file/d/1T-n3JxBJk7t-CkSjCF-lzlzt--5oDUhI/preview" class="w-full h-full border-none"></iframe>
             </div>
         </div>
     </div>
@@ -441,7 +441,7 @@
                 </div>
             </div>
             <div class="w-full bg-slate-950 rounded-xl border border-slate-800 overflow-hidden h-[72vh]">
-                <iframe src="https://drive.google.com/file/d/1MTBv-50MFDqz3sTE4sVe5XL3Fryur3CU/preview" class="w-full h-full border-none" allow="autoplay"></iframe>
+                <iframe src="https://drive.google.com/file/d/1MTBv-50MFDqz3sTE4sVe5XL3Fryur3CU/preview" class="w-full h-full border-none"></iframe>
             </div>
         </div>
     </div>
@@ -646,7 +646,6 @@
             btn.classList.toggle('active');
         }
 
-        // 🆕 廠長指定：點擊發送按鈕瞬間由 window.open 直連發射，體感 0 延遲，不修改按鈕 href
         function executeMailLaunch() {
             const activeBtns = document.querySelectorAll('.btn-factory-toggle.active');
             let ccEmails = [supervisorEmail];
@@ -660,7 +659,6 @@
                 }
             });
 
-            // 換行字元校正，消除與手機端 App 解碼衝突
             let noticeSection = "本信已同步通報：%0A【售後總監】";
             if (managerTitles.length > 0) {
                 noticeSection += `%0A${managerTitles.join("、")}`;
@@ -670,11 +668,9 @@
             const targetCc = ccEmails.join(","); 
             const targetSubject = "【星聯/尚鵬】延長保固車輛購買清單總表回傳";
             
-            // 使用 %0A 乾淨換行碼，保證手機 App 識別無誤
             const targetBody = `Dear Jack%0A%0A${noticeSection}%0A%0A這是本月星聯/尚鵬的延長保固清單，%0A請查收附件。`;
             const finalMailtoUrl = `mailto:${targetTo}?cc=${targetCc}&subject=${targetSubject}&body=${targetBody}`;
 
-            // 噴射開啟
             window.open(finalMailtoUrl, '_self');
         }
 
