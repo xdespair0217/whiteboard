@@ -38,7 +38,6 @@
 </head>
 <body class="text-slate-200 min-h-screen p-4 md:p-12 selection:bg-amber-500 selection:text-slate-900">
 
-    <!-- 頂部標題區 + Email 聯絡人多選面板 -->
     <header class="max-w-7xl mx-auto mb-12 flex flex-col xl:flex-row justify-between items-start xl:items-stretch border-b border-slate-800 pb-6 gap-6">
         <div class="flex-1">
             <div class="text-xs font-mono tracking-widest text-amber-400 mb-2">OFFICIAL WARRANTY & REVENUE CONTROL REGULATION</div>
@@ -66,9 +65,7 @@
         </div>
     </header>
 
-    <!-- 左右雙欄排版 -->
     <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        <!-- 左欄區 -->
         <div class="lg:col-span-7 space-y-6">
             <div class="node-card glass-panel w-full p-6 rounded-2xl border-l-4 border-l-amber-500 flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0" onclick="openModal('m-time')">
                 <div class="space-y-1">
@@ -101,7 +98,6 @@
                 <div class="text-xs text-purple-400 font-mono font-bold whitespace-nowrap bg-purple-950/40 px-3 py-1.5 rounded-lg border border-purple-900/60">查看必備附件 ➜</div>
             </div>
 
-            <!-- 總代理官方通報文件庫 -->
             <div class="pt-2">
                 <section class="glass-panel rounded-2xl p-5 border border-sky-500/20 shadow-[0_0_20px_rgba(56,189,248,0.05)]">
                     <div class="flex items-center space-x-2 mb-4">
@@ -129,7 +125,6 @@
                 </section>
             </div>
 
-            <!-- 實務經驗與審查軌跡觀摩庫 -->
             <div class="pt-2">
                 <section class="glass-panel rounded-2xl p-5 border border-emerald-500/30 shadow-[0_0_25px_rgba(16,185,129,0.08)] space-y-4">
                     <div class="flex items-center space-x-2 mb-2">
@@ -156,7 +151,6 @@
             </div>
         </div>
 
-        <!-- 右欄區 -->
         <div class="lg:col-span-5 w-full space-y-6">
             <section class="glass-panel rounded-2xl p-5 border border-amber-500/20 shadow-[0_0_20px_rgba(245,158,11,0.05)]">
                 <div class="flex items-center space-x-2 mb-4">
@@ -195,7 +189,6 @@
                 </div>
             </section>
 
-            <!-- 數位工作流面板 -->
             <section class="glass-panel rounded-2xl p-5 border border-sky-500/30 shadow-2xl space-y-4">
                 <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                     <h2 class="text-xs font-mono tracking-wider text-sky-400 uppercase">延保申請結帳與審查數位工作流</h2>
@@ -206,37 +199,37 @@
                         <div class="bg-sky-500/10 text-sky-400 px-2 py-1 rounded font-mono font-bold text-[11px]">01</div>
                         <div class="w-full">
                             <span class="text-white font-bold block text-sm">DMS系統送件申請</span>
-                            <p class="text-slate-400 text-[11px] mt-0.5">服務廠申請購買延長保固，請由DMS系統會員中心/會員合約管理/合約權益商品銷售 專區進行送件申請。申請時需一併附上延長保固契約書、延長保固車況檢視表、車況檢查實車照片三份文件。</p>
+                            <p class="text-slate-400 text-[11px] mt-0.5">啟動延長保固流程的第一步。請第一線同仁登入 DMS 系統「會員中心」進行審查文件的上報作業...</p>
                         </div>
                     </div>
 
                     <div class="w-0.5 h-3 flow-line"></div>
 
                     <div onclick="openModal('step-b13')" class="flow-card w-full bg-slate-900/90 border border-slate-800/80 p-3 rounded-xl flex items-start space-x-3">
-                        <div class="bg-sky-500/10 text-sky-400 px-2 py-1 rounded font-mono font-bold text-[11px]">02</div>
+                        <div class="bg-blue-600/10 text-blue-400 px-2 py-1 rounded font-mono font-bold text-[11px]">02</div>
                         <div class="w-full">
                             <span class="text-white font-bold block text-sm">實車車輛檢查</span>
-                            <p class="text-slate-400 text-[11px] mt-0.5">應依延長保固車況檢視表各欄位項目執行實車車檢，確認全車無非原廠加/改裝，並拍攝實車照片佐證。</p>
+                            <p class="text-slate-400 text-[11px] mt-0.5">延保防呆機制的實體根基：進廠加購延保之車輛必須進行嚴格的實車檢驗與拍照...</p>
                         </div>
                     </div>
 
                     <div class="w-0.5 h-3 flow-line"></div>
 
                     <div onclick="openModal('step-b02')" class="flow-card w-full bg-slate-900/90 border border-slate-800/80 p-3 rounded-xl flex items-start space-x-3">
-                        <div class="bg-sky-500/10 text-sky-400 px-2 py-1 rounded font-mono font-bold text-[11px]">03</div>
+                        <div class="bg-cyan-500/10 text-cyan-400 px-2 py-1 rounded font-mono font-bold text-[11px]">03</div>
                         <div class="w-full">
                             <span class="text-white font-bold block text-sm">向車主說明與合約確認</span>
-                            <p class="text-slate-400 text-[11px] mt-0.5">向車主說明延長保固規範與說明（包含契約內容與不保事項），並由車主於延長保固契約書正本親簽確認。正本留廠歸檔留存、副本傳送備查。</p>
+                            <p class="text-slate-400 text-[11px] mt-0.5">履行法律責任與信任建立：詳細解說延長保固範疇並引導車主於契約書正本親筆簽名...</p>
                         </div>
                     </div>
 
                     <div class="w-0.5 h-3 flow-line"></div>
 
                     <div onclick="openModal('step-b12')" class="flow-card w-full bg-slate-900/90 border border-slate-800/80 p-3 rounded-xl flex items-start space-x-3">
-                        <div class="bg-sky-500/10 text-sky-400 px-2 py-1 rounded font-mono font-bold text-[11px]">04</div>
+                        <div class="bg-sky-400/10 text-sky-400 px-2 py-1 rounded font-mono font-bold text-[11px]">04</div>
                         <div class="w-full">
                             <span class="text-white font-bold block text-sm">結帳與開立發票</span>
-                            <p class="text-slate-400 text-[11px] mt-0.5">依延長保固全車系價格管制規範辦理結帳並向客戶收取延長保固費用（內含稅金與銷售人員獎勵金$3,500元），並開立統一發票。</p>
+                            <p class="text-slate-400 text-[11px] mt-0.5">銷售流程的財務終點。請會計同仁嚴格按照全車系標準費率收足費用並開立統一發票...</p>
                         </div>
                     </div>
 
@@ -246,7 +239,7 @@
                         <div class="bg-purple-500/10 text-purple-400 px-2 py-1 rounded font-mono font-bold text-[11px]">05</div>
                         <div class="w-full">
                             <span class="text-white font-bold block text-sm">提供送審文件給總代理</span>
-                            <p class="text-slate-400 text-[11px] mt-0.5">為利於審查對帳、Alfa Romeo、PSA、Jeep車系，皆應將三張應備附件傳送DMS系統供審查。</p>
+                            <p class="text-slate-400 text-[11px] mt-0.5">為簡化前線與後台對帳流程，全車系送件規範已全面同步，皆須線上傳送三張附件...</p>
                         </div>
                     </div>
 
@@ -256,7 +249,7 @@
                         <div class="bg-emerald-500/10 text-emerald-400 px-2 py-1 rounded font-mono font-bold text-[11px]">06</div>
                         <div class="w-full">
                             <span class="text-white font-bold block text-sm">每月25號定期清單回傳</span>
-                            <p class="text-slate-400 text-[11px] mt-0.5">每月25號前，將延長保固車輛購買清單總表明訊Excel檔，以E-mail提供總代理窗口（Jack Wu）對帳。</p>
+                            <p class="text-slate-400 text-[11px] mt-0.5">服務廠必須於每月 25 號前，確實填報彙整購買清單總表明細 Excel 檔回傳總代理...</p>
                         </div>
                     </div>
                 </div>
@@ -264,8 +257,6 @@
         </div>
     </div>
 
-    <!-- ================== 💡 彈出視窗層 (Modals Layer) ================== -->
-    <!-- STAGE 1 MODAL -->
     <div id="m-time" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'm-time')">
         <div class="bg-slate-900 border border-slate-800 max-w-xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[85vh] modal-content shadow-2xl">
             <h3 class="text-lg font-bold text-amber-400 mb-3">一、銷售時機規範與時間防呆</h3>
@@ -287,7 +278,6 @@
         </div>
     </div>
 
-    <!-- STAGE 2 MODAL -->
     <div id="m-psa" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'm-psa')">
         <div class="bg-slate-900 border border-slate-800 max-w-3xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[85vh] modal-content shadow-2xl">
             <h3 class="text-lg font-bold text-teal-400 mb-4">二、Peugeot、Citroën、Jeep 延長保固售價表 (含稅)</h3>
@@ -320,7 +310,6 @@
         </div>
     </div>
 
-    <!-- STAGE 3 MODAL -->
     <div id="m-alfa" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'm-alfa')">
         <div class="bg-slate-900 border border-slate-800 max-w-3xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[85vh] modal-content shadow-2xl">
             <h3 class="text-lg font-bold text-purple-400 mb-3">三、Alfa Romeo 各車型售價與 DMS 送件審查規範</h3>
@@ -356,14 +345,12 @@
         </div>
     </div>
 
-    <!-- ================== 🛠️ 以下為 文件彈出視窗 (皆新增「開啟新連結」外跳按鈕) ================== -->
-    <!-- 技服通字第 114062 號 -->
     <div id="doc-114062" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'doc-114062')">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-4 relative modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-3 space-x-2">
                 <h3 class="text-sm font-bold text-sky-400 font-mono flex-1 truncate">📄 技服通字第 114062 號</h3>
                 <div class="flex items-center space-x-1.5 flex-shrink-0">
-                    <a href="https://drive.google.com/file/d/1ViUSssN_TXl2h_oYAK5kZ3Wqh_ryR8QY/view?usp=sharing" target="_blank" class="open-new-btn text-white font-sans font-bold text-[11px] px-2.5 py-1.5 rounded-lg whitespace-nowrap">↗ 開啟新連結</a>
+                    <a href="https://drive.google.com/file/d/1ViUSssN_TXl2h_oYAK5kZ3Wqh_ryR8QY/view?usp=sharing" target="_blank" class="open-new-btn text-white font-sans font-bold text-[11px] px-2.5 py-1.5 rounded-lg whitespace-nowrap">↗ 開氣新連結</a>
                     <button class="bg-slate-800 hover:bg-slate-700 text-xs text-white px-2.5 py-1.5 rounded-lg" onclick="closeModal('doc-114062')">關閉</button>
                 </div>
             </div>
@@ -375,13 +362,12 @@
         </div>
     </div>
 
-    <!-- 第 202605014 號 通報 -->
     <div id="doc-202605014" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'doc-202605014')">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-4 relative modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-3 space-x-2">
                 <h3 class="text-sm font-bold text-sky-400 font-mono flex-1 truncate">📄 第 202605014 號 通報</h3>
                 <div class="flex items-center space-x-1.5 flex-shrink-0">
-                    <a href="https://drive.google.com/file/d/1mW2K3VmQUG_XfhLdD5T715iRqu6MW2Rb/view?usp=sharing" target="_blank" class="open-new-btn text-white font-sans font-bold text-[11px] px-2.5 py-1.5 rounded-lg whitespace-nowrap">↗ 開啟新連結</a>
+                    <a href="https://drive.google.com/file/d/1mW2K3VmQUG_XfhLdD5T715iRqu6MW2Rb/view?usp=sharing" target="_blank" class="open-new-btn text-white font-sans font-bold text-[11px] px-2.5 py-1.5 rounded-lg whitespace-nowrap">↗ 開氣新連結</a>
                     <button class="bg-slate-800 hover:bg-slate-700 text-xs text-white px-2.5 py-1.5 rounded-lg" onclick="closeModal('doc-202605014')">關閉</button>
                 </div>
             </div>
@@ -393,13 +379,12 @@
         </div>
     </div>
 
-    <!-- 實際核准案例過程總檔 -->
     <div id="doc-actual-case" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'doc-actual-case')">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-4 relative modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-3 space-x-2">
                 <h3 class="text-sm font-bold text-emerald-400 font-mono flex-1 truncate">📄 實際核准案例過程總檔</h3>
                 <div class="flex items-center space-x-1.5 flex-shrink-0">
-                    <a href="https://drive.google.com/file/d/1T-n3JxBJk7t-CkSjCF-lzlzt--5oDUhI/view?usp=sharing" target="_blank" class="open-new-btn text-white font-sans font-bold text-[11px] px-2.5 py-1.5 rounded-lg whitespace-nowrap">↗ 開啟新連結</a>
+                    <a href="https://drive.google.com/file/d/1T-n3JxBJk7t-CkSjCF-lzlzt--5oDUhI/view?usp=sharing" target="_blank" class="open-new-btn text-white font-sans font-bold text-[11px] px-2.5 py-1.5 rounded-lg whitespace-nowrap">↗ 開氣新連結</a>
                     <a href="https://drive.google.com/file/d/1T-n3JxBJk7t-CkSjCF-lzlzt--5oDUhI/view?usp=sharing" target="_blank" class="download-btn-neon text-white font-sans font-bold text-[11px] px-2.5 py-1.5 rounded-lg whitespace-nowrap">📥 下載/列印原檔</a>
                     <button class="bg-slate-800 hover:bg-slate-700 text-xs text-white px-2.5 py-1.5 rounded-lg" onclick="closeModal('doc-actual-case')">關閉</button>
                 </div>
@@ -412,13 +397,12 @@
         </div>
     </div>
 
-    <!-- 延長保固操作頁面教學 -->
     <div id="doc-operation-guide" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'doc-operation-guide')">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-4 relative modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-3 space-x-2">
                 <h3 class="text-sm font-bold text-sky-400 font-mono flex-1 truncate">📄 延長保固操作頁面教學總檔</h3>
                 <div class="flex items-center space-x-1.5 flex-shrink-0">
-                    <a href="https://drive.google.com/file/d/1MTBv-50MFDqz3sTE4sVe5XL3Fryur3CU/view?usp=sharing" target="_blank" class="open-new-btn text-white font-sans font-bold text-[11px] px-2.5 py-1.5 rounded-lg whitespace-nowrap">↗ 開啟新連結</a>
+                    <a href="https://drive.google.com/file/d/1MTBv-50MFDqz3sTE4sVe5XL3Fryur3CU/view?usp=sharing" target="_blank" class="open-new-btn text-white font-sans font-bold text-[11px] px-2.5 py-1.5 rounded-lg whitespace-nowrap">↗ 開氣新連結</a>
                     <a href="https://drive.google.com/file/d/1MTBv-50MFDqz3sTE4sVe5XL3Fryur3CU/view?usp=sharing" target="_blank" class="download-btn-neon text-white font-sans font-bold text-[11px] px-2.5 py-1.5 rounded-lg whitespace-nowrap">📥 下載原檔</a>
                     <button class="bg-slate-800 hover:bg-slate-700 text-xs text-white px-2.5 py-1.5 rounded-lg" onclick="closeModal('doc-operation-guide')">關閉</button>
                 </div>
@@ -431,13 +415,12 @@
         </div>
     </div>
 
-    <!-- 延長保固契約書 -->
     <div id="doc-contract" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'doc-contract')">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-4 relative modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-3 space-x-2">
                 <h3 class="text-sm font-bold text-blue-400 font-mono flex-1 truncate">📄 延長保固契約書</h3>
                 <div class="flex items-center space-x-1.5 flex-shrink-0">
-                    <a href="https://docs.google.com/document/d/1W9ZHXWRr3r7aMucIpWGEN2gHkvbev1QR/edit?usp=sharing" target="_blank" class="open-new-btn text-white font-sans font-bold text-[11px] px-2.5 py-1.5 rounded-lg whitespace-nowrap">↗ 開啟新連結</a>
+                    <a href="https://docs.google.com/document/d/1W9ZHXWRr3r7aMucIpWGEN2gHkvbev1QR/edit?usp=sharing" target="_blank" class="open-new-btn text-white font-sans font-bold text-[11px] px-2.5 py-1.5 rounded-lg whitespace-nowrap">↗ 開氣新連結</a>
                     <a href="https://docs.google.com/document/d/1W9ZHXWRr3r7aMucIpWGEN2gHkvbev1QR/export?format=doc" target="_blank" class="download-btn-neon text-white font-sans font-bold text-[11px] px-2.5 py-1.5 rounded-lg whitespace-nowrap">📥 下載 Word 檔</a>
                     <button class="bg-slate-800 hover:bg-slate-700 text-xs text-white px-2.5 py-1.5 rounded-lg" onclick="closeModal('doc-contract')">關閉</button>
                 </div>
@@ -450,13 +433,12 @@
         </div>
     </div>
 
-    <!-- 延長保固車況檢視表 -->
     <div id="doc-inspect" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'doc-inspect')">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-4 relative modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-3 space-x-2">
                 <h3 class="text-sm font-bold text-blue-400 font-mono flex-1 truncate">📄 延長保固車況檢視表</h3>
                 <div class="flex items-center space-x-1.5 flex-shrink-0">
-                    <a href="https://docs.google.com/document/d/1UO0JTODsR4PrB2K_RTgVSNv28-R_ejTr/edit?usp=sharing" target="_blank" class="open-new-btn text-white font-sans font-bold text-[11px] px-2.5 py-1.5 rounded-lg whitespace-nowrap">↗ 開啟新連結</a>
+                    <a href="https://docs.google.com/document/d/1UO0JTODsR4PrB2K_RTgVSNv28-R_ejTr/edit?usp=sharing" target="_blank" class="open-new-btn text-white font-sans font-bold text-[11px] px-2.5 py-1.5 rounded-lg whitespace-nowrap">↗ 開氣新連結</a>
                     <a href="https://docs.google.com/document/d/1UO0JTODsR4PrB2K_RTgVSNv28-R_ejTr/export?format=doc" target="_blank" class="download-btn-neon text-white font-sans font-bold text-[11px] px-2.5 py-1.5 rounded-lg whitespace-nowrap">📥 下載原檔</a>
                     <button class="bg-slate-800 hover:bg-slate-700 text-xs text-white px-2.5 py-1.5 rounded-lg" onclick="closeModal('doc-inspect')">關閉</button>
                 </div>
@@ -469,13 +451,12 @@
         </div>
     </div>
 
-    <!-- 延長保固-車況檢查表照片黏貼表 -->
     <div id="doc-photos" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'doc-photos')">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-4 relative modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-3 space-x-2">
                 <h3 class="text-sm font-bold text-blue-400 font-mono flex-1 truncate">📄 車況檢查表照片黏貼表</h3>
                 <div class="flex items-center space-x-1.5 flex-shrink-0">
-                    <a href="https://docs.google.com/document/d/13sxt_YB5OYegpN9YL4QKbt2IqXGwjlAo/edit?usp=sharing" target="_blank" class="open-new-btn text-white font-sans font-bold text-[11px] px-2.5 py-1.5 rounded-lg whitespace-nowrap">↗ 開啟新連結</a>
+                    <a href="https://docs.google.com/document/d/13sxt_YB5OYegpN9YL4QKbt2IqXGwjlAo/edit?usp=sharing" target="_blank" class="open-new-btn text-white font-sans font-bold text-[11px] px-2.5 py-1.5 rounded-lg whitespace-nowrap">↗ 開氣新連結</a>
                     <a href="https://docs.google.com/document/d/13sxt_YB5OYegpN9YL4QKbt2IqXGwjlAo/export?format=doc" target="_blank" class="download-btn-neon text-white font-sans font-bold text-[11px] px-2.5 py-1.5 rounded-lg whitespace-nowrap">📥 下載原檔</a>
                     <button class="bg-slate-800 hover:bg-slate-700 text-xs text-white px-2.5 py-1.5 rounded-lg" onclick="closeModal('doc-photos')">關閉</button>
                 </div>
@@ -488,13 +469,12 @@
         </div>
     </div>
 
-    <!-- 車輛購買清單總表 -->
     <div id="doc-sheets" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'doc-sheets')">
         <div class="bg-slate-900 border border-slate-800 max-w-7xl w-full rounded-2xl p-4 relative modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-3 space-x-2">
                 <h3 class="text-sm font-bold text-emerald-400 font-mono flex-1 truncate">📊 車輛購買清單總表</h3>
                 <div class="flex items-center space-x-1.5 flex-shrink-0">
-                    <a href="https://docs.google.com/spreadsheets/d/1zkTnjVIlLt0e_jPNZf-2v4JsPIU9Jm1e/edit?usp=sharing" target="_blank" class="open-new-btn text-white font-sans font-bold text-[11px] px-2.5 py-1.5 rounded-lg whitespace-nowrap">↗ 開啟新連結</a>
+                    <a href="https://docs.google.com/spreadsheets/d/1zkTnjVIlLt0e_jPNZf-2v4JsPIU9Jm1e/edit?usp=sharing" target="_blank" class="open-new-btn text-white font-sans font-bold text-[11px] px-2.5 py-1.5 rounded-lg whitespace-nowrap">↗ 開氣新連結</a>
                     <a href="https://docs.google.com/spreadsheets/d/1zkTnjVIlLt0e_jPNZf-2v4JsPIU9Jm1e/export?format=xlsx" target="_blank" class="download-btn-neon text-white font-sans font-bold text-[11px] px-2.5 py-1.5 rounded-lg whitespace-nowrap">📥 下載 Excel 檔 (.xlsx)</a>
                     <button class="bg-slate-800 hover:bg-slate-700 text-xs text-white px-2.5 py-1.5 rounded-lg" onclick="closeModal('doc-sheets')">關閉</button>
                 </div>
@@ -507,70 +487,110 @@
         </div>
     </div>
 
-    <!-- 流程詳細視窗 01～06 -->
     <div id="step-b11" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'step-b11')">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[90vh] modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-2">
-                <h3 class="text-xl font-bold text-sky-400">01. DMS系統送件申請</h3>
+                <div>
+                    <span class="text-[11px] font-mono tracking-widest text-sky-400 block font-bold">OPERATIONAL GUIDELINE // REF: B11</span>
+                    <h3 class="text-xl font-bold text-white mt-0.5">01. DMS系統送件申請</h3>
+                </div>
                 <button class="bg-slate-800 hover:bg-slate-700 text-xs text-white px-4 py-2 rounded-lg" onclick="closeModal('step-b11')">關閉</button>
             </div>
-            <p class="text-sm text-slate-300 mb-4 bg-slate-950 p-4 rounded-xl border border-slate-800 leading-relaxed">服務廠申請購買延長保固，請由DMS系統會員中心/會員合約管理/合約權益商品銷售 專區進行送件申請。申請時需一併附上延長保固契約書、延長保固車況檢視表、車況檢查實車照片三份文件。</p>
-            <div class="p-1 bg-slate-950 rounded-xl border border-slate-800"><img src="https://raw.githubusercontent.com/xdespair0217/whiteboard/main/B11.png" class="w-full h-auto rounded-lg block" loading="lazy"></div>
+            <div class="text-slate-300 space-y-4 text-sm leading-relaxed bg-slate-950 p-5 rounded-xl border border-slate-800">
+                <p>啟動延長保固流程的第一步。請第一線同仁登入 DMS 系統「會員中心」，進入「合約權益商品銷售」專區。</p>
+                <p>此階段必須將車主資訊與購買合約完整建檔，並同步於後台附件欄位上傳<span class="text-sky-400 font-bold">「延長保固契約書」</span>、<span class="text-sky-400 font-bold">「延長保固車況檢視表」</span>以及<span class="text-sky-400 font-bold">「車況檢查照片」</span>共三份核心文件，做為總代理審查的必備依據。</p>
+            </div>
+            <div class="p-1 bg-slate-950 rounded-xl border border-slate-800 mt-4"><img src="https://raw.githubusercontent.com/xdespair0217/whiteboard/main/B11.png" class="w-full h-auto rounded-lg block" loading="lazy"></div>
         </div>
     </div>
 
     <div id="step-b13" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'step-b13')">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[90vh] modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-2">
-                <h3 class="text-xl font-bold text-sky-400">02. 實車車輛檢查</h3>
+                <div>
+                    <span class="text-[11px] font-mono tracking-widest text-blue-500 block font-bold">TECHNICAL VERIFICATION // REF: B13</span>
+                    <h3 class="text-xl font-bold text-white mt-0.5">02. 實車車輛檢查</h3>
+                </div>
                 <button class="bg-slate-800 hover:bg-slate-700 text-xs text-white px-4 py-2 rounded-lg" onclick="closeModal('step-b13')">關閉</button>
             </div>
-            <p class="text-sm text-slate-300 mb-4 bg-slate-950 p-4 rounded-xl border border-slate-800 leading-relaxed">應依延長保固車況檢視表各欄位項目執行實車車檢，確認全車無非原廠加/改裝，並拍攝實車照片佐證。</p>
-            <div class="p-1 bg-slate-950 rounded-xl border border-slate-800"><img src="https://raw.githubusercontent.com/xdespair0217/whiteboard/main/B13.png" class="w-full h-auto rounded-lg block" loading="lazy"></div>
+            <div class="text-slate-300 space-y-4 text-sm leading-relaxed bg-slate-950 p-5 rounded-xl border border-slate-800">
+                <p class="text-amber-400 font-bold">🚨 延保防呆機制的實體根基：</p>
+                <p>進廠加購延保之車輛必須開入頂高機位置，由技師依照「車況檢查表」項目執行嚴格的實車檢驗。</p>
+                <p>查驗核心包含：確認過去所有保養紀錄皆在原廠施作、檢視全車電路系統與機件結構是否完整，並<u><span class="text-rose-400 font-bold">嚴格排除任何非原廠改裝配件</span></u>。查驗完成後必須現場拍攝清晰的實車外觀與重要總成照片作為查核佐證。</p>
+            </div>
+            <div class="p-1 bg-slate-950 rounded-xl border border-slate-800 mt-4"><img src="https://raw.githubusercontent.com/xdespair0217/whiteboard/main/B13.png" class="w-full h-auto rounded-lg block" loading="lazy"></div>
         </div>
     </div>
 
     <div id="step-b02" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'step-b02')">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[90vh] modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-2">
-                <h3 class="text-xl font-bold text-sky-400">03. 向車主說明與合約確認</h3>
+                <div>
+                    <span class="text-[11px] font-mono tracking-widest text-cyan-400 block font-bold">CLIENT ENGAGEMENT // REF: B02</span>
+                    <h3 class="text-xl font-bold text-white mt-0.5">03. 向車主說明與合約確認</h3>
+                </div>
                 <button class="bg-slate-800 hover:bg-slate-700 text-xs text-white px-4 py-2 rounded-lg" onclick="closeModal('step-b02')">關閉</button>
             </div>
-            <p class="text-sm text-slate-300 mb-4 bg-slate-950 p-4 rounded-xl border border-slate-800 leading-relaxed">向車主說明延長保固規範與說明（包含契約內容與不保事項），並由車主於延長保固契約書正本親簽確認。正本留廠歸檔留存、副本傳送備查。</p>
-            <div class="p-1 bg-slate-950 rounded-xl border border-slate-800"><img src="https://raw.githubusercontent.com/xdespair0217/whiteboard/main/B02.jpg" class="w-full h-auto rounded-lg block" loading="lazy"></div>
+            <div class="text-slate-300 space-y-4 text-sm leading-relaxed bg-slate-950 p-5 rounded-xl border border-slate-800">
+                <p class="text-cyan-400 font-bold">⚖️ 履行法律責任與信任建立：</p>
+                <p>這是建立車主信任感並履行法律責任的關鍵溝通節點。服務專員（SA）應當面引導車主閱讀，並詳細解說本次加購的延長保固範疇、權益期限、以及相關不保事項（改裝、外力破壞等排除條款）。</p>
+                <p>經車主充分理解並確認無誤後，引導車主於「延長保固契約書」正本上親筆簽名具結。<u><span class="text-amber-400 font-bold">契約書正本由廠內妥善留存歸檔</span></u>，並將清晰掃描件上傳 DMS 系統附件備查。</p>
+            </div>
+            <div class="p-1 bg-slate-950 rounded-xl border border-slate-800 mt-4"><img src="https://raw.githubusercontent.com/xdespair0217/whiteboard/main/B02.jpg" class="w-full h-auto rounded-lg block" loading="lazy"></div>
         </div>
     </div>
 
     <div id="step-b12" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'step-b12')">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[90vh] modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-2">
-                <h3 class="text-lg font-bold text-sky-400">04. 結帳與開立發票</h3>
+                <div>
+                    <span class="text-[11px] font-mono tracking-widest text-sky-400 block font-bold">FINANCIAL SETTLEMENT // REF: B12</span>
+                    <h3 class="text-xl font-bold text-white mt-0.5">04. 結帳與開立發票</h3>
+                </div>
                 <button class="bg-slate-800 hover:bg-slate-700 text-xs text-white px-4 py-2 rounded-lg" onclick="closeModal('step-b12')">關閉</button>
             </div>
-            <p class="text-sm text-slate-300 mb-4 bg-slate-950 p-4 rounded-xl border border-slate-800 leading-relaxed">依延長保固全車系價格管制規範辦理結帳並向客戶收取延長保固費用（內含稅金與銷售人員獎勵金$3,500元），並開立統一發票。</p>
-            <div class="p-1 bg-slate-950 rounded-xl border border-slate-800"><img src="https://raw.githubusercontent.com/xdespair0217/whiteboard/main/B12.png" class="w-full h-auto rounded-lg block" loading="lazy"></div>
+            <div class="text-slate-300 space-y-4 text-sm leading-relaxed bg-slate-950 p-5 rounded-xl border border-slate-800">
+                <p>銷售流程的財務終點。請會計 or 收銀同仁嚴格按照全車系延長保固管制之標準含稅費率進行結帳，並當場開立合法統一發票。</p>
+                <p>發票品項必須清晰登載延長保固對應之合約金額，確認向車主收取足額費用後，將發票聯與工單合併歸入檔案，以備每月 25 號清單總表回傳時與總代理進行請款核對。</p>
+            </div>
+            <div class="p-1 bg-slate-950 rounded-xl border border-slate-800 mt-4"><img src="https://raw.githubusercontent.com/xdespair0217/whiteboard/main/B12.png" class="w-full h-auto rounded-lg block" loading="lazy"></div>
         </div>
     </div>
 
     <div id="step-b14" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'step-b14')">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[90vh] modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-2">
-                <h3 class="text-lg font-bold text-purple-400">05. 提供送審文件給總代理</h3>
+                <div>
+                    <span class="text-[11px] font-mono tracking-widest text-purple-400 block font-bold">SUBMISSION OVERVIEW // REF: B15</span>
+                    <h3 class="text-xl font-bold text-white mt-0.5">05. 提供送審文件給總代理</h3>
+                </div>
                 <button class="bg-slate-800 hover:bg-slate-700 text-xs text-white px-4 py-2 rounded-lg" onclick="closeModal('step-b14')">關閉</button>
             </div>
-            <p class="text-sm text-slate-300 mb-4 bg-slate-950 p-4 rounded-xl border border-slate-800 leading-relaxed">為利於審查對帳、Alfa Romeo、PSA、Jeep車系，皆應將三張應備附件傳送DMS系統供審查。</p>
-            <div class="p-1 bg-slate-950 rounded-xl border border-slate-800"><img src="https://raw.githubusercontent.com/xdespair0217/whiteboard/main/B15.png" class="w-full h-auto rounded-lg block" loading="lazy"></div>
+            <div class="text-slate-300 space-y-4 text-sm leading-relaxed bg-slate-950 p-5 rounded-xl border border-slate-800">
+                <p class="text-purple-400 font-bold">為簡化前線與後台對帳流程，全車系送件規範已全面同步：</p>
+                <ul class="list-disc list-inside space-y-2">
+                    <li><span class="text-purple-400 font-bold">Alfa Romeo 車系</span> 與 <span class="text-purple-400 font-bold">Peugeot / Citroën / Jeep 車系</span>：原則上這兩種品牌在接待收單時，<u><span class="text-white font-bold">皆必須將三張應備附件（契約書、車況檢視表、車況檢查表照片）直接線上上傳送至 DMS 系統內</span></u>做為總代理審查之依據。</li>
+                </ul>
+                <p class="text-rose-500 font-bold">🚨 審查退件防呆：若上傳之附件有模糊 or 缺件，將全單退回服務廠，需修正後重新送審。</p>
+            </div>
+            <div class="p-1 bg-slate-950 rounded-xl border border-slate-800 mt-4"><img src="https://raw.githubusercontent.com/xdespair0217/whiteboard/main/B15.png" class="w-full h-auto rounded-lg block" loading="lazy"></div>
         </div>
     </div>
 
     <div id="step-monthly6" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'step-monthly6')">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[90vh] modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-2">
-                <h3 class="text-lg font-bold text-emerald-400">06. 每月25號定期清單回傳</h3>
+                <div>
+                    <span class="text-[11px] font-mono tracking-widest text-emerald-400 block font-bold">MONTHLY REGULATION // REF: B14</span>
+                    <h3 class="text-xl font-bold text-white mt-0.5">06. 每月25號定期清單回傳</h3>
+                </div>
                 <button class="bg-slate-800 hover:bg-slate-700 text-xs text-white px-4 py-2 rounded-lg" onclick="closeModal('step-monthly6')">關閉</button>
             </div>
-            <p class="text-sm text-slate-300 mb-4 bg-slate-950 p-4 rounded-xl border border-slate-800 leading-relaxed">每月25號前，將延長保固車輛購買清單總表明計Excel檔，以E-mail提供總代理窗口（Jack Wu）對帳。</p>
-            <div class="p-1 bg-slate-950 rounded-xl border border-slate-800"><img src="https://raw.githubusercontent.com/xdespair0217/whiteboard/main/B14.png" class="w-full h-auto rounded-lg block" loading="lazy"></div>
+            <div class="text-slate-300 space-y-4 text-sm leading-relaxed bg-slate-950 p-5 rounded-xl border border-slate-800">
+                <p>服務廠必須於<span class="text-amber-500 font-bold">每月 25 號前</span>，確實填報彙整當月份所有完工結帳之<u><span class="text-white font-bold">【延長保固車輛購買清單總表】</span></u>明細 Excel 檔。</p>
+                <p>核對無誤後，請將該清單總表以 E-mail 方式正式提供給總代理窗口 Jack Wu。總代理售後服務部將以此總表與服務廠進行核對，並於次月份據此向各服務廠進行請款與對帳程序。</p>
+            </div>
+            <div class="p-1 bg-slate-950 rounded-xl border border-slate-800 mt-4"><img src="https://raw.githubusercontent.com/xdespair0217/whiteboard/main/B14.png" class="w-full h-auto rounded-lg block" loading="lazy"></div>
         </div>
     </div>
 
@@ -629,6 +649,7 @@
             }
         }
 
+        // 優化開啟 Iframe 的邏輯
         function openIframeModal(modalId, iframeId, realUrl) {
             const iframe = document.getElementById(iframeId);
             if (iframe && iframe.src === "about:blank") {
