@@ -20,55 +20,24 @@
         .modal-backdrop { background: rgba(5, 11, 20, 0.85); backdrop-filter: blur(8px); overflow-y: auto; }
         .modal-content { transform: scale(0.95); transition: all 0.3s ease; }
         .modal.active .modal-content { transform: scale(1); }
-        .email-top-neon-btn { transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 0 12px rgba(16, 185, 129, 0.25); border-color: rgba(16, 185, 129, 0.4); }
-        .email-top-neon-btn:hover { transform: scale(1.02) translateY(-1px); box-shadow: 0 0 20px rgba(16, 185, 129, 0.6); background-color: #047857; border-color: #34d399; }
         .download-btn-neon { background: #2563eb; transition: all 0.2s ease; box-shadow: 0 0 10px rgba(37, 99, 235, 0.4); }
         .download-btn-neon:hover { background: #1d4ed8; transform: scale(1.03); box-shadow: 0 0 15px rgba(37, 99, 235, 0.7); }
-        
-        .btn-factory-toggle { background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); color: #94a3b8; transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
-        .btn-factory-toggle.active { border-color: #38bdf8; background-color: rgba(56, 189, 248, 0.18); color: #ffffff; box-shadow: 0 0 14px rgba(56, 189, 248, 0.45); text-shadow: 0 0 6px rgba(56, 189, 248, 0.6); }
     </style>
 </head>
 <body class="text-slate-200 min-h-screen p-4 md:p-12 selection:bg-amber-500 selection:text-slate-900">
 
-    <!-- 頂部標題區 -->
     <header class="max-w-7xl mx-auto mb-12 flex flex-col xl:flex-row justify-between items-start xl:items-end border-b border-slate-800 pb-6 space-y-6 xl:space-y-0">
         <div>
             <div class="text-xs font-mono tracking-widest text-amber-400 mb-2">OFFICIAL WARRANTY & REVENUE CONTROL REGULATION</div>
             <h1 class="text-2xl md:text-4xl font-extrabold tracking-tight text-white neon-text-amber">延長保固購買流程與全車系價格管制系統</h1>
             <p class="text-sm text-slate-400 mt-2">發布主管：尚鵬內湖廠長 謝或翰 ｜ 公告日期：2026年06月21日</p>
         </div>
-        
-        <!-- 🎯 跨廠區常駐多選郵件面板 -->
-        <div class="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-6 w-full xl:w-auto justify-end">
-            <!-- 廠區複選點擊變色按鈕 -->
-            <div class="grid grid-cols-2 gap-2 p-2 bg-slate-950/80 rounded-xl border border-slate-800/80 text-sm font-sans w-full sm:w-auto">
-                <button type="button" id="btn-neihu" data-value="內湖" class="btn-factory-toggle active px-4 py-2 rounded-lg font-medium text-center transition-all cursor-pointer" onclick="toggleFactoryBtn(this)">內湖廠</button>
-                <button type="button" id="btn-beitou" data-value="北投" class="btn-factory-toggle px-4 py-2 rounded-lg font-medium text-center transition-all cursor-pointer" onclick="toggleFactoryBtn(this)">北投廠</button>
-                <button type="button" id="btn-banqiao" data-value="板橋" class="btn-factory-toggle px-4 py-2 rounded-lg font-medium text-center transition-all cursor-pointer" onclick="toggleFactoryBtn(this)">板橋廠</button>
-                <button type="button" id="btn-songjiang" data-value="松江" class="btn-factory-toggle px-4 py-2 rounded-lg font-medium text-center transition-all cursor-pointer" onclick="toggleFactoryBtn(this)">松江廠</button>
-            </div>
-
-            <!-- 常駐一鍵寄信鈕 -->
-            <div class="flex flex-col items-start sm:items-end space-y-2">
-                <button type="button" onclick="executeMailLaunch()" class="email-top-neon-btn bg-emerald-600/90 font-sans font-bold text-white text-xs px-5 py-3 rounded-xl flex items-center space-x-2 border border-emerald-500 shadow-xl whitespace-nowrap cursor-pointer">
-                    <span>📧 一鍵發送清單總表 Email (預填罐頭)</span>
-                </button>
-                <div class="text-left sm:text-right font-sans text-[11px] text-white leading-normal tracking-wide">
-                    <div class="font-bold">收件人：Jack Wu ｜ 副本：售後總監 + 點亮變色廠長</div>
-                    <div class="font-mono text-[10px] text-white/90 font-bold mt-0.5">STATUS: MULTI-CHECK FACTORY OPERATIONAL VERSION</div>
-                </div>
-            </div>
-        </div>
     </header>
 
-    <!-- 左右雙欄大畫布排版 -->
     <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
-        <!-- ================= 左欄區（佔 7 欄）：核心管制卡、文件庫與全新案例預覽 ================= -->
         <div class="lg:col-span-7 space-y-6">
             
-            <!-- STAGE 1：銷售時機防呆 -->
             <div class="node-card glass-panel w-full p-6 rounded-2xl border-l-4 border-l-amber-500 flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0" onclick="openModal('m-time')">
                 <div class="space-y-1">
                     <span class="bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded text-[10px] font-mono tracking-wider">STAGE 1</span>
@@ -82,7 +51,6 @@
 
             <div class="flex justify-center"><div class="w-0.5 h-6 neon-line-v"></div></div>
 
-            <!-- STAGE 2：AP/AC/JEEP 價格管制 -->
             <div class="node-card glass-panel w-full p-6 rounded-2xl border-l-4 border-l-teal-400 flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0" onclick="openModal('m-psa')">
                 <div class="space-y-1">
                     <span class="bg-teal-500/10 text-teal-400 px-2 py-0.5 rounded text-[10px] font-mono tracking-wider">STAGE 2</span>
@@ -96,7 +64,6 @@
 
             <div class="flex justify-center"><div class="w-0.5 h-6 neon-line-v"></div></div>
 
-            <!-- STAGE 3：Alfa Romeo 價格與 DMS 送件 -->
             <div class="node-card glass-panel w-full p-6 rounded-2xl border-l-4 border-l-purple-500 flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0" onclick="openModal('m-alfa')">
                 <div class="space-y-1">
                     <span class="bg-purple-500/10 text-purple-400 px-2 py-0.5 rounded text-[10px] font-mono tracking-wider">STAGE 3</span>
@@ -108,7 +75,6 @@
                 </div>
             </div>
 
-            <!-- 總代理官方通報文件庫 -->
             <div class="pt-2">
                 <section class="glass-panel rounded-2xl p-5 border border-sky-500/20 shadow-[0_0_20px_rgba(56,189,248,0.05)]">
                     <div class="flex items-center space-x-2 mb-4">
@@ -136,7 +102,6 @@
                 </section>
             </div>
 
-            <!-- 實務經驗與審查軌跡觀摩庫 -->
             <div class="pt-2">
                 <section class="glass-panel rounded-2xl p-5 border border-emerald-500/30 shadow-[0_0_25px_rgba(16,185,129,0.08)] space-y-4">
                     <div class="flex items-center space-x-2 mb-2">
@@ -168,10 +133,8 @@
 
         </div>
 
-        <!-- ================= 右欄區（佔 5 欄） ================= -->
         <div class="lg:col-span-5 w-full space-y-6">
             
-            <!-- ─── 🗂️ 核心應備文件與表單正本下載區 ─── -->
             <section class="glass-panel rounded-2xl p-5 border border-amber-500/20 shadow-[0_0_20px_rgba(245,158,11,0.05)]">
                 <div class="flex items-center space-x-2 mb-4">
                     <span class="inline-block w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
@@ -213,7 +176,6 @@
                 </div>
             </section>
 
-            <!-- ─── 🚀 數位工作流面板 ─── -->
             <section class="glass-panel rounded-2xl p-5 border border-sky-500/30 shadow-2xl space-y-4">
                 <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                     <div class="flex items-center space-x-2">
@@ -224,7 +186,6 @@
                 </div>
                 
                 <div class="flex flex-col items-center space-y-3 font-sans text-xs">
-                    <!-- 卡片 01 -->
                     <div onclick="openModal('step-b11')" class="flow-card w-full bg-slate-900/90 border border-slate-800/80 p-3 rounded-xl flex items-start space-x-3">
                         <div class="bg-sky-500/10 text-sky-400 px-2 py-1 rounded font-mono font-bold text-[11px]">01</div>
                         <div class="space-y-1 w-full">
@@ -238,7 +199,6 @@
 
                     <div class="w-0.5 h-3 flow-line"></div>
 
-                    <!-- 卡片 02 -->
                     <div onclick="openModal('step-b13')" class="flow-card w-full bg-slate-900/90 border border-slate-800/80 p-3 rounded-xl flex items-start space-x-3">
                         <div class="bg-sky-500/10 text-sky-400 px-2 py-1 rounded font-mono font-bold text-[11px]">02</div>
                         <div class="space-y-1 w-full">
@@ -252,7 +212,6 @@
 
                     <div class="w-0.5 h-3.5 flow-line"></div>
 
-                    <!-- 卡片 03 -->
                     <div onclick="openModal('step-b02')" class="flow-card w-full bg-slate-900/90 border border-slate-800/80 p-3 rounded-xl flex items-start space-x-3">
                         <div class="bg-sky-500/10 text-sky-400 px-2 py-1 rounded font-mono font-bold text-[11px]">03</div>
                         <div class="space-y-1 w-full">
@@ -266,7 +225,6 @@
 
                     <div class="w-0.5 h-3.5 flow-line"></div>
 
-                    <!-- 卡片 04 -->
                     <div onclick="openModal('step-b12')" class="flow-card w-full bg-slate-900/90 border border-slate-800/80 p-3 rounded-xl flex items-start space-x-3">
                         <div class="bg-sky-500/10 text-sky-400 px-2 py-1 rounded font-mono font-bold text-[11px]">04</div>
                         <div class="space-y-1 w-full">
@@ -280,7 +238,6 @@
 
                     <div class="w-0.5 h-3.5 flow-line"></div>
 
-                    <!-- 卡片 05 -->
                     <div onclick="openModal('step-b14')" class="flow-card w-full bg-slate-900/90 border border-slate-800/80 p-3 rounded-xl flex items-start space-x-3">
                         <div class="bg-purple-500/10 text-purple-400 px-2 py-1 rounded font-mono font-bold text-[11px]">05</div>
                         <div class="space-y-1 w-full">
@@ -294,7 +251,6 @@
 
                     <div class="w-0.5 h-3.5 flow-line"></div>
 
-                    <!-- 卡片 06 -->
                     <div onclick="openModal('step-monthly6')" class="flow-card w-full bg-slate-900/90 border border-slate-800/80 p-3 rounded-xl flex items-start space-x-3">
                         <div class="bg-emerald-500/10 text-emerald-400 px-2 py-1 rounded font-mono font-bold text-[11px]">06</div>
                         <div class="space-y-1 w-full">
@@ -311,9 +267,6 @@
 
     </div>
 
-    <!-- ================== 💡 內置彈出式視窗層 (Modals Layer) ================== -->
-    
-    <!-- 左欄 STAGE 1 MODAL -->
     <div id="m-time" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
         <div class="bg-slate-900 border border-slate-800 max-w-xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[85vh] modal-content shadow-2xl">
             <h3 class="text-lg font-bold text-amber-400 mb-3">一、銷售時機規範與時間防呆</h3>
@@ -335,7 +288,6 @@
         </div>
     </div>
 
-    <!-- 左欄 STAGE 2 MODAL -->
     <div id="m-psa" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
         <div class="bg-slate-900 border border-slate-800 max-w-3xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[85vh] modal-content shadow-2xl">
             <h3 class="text-lg font-bold text-teal-400 mb-4">二、Peugeot、Citroën、Jeep 延長保固售價表 (含稅)</h3>
@@ -371,7 +323,6 @@
         </div>
     </div>
 
-    <!-- 左欄 STAGE 3 MODAL -->
     <div id="m-alfa" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
         <div class="bg-slate-900 border border-slate-800 max-w-3xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[85vh] modal-content shadow-2xl">
             <h3 class="text-lg font-bold text-purple-400 mb-3">三、Alfa Romeo 各車型售價與 DMS 送件審查規範</h3>
@@ -413,7 +364,6 @@
         </div>
     </div>
 
-    <!-- 總代理通報文件彈窗 -->
     <div id="doc-114062" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-4 relative modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-3">
@@ -438,7 +388,6 @@
         </div>
     </div>
 
-    <!-- 實際核准案例預覽視窗 -->
     <div id="doc-actual-case" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-4 relative modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-3 space-x-4">
@@ -456,7 +405,6 @@
         </div>
     </div>
 
-    <!-- 延長保固操作頁面教學彈窗預覽窗 -->
     <div id="doc-operation-guide" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-4 relative modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-3 space-x-4">
@@ -474,10 +422,6 @@
         </div>
     </div>
 
-
-    <!-- ================== 右側 4 個表單內置預覽下載視窗層 ================== -->
-    
-    <!-- 1. 延長保固契約書 -->
     <div id="doc-contract" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-4 relative modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-3 space-x-4">
@@ -495,7 +439,6 @@
         </div>
     </div>
 
-    <!-- 2. 延長保固車況檢視表 -->
     <div id="doc-inspect" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-4 relative modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-3 space-x-4">
@@ -513,7 +456,6 @@
         </div>
     </div>
 
-    <!-- 3. 延長保固-車況檢查表照片 -->
     <div id="doc-photos" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-4 relative modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-3 space-x-4">
@@ -531,7 +473,6 @@
         </div>
     </div>
 
-    <!-- 4. 車輛購買清單總表 -->
     <div id="doc-sheets" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
         <div class="bg-slate-900 border border-slate-800 max-w-7xl w-full rounded-2xl p-4 relative modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-3 space-x-4">
@@ -549,10 +490,6 @@
         </div>
     </div>
 
-
-    <!-- ================== 工作流 01~06 詳細導引視窗層 ================== -->
-
-    <!-- 01 DMS 系統送件申請 -->
     <div id="step-b11" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[90vh] modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-6 border-b border-slate-800 pb-4">
@@ -572,7 +509,6 @@
         </div>
     </div>
 
-    <!-- 02 實車車輛檢查 -->
     <div id="step-b13" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[90vh] modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-6 border-b border-slate-800 pb-4">
@@ -593,7 +529,6 @@
         </div>
     </div>
 
-    <!-- 03 向車主說明與合約確認 -->
     <div id="step-b02" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[90vh] modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-6 border-b border-slate-800 pb-4">
@@ -614,7 +549,6 @@
         </div>
     </div>
 
-    <!-- 04 結帳與開立發票 -->
     <div id="step-b12" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[90vh] modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-6 border-b border-slate-800 pb-4">
@@ -634,7 +568,6 @@
         </div>
     </div>
 
-    <!-- 05 提供送審文件給總代理 -->
     <div id="step-b14" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[90vh] modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-6 border-b border-slate-800 pb-4">
@@ -655,7 +588,6 @@
         </div>
     </div>
 
-    <!-- 06 每月 25 號定期清單回傳 -->
     <div id="step-monthly6" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[90vh] modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-6 border-b border-slate-800 pb-4">
@@ -675,50 +607,7 @@
         </div>
     </div>
 
-    <!-- 🛠️ 核心 JavaScript 處理引擎（優化手機發射相容性，徹底消除崩潰問題） -->
     <script>
-        const emailDatabase = {
-            "內湖": "huohan@starunited.tw",
-            "北投": "matt_chen@starunited.tw",
-            "板橋": "alex_chen@starunited.tw",
-            "松江": "shihcheng@starunited.tw"
-        };
-        const supervisorEmail = "george@starunited.tw"; 
-
-        function toggleFactoryBtn(btn) {
-            btn.classList.toggle('active');
-        }
-
-        // 🛠️ 廠長指定修正：改用 window.location.href 進行安全發射，100% 解決手機版相容性與記憶體當機
-        function executeMailLaunch() {
-            const activeBtns = document.querySelectorAll('.btn-factory-toggle.active');
-            let ccEmails = [supervisorEmail];
-            let managerTitles = [];
-            
-            activeBtns.forEach(btn => {
-                const factoryKey = btn.getAttribute('data-value');
-                if(emailDatabase[factoryKey]) {
-                    ccEmails.push(emailDatabase[factoryKey]);
-                    managerTitles.push(`【${factoryKey}廠長】`);
-                }
-            });
-
-            let noticeSection = "本信已同步通報：%0A【售後總監】";
-            if (managerTitles.length > 0) {
-                noticeSection += `%0A${managerTitles.join("、")}`;
-            }
-
-            const targetTo = "jack.wu@pgu.com.tw";
-            const targetCc = ccEmails.join(","); 
-            const targetSubject = "【星聯/尚鵬】延長保固車輛購買清單總表回傳";
-            
-            const targetBody = `Dear Jack%0A%0A${noticeSection}%0A%0A這是本月星聯/尚鵬的延長保固清單，%0A請查收附件。`;
-            const finalMailtoUrl = `mailto:${targetTo}?cc=${targetCc}&subject=${targetSubject}&body=${targetBody}`;
-
-            // 🛠️ 終極修復點：使用外置位置跳轉，瀏覽器絕不崩潰
-            window.location.href = finalMailtoUrl;
-        }
-
         function openModal(id) {
             const modal = document.getElementById(id);
             if (modal) {
