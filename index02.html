@@ -20,13 +20,8 @@
         .modal-backdrop { background: rgba(5, 11, 20, 0.85); backdrop-filter: blur(8px); overflow-y: auto; }
         .modal-content { transform: scale(0.95); transition: all 0.3s ease; }
         .modal.active .modal-content { transform: scale(1); }
-        .email-top-neon-btn { transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 0 12px rgba(16, 185, 129, 0.25); border-color: rgba(16, 185, 129, 0.4); }
-        .email-top-neon-btn:hover { transform: scale(1.02) translateY(-1px); box-shadow: 0 0 20px rgba(16, 185, 129, 0.6); background-color: #047857; border-color: #34d399; }
         .download-btn-neon { background: #2563eb; transition: all 0.2s ease; box-shadow: 0 0 10px rgba(37, 99, 235, 0.4); }
         .download-btn-neon:hover { background: #1d4ed8; transform: scale(1.03); box-shadow: 0 0 15px rgba(37, 99, 235, 0.7); }
-        
-        .btn-factory-toggle { background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); color: #94a3b8; transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
-        .btn-factory-toggle.active { border-color: #38bdf8; background-color: rgba(56, 189, 248, 0.18); color: #ffffff; box-shadow: 0 0 14px rgba(56, 189, 248, 0.45); text-shadow: 0 0 6px rgba(56, 189, 248, 0.6); }
     </style>
 </head>
 <body class="text-slate-200 min-h-screen p-4 md:p-12 selection:bg-amber-500 selection:text-slate-900">
@@ -36,25 +31,6 @@
             <div class="text-xs font-mono tracking-widest text-amber-400 mb-2">OFFICIAL WARRANTY & REVENUE CONTROL REGULATION</div>
             <h1 class="text-2xl md:text-4xl font-extrabold tracking-tight text-white neon-text-amber">延長保固購買流程與全車系價格管制系統</h1>
             <p class="text-sm text-slate-400 mt-2">發布主管：尚鵬內湖廠長 謝或翰 ｜ 公告日期：2026年06月21日</p>
-        </div>
-        
-        <div class="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-6 w-full xl:w-auto justify-end">
-            <div class="grid grid-cols-2 gap-2 p-2 bg-slate-950/80 rounded-xl border border-slate-800/80 text-sm font-sans w-full sm:w-auto">
-                <button type="button" id="btn-neihu" data-value="內湖" class="btn-factory-toggle active px-4 py-2 rounded-lg font-medium text-center transition-all cursor-pointer" onclick="toggleFactoryBtn(this)">內湖廠</button>
-                <button type="button" id="btn-beitou" data-value="北投" class="btn-factory-toggle px-4 py-2 rounded-lg font-medium text-center transition-all cursor-pointer" onclick="toggleFactoryBtn(this)">北投廠</button>
-                <button type="button" id="btn-banqiao" data-value="板橋" class="btn-factory-toggle px-4 py-2 rounded-lg font-medium text-center transition-all cursor-pointer" onclick="toggleFactoryBtn(this)">板橋廠</button>
-                <button type="button" id="btn-songjiang" data-value="松江" class="btn-factory-toggle px-4 py-2 rounded-lg font-medium text-center transition-all cursor-pointer" onclick="toggleFactoryBtn(this)">松江廠</button>
-            </div>
-
-            <div class="flex flex-col items-start sm:items-end space-y-2">
-                <button type="button" onclick="executeMailLaunch()" class="email-top-neon-btn bg-emerald-600/90 font-sans font-bold text-white text-xs px-5 py-3 rounded-xl flex items-center space-x-2 border border-emerald-500 shadow-xl whitespace-nowrap cursor-pointer">
-                    <span>📧 一鍵發送清單總表 Email (預填罐頭)</span>
-                </button>
-                <div class="text-left sm:text-right font-sans text-[11px] text-white leading-normal tracking-wide">
-                    <div class="font-bold">收件人：Jack Wu ｜ 副本：售後總監 + 點亮變色廠長</div>
-                    <div class="font-mono text-[10px] text-white/90 font-bold mt-0.5">STATUS: MULTI-CHECK FACTORY OPERATIONAL VERSION</div>
-                </div>
-            </div>
         </div>
     </header>
 
@@ -256,7 +232,7 @@
                                 <span class="text-white font-bold block text-sm">結帳與開立發票</span>
                                 <span class="text-[10px] text-sky-400 font-mono font-bold">點擊展開圖文 ➜</span>
                             </div>
-                            <p class="text-slate-400 leading-relaxed text-[11px]">辦辦理結帳、開發票程序，向車主收取延長保固之含稅費用。</p>
+                            <p class="text-slate-400 leading-relaxed text-[11px]">辦理結帳、開發票程序，向車主收取延長保固之含稅費用。</p>
                         </div>
                     </div>
 
@@ -446,7 +422,6 @@
         </div>
     </div>
 
-
     <div id="doc-contract" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-4 relative modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-3 space-x-4">
@@ -514,7 +489,6 @@
             </div>
         </div>
     </div>
-
 
     <div id="step-b11" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[90vh] modal-content shadow-2xl">
@@ -604,7 +578,7 @@
                 <button class="bg-slate-800 hover:bg-slate-700 text-xs text-white px-4 py-2 rounded-lg float-right" onclick="closeModal('step-b14')">關閉</button>
             </div>
             <div class="mb-6 space-y-3 text-sm text-slate-300 leading-relaxed bg-slate-950/60 p-4 rounded-xl border border-slate-800">
-                <p>為簡化前線與後台對帳流程，全車系送件規範已全面同步：</p>
+                <p class="font-bold text-white">為簡化前線與後台對帳流程，全車系送件規範已全面同步：</p>
                 <p>● <span class="text-purple-400 font-bold">Alfa Romeo 車系 與 Peugeot / Citroën / Jeep 車系：</span>原則上這兩種品牌在接待收單時，<span class="text-white underline font-bold">皆必須將三張應備附件（契約書、車況檢視表、車況檢查表照片）直接線上傳送至 DMS 系統內</span>做為總代理審查之依據。</p>
                 <div class="p-2 bg-rose-950/30 border border-rose-900/60 rounded text-rose-300 text-xs">🚨 審查退件防呆：若上傳之附件有模糊 or 缺件，將全單退回服務廠，需修正後重新送審。</div>
             </div>
@@ -634,46 +608,6 @@
     </div>
 
     <script>
-        const emailDatabase = {
-            "內湖": "huohan@starunited.tw",
-            "北投": "matt_chen@starunited.tw",
-            "板橋": "alex_chen@starunited.tw",
-            "松江": "shihcheng@starunited.tw"
-        };
-        const supervisorEmail = "george@starunited.tw"; 
-
-        function toggleFactoryBtn(btn) {
-            btn.classList.toggle('active');
-        }
-
-        function executeMailLaunch() {
-            const activeBtns = document.querySelectorAll('.btn-factory-toggle.active');
-            let ccEmails = [supervisorEmail];
-            let managerTitles = [];
-            
-            activeBtns.forEach(btn => {
-                const factoryKey = btn.getAttribute('data-value');
-                if(emailDatabase[factoryKey]) {
-                    ccEmails.push(emailDatabase[factoryKey]);
-                    managerTitles.push(`【${factoryKey}廠長】`);
-                }
-            });
-
-            let noticeSection = "本信已同步通報：%0A【售後總監】";
-            if (managerTitles.length > 0) {
-                noticeSection += `%0A${managerTitles.join("、")}`;
-            }
-
-            const targetTo = "jack.wu@pgu.com.tw";
-            const targetCc = ccEmails.join(","); 
-            const targetSubject = "【星聯/尚鵬】延長保固車輛購買清單總表回傳";
-            
-            const targetBody = `Dear Jack%0A%0A${noticeSection}%0A%0A這是本月星聯/尚鵬的延長保固清單，%0A請查收附件。`;
-            const finalMailtoUrl = `mailto:${targetTo}?cc=${targetCc}&subject=${targetSubject}&body=${targetBody}`;
-
-            window.open(finalMailtoUrl, '_self');
-        }
-
         function openModal(id) {
             const modal = document.getElementById(id);
             if (modal) {
