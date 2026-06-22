@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>新凱集團 × 行遍天下 轉介方案即時試算與通報工具</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f4f6f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            display: flex;
+            width: 1150px;
+            max-width: 95%;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin: 20px auto;
+        }
+        /* 左半邊：資訊展示區 */
+        .info-panel {
+            flex: 1.2;
+            background-color: #1a2530;
+            color: #ecf0f1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-right: 1px solid #2c3e50;
+        }
+        .info-header h2 {
+            margin-top: 0;
+            color: #3498db;
+            font-size: 24px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            font-weight: 600;
+        }
+        .info-header h3 {
+            color: #bdc3c7;
+            font-size: 16px;
+            margin-top: -5px;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+        .policy-section {
+            margin-bottom: 25px;
+        }
+        .policy-title {
+            font-weight: bold;
+            color: #f1c40f;
+            margin-bottom: 8px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+        .policy-title::before {
+            content: "•";
+            color: #f1c40f;
+            font-size: 24px;
+            margin-right: 8px;
+            line-height: 0;
+        }
+        .policy-content {
+            padding-left: 18px;
+            font-size: 14.5px;
+            line-height: 1.6;
+            color: #dde2e6;
+        }
+        .policy-content em {
+            color: #e74c3c;
+            font-style: normal;
+            font-weight: bold;
+        }
+        .info-footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #34495e;
+            font-size: 13px;
+            color: #95a5a6;
+            line-height: 1.5;
+        }
+        .info-footer strong {
+            color: #fff;
+        }
+
+        /* 右半邊：計算機操作區 */
+        .calc-panel {
+            flex: 1;
+            padding: 40px;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+        }
+        .calc-header h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #34495e;
+            font-size: 15px;
+        }
+        .input-wrapper {
+            position: relative;
+        }
+        .input-wrapper span {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+            font-weight: bold;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 12px 12px 12px 30px;
+            border: 2px solid #bdc3c7;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #2c3e50;
+            background-color: #fffde7;
+            transition: border-color 0.2s;
+        }
+        .input-group input:focus {
+            outline: none;
+            border-color: #3498db;
+            background-color: #fff;
+        }
+        
+        .result-container {
+            margin-top: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+        }
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+        .result-row:last-child {
+            border-bottom: none;
+        }
+        .result-label {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        .result-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .result-row.highlight {
+            background-color: #ebf5fb;
+            margin: 5px -20px;
+            padding: 12px 20px;
+            border-bottom: none;
+            border-top: 1px solid #d4e6f1;
+        }
+        .result-row.highlight .result-label {
+            color: #2980b9;
+            font-weight: bold;
+        }
+        .result-row.highlight .result-value {
+            color: #2980b9;
+            font-size: 20px;
+        }
+        .result-row.commission {
+            background-color: #fef9e7;
+            margin: 5px -20px 20px -20px;
+            padding: 15px 20px;
+            border-bottom: none;
+            border-top: 1px solid #fdebd0;
+        }
+        .result-row.commission .result-label {
+            color: #d35400;
+            font-weight: bold;
+        }
+        .result-row.commission .result-value {
+            color: #d35400;
+            font-size: 22px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 5px;
+            text-align: center;
+        }
+        .status-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .btn-email {
+            width: 100%;
+            padding: 15px;
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(46, 204, 113, 0.2);
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        .btn-email:hover {
+            background-color: #27ae60;
+        }
+        .btn-email:active {
+            transform: scale(0.99);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- 左半邊：資訊展示區 -->
+    <div class="info-panel">
+        <div class="info-header">
+            <h2>新凱集團 × 行遍天下</h2>
+            <h3>車輛轉介方案與規範核對</h3>
+            
+            <div class="policy-section">
+                <div class="policy-title">指定合作廠區窗口</div>
+                <div class="policy-content">
+                    <strong>地點：</strong>尚鵬汽車 內湖廠<br>
+                    <strong>地址：</strong>台北市內湖區民善街70號<br>
+                    <strong>電話：</strong>(02) 2796-8166<br>
+                    <strong>內部核心窗口：</strong>林欣旭 副總經理、謝或翰 廠長、賴建良 理賠主任
+                </div>
+            </div>
+
+            <div class="policy-section">
+                <div class="policy-title">客戶端專屬方案優惠</div>
+                <div class="policy-content">
+                    凡行遍天下協助招攬並成功引導進廠之客戶車輛，提供<strong>「自費鈑金與烤漆（含工資與零件材料）」項目 9 折</strong>優惠。<br>
+                    <em>※ 限制條件：本優惠僅限於「自費」項目，保險理賠或其他非自費項目不在此限。</em>
+                </div>
+            </div>
+
+            <div class="policy-section">
+                <div class="policy-title">轉介佣金回饋機制</div>
+                <div class="policy-content">
+                    新凱提供實際<strong>「自費工資結帳金額（未稅）之 4%」</strong>作為轉介佣金回饋。<br>
+                    <em>※ 核心限制：此佣金計提必須建立在客戶有實際產生「自費消費工單」的前提下；零件、耗材及委外加工費不納入佣金計算。若無實際消費，則該案件一律不計佣金。</em>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-footer">
+            <strong>新凱汽車股份有限公司 (Advancer Motor Co., Ltd.)</strong><br>
+            台北市內湖區民權東路六段17號 | 統一編號: 80198953<br>
+            專責承辦總窗口：售後服務處 鍾承志 Mike (02-87913456 #889)
+        </div>
+    </div>
+
+    <!-- 右半邊：計算機操作區 -->
+    <div class="calc-panel">
+        <div class="calc-header">
+            <h2>轉介利益即時試算機</h2>
+        </div>
+
+        <div class="input-group">
+            <label for="labor_cost">1. 請輸入車主自費「鈑烤工資」總額 (未稅)</label>
+            <div class="input-wrapper">
+                <span>$</span>
+                <input type="number" id="labor_cost" placeholder="請輸入金額" value="10000" oninput="calculateTrial()">
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="parts_cost">2. 請輸入車主自費「零件 / 材料」總額</label>
+            <div class="input-wrapper">
+                <span>$</span>
+                <input type="number" id="parts_cost" placeholder="請輸入金額" value="5000" oninput="calculateTrial()">
+            </div>
+        </div>
+
+        <div class="result-container">
+            <div class="result-row">
+                <div class="result-label">車主自費總計 (原價)</div>
+                <div class="result-value" id="lbl_total_original">$15,000</div>
+            </div>
+            <div class="result-row">
+                <div class="result-label">工資與材料折讓額 (10% Off)</div>
+                <div class="result-value" id="lbl_discount_amount" style="color: #e74c3c;">-$1,500</div>
+            </div>
+            <div class="result-row highlight">
+                <div class="result-label">客戶打折後應付總額</div>
+                <div class="result-value" id="lbl_customer_payable">$13,500</div>
+            </div>
+            <div class="result-row" style="flex-direction: column; align-items: flex-start; padding: 12px 0 5px 0;">
+                <div class="result-label">佣金發放資格檢核</div>
+                <div id="commission_status" class="status-badge status-success">✅ 符合發放條件 (有實際自費消費)</div>
+            </div>
+            <div class="result-row commission">
+                <div class="result-label">行遍天下轉介佣金回饋 (工資 × 4%)</div>
+                <div class="result-value" id="lbl_commission_payout">$400</div>
+            </div>
+        </div>
+
+        <div style="margin-top: auto;">
+            <button class="btn-email" onclick="generateEmail()">📩 一鍵生成通報信件</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 全域變數保存計算數值
+    var g_labor = 10000;
+    var g_parts = 5000;
+    var g_customerPayable = 13500;
+    var g_commission = 400;
+
+    function calculateTrial() {
+        g_labor = parseFloat(document.getElementById('labor_cost').value) || 0;
+        g_parts = parseFloat(document.getElementById('parts_cost').value) || 0;
+
+        var totalOriginal = g_labor + g_parts;
+        var discountAmount = totalOriginal * 0.1;
+        g_customerPayable = totalOriginal * 0.9;
+        
+        var statusBadge = document.getElementById('commission_status');
+        
+        if (g_labor > 0) {
+            g_commission = g_labor * 0.04;
+            statusBadge.className = "status-badge status-success";
+            statusBadge.innerHTML = "✅ 符合發放條件 (有實際自費消費)";
+        } else {
+            g_commission = 0;
+            statusBadge.className = "status-badge status-danger";
+            statusBadge.innerHTML = "❌ 無實際自費工資消費 (不予計提佣金)";
+        }
+
+        document.getElementById('lbl_total_original').innerHTML = '$' + Math.round(totalOriginal).toLocaleString();
+        document.getElementById('lbl_discount_amount').innerHTML = '-$' + Math.round(discountAmount).toLocaleString();
+        document.getElementById('lbl_customer_payable').innerHTML = '$' + Math.round(g_customerPayable).toLocaleString();
+        document.getElementById('lbl_commission_payout').innerHTML = '$' + Math.round(g_commission).toLocaleString();
+    }
+
+    function generateEmail() {
+        // 固定設定收件人與副本
+        var to = "mike_chung@am-volvocars.com.tw";
+        var cc = "george@starunited.tw,huohan@starunited.tw";
+        
+        // 內容動態組裝
+        var subject = encodeURIComponent("【合作通報】行遍天下道路救援轉介進廠與費用試算明細");
+        
+        var bodyText = "承辦主管您好：\n\n" +
+                       "本案為行遍天下道路救援轉介進廠之案件，相關實際自費與佣金試算明細如下，請查照核對：\n\n" +
+                       "1. 進廠指定據點：尚鵬汽車 內湖廠 (台北市內湖區民善街70號)\n" +
+                       "2. 車主自費鈑烤工資 (未稅)：$" + Math.round(g_labor).toLocaleString() + " 元\n" +
+                       "3. 車主自費零件材料總額：$" + Math.round(g_parts).toLocaleString() + " 元\n" +
+                       "4. 客戶享有優惠應付總額 (9折)：$" + Math.round(g_customerPayable).toLocaleString() + " 元\n" +
+                       "5. 行遍天下應計轉介佣金 (工資4%)：$" + Math.round(g_commission).toLocaleString() + " 元\n\n";
+        
+        if (g_labor > 0) {
+            bodyText += "經檢核：本案符合實際自費消費工單發放條件。後續待車輛結清出廠，行遍天下將依此金額開立統一發票進行核銷請款流程。\n\n";
+        } else {
+            bodyText += "經檢核：本案無實際自費工資項目消費，依規定不予計提轉介佣金。\n\n";
+        }
+        
+        bodyText += "尚鵬內湖廠 服務團隊 敬上";
+        
+        var body = encodeURIComponent(bodyText);
+        
+        // 喚醒預設郵件軟體
+        window.location.href = "mailto:" + to + "?cc=" + cc + "&subject=" + subject + "&body=" + body;
+    }
+
+    // 初始執行
+    calculateTrial();
+</script>
+
+</body>
+</html>
