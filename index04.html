@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新凱 PDI 新車車輛處理流程儀表板</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Noto+Sans+TC:wght@300;500;700&display=swap');
+        
+        body {
+            font-family: 'JetBrains+Mono', 'Noto Sans TC', sans-serif;
+            background-color: #050b14;
+        }
+
+        /* 磨砂玻璃濾鏡 */
+        .glass-card {
+            background: rgba(10, 25, 47, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 242, 254, 0.15);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        /* 彈窗背景遮罩與內容分離（防模糊） */
+        .modal-backdrop {
+            background: rgba(2, 6, 12, 0.8);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        /* 鎖定背景滾動 */
+        .body-lock {
+            overflow: hidden !important;
+        }
+    </style>
+</head>
+<body class="text-slate-200 min-h-screen p-4 md:p-8 flex flex-col justify-between">
+
+    <header class="mb-8 border-b border-cyan-500/30 pb-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+            <div class="flex items-center gap-3">
+                <span class="w-3 h-3 rounded-full bg-cyan-400 animate-pulse"></span>
+                <h1 class="text-2xl md:text-3xl font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
+                    PDI 新車車輛處理流程
+                </h1>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">負責人：尚鵬內湖廠長 謝或翰 | 系統簽入時間：2026-06-23</p>
+        </div>
+        <div class="glass-card border-amber-500/40 px-4 py-2 rounded-lg flex items-center gap-3 text-xs md:text-sm text-amber-400">
+            <span class="font-bold px-2 py-0.5 bg-amber-500/20 border border-amber-500/50 rounded animate-bounce">CRITICAL</span>
+            <span>發貨驗收單「原車問題」+ 新凱「新問題」：各服務廠訂單車必須<strong>立即優先處理</strong>。</span>
+        </div>
+    </header>
+
+    <main class="grid grid-cols-1 lg:grid-cols-4 gap-6 items-stretch mb-8">
+        
+        <div class="glass-card p-6 rounded-xl relative flex flex-col justify-between group hover:border-cyan-400/50 transition-all duration-300">
+            <div class="absolute -top-3 left-4 bg-cyan-500 text-slate-950 text-xs font-bold px-2 py-0.5 rounded">
+                01 / TRIGGER
+            </div>
+            <div>
+                <h3 class="text-lg font-bold text-cyan-400 mb-3 flex items-center gap-2 mt-2">
+                    <span>車輛運抵總部</span>
+                </h3>
+                <p class="text-sm text-slate-400 leading-relaxed">
+                    星聯 / 尚鵬委託新凱進行 PDI 初步檢查。
+                </p>
+                <div class="mt-4 flex flex-wrap gap-2">
+                    <span class="text-[11px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700">委託方: 星聯/尚鵬</span>
+                    <span class="text-[11px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700">執行方: 新凱總部</span>
+                </div>
+            </div>
+            <div class="mt-6 border-t border-slate-800 pt-4">
+                <button onclick="openModal('modal-trigger')" class="w-full text-center text-xs text-cyan-400/80 hover:text-cyan-400 underline cursor-pointer font-bold tracking-wide">
+                    查看進場驗收核表 ➔
+                </button>
+            </div>
+        </div>
+
+        <div class="glass-card p-6 rounded-xl relative flex flex-col justify-between border-orange-500/30 hover:border-orange-500/50 transition-all duration-300">
+            <div class="absolute -top-3 left-4 bg-orange-500 text-slate-950 text-xs font-bold px-2 py-0.5 rounded">
+                02 / DECISION
+            </div>
+            <div>
+                <h3 class="text-lg font-bold text-orange-400 mb-3 mt-2">第一時間屬性判定</h3>
+                <p class="text-sm text-slate-400 mb-4">服務廠收到資訊後，必須立刻判定維修屬性，切勿延誤黃金時效：</p>
+                
+                <div class="space-y-3">
+                    <div class="p-3 bg-blue-950/40 border border-blue-500/30 rounded-lg">
+                        <div class="text-xs font-bold text-blue-400 flex justify-between">
+                            <span>⚠️ 水險車</span>
+                            <span class="text-slate-400">施工前置</span>
+                        </div>
+                        <p class="text-xs text-slate-300 mt-1">必須先與 <strong>PGU</strong> 和 <strong>三立托運</strong> 溝通確認後，方可施工。</p>
+                    </div>
+                    <div class="p-3 bg-purple-950/40 border border-purple-500/30 rounded-lg">
+                        <div class="text-xs font-bold text-purple-400 flex justify-between">
+                            <span>🛠️ 索賠車</span>
+                            <span class="text-slate-400">授權前置</span>
+                        </div>
+                        <p class="text-xs text-slate-300 mt-1">依保固作業提供報價單，進行<strong>事先授權作業</strong>，核准後方可施工。</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4 text-center text-[11px] text-orange-400/60 bg-orange-500/5 p-2 rounded border border-orange-500/10">
+                空間盲點：嚴禁未經確認/授權即行施工
+            </div>
+        </div>
+
+        <div class="glass-card p-6 rounded-xl relative flex flex-col justify-between border-emerald-500/30 hover:border-emerald-500/50 transition-all duration-300">
+            <div class="absolute -top-3 left-4 bg-emerald-500 text-slate-950 text-xs font-bold px-2 py-0.5 rounded">
+                03 / EXECUTION
+            </div>
+            <div class="h-full flex flex-col justify-between">
+                <div>
+                    <h3 class="text-lg font-bold text-emerald-400 mb-3 mt-2">施工完成與去向轉交</h3>
+                    <p class="text-sm text-slate-400 mb-4">維修完成後，嚴格依據車輛屬性進行流向管制：</p>
+                    
+                    <div class="space-y-3">
+                        <div class="flex items-start gap-2 text-sm">
+                            <span class="text-emerald-400 font-bold">【訂單車】</span>
+                            <span class="text-slate-300">轉交回業務辦理交車（最優先級）。</span>
+                        </div>
+                        <div class="flex items-start gap-2 text-sm">
+                            <span class="text-slate-400 font-bold">【庫存車】</span>
+                            <span class="text-slate-300">列入公司庫存管理系統。</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 p-3 bg-rose-950/40 border border-rose-500/30 rounded-lg text-xs">
+                    <span class="font-bold text-rose-400">⚠️ 現狀備註（灰色地帶）：</span>
+                    <p class="text-slate-400 mt-1">因新凱端目前「無 PDI 人員」獨立作業，庫存車部分目前<span class="text-rose-300 underline font-bold">暫時擱置</span>。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card p-6 rounded-xl relative flex flex-col justify-between border-red-500/30 hover:border-red-500/50 transition-all duration-300">
+            <div class="absolute -top-3 left-4 bg-red-500 text-slate-950 text-xs font-bold px-2 py-0.5 rounded">
+                04 / CLOSE LOOP
+            </div>
+            <div>
+                <h3 class="text-lg font-bold text-red-400 mb-3 mt-2">核心存證與責任條款</h3>
+                <p class="text-sm text-slate-400 mb-4">
+                    為確保責任釐清與後續追溯，必須落實以下數據留痕：
+                </p>
+                <div class="bg-slate-900/60 p-4 rounded-lg border border-slate-800 space-y-2">
+                    <div class="flex items-center gap-2 text-xs">
+                        <input type="checkbox" checked disabled class="accent-red-500">
+                        <span class="text-slate-300">完整保存所有相關資料</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-xs">
+                        <input type="checkbox" checked disabled class="accent-red-500">
+                        <span class="text-slate-300">高解析度損壞/維修相片紀錄</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-xs">
+                        <input type="checkbox" checked disabled class="accent-red-500">
+                        <span class="text-slate-300">關鍵施工/動態測試影片存證</span>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-6 text-center">
+                <div class="text-[10px] text-slate-500 uppercase tracking-widest">DATA RETENTION SECURED</div>
+                <div class="w-full bg-slate-800 h-1.5 rounded-full mt-1 overflow-hidden">
+                    <div class="bg-red-500 h-full w-full"></div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="mt-auto border-t border-slate-800 pt-4 flex flex-col sm:flex-row justify-between text-xs text-slate-500 gap-2">
+        <div>新凱汽車 / 尚鵬汽車 內部技術控管文件 — 嚴禁外洩</div>
+        <div class="font-mono">簽署核定：尚鵬內湖廠長 謝或翰</div>
+    </footer>
+
+
+    <div id="modal-trigger" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 modal-backdrop" onclick="closeModal('modal-trigger')"></div>
+        
+        <div class="glass-card w-full max-w-xl rounded-xl border border-cyan-400/40 relative z-10 max-h-[85vh] overflow-y-auto content-layer shadow-2xl">
+            <div class="p-6">
+                <div class="flex justify-between items-start border-b border-slate-800 pb-3 mb-4">
+                    <h4 class="text-lg font-bold text-cyan-400">01 / 進場驗收與查核細則</h4>
+                    <button onclick="closeModal('modal-trigger')" class="text-slate-400 hover:text-white text-xl font-mono cursor-pointer">&times;</button>
+                </div>
+                
+                <div class="space-y-4 text-sm text-slate-300 leading-relaxed mb-5">
+                    <p class="text-amber-400 font-bold">💡 雙重檢驗原則：</p>
+                    <p>當車輛抵達新凱總部，作業人員必須同時核對以下兩項表單，任何一處不符皆須退回或記錄：</p>
+                    <ol class="list-decimal pl-5 space-y-2 text-xs text-slate-400">
+                        <li>發貨驗收單 上註記之「原車問題」。</li>
+                        <li>新凱 PDI 現場驗出 之「新問題」。</li>
+                    </ol>
+                </div>
+
+                <div class="border border-slate-800/80 rounded-lg p-1.5 bg-slate-950/60 flex justify-center items-center overflow-hidden">
+                    <img src="https://raw.githubusercontent.com/xdespair0217/whiteboard/main/C01.jpg" 
+                         alt="進場總表驗收核表" 
+                         class="w-auto max-h-[350px] object-contain rounded shadow-md"
+                         style="image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('hidden');
+                document.body.classList.add('body-lock');
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('hidden');
+                const openedModals = document.querySelectorAll('[id^="modal-"]:not(.hidden)');
+                if (openedModals.length === 0) {
+                    document.body.classList.remove('body-lock');
+                }
+            }
+        }
+
+        window.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const openedModals = document.querySelectorAll('[id^="modal-"]:not(.hidden)');
+                openedModals.forEach(modal => closeModal(modal.id));
+            }
+        });
+    </script>
+</body>
+</html>
