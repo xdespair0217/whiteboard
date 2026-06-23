@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>保固索賠與 PDI 核對防呆系統 v10.0</title>
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --panel-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --primary: #2563eb;
+            --success: #16a34a;
+            --success-hover: #15803d;
+            --danger: #dc2626;
+        }
+
+        /* 剛性一頁式：禁止全網頁滾動條 */
+        html, body { height: 100vh; margin: 0; padding: 0; overflow: hidden; background-color: var(--bg-color); }
+        body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; color: var(--text-main); padding: 12px; box-sizing: border-box; }
+        
+        .wrapper { display: flex; height: calc(100vh - 24px); gap: 12px; max-width: 1650px; margin: 0 auto; }
+        
+        /* 左側欄：高度撐滿 */
+        .sidebar { flex: 1.15; background: var(--panel-bg); padding: 14px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); display: flex; flex-direction: column; height: 100%; box-sizing: border-box; overflow: hidden; }
+        /* 右側欄 */
+        .main-content { flex: 1.85; background: var(--panel-bg); padding: 18px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); display: flex; flex-direction: column; height: 100%; box-sizing: border-box; }
+        
+        /* 字體放大優化 */
+        h2 { font-size: 1.35em; color: #0f172a; margin-top: 0; margin-bottom: 12px; padding-bottom: 6px; border-bottom: 2px solid #e2e8f0; font-weight: 700; }
+        h3 { font-size: 1.1em; color: #334155; margin-top: 0; margin-bottom: 8px; font-weight: 700; display: flex; align-items: center; gap: 4px; }
+        .section-divider { margin-top: 8px; padding-top: 8px; border-top: 1px solid #f1f5f9; flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        
+        /* 微縮防呆卡片 */
+        .card { padding: 8px 10px; margin-bottom: 6px; border-radius: 6px; font-size: 0.88em; border-left: 4px solid #cbd5e1; background-color: #f8fafc; }
+        .card.must { border-left-color: var(--primary); background-color: #eff6ff; }
+        .card.danger { border-left-color: var(--danger); background-color: #fef2f2; }
+        .card h4 { margin: 0 0 4px 0; font-size: 0.95em; color: #0f172a; font-weight: 700; display: flex; align-items: center; gap: 4px; }
+        .card.danger h4 { color: #991b1b; }
+        .card.must h4 { color: #1e40af; }
+        
+        .check-item { display: flex; align-items: flex-start; margin-bottom: 4px; font-size: 0.92em; cursor: pointer; user-select: none; color: #334155; line-height: 1.4; }
+        .check-item input { margin-right: 6px; margin-top: 3px; width: 14px; height: 14px; flex-shrink: 0; cursor: pointer; }
+        .check-item:last-child { margin-bottom: 0; }
+        
+        /* 頂部外掛控制盒（整合 Checkbox 與 單號輸入框） */
+        .plugin-box { display: flex; flex-direction: column; gap: 8px; background-color: #f0fdf4; border: 1px solid #bbf7d0; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
+        .plugin-row { display: flex; gap: 20px; align-items: center; }
+        .plugin-item { display: flex; align-items: center; font-size: 0.92em; font-weight: 700; color: #16a34a; cursor: pointer; }
+        .plugin-item input[type="checkbox"] { margin-right: 6px; width: 15px; height: 15px; cursor: pointer; }
+        
+        /* 單號文字框樣式 */
+        .input-group { display: flex; align-items: center; gap: 6px; font-size: 0.92em; font-weight: 700; color: #16a34a; }
+        .input-group input[type="text"] { padding: 4px 8px; border: 1px solid #bbf7d0; border-radius: 4px; font-size: 0.92em; width: 130px; color: #1e293b; font-weight: 600; }
+        .input-group input[type="text"]:focus { outline: none; border-color: var(--success); background-color: #ffffff; }
+
+        /* 左側快捷按鈕直列極致壓縮 */
+        .template-list { display: flex; flex-direction: column; gap: 3px; overflow-y: auto; padding-right: 2px; flex: 1; }
+        .tmpl-btn { width: 100%; padding: 6px 8px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; text-align: left; font-size: 0.88em; font-weight: bold; transition: 0.1s; color: #334155; display: flex; align-items: center; gap: 4px; box-sizing: border-box; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .tmpl-btn:hover { background: #f0fdf4; border-color: var(--success); color: var(--success); }
+        .tmpl-btn.active { background: #e0f2fe; border-color: var(--primary); color: var(--primary); box-shadow: 0 1px 3px rgba(2,132,199,0.08); }
+
+        /* 右側填單自適應與字體放大 */
+        .form-container { display: flex; flex-direction: column; gap: 5px; flex: 1.3; }
+        .form-container .form-group { display: flex; flex-direction: column; flex: 1; }
+        label { display: block; margin-bottom: 2px; font-weight: 700; font-size: 0.92em; color: #334155; }
+        textarea { width: 100%; flex: 1; padding: 8px; border: 1px solid #cbd5e1; border-radius: 5px; box-sizing: border-box; resize: none; font-size: 0.98em; line-height: 1.5; color: #1e293b; font-weight: 500; }
+        
+        .btn-copy { display: block; width: 100%; padding: 10px; background: var(--success); color: white; border: none; border-radius: 5px; font-size: 1.02em; font-weight: bold; cursor: pointer; margin-top: 4px; text-align: center; flex-shrink: 0; }
+        .btn-copy:hover { background: var(--success-hover); }
+        
+        .preview-container { flex: 0.7; display: flex; flex-direction: column; margin-top: 4px; overflow: hidden; }
+        .preview-box { flex: 1; background: #fafafa; border: 1px dashed #94a3b8; padding: 8px; border-radius: 5px; font-family: monospace; font-size: 0.95em; white-space: pre-wrap; color: #1e293b; line-height: 1.4; overflow-y: auto; }
+        .toast { display: none; text-align: center; color: var(--success); font-weight: bold; margin-top: 4px; background: #f0fdf4; padding: 3px; border-radius: 4px; font-size: 0.88em; border: 1px solid #bbf7d0; flex-shrink: 0; }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    
+    <div class="sidebar">
+        <h3>📋 保固索賠與 PDI 核對防呆</h3>
+        
+        <div class="card must">
+            <h4>📸 實車多媒體佐證（缺一不可）</h4>
+            <label class="check-item">
+                <input type="checkbox">
+                <span>照片/影片紀錄：已拍下清晰瑕疵或明確異音源位置。</span>
+            </label>
+            <label class="check-item">
+                <input type="checkbox">
+                <span><strong>錄影規範</strong>：錄影必須一鏡到底（車身碼 → 大牌 → 儀表板里程數顯示）。</span>
+            </label>
+        </div>
+
+        <div class="card">
+            <h4>🔧 技師診斷鋼性規範（缺一不可）</h4>
+            <label class="check-item">
+                <input type="checkbox">
+                <span>全功能檢測：檢測全車系統連動故障。</span>
+            </label>
+            <label class="check-item">
+                <input type="checkbox">
+                <span>讀取故障日誌 (Log)：確實留存時間凍結數據。</span>
+            </label>
+            <label class="check-item">
+                <input type="checkbox">
+                <span>故障碼列印：列印診斷電腦報告作為必要系統附件。</span>
+            </label>
+        </div>
+
+        <div class="card danger">
+            <h4>⚠️ 引擎與常規零件核心規範</h4>
+            <label class="check-item">
+                <input type="checkbox">
+                <span><strong>PPD 任務編碼</strong> 務必確認做出並核對末端編碼。</span>
+            </label>
+            <label class="check-item">
+                <input type="checkbox">
+                <span><strong>更換舊品</strong>：已依規範拍攝施工前、中、後照片.</span>
+            </label>
+        </div>
+
+        <div class="card danger">
+            <h4>🚨 DIDI 群組傳送文件（三缺一不可）檔名使用車身碼當前端</h4>
+            <label class="check-item">
+                <input type="checkbox">
+                <span>1. <strong>發貨驗收單</strong></span>
+            </label>
+            <label class="check-item">
+                <input type="checkbox">
+                <span>2. <strong>原廠 C I F</strong></span>
+            </label>
+            <label class="check-item">
+                <input type="checkbox">
+                <span>3. <strong>鈑噴報價單</strong></span>
+            </label>
+        </div>
+        
+        <div class="section-divider">
+            <h3>⚡ 快速切換案例範本</h3>
+            <div class="template-list">
+                <button class="tmpl-btn" id="btn-turbo" onclick="loadCase('turbo')">🔊 1. 渦輪增壓器 (軸心鬆動喀拉聲異音)</button>
+                <button class="tmpl-btn" onclick="loadCase('battery')">🔋 2. 12V蓄電池耗盡 (門鎖漏電/TSB通報)</button>
+                <button class="tmpl-btn" onclick="loadCase('leak_ac')">💧 3. 系統滲漏類 (壓縮機洩漏冷媒/機械故障)</button>
+                <button class="tmpl-btn" onclick="loadCase('egr')">♻️ 4. EGR 閥阻塞故障 (P2413 / 任務編碼)</button>
+                <button class="tmpl-btn" onclick="loadCase('spark')">⚡ 5. 第一缸火星塞 (P1337 / 任務編碼)</button>
+                <button class="tmpl-btn" onclick="loadCase('engine')">⚙️ 6. 活性碳罐電磁閥 (P0443)</button>
+                <button class="tmpl-btn" onclick="loadCase('water')">🧪 7. 電動水泵浦故障 (P2B29 / 專家建議)</button>
+                <button class="tmpl-btn" onclick="loadCase('paint')">🎨 8. 新車 PDI 漆面 (顆粒凸點/起泡瑕疵)</button>
+                <button class="tmpl-btn" onclick="loadCase('lock')">🪟 9. 左後車門鎖無法上鎖 (電子故障)</button>
+                <button class="tmpl-btn" onclick="loadCase('glass')">🧩 10. 左右前車窗玻璃錯裝 (規格不符)</button>
+                <button class="tmpl-btn" onclick="loadCase('rubber')">📐 11. 天窗膠條變形 / 氣氛燈斷點</button>
+                <button class="tmpl-btn" onclick="loadCase('ivi')">💻 12. IVI 主機導航圖資 (中文化失敗)</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <h2>案件發送及DMS無腦打單控制台系統</h2>
+        
+        <div class="plugin-box">
+            <div class="plugin-row" style="margin-bottom: 4px;">
+                <div class="input-group">
+                    🆔 DIDA ：<input type="text" id="txt-plugin-didi-num" placeholder="請輸入號碼" oninput="updatePreview()">
+                </div>
+                <div class="input-group">
+                    🛠️ DIDI：<input type="text" id="txt-plugin-diy-num" placeholder="請輸入號碼" oninput="updatePreview()">
+                </div>
+            </div>
+            <div class="plugin-row">
+                <label class="plugin-item">
+                    <input type="checkbox" id="chk-plugin-didi" onchange="updatePreview()">
+                    ➕ 附加：(紙本列印以及電子檔已上傳Didi群組)
+                </label>
+                <label class="plugin-item">
+                    <input type="checkbox" id="chk-plugin-media" onchange="updatePreview()">
+                    ➕ 附加：(照片影片已上傳Didi群組)
+                </label>
+            </div>
+        </div>
+        
+        <div class="form-container">
+            <div class="form-group">
+                <label>【系統對應欄位：補充信息】(原始症狀/客戶反應描述)</label>
+                <textarea id="txt-p1"></textarea>
+            </div>
+            <div class="form-group">
+                <label>【系統對應欄位：開立原因】(技術查修過程與因果邏輯推導)</label>
+                <textarea id="txt-p2"></textarea>
+            </div>
+            <div class="form-group">
+                <label>【系統對應欄位：檢查】(最終處置項目與原廠零件號)</label>
+                <textarea id="txt-p3"></textarea>
+            </div>
+        </div>
+        
+        <button class="btn-copy" onclick="copyToClipboard()">📋 一鍵組合文本並複製到剪貼簿</button>
+        <div class="toast" id="copy-toast">✓ 已複製！可直接貼回開單系統。</div>
+        
+        <div class="preview-container">
+            <div style="font-weight: bold; color: #64748b; font-size: 0.88em; margin-bottom: 2px;">即時預覽：</div>
+            <div class="preview-box" id="preview"></div>
+        </div>
+    </div>
+    
+</div>
+
+<script>
+    const caseDatabase = {
+        turbo: {
+            p1: "引擎運轉時 有\"喀啦喀啦\"異音 加速無力",
+            p2: "渦輪增壓器 軸心鬆動 機械故障",
+            p3: "更換新品 渦輪增壓器\n9835855380"
+        },
+        battery: {
+            p1: "12V 蓄電池 電力耗盡 車輛無法發動",
+            p2: "請參考 之前工單 Dealer Issue Detection 22881137 依照內文指示 提交新的工單 新的診斷紀錄 狀況與之前 Dealer Issue Detection 22881137 一樣 又出現了",
+            p3: "依照Dealer Issue Detection 22954563 建議 應用 TSB C5JW0176Q0 操作 更換左右前門門鎖完成\n9843340580\n9843340380"
+        },
+        leak_ac: {
+            p1: "冷氣不冷 有冷媒洩漏痕跡",
+            p2: "壓縮機 洩漏冷媒 機械故障",
+            p3: "更換新品 冷氣壓縮機\n9855610380"
+        },
+        egr: {
+            p1: "引擎燈亮",
+            p2: "P2413 EGR閥阻塞故障 電路故障 任務編碼的末端：AXEWBF",
+            p3: "更換新品 EGR 閥\n9829870080"
+        },
+        spark: {
+            p1: "引擎故障燈亮 抖動無力",
+            p2: "P1337 第一缸火星塞 點火不良 PPD 任務編碼的末端：[輸入編碼]",
+            p3: "更換第一缸 火星塞\n9829930180"
+        },
+        engine: {
+            p1: "引擎燈亮",
+            p2: "P0443 活性碳罐電磁閥 電氣故障",
+            p3: "更換新品 活性碳罐電磁閥\n1563P0"
+        },
+        water: {
+            p1: "水溫過高 故障告警",
+            p2: "P2B29 7B 電動水泵浦 電氣故障\n依照技術專家 \" Patrick KWOK \" 現場排查建議",
+            p3: "更換電動水泵浦\n9833196380"
+        },
+        paint: {
+            p1: "[右前門] 漆面顆粒凸點 / 引擎蓋漆面凸點",
+            p2: "[右前門及引擎蓋] 漆面瑕疵 外觀缺陷",
+            p3: "[右前門及引擎蓋] 漆面重新塗裝\n98 524 435 80\n98 524 312 80"
+        },
+        lock: {
+            p1: "左後車門 無法上鎖",
+            p2: "左後車門鎖 電氣故障",
+            p3: "更換新品 左後車門鎖\n9848011880"
+        },
+        glass: {
+            p1: "客戶反應4門車窗玻璃為單層玻璃而非雙層玻璃（有貼隔熱紙）",
+            p2: "經查詢比對 廠內同車型 前車門車窗 確實有雙層與單層差異存在 零件錯裝",
+            p3: "更換新品 左右前車車窗 雙層\n98 397 586 80\n98 397 588 80"
+        },
+        rubber: {
+            p1: "天窗膠條變形 (或左前門LED氣氛燈有斷點)",
+            p2: "天窗膠條 變形故障 外觀缺陷 (或左前門LED氣氛燈 電子故障)",
+            p3: "更換新品天窗膠條 [98 550 093 80] (或更換門內飾板─left [98381577ZD])"
+        },
+        ivi: {
+            p1: "無法安裝圖資 IVI無中文選項",
+            p2: "圖資安裝失敗 新車整備 交車檢查 多媒體主機無中文選項 中文化圖資導航失效",
+            p3: "請求協助"
+        }
+    };
+
+    function loadCase(caseKey) {
+        document.querySelectorAll('.tmpl-btn').forEach(btn => btn.classList.remove('active'));
+        if (event && event.currentTarget) {
+            event.currentTarget.classList.add('active');
+        }
+        
+        document.getElementById('txt-p1').value = caseDatabase[caseKey].p1;
+        document.getElementById('txt-p2').value = caseDatabase[caseKey].p2;
+        document.getElementById('txt-p3').value = caseDatabase[caseKey].p3;
+        
+        updatePreview();
+    }
+
+    function updatePreview() {
+        const p1 = document.getElementById('txt-p1').value;
+        const p2 = document.getElementById('txt-p2').value;
+        const p3 = document.getElementById('txt-p3').value;
+        
+        // 修正抓取號碼欄位的 DOM ID
+        const didiNum = document.getElementById('txt-plugin-didi-num').value.trim();
+        const diyNum = document.getElementById('txt-plugin-diy-num').value.trim();
+        
+        // 檢查附加開關
+        const needDidi = document.getElementById('chk-plugin-didi').checked;
+        const needMedia = document.getElementById('chk-plugin-media').checked;
+        
+        let headerText = "";
+        
+        // 只要有填寫號碼，就優先跳出在最上面
+        if (didiNum !== "") headerText += `【DIDA案號】：${didiNum}\n`;
+        if (diyNum !== "") headerText += `【DIDI案號】：${diyNum}\n`;
+        
+        // 附加文字
+        if (needDidi) headerText += "(紙本列印以及電子檔已上傳Didi群組)\n";
+        if (needMedia) headerText += "(照片影片已上傳Didi群組)\n";
+        
+        if (headerText !== "") headerText += "\n"; // 與正文隔開
+        
+        const fullText = `${headerText}【補充信息】\n${p1}\n\n【可能原因】\n${p2}\n\n【檢查】\n${p3}`;
+        document.getElementById('preview').innerText = fullText;
+        return fullText;
+    }
+
+    function setupLivePreview() {
+        document.getElementById('txt-p1').addEventListener('input', updatePreview);
+        document.getElementById('txt-p2').addEventListener('input', updatePreview);
+        document.getElementById('txt-p3').addEventListener('input', updatePreview);
+    }
+
+    function copyToClipboard() {
+        const textToCopy = updatePreview();
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            const toast = document.getElementById('copy-toast');
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 2500);
+        });
+    }
+
+    window.onload = function() {
+        loadCase('turbo');
+        document.getElementById('btn-turbo').classList.add('active');
+        setupLivePreview();
+    };
+</script>
+
+</body>
+</html>
