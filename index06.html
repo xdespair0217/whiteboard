@@ -20,6 +20,7 @@
             --color-clear: #a80000;    
             --color-warranty: #e81123; 
             --didi-color: #d83b01;
+            --warn-color: #795548;
         }
         
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
@@ -221,6 +222,11 @@
             <input type="checkbox" id="chk_battery_adv" onchange="generateText()">
             <label for="chk_battery_adv" style="font-size: 12px; color: #666;">💡 附加：電瓶平均壽命約一年半至兩年建議調早預防性更換</label>
         </div>
+
+        <div class="check-row" style="padding-left: 20px; background: #fdfdfd;">
+            <input type="checkbox" id="chk_battery_non_oem" onchange="generateText()">
+            <label for="chk_battery_non_oem" style="font-size: 12px; color: #d83b01; font-weight: bold;">⚠️ 註記：目前車輛安裝之電瓶非原廠電瓶</label>
+        </div>
         
         <div class="check-row" style="flex-direction: column; align-items: flex-start;">
             <div style="display: flex; align-items: center; width: 100%;">
@@ -236,12 +242,22 @@
         </div>
 
         <div class="check-row">
+            <input type="checkbox" id="chk_wiper" onchange="generateText()">
+            <label for="chk_wiper" style="color: #4a5568;">🌧️ 雨刷狀態：雨刷片刷不乾淨，若影響視線建議更換。</label>
+        </div>
+
+        <div class="check-row">
             <input type="checkbox" id="chk_ac_odor" onchange="generateText()">
             <label for="chk_ac_odor" style="color: var(--color-glass);">❄️ 冷氣異味標準聲明說明</label>
         </div>
         <div class="check-row">
             <input type="checkbox" id="chk_add" onchange="generateText()">
             <label for="chk_add">尿素添加完成 實施初始化</label>
+        </div>
+
+        <div class="check-row">
+            <input type="checkbox" id="chk_timing_belt" onchange="generateText()">
+            <label for="chk_timing_belt" style="color: #b71c1c; font-weight: bold;">⚙️ 正時皮帶：每3年或6萬KM需更換，避免引擎受損。</label>
         </div>
 
         <div class="check-row">
@@ -299,6 +315,16 @@
             </div>
         </div>
 
+        <div style="margin-top: 10px; padding: 6px; border: 1px solid #cbd5e1; background-color: #f8fafc; border-radius: 4px;">
+            <span style="font-weight: bold; color: var(--warn-color); font-size: 12px;">⚠️ 特別聲明與風險告知</span>
+            <div class="check-row" style="margin-top: 4px;">
+                <input type="checkbox" id="chk_modification_warn" onchange="generateText()">
+                <label for="chk_modification_warn" style="color: #5d4037; font-weight: bold; font-size: 12px; line-height: 1.3;">
+                    🛑 告知車主勿加裝並移除非原廠設備聲明
+                </label>
+            </div>
+        </div>
+
         <div class="form-group" style="margin-top: 10px;">
             <label>💬 其他綜合維修 / 複雜故障描述手寫區（此內容將直接串接至訊息最後）：</label>
             <textarea id="txt_other" placeholder="在此輸入手寫內容，將會以純文字型態附加在訊息末端..." oninput="generateText()"></textarea>
@@ -321,7 +347,7 @@
 
 <div class="modal-overlay" id="warrantyModal">
     <div class="modal-content">
-        <div class="modal-header">📋 保固前置作業必備文件審查</div>
+        <div class="modal-header">📋 保估前置作業必備文件審查</div>
         <div class="modal-body">
             <p style="font-size: 13px; color: #666; margin-top: 0;">偵測到此車單包含【保固理賠項目】，請確認以下前置作業是否皆已落實：</p>
             <div class="modal-item"><input type="checkbox" id="m_chk1"><label for="m_chk1">1. 是否已開立正式的【索賠工單】？</label></div>
@@ -357,12 +383,19 @@ function generateText() {
     // --- 定期保養 / 引擎維修 邏輯 ---
     let maintenanceItems = [];
     
+    // 電瓶整合區邏輯（含電容量、壽命附加提示、非原廠電瓶註記）
     if (document.getElementById('chk_battery').checked) {
         let val = document.getElementById('num_battery').value || '--';
         let advText = document.getElementById('chk_battery_adv').checked ? "（電瓶平均壽命約一年半至兩年建議調早預防性更換）" : "";
-        maintenanceItems.push(`  ▪️ 電瓶電容量約：${val}% ${advText}`);
-    } else if (document.getElementById('chk_battery_adv').checked) {
-        maintenanceItems.push(`  ▪️ 電瓶維護建議：電瓶平均壽命約一年半至兩年建議調早預防性更換。`);
+        let oemText = document.getElementById('chk_battery_non_oem').checked ? "【⚠️ 注意：目前車輛安裝非原廠電瓶】" : "";
+        maintenanceItems.push(`  ▪️ 電瓶電容量約：${val}% ${advText}${oemText}`);
+    } else {
+        if (document.getElementById('chk_battery_adv').checked) {
+            maintenanceItems.push(`  ▪️ 電瓶維護建議：電瓶平均壽命約一年半至兩年建議調早預防性更換。`);
+        }
+        if (document.getElementById('chk_battery_non_oem').checked) {
+            maintenanceItems.push(`  ▪️ 電瓶狀態備註：目前車輛安裝之電瓶非原廠電瓶。`);
+        }
     }
     
     if (document.getElementById('chk_tyre').checked) {
@@ -382,6 +415,11 @@ function generateText() {
     if (selectedTires.length > 0) {
         maintenanceItems.push(`  ▪️ 輪胎施工：${selectedTires.join('、')}`);
     }
+
+    // 新增：雨刷輸出邏輯
+    if (document.getElementById('chk_wiper').checked) {
+        maintenanceItems.push(`  ▪️ 雨刷狀態檢查：雨刷片刷不乾淨，若影響視線建議更換。`);
+    }
     
     if (document.getElementById('chk_ac_odor').checked) {
         maintenanceItems.push(`  ▪️ 冷氣異味：已與車主說明為蒸發器殘留水分產生異味，本次已清潔，建議再觀察。`);
@@ -389,6 +427,12 @@ function generateText() {
     if (document.getElementById('chk_add').checked) {
         maintenanceItems.push(`  ▪️ 尿素施工：尿素添加完成 實施初始化`);
     }
+
+    // 新增：正時皮帶輸出邏輯
+    if (document.getElementById('chk_timing_belt').checked) {
+        maintenanceItems.push(`  ▪️ 正時皮帶提醒：正時皮帶每3年或6萬KM需更換，避免引擎受損。`);
+    }
+
     if (document.getElementById('chk_road').checked) {
         let testDate = document.getElementById('date_road').value || '[未選日期]';
         let start = document.getElementById('num_road_start').value || '--';
@@ -443,6 +487,11 @@ function generateText() {
     
     if (pdiItems.length > 0) {
         result.push(`【新車 PDI 整備紀錄】\n${pdiItems.join('\n')}`);
+    }
+
+    // --- 新增：特別聲明與改裝責任宣告 邏輯 ---
+    if (document.getElementById('chk_modification_warn').checked) {
+        result.push(`【重要特別聲明事項】\n  ⚠️ 已建議並告知車主車輛勿加裝並移除非原廠設備，避免產生車輛使用上任何不確定因素及干擾，基於專業服務立場特此告知。`);
     }
     
     let otherText = document.getElementById('txt_other').value.trim();
@@ -502,7 +551,7 @@ function confirmModalAndSend() {
     executeLineLink(text);
 }
 
-/* 核心優化：修改為純複製邏輯，不進行網頁跳轉 */
+/* 純複製邏輯 */
 function executeLineLink(text) {
     navigator.clipboard.writeText(text).then(() => {
         alert("通報罐頭已成功複製至剪貼簿！");
