@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>工廠現場維修備註與保固管理控制台</title>
+    <style>
+        :root {
+            --nav-bg: #1a252f;
+            --body-bg: #dee2e6;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --border-color: #cccccc;
+            
+            --color-glass: #004b87;    
+            --color-paint: #f96315;    
+            --color-wheel: #2d2d2d;    
+            --color-light: #00a39b;    
+            --color-line: #00c753;     
+            --color-clear: #a80000;    
+            --color-warranty: #e81123; 
+            --didi-color: #d83b01;
+        }
+        
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+        body { background-color: var(--body-bg); color: var(--text-color); margin: 0; padding: 0; font-size: 15px; overflow-x: hidden; }
+        
+        .top-navbar {
+            background-color: var(--nav-bg);
+            color: #ffffff;
+            padding: 12px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--color-paint);
+        }
+        .top-navbar span { font-size: 12px; color: #ffca28; font-weight: normal; }
+        
+        /* 比例優化：鎖定整體最大高度，防止版面拉動 */
+        .main-dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1.3fr 1fr;
+            gap: 15px;
+            padding: 15px;
+            max-width: 1600px;
+            margin: 0 auto;
+            height: calc(100vh - 49px);
+        }
+        
+        @media (max-width: 1024px) {
+            .main-dashboard { grid-template-columns: 1fr; height: auto; }
+        }
+        
+        .section-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        /* 針對中間欄位進行極致空間優化，確保靜態不位移 */
+        .main-dashboard > .section-card:nth-child(2) {
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #1a252f;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+            border-bottom: 2px solid #eeeeee;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sop-list { list-style: none; padding: 0; margin: 0; overflow-y: auto; }
+        .sop-list li { margin-bottom: 12px; font-size: 14px; line-height: 1.5; color: #444; }
+        .sop-list .step-num { font-weight: bold; font-size: 16px; margin-right: 5px; }
+        .sop-list .step-1 { color: #f96315; }
+        .sop-list .step-2 { color: #8e44ad; }
+        .sop-list .step-3 { color: #2980b9; }
+        .sop-list .highlight-box { background: #fff0f0; border: 1px dashed #ffcccc; padding: 8px; border-radius: 4px; margin-top: 5px; }
+        
+        .tire-matrix-title { font-weight: bold; margin-bottom: 8px; color: #555; font-size: 13px;}
+        .tire-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 10px; }
+        .tire-btn { display: none; }
+        
+        /* 核心修復：縮減按鈕高度與內距，騰出更多垂直空間 */
+        .tire-label {
+            display: flex; justify-content: center; align-items: center;
+            color: #ffffff; padding: 8px 6px; font-size: 13px; font-weight: bold;
+            text-align: center; cursor: pointer; border-radius: 4px; border: none;
+            transition: opacity 0.1s ease; user-select: none; opacity: 0.4;
+            min-height: 38px; line-height: 1.2;
+        }
+        .t-glass { background-color: var(--color-glass); }
+        .t-paint { background-color: var(--color-paint); }
+        .t-wheel { background-color: var(--color-wheel); }
+        .t-light { background-color: var(--color-light); }
+        
+        .tire-btn:checked + .tire-label { opacity: 1; box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1a252f; }
+        .tire-label:hover { opacity: 0.85; }
+        
+        .form-group { margin-bottom: 10px; display: flex; flex-direction: column; }
+        .form-group label { font-size: 13px; font-weight: bold; color: #555; margin-bottom: 4px; }
+        .form-inline-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+        
+        .tyre-four-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; width: 100%; margin-top: 4px; padding-left: 25px; }
+        .tyre-input-box { display: flex; align-items: center; font-size: 12px; color: #555; }
+        
+        input[type="text"], input[type="number"], input[type="date"], textarea {
+            width: 100%; border: 1px solid var(--border-color); border-radius: 4px; padding: 6px; font-size: 13px; background: #fafafa;
+        }
+        input:focus, textarea:focus { border-color: var(--accent-color); background: #ffffff; outline: none; }
+        
+        .input-short { width: 65px !important; display: inline-block; text-align: center; padding: 4px !important; font-size: 12px; }
+        .input-date { width: 130px !important; display: inline-block; padding: 4px !important; font-size: 12px; }
+        
+        /* 微調行距，節省空間 */
+        .check-row { display: flex; align-items: center; padding: 4px 0; border-bottom: 1px solid #f5f5f5; }
+        .check-row:last-child { border-bottom: none; }
+        input[type="checkbox"] { width: 18px; height: 18px; margin-right: 8px; cursor: pointer; flex-shrink: 0; }
+        .check-row label { cursor: pointer; font-weight: 500; display: flex; align-items: center; width: 100%; flex-wrap: wrap; font-size: 13px; }
+        
+        .sub-warranty-box { background: #fff5f5; border: 1px solid #ffcccc; border-radius: 4px; padding: 8px; margin-top: 5px; width: 100%; }
+        .warranty-field-title { font-size: 12px; font-weight: bold; color: #666; margin-bottom: 3px; margin-top: 4px; }
+        
+        .preview-title { font-size: 14px; font-weight: bold; color: #555; margin-bottom: 4px; }
+        
+        .preview-box { 
+            background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 4px; padding: 12px; 
+            height: 380px; white-space: pre-wrap; font-size: 14px; color: #334155; 
+            margin-bottom: 15px; line-height: 1.5; overflow-y: auto; 
+        }
+        
+        .btn-line {
+            width: 100%; background-color: var(--color-line); color: white; border: none; border-radius: 4px;
+            padding: 14px; font-size: 16px; font-weight: bold; cursor: pointer; text-align: center;
+            display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .btn-line:hover { background-color: #00b047; }
+        
+        .btn-clear {
+            width: 100%; background-color: #ffffff; color: var(--color-clear); border: 1px solid var(--color-clear);
+            border-radius: 4px; padding: 10px; font-size: 14px; font-weight: bold; cursor: pointer; margin-top: 10px;
+        }
+        .btn-clear:hover { background-color: #fff0f0; }
+
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-content { background: #ffffff; border-radius: 6px; max-width: 500px; width: 100%; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .modal-header { font-size: 16px; font-weight: bold; color: var(--color-warranty); margin-bottom: 15px; border-bottom: 2px solid #f2f2f2; padding-bottom: 10px; }
+        .modal-item { display: flex; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid #f9f9f9; }
+        .modal-item label { font-size: 14px; color: #444; line-height: 1.4; cursor: pointer; }
+        .modal-footer { display: flex; gap: 10px; margin-top: 15px; }
+        .btn-modal-cancel { flex: 1; background: #eee; color: #333; border: none; padding: 10px; border-radius: 4px; font-size: 14px; font-weight: bold; cursor: pointer; }
+        .btn-modal-confirm { flex: 2; background: var(--color-line); color: white; border: none; padding: 10px; border-radius: 4px; font-size: 14px; font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="top-navbar">
+    工廠引擎維修備註與原廠保固理賠控制台
+    <span>規範：窗口與文件二合一系統</span>
+</div>
+
+<div class="main-dashboard">
+    
+    <div class="section-card">
+        <div class="section-title">📊 引擎維修與出保 PDI SOP 看板</div>
+        <ul class="sop-list">
+            <li><span class="step-num step-1">1</span> 技師執行完畢後，請確實使用本控制台進行「定性」與「定量」勾選，嚴禁打字邏輯混亂。</li>
+            <li><span class="step-num step-2">2</span> <strong>時效卡控：</strong>保固授權案件應於當日進廠確診後即刻送件，避免延誤引發理賠退件爭議。</li>
+            <li><span class="step-num step-3">3</span> 申請保固理賠時，必須確實上傳符合規範之照片、影片、以及電腦檢測全功能日誌。</li>
+            <li class="highlight-box">
+                <strong>🚨 塗裝保固核心要件：</strong><br>
+                漆面塗裝於維修中應拍攝「施工磨土照」及「完成照」以便原廠審查確認。
+            </li>
+            <li><span class="step-num step-3">7</span> 理賠項目之零件與工資價格，皆依原廠嘉嘉联合保固與工時系統為準申請，請按規範作業。</li>
+        </ul>
+    </div>
+    
+    <div class="section-card">
+        <div class="section-title">📝 欄位輸入與 Line 快速生成</div>
+        
+        <div class="tire-matrix-title">🔧 輪胎刺傷補胎紀錄（點擊選取位置）：</div>
+        <div class="tire-grid">
+            <div>
+                <input type="checkbox" id="tire_fl" class="tire-btn" onchange="generateText()">
+                <label for="tire_fl" class="tire-label t-glass">🔷 左前輪 FL</label>
+            </div>
+            <div>
+                <input type="checkbox" id="tire_fr" class="tire-btn" onchange="generateText()">
+                <label for="tire_fr" class="tire-label t-paint">🔶 右前輪 FR</label>
+            </div>
+            <div>
+                <input type="checkbox" id="tire_rl" class="tire-btn" onchange="generateText()">
+                <label for="tire_rl" class="tire-label t-wheel">⚫ 左後輪 RL</label>
+            </div>
+            <div>
+                <input type="checkbox" id="tire_rr" class="tire-btn" onchange="generateText()">
+                <label for="tire_rr" class="tire-label t-light">💡 右後輪 RR</label>
+            </div>
+        </div>
+        
+        <div class="check-row">
+            <input type="checkbox" id="chk_battery" onchange="generateText()">
+            <label for="chk_battery">電瓶電容量約：<input type="number" id="num_battery" class="input-short" placeholder="--" oninput="generateText()"> %</label>
+        </div>
+        
+        <div class="check-row" style="padding-left: 20px; background: #fdfdfd;">
+            <input type="checkbox" id="chk_battery_adv" onchange="generateText()">
+            <label for="chk_battery_adv" style="font-size: 12px; color: #666;">💡 附加：電瓶平均壽命約一年半至兩年建議調早預防性更換</label>
+        </div>
+        
+        <div class="check-row" style="flex-direction: column; align-items: flex-start;">
+            <div style="display: flex; align-items: center; width: 100%;">
+                <input type="checkbox" id="chk_tyre" onchange="generateText()">
+                <label for="chk_tyre" style="font-weight: bold;">🚗 胎紋深度紀錄 (mm)</label>
+            </div>
+            <div class="tyre-four-grid">
+                <div class="tyre-input-box">左前(FL)：<input type="number" id="num_tyre_fl" step="0.1" class="input-short" placeholder="--" oninput="generateText()"></div>
+                <div class="tyre-input-box">右前(FR)：<input type="number" id="num_tyre_fr" step="0.1" class="input-short" placeholder="--" oninput="generateText()"></div>
+                <div class="tyre-input-box">左後(RL)：<input type="number" id="num_tyre_rl" step="0.1" class="input-short" placeholder="--" oninput="generateText()"></div>
+                <div class="tyre-input-box">右後(RR)：<input type="number" id="num_tyre_rr" step="0.1" class="input-short" placeholder="--" oninput="generateText()"></div>
+            </div>
+        </div>
+
+        <div class="check-row">
+            <input type="checkbox" id="chk_ac_odor" onchange="generateText()">
+            <label for="chk_ac_odor" style="color: var(--color-glass);">❄️ 冷氣異味標準聲明說明</label>
+        </div>
+        <div class="check-row">
+            <input type="checkbox" id="chk_add" onchange="generateText()">
+            <label for="chk_add">尿素添加完成 實施初始化</label>
+        </div>
+
+        <div class="check-row">
+            <input type="checkbox" id="chk_road" onchange="generateText()">
+            <label for="chk_road">
+                路試：於 <input type="date" id="date_road" class="input-date" onchange="generateText()"> 
+                自 <input type="number" id="num_road_start" class="input-short" placeholder="起點" oninput="generateText()"> km 
+                至 <input type="number" id="num_road_end" class="input-short" placeholder="終點" oninput="generateText()"> km
+            </label>
+        </div>
+
+        <div style="margin-top: 10px; padding: 6px; border: 1px solid #ffcccc; border-radius: 4px;">
+            <span style="font-weight: bold; color: var(--color-warranty); font-size: 12px;">🛡️ 原廠保固理賠專區</span>
+            
+            <div class="check-row" style="margin-top: 4px;">
+                <input type="checkbox" id="chk_warranty_pre" onchange="generateText()">
+                <label for="chk_warranty_pre" style="color: var(--color-warranty);">【方案 A】需事先授權送件</label>
+            </div>
+            <div class="sub-warranty-box" id="box_war_pre" style="display: none;">
+                <div class="warranty-field-title">車主問題描述：</div>
+                <input type="text" id="txt_war_doc" placeholder="車輛溫度高" oninput="generateText()">
+                <div class="warranty-field-title">檢查及維修內容：</div>
+                <input type="text" id="txt_war_part" placeholder="檢查節溫器損壞" oninput="generateText()">
+            </div>
+
+            <div class="check-row">
+                <input type="checkbox" id="chk_warranty_now" onchange="generateText()">
+                <label for="chk_warranty_now" style="color: green;">【方案 B】當下即時保固換新</label>
+            </div>
+            <div class="sub-warranty-box" id="box_war_now" style="display: none; background: #f6fdf6; border-color: #c2fbc4;">
+                <div class="warranty-field-title">車主問題描述：</div>
+                <input type="text" id="txt_now_complaint" placeholder="ABS燈亮" oninput="generateText()">
+                <div class="warranty-field-title">檢查及維修內容：</div>
+                <input type="text" id="txt_now_part" placeholder="左後ABS感應器故障" oninput="generateText()">
+            </div>
+
+            <div class="check-row" style="background: #fff9e6; border-radius: 4px; padding: 4px; margin-top: 4px;">
+                <input type="checkbox" id="chk_didi" onchange="generateText()">
+                <label for="chk_didi" style="color: var(--didi-color); font-size: 12px;">🚨 標記為【DIDI 後補報告】</label>
+            </div>
+        </div>
+
+        <div style="margin-top: 10px; padding: 6px; border: 1px solid #cbd5e1; border-radius: 4px;">
+            <span style="font-weight: bold; color: var(--color-glass); font-size: 12px;">🚗 新車整備檢查 (PDI) 項目</span>
+            <div class="form-inline-row" style="margin-top: 4px; gap: 10px;">
+                <label><input type="checkbox" id="chk_pdi_done" onchange="generateText()"> PDI完成</label>
+                <label><input type="checkbox" id="chk_pdi_bat" onchange="generateText()"> 電瓶印出</label>
+                <label><input type="checkbox" id="chk_pdi_nav" onchange="generateText()"> 圖資安裝</label>
+                <label><input type="checkbox" id="chk_pdi_lang" onchange="generateText()"> 中文化</label>
+                <label style="color: #b71c1c; font-weight: bold;"><input type="checkbox" id="chk_pdi_recorder" onchange="generateText()"> 📷 行車紀錄器</label>
+            </div>
+            <div class="check-row" style="margin-top: 6px; border-top: 1px dashed #cbd5e1; padding-top: 6px;">
+                <input type="checkbox" id="chk_pdi_delay" onchange="generateText()">
+                <label for="chk_pdi_delay" style="color: #d83b01; font-weight: bold; font-size: 12px;">⏳ 附加：圖資或中文化 業務擇日回廠另約處理</label>
+            </div>
+        </div>
+
+        <div class="form-group" style="margin-top: 10px;">
+            <label>💬 其他綜合維修 / 複雜故障描述手寫區（此內容將直接串接至訊息最後）：</label>
+            <textarea id="txt_other" placeholder="在此輸入手寫內容，將會以純文字型態附加在訊息末端..." oninput="generateText()"></textarea>
+        </div>
+    </div>
+    
+    <div class="section-card">
+        <div class="section-title">📱 Line 訊息封裝與即時預覽</div>
+        
+        <div class="preview-title">拼裝主旨與內文預覽：</div>
+        <div class="preview-box" id="preview">尚未勾選或輸入任何項目</div>
+        
+        <button class="btn-line" onclick="handleLineSubmit()">
+            🟢 複製 Line 快速通報罐頭
+        </button>
+        
+        <button class="btn-clear" onclick="resetForm()">🔄 清除當前控制台勾選紀錄</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="warrantyModal">
+    <div class="modal-content">
+        <div class="modal-header">📋 保固前置作業必備文件審查</div>
+        <div class="modal-body">
+            <p style="font-size: 13px; color: #666; margin-top: 0;">偵測到此車單包含【保固理賠項目】，請確認以下前置作業是否皆已落實：</p>
+            <div class="modal-item"><input type="checkbox" id="m_chk1"><label for="m_chk1">1. 是否已開立正式的【索賠工單】？</label></div>
+            <div class="modal-item"><input type="checkbox" id="m_chk2"><label for="m_chk2">2. 是否已填寫【CIF】？</label></div>
+            <div class="modal-item"><input type="checkbox" id="m_chk3"><label for="m_chk3">3. 是否已完成關鍵故障點的【拍照及錄影】存證？</label></div>
+            <div class="modal-item"><input type="checkbox" id="m_chk4"><label for="m_chk4">4. 是否已進行【全功能檢測】並讀取故障日誌（Log）？</label></div>
+            <div class="modal-item"><input type="checkbox" id="m_chk5"><label for="m_chk5">5. 是否已確認施作任務編碼與故障列印？</label></div>
+            <div class="modal-item"><input type="checkbox" id="m_chk6"><label for="m_chk6">6. 【延長確認】若車輛已過三年保固，是否已檢附車輛與保養履歷？</label></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-modal-cancel" onclick="closeModal()">取消修改</button>
+            <button class="btn-modal-confirm" onclick="confirmModalAndSend()">確認備齊，發送</button>
+        </div>
+    </div>
+</div>
+
+<script>
+window.onload = function() { initCurrentDate(); };
+
+function initCurrentDate() {
+    let today = new Date();
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0');
+    let yyyy = today.getFullYear();
+    document.getElementById('date_road').value = yyyy + '-' + mm + '-' + dd;
+}
+
+function generateText() {
+    let result = [];
+    document.getElementById('box_war_pre').style.display = document.getElementById('chk_warranty_pre').checked ? 'block' : 'none';
+    document.getElementById('box_war_now').style.display = document.getElementById('chk_warranty_now').checked ? 'block' : 'none';
+    
+    // --- 定期保養 / 引擎維修 邏輯 ---
+    let maintenanceItems = [];
+    
+    if (document.getElementById('chk_battery').checked) {
+        let val = document.getElementById('num_battery').value || '--';
+        let advText = document.getElementById('chk_battery_adv').checked ? "（電瓶平均壽命約一年半至兩年建議調早預防性更換）" : "";
+        maintenanceItems.push(`  ▪️ 電瓶電容量約：${val}% ${advText}`);
+    } else if (document.getElementById('chk_battery_adv').checked) {
+        maintenanceItems.push(`  ▪️ 電瓶維護建議：電瓶平均壽命約一年半至兩年建議調早預防性更換。`);
+    }
+    
+    if (document.getElementById('chk_tyre').checked) {
+        let fl = document.getElementById('num_tyre_fl').value || '--';
+        let fr = document.getElementById('num_tyre_fr').value || '--';
+        let rl = document.getElementById('num_tyre_rl').value || '--';
+        let rr = document.getElementById('num_tyre_rr').value || '--';
+        maintenanceItems.push(`  ▪️ 胎紋深度：左前 ${fl}mm / 右前 ${fr}mm / 左後 ${rl}mm / 右後 ${rr}mm`);
+    }
+    
+    let selectedTires = [];
+    if (document.getElementById('tire_fl').checked) selectedTires.push("左前輪補胎");
+    if (document.getElementById('tire_fr').checked) selectedTires.push("右前輪補胎");
+    if (document.getElementById('tire_rl').checked) selectedTires.push("左後輪補胎");
+    if (document.getElementById('tire_rr').checked) selectedTires.push("右後輪補胎");
+    
+    if (selectedTires.length > 0) {
+        maintenanceItems.push(`  ▪️ 輪胎施工：${selectedTires.join('、')}`);
+    }
+    
+    if (document.getElementById('chk_ac_odor').checked) {
+        maintenanceItems.push(`  ▪️ 冷氣異味：已與車主說明為蒸發器殘留水分產生異味，本次已清潔，建議再觀察。`);
+    }
+    if (document.getElementById('chk_add').checked) {
+        maintenanceItems.push(`  ▪️ 尿素施工：尿素添加完成 實施初始化`);
+    }
+    if (document.getElementById('chk_road').checked) {
+        let testDate = document.getElementById('date_road').value || '[未選日期]';
+        let start = document.getElementById('num_road_start').value || '--';
+        let end = document.getElementById('num_road_end').value || '--';
+        maintenanceItems.push(`  ▪️ 道路試車：於 【${testDate}】 進行路試，里程自 ${start} km 至 ${end} km`);
+    }
+    
+    if (maintenanceItems.length > 0) {
+        result.push(`【定期保養 / 引擎維修紀錄】\n${maintenanceItems.join('\n')}`);
+    }
+    
+    // --- 保固理賠 邏輯 ---
+    let warrantyParts = [];
+    
+    if (document.getElementById('chk_warranty_pre').checked) {
+        let docInput = document.getElementById('txt_war_doc');
+        let partInput = document.getElementById('txt_war_part');
+        let doc = docInput.value.trim() || docInput.getAttribute('placeholder');
+        let part = partInput.value.trim() || partInput.getAttribute('placeholder');
+        
+        warrantyParts.push(`  ▪️ 事先授權件：${doc} ／ ${part}。本案符合保固規範，後續需進行事先授權送件審核，待審核通過後另行通知車主進廠更換。`);
+    }
+    
+    if (document.getElementById('chk_warranty_now').checked) {
+        let complaintInput = document.getElementById('txt_now_complaint');
+        let partInput = document.getElementById('txt_now_part');
+        let complaint = complaintInput.value.trim() || complaintInput.getAttribute('placeholder');
+        let part = partInput.value.trim() || partInput.getAttribute('placeholder');
+        
+        warrantyParts.push(`  ▪️ ：${complaint}/${part} 後確診故障，更新新品後問題得到解決。`);
+    }
+    
+    if (document.getElementById('chk_didi').checked) {
+        warrantyParts.push(`  ⚠️ 【重要標記：DIDI 後補】本工單目前為尚未寫DIDI後補狀態，請相關人員注意後續補件流程。`);
+    }
+    if (warrantyParts.length > 0) {
+        result.push(`【原廠保固理賠紀錄】\n${warrantyParts.join('\n')}`);
+    }
+    
+    // --- 新車整備 邏輯 ---
+    let pdiItems = [];
+    if (document.getElementById('chk_pdi_done').checked) pdiItems.push(`  ▪️ 新車檢查完成`);
+    if (document.getElementById('chk_pdi_bat').checked) pdiItems.push(`  ▪️ 電瓶數據已列印`);
+    if (document.getElementById('chk_pdi_nav').checked) pdiItems.push(`  ▪️ 導航圖資安裝完成`);
+    if (document.getElementById('chk_pdi_lang').checked) pdiItems.push(`  ▪️ 系統中文化完成`);
+    if (document.getElementById('chk_pdi_recorder').checked) {
+        pdiItems.push(`  ▪️ 行車紀錄器安裝完成（原廠後視鏡已隨車交還業務/車主）`);
+    }
+    if (document.getElementById('chk_pdi_delay').checked) {
+        pdiItems.push(`  ⚠️ 備註提醒：圖資或中文化部分業務將擇日回廠另約處理。`);
+    }
+    
+    if (pdiItems.length > 0) {
+        result.push(`【新車 PDI 整備紀錄】\n${pdiItems.join('\n')}`);
+    }
+    
+    let otherText = document.getElementById('txt_other').value.trim();
+    if (otherText) {
+        result.push(otherText);
+    }
+    
+    let finalOutput = result.join('\n\n');
+    let previewBox = document.getElementById('preview');
+    if (finalOutput) {
+        previewBox.innerText = finalOutput;
+        previewBox.style.color = '#1e293b';
+    } else {
+        previewBox.innerText = "尚未勾選或輸入任何項目";
+        previewBox.style.color = '#94a3b8';
+    }
+}
+
+function resetForm() {
+    if (confirm("確認要清除目前所有已勾選與填寫的維修備註嗎？")) {
+        let checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(chk => chk.checked = false);
+        let inputs = document.querySelectorAll('input[type="number"], input[type="text"]');
+        inputs.forEach(input => input.value = '');
+        document.getElementById('txt_other').value = '';
+        initCurrentDate();
+        generateText();
+    }
+}
+
+function handleLineSubmit() {
+    let text = document.getElementById('preview').innerText;
+    if (!text || text === "尚未勾選或輸入任何項目") {
+        alert("請至少勾選或填寫一項備註內容！");
+        return;
+    }
+    let isWarrantyActive = document.getElementById('chk_warranty_pre').checked || 
+                           document.getElementById('chk_warranty_now').checked ||
+                           document.getElementById('chk_didi').checked;
+    if (isWarrantyActive) {
+        for(let i=1; i<=6; i++) { document.getElementById('m_chk' + i).checked = false; }
+        document.getElementById('warrantyModal').style.display = 'flex';
+    } else {
+        executeLineLink(text);
+    }
+}
+function closeModal() { document.getElementById('warrantyModal').style.display = 'none'; }
+function confirmModalAndSend() {
+    for(let i=1; i<=6; i++) {
+        if (!document.getElementById('m_chk' + i).checked) {
+            alert("請確實檢視並勾選所有確認要點，保固文件不齊全將導致退件！");
+            return;
+        }
+    }
+    closeModal();
+    let text = document.getElementById('preview').innerText;
+    executeLineLink(text);
+}
+
+/* 核心優化：修改為純複製邏輯，不進行網頁跳轉 */
+function executeLineLink(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        alert("通報罐頭已成功複製至剪貼簿！");
+    }).catch(err => {
+        alert("複製失敗，請檢查瀏覽器權限或手動選取複製。");
+    });
+}
+</script>
+
+</body>
+</html>
