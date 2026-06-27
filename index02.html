@@ -38,8 +38,7 @@
 </head>
 <body class="text-slate-200 min-h-screen p-4 md:p-12 selection:bg-amber-500 selection:text-slate-900">
 
-    <!-- 頂部標題區 -->
-    <header class="max-w-7xl mx-auto mb-12 flex flex-col xl:flex-row justify-between items-start xl:items-stretch border-b border-slate-800 pb-6 gap-6">
+    <header class="max-w-7xl mx-auto mb-6 flex flex-col xl:flex-row justify-between items-start xl:items-stretch border-b border-slate-800 pb-6 gap-6">
         <div class="flex-1">
             <div class="text-xs font-mono tracking-widest text-amber-400 mb-2">OFFICIAL WARRANTY & REVENUE CONTROL REGULATION</div>
             <h1 class="text-2xl md:text-4xl font-extrabold tracking-tight text-white neon-text-amber">延長保固購買流程與全車系價格管制系統</h1>
@@ -66,9 +65,33 @@
         </div>
     </header>
 
-    <!-- 左右雙欄排版 -->
+    <div class="max-w-7xl mx-auto mb-8">
+        <div class="glass-panel rounded-2xl p-5 border border-amber-500/30 shadow-[0_0_20px_rgba(245,158,11,0.05)]">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                <div class="flex-1 space-y-1">
+                    <div class="flex items-center space-x-2">
+                        <span class="inline-block w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                        <h2 class="text-xs font-mono tracking-wider text-amber-400 uppercase font-bold">資格審查防呆工具 // 0~33 個月限時自動試算</h2>
+                    </div>
+                    <p class="text-xs text-slate-400">請輸入車輛的「新車領牌日期」或「交車日期」，系統將自動計算截至今日是否符合加購時限。</p>
+                </div>
+                
+                <div class="w-full md:w-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+                    <div class="relative">
+                        <input type="text" id="delivery-date-input" placeholder="格式範例: 2023/10/24" class="w-full sm:w-60 bg-slate-950/80 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white font-mono placeholder-slate-600 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all">
+                    </div>
+                    <button onclick="calculateWarrantyEligibility()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-sans font-bold text-xs px-6 py-3 rounded-xl transition-all shadow-md whitespace-nowrap">
+                        執行效期試算 ➜
+                    </button>
+                </div>
+            </div>
+            
+            <div id="calculator-result" class="hidden mt-4 pt-4 border-t border-slate-800/60 transition-all duration-300">
+                </div>
+        </div>
+    </div>
+
     <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        <!-- 左欄區 -->
         <div class="lg:col-span-7 space-y-6">
             <div class="node-card glass-panel w-full p-6 rounded-2xl border-l-4 border-l-amber-500 flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0" onclick="openModal('m-time')">
                 <div class="space-y-1">
@@ -101,7 +124,6 @@
                 <div class="text-xs text-purple-400 font-mono font-bold whitespace-nowrap bg-purple-950/40 px-3 py-1.5 rounded-lg border border-purple-900/60">查看必備附件 ➜</div>
             </div>
 
-            <!-- 總代理官方通報文件庫 -->
             <div class="pt-2">
                 <section class="glass-panel rounded-2xl p-5 border border-sky-500/20 shadow-[0_0_20px_rgba(56,189,248,0.05)]">
                     <div class="flex items-center space-x-2 mb-4">
@@ -129,7 +151,6 @@
                 </section>
             </div>
 
-            <!-- 實務經驗與審查軌跡觀摩庫 -->
             <div class="pt-2">
                 <section class="glass-panel rounded-2xl p-5 border border-emerald-500/30 shadow-[0_0_25px_rgba(16,185,129,0.08)] space-y-4">
                     <div class="flex items-center space-x-2 mb-2">
@@ -156,7 +177,6 @@
             </div>
         </div>
 
-        <!-- 右欄區 -->
         <div class="lg:col-span-5 w-full space-y-6">
             <section class="glass-panel rounded-2xl p-5 border border-amber-500/20 shadow-[0_0_20px_rgba(245,158,11,0.05)]">
                 <div class="flex items-center space-x-2 mb-4">
@@ -195,7 +215,6 @@
                 </div>
             </section>
 
-            <!-- 數位工作流面板 -->
             <section class="glass-panel rounded-2xl p-5 border border-sky-500/30 shadow-2xl space-y-4">
                 <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                     <h2 class="text-xs font-mono tracking-wider text-sky-400 uppercase">延保申請結帳與審查數位工作流</h2>
@@ -264,8 +283,6 @@
         </div>
     </div>
 
-    <!-- ================== 💡 彈出視窗層 (Modals Layer) ================== -->
-    <!-- STAGE 1 MODAL -->
     <div id="m-time" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'm-time')">
         <div class="bg-slate-900 border border-slate-800 max-w-xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[85vh] modal-content shadow-2xl">
             <h3 class="text-lg font-bold text-amber-400 mb-3">一、銷售時機規範與時間防呆</h3>
@@ -287,7 +304,6 @@
         </div>
     </div>
 
-    <!-- STAGE 2 MODAL -->
     <div id="m-psa" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'm-psa')">
         <div class="bg-slate-900 border border-slate-800 max-w-3xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[85vh] modal-content shadow-2xl">
             <h3 class="text-lg font-bold text-teal-400 mb-4">二、Peugeot、Citroën、Jeep 延長保固售價表 (含稅)</h3>
@@ -320,7 +336,6 @@
         </div>
     </div>
 
-    <!-- STAGE 3 MODAL -->
     <div id="m-alfa" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'm-alfa')">
         <div class="bg-slate-900 border border-slate-800 max-w-3xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[85vh] modal-content shadow-2xl">
             <h3 class="text-lg font-bold text-purple-400 mb-3">三、Alfa Romeo 各車型售價與 DMS 送件審查規範</h3>
@@ -356,8 +371,6 @@
         </div>
     </div>
 
-    <!-- ================== 🛠️ 以下為 文件彈出視窗 ================== -->
-    <!-- 技服通字第 114062 號 -->
     <div id="doc-114062" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'doc-114062')">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-4 relative modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-3 space-x-2">
@@ -375,7 +388,6 @@
         </div>
     </div>
 
-    <!-- 第 202605014 號 通報 -->
     <div id="doc-202605014" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'doc-202605014')">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-4 relative modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-3 space-x-2">
@@ -393,7 +405,6 @@
         </div>
     </div>
 
-    <!-- 實際核准案例過程總檔 -->
     <div id="doc-actual-case" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'doc-actual-case')">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-4 relative modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-3 space-x-2">
@@ -412,7 +423,6 @@
         </div>
     </div>
 
-    <!-- 延長保固操作頁面教學 -->
     <div id="doc-operation-guide" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'doc-operation-guide')">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-4 relative modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-3 space-x-2">
@@ -431,7 +441,6 @@
         </div>
     </div>
 
-    <!-- 延長保固契約書 -->
     <div id="doc-contract" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'doc-contract')">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-4 relative modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-3 space-x-2">
@@ -450,7 +459,6 @@
         </div>
     </div>
 
-    <!-- 延長保固車況檢視表 -->
     <div id="doc-inspect" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'doc-inspect')">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-4 relative modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-3 space-x-2">
@@ -469,7 +477,6 @@
         </div>
     </div>
 
-    <!-- 延長保固-車況檢查表照片黏貼表 -->
     <div id="doc-photos" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'doc-photos')">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-4 relative modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-3 space-x-2">
@@ -488,7 +495,6 @@
         </div>
     </div>
 
-    <!-- 車輛購買清單總表 -->
     <div id="doc-sheets" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'doc-sheets')">
         <div class="bg-slate-900 border border-slate-800 max-w-7xl w-full rounded-2xl p-4 relative modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-3 space-x-2">
@@ -507,8 +513,6 @@
         </div>
     </div>
 
-    <!-- ================== 💡 流程詳細視窗 01～06 ================== -->
-    <!-- 01. DMS系統送件申請 -->
     <div id="step-b11" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'step-b11')">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[90vh] modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-2">
@@ -520,13 +524,12 @@
             </div>
             <div class="text-slate-300 space-y-4 text-sm leading-relaxed bg-slate-950 p-5 rounded-xl border border-slate-800">
                 <p>啟動延長保固流程的第一步。請第一線同仁登入 DMS 系統「會員中心」，進入「合約權益商品銷售」專區。</p>
-                <p>此階段必須將車主資訊與購買合約完整建檔，並同步於後台附件欄位上傳<span class="text-sky-400 font-bold">「延長保固契約書」</span>、<span class="text-sky-400 font-bold">「延長保固車況檢視表」</span>以及<span class="text-sky-400 font-bold">「車況檢查照片」</span>共三份核心文件，做為總代理審查的必備依據。</p>
+                <p>此階段必須將車主資訊與購買合約完整建檔，並同步於後台附件欄位上傳<span class="text-sky-400 font-bold">「延長保固契約書」</span>、<span class="text-sky-400 font-bold">「延長保固車況檢視表’」</span>以及<span class="text-sky-400 font-bold">「車況檢查照片」</span>共三份核心文件，做為總代理審查的必備依據。</p>
             </div>
             <div class="p-1 bg-slate-950 rounded-xl border border-slate-800 mt-4"><img src="https://raw.githubusercontent.com/xdespair0217/whiteboard/main/B11.png" class="w-full h-auto rounded-lg block" loading="lazy"></div>
         </div>
     </div>
 
-    <!-- 02. 實車車輛檢查 -->
     <div id="step-b13" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'step-b13')">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[90vh] modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-2">
@@ -545,7 +548,6 @@
         </div>
     </div>
 
-    <!-- 03. 向車主說明與合約確認 -->
     <div id="step-b02" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'step-b02')">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[90vh] modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-2">
@@ -564,7 +566,6 @@
         </div>
     </div>
 
-    <!-- 04. 結帳與開立發票 -->
     <div id="step-b12" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'step-b12')">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[90vh] modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-2">
@@ -582,7 +583,6 @@
         </div>
     </div>
 
-    <!-- 05. 提供送審文件給總代理 -->
     <div id="step-b14" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'step-b14')">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[90vh] modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-2">
@@ -603,7 +603,6 @@
         </div>
     </div>
 
-    <!-- 06. 每月25號定期清單回傳 -->
     <div id="step-monthly6" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'step-monthly6')">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[90vh] modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-2">
@@ -717,6 +716,96 @@
                 closeModal(modalId);
             }
         }
+
+        // 🎯 新增：車齡時限與資格自動試算邏輯
+        function calculateWarrantyEligibility() {
+            const inputVal = document.getElementById('delivery-date-input').value.trim();
+            const resultDiv = document.getElementById('calculator-result');
+            
+            if (!inputVal) {
+                alert('請輸入領牌/交車日期');
+                return;
+            }
+            
+            // 支援 yyyy/mm/dd 或 yyyy-mm-dd
+            const normalizedDateStr = inputVal.replace(/\//g, '-');
+            const deliveryDate = new Date(normalizedDateStr);
+            
+            if (isNaN(deliveryDate.getTime())) {
+                alert('日期格式錯誤，請使用 2023/10/24 形式輸入。');
+                return;
+            }
+            
+            // 公告基準日設定為系統當前時間（2026/06/27）
+            const today = new Date('2026-06-27');
+            
+            // 計算毫秒差與天數差
+            const timeDiff = today.getTime() - deliveryDate.getTime();
+            const dayDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
+            
+            if (dayDiff < 0) {
+                alert('輸入的日期晚於系統當前時間，請重新檢查。');
+                return;
+            }
+            
+            // 計算大約月數 (依據總代理邏輯精準換算)
+            const diffYears = today.getFullYear() - deliveryDate.getFullYear();
+            let monthDiff = (diffYears * 12) + (today.getMonth() - deliveryDate.getMonth());
+            
+            // 修正未滿一個月的天數細節
+            if (today.getDate() < deliveryDate.getDate()) {
+                monthDiff--;
+            }
+            
+            // 判定防呆臨界點：黃金 33 個月 (以天數計大約為 33 * 30.4375 = 1004 天)
+            // 為求系統與總代理硬體鎖死規則同步，此處採月數比對為主，並提示剩餘天數
+            const limitMonths = 33;
+            const limitDays = Math.floor(limitMonths * 30.4375); // 1004天
+            
+            let statusHTML = '';
+            
+            if (monthDiff >= 0 && monthDiff <= limitMonths) {
+                // 符合資格
+                const remainingDays = limitDays - dayDiff;
+                statusHTML = `
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 bg-emerald-950/40 border border-emerald-500/40 rounded-xl gap-4 animate-fade-in">
+                        <div class="font-sans text-xs space-y-1">
+                            <div class="text-emerald-400 font-extrabold text-sm flex items-center gap-1.5">
+                                <span>🟢 核實結果：准予受理購買</span>
+                                <span class="bg-emerald-500/20 text-emerald-400 font-mono text-[10px] px-2 py-0.5 rounded border border-emerald-500/30">STAGE 1 通過</span>
+                            </div>
+                            <p class="text-slate-300">該車目前車齡約為 <span class="text-white font-bold font-mono text-sm">${monthDiff}</span> 個月 (已進廠領牌 <span class="text-white font-bold font-mono">${dayDiff}</span> 天)。</p>
+                        </div>
+                        <div class="text-right whitespace-nowrap bg-emerald-900/30 border border-emerald-800/60 px-4 py-2 rounded-xl text-xs">
+                            <span class="text-slate-400 block text-[10px]">距系統鎖死尚餘</span>
+                            <span class="text-emerald-400 font-mono font-bold text-base">${remainingDays > 0 ? remainingDays : 0}</span> <span class="text-slate-300">天</span>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // 超過時限
+                const overdueDays = dayDiff - limitDays;
+                statusHTML = `
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 bg-rose-950/40 border border-rose-500/40 rounded-xl gap-4 animate-fade-in">
+                        <div class="font-sans text-xs space-y-1">
+                            <div class="text-rose-400 font-extrabold text-sm flex items-center gap-1.5">
+                                <span>🔴 核實結果：拒絕受理 (系統已鎖死)</span>
+                                <span class="bg-rose-500/20 text-rose-400 font-mono text-[10px] px-2 py-0.5 rounded border border-rose-500/30">車齡溢出</span>
+                            </div>
+                            <p class="text-slate-300">該車目前車齡已達約 <span class="text-white font-bold font-mono text-sm">${monthDiff}</span> 個月 (已進廠領牌 <span class="text-white font-bold font-mono">${dayDiff}</span> 天)。</p>
+                        </div>
+                        <div class="text-right whitespace-nowrap bg-rose-900/30 border border-rose-800/60 px-4 py-2 rounded-xl text-xs">
+                            <span class="text-slate-400 block text-[10px]">已硬性逾期</span>
+                            <span class="text-rose-400 font-mono font-bold text-base">${overdueDays}</span> <span class="text-slate-300">天</span>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            resultDiv.innerHTML = statusHTML;
+            resultDiv.classList.remove('hidden');
+        }
     </script>
+
 </body>
 </html>
