@@ -524,7 +524,7 @@
             </div>
             <div class="text-slate-300 space-y-4 text-sm leading-relaxed bg-slate-950 p-5 rounded-xl border border-slate-800">
                 <p>啟動延長保固流程的第一步。請第一線同仁登入 DMS 系統「會員中心」，進入「合約權益商品銷售」專區。</p>
-                <p>此階段必須將車主資訊與購買合約完整建檔，並同步於後台附件欄位上傳<span class="text-sky-400 font-bold">「延長保固契約書」</span>、<span class="text-sky-400 font-bold">「延長保固車況檢視表’」</span>以及<span class="text-sky-400 font-bold">「車況檢查照片」</span>共三份核心文件，做為總代理審查的必備依據。</p>
+                <p>此階段必須將車主資訊與購買合約完整建檔，並同步於後台附件欄位上傳<span class="text-sky-400 font-bold">「延長保固契約書」</span>、<span class="text-sky-400 font-bold">「延長保固車況檢視表」</span>以及<span class="text-sky-400 font-bold">「車況檢查照片」</span>共三份核心文件，做為總代理審查的必備依據。</p>
             </div>
             <div class="p-1 bg-slate-950 rounded-xl border border-slate-800 mt-4"><img src="https://raw.githubusercontent.com/xdespair0217/whiteboard/main/B11.png" class="w-full h-auto rounded-lg block" loading="lazy"></div>
         </div>
@@ -717,7 +717,7 @@
             }
         }
 
-        // 🎯 新增：車齡時限與資格自動試算邏輯
+        // 🎯 精準跨月審查演算法（100% 同步總代理防呆機制）
         function calculateWarrantyEligibility() {
             const inputVal = document.getElementById('delivery-date-input').value.trim();
             const resultDiv = document.getElementById('calculator-result');
@@ -736,67 +736,74 @@
                 return;
             }
             
-            // 公告基準日設定為系統當前時間（2026/06/27）
+            // 公告基準當前時間（2026/06/27）
             const today = new Date('2026-06-27');
             
-            // 計算毫秒差與天數差
-            const timeDiff = today.getTime() - deliveryDate.getTime();
-            const dayDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
-            
-            if (dayDiff < 0) {
+            if (today < deliveryDate) {
                 alert('輸入的日期晚於系統當前時間，請重新檢查。');
                 return;
             }
             
-            // 計算大約月數 (依據總代理邏輯精準換算)
+            // 1. 理性解構：計算客觀跨月總月差
             const diffYears = today.getFullYear() - deliveryDate.getFullYear();
             let monthDiff = (diffYears * 12) + (today.getMonth() - deliveryDate.getMonth());
             
-            // 修正未滿一個月的天數細節
+            // 計算精確「足月數」：若今日天數未達領牌當天，則月數減 1
+            let exactFullMonths = monthDiff;
             if (today.getDate() < deliveryDate.getDate()) {
-                monthDiff--;
+                exactFullMonths--;
             }
+
+            // 精確界定：車輛目前正處於領牌後的「第幾個月」
+            // 範例：滿 33 個月又 1 天，代表已經跨入「第 34 個月」，系統即刻封鎖
+            const currentVehicleMonth = exactFullMonths + 1;
             
-            // 判定防呆臨界點：黃金 33 個月 (以天數計大約為 33 * 30.4375 = 1004 天)
-            // 為求系統與總代理硬體鎖死規則同步，此處採月數比對為主，並提示剩餘天數
-            const limitMonths = 33;
-            const limitDays = Math.floor(limitMonths * 30.4375); // 1004天
+            // 2. 輔助數據：計算相對總天數
+            const timeDiff = today.getTime() - deliveryDate.getTime();
+            const totalDayDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
             
             let statusHTML = '';
             
-            if (monthDiff >= 0 && monthDiff <= limitMonths) {
-                // 符合資格
-                const remainingDays = limitDays - dayDiff;
+            // 嚴格審查防呆：進入第 34 個月（currentVehicleMonth >= 34）或足月滿 33 個月即硬性封鎖
+            if (currentVehicleMonth >= 34 || exactFullMonths >= 33) {
+                // 超過時限（進入鎖死期 34、35、36 個月）
                 statusHTML = `
-                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 bg-emerald-950/40 border border-emerald-500/40 rounded-xl gap-4 animate-fade-in">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 bg-rose-950/40 border border-rose-500/40 rounded-xl gap-4">
                         <div class="font-sans text-xs space-y-1">
-                            <div class="text-emerald-400 font-extrabold text-sm flex items-center gap-1.5">
-                                <span>🟢 核實結果：准予受理購買</span>
-                                <span class="bg-emerald-500/20 text-emerald-400 font-mono text-[10px] px-2 py-0.5 rounded border border-emerald-500/30">STAGE 1 通過</span>
+                            <div class="text-rose-400 font-extrabold text-sm flex items-center gap-1.5">
+                                <span>🔴 核實結果：拒絕受理 (系統已硬性鎖死)</span>
+                                <span class="bg-rose-500/20 text-rose-400 font-mono text-[10px] px-2 py-0.5 rounded border border-rose-500/30">進入第 ${currentVehicleMonth} 個月</span>
                             </div>
-                            <p class="text-slate-300">該車目前車齡約為 <span class="text-white font-bold font-mono text-sm">${monthDiff}</span> 個月 (已進廠領牌 <span class="text-white font-bold font-mono">${dayDiff}</span> 天)。</p>
+                            <p class="text-slate-300">該車目前車齡已進入<span class="text-rose-400 font-bold text-sm">第 ${currentVehicleMonth} 個月</span> (已領牌相對總天數為 <span class="text-white font-bold font-mono">${totalDayDiff}</span> 天)。</p>
+                            <p class="text-slate-400 text-[11px]">※ 依總代理法規：車齡達 33 個月又 1 天起即視為進入第 34 個月，前台加購權限自動關閉。</p>
                         </div>
-                        <div class="text-right whitespace-nowrap bg-emerald-900/30 border border-emerald-800/60 px-4 py-2 rounded-xl text-xs">
-                            <span class="text-slate-400 block text-[10px]">距系統鎖死尚餘</span>
-                            <span class="text-emerald-400 font-mono font-bold text-base">${remainingDays > 0 ? remainingDays : 0}</span> <span class="text-slate-300">天</span>
+                        <div class="text-right whitespace-nowrap bg-rose-900/30 border border-rose-800/60 px-4 py-2 rounded-xl text-xs">
+                            <span class="text-slate-400 block text-[10px]">狀態管制</span>
+                            <span class="text-rose-400 font-sans font-bold text-sm">不符資格</span>
                         </div>
                     </div>
                 `;
             } else {
-                // 超過時限
-                const overdueDays = dayDiff - limitDays;
+                // 符合資格（車齡尚在第 1 ~ 33 個月黃金期內）
+                // 計算距離「滿 33 個月當天（即第 34 個月第一天）」還剩下多少天
+                const targetLockDate = new Date(deliveryDate);
+                targetLockDate.setMonth(targetLockDate.getMonth() + 33);
+                
+                const remainingTime = targetLockDate.getTime() - today.getTime();
+                const remainingDays = Math.ceil(remainingTime / (1000 * 3600 * 24));
+                
                 statusHTML = `
-                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 bg-rose-950/40 border border-rose-500/40 rounded-xl gap-4 animate-fade-in">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 bg-emerald-950/40 border border-emerald-500/40 rounded-xl gap-4">
                         <div class="font-sans text-xs space-y-1">
-                            <div class="text-rose-400 font-extrabold text-sm flex items-center gap-1.5">
-                                <span>🔴 核實結果：拒絕受理 (系統已鎖死)</span>
-                                <span class="bg-rose-500/20 text-rose-400 font-mono text-[10px] px-2 py-0.5 rounded border border-rose-500/30">車齡溢出</span>
+                            <div class="text-emerald-400 font-extrabold text-sm flex items-center gap-1.5">
+                                <span>🟢 核實結果：准予受理購買</span>
+                                <span class="bg-emerald-500/20 text-emerald-400 font-mono text-[10px] px-2 py-0.5 rounded border border-emerald-500/30">車齡第 ${currentVehicleMonth} 個月</span>
                             </div>
-                            <p class="text-slate-300">該車目前車齡已達約 <span class="text-white font-bold font-mono text-sm">${monthDiff}</span> 個月 (已進廠領牌 <span class="text-white font-bold font-mono">${dayDiff}</span> 天)。</p>
+                            <p class="text-slate-300">該車目前車齡處於<span class="text-emerald-400 font-bold text-sm">第 ${currentVehicleMonth} 個月</span> (已領牌相對總天數為 <span class="text-white font-bold font-mono">${totalDayDiff}</span> 天)。</p>
                         </div>
-                        <div class="text-right whitespace-nowrap bg-rose-900/30 border border-rose-800/60 px-4 py-2 rounded-xl text-xs">
-                            <span class="text-slate-400 block text-[10px]">已硬性逾期</span>
-                            <span class="text-rose-400 font-mono font-bold text-base">${overdueDays}</span> <span class="text-slate-300">天</span>
+                        <div class="text-right whitespace-nowrap bg-emerald-900/30 border border-emerald-800/60 px-4 py-2 rounded-xl text-xs">
+                            <span class="text-slate-400 block text-[10px]">距系統鎖死尚餘</span>
+                            <span class="text-emerald-400 font-mono font-bold text-base">${remainingDays > 0 ? remainingDays : 0}</span> <span class="text-slate-300">天</span>
                         </div>
                     </div>
                 `;
