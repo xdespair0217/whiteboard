@@ -380,22 +380,22 @@ function generateText() {
     document.getElementById('box_war_pre').style.display = document.getElementById('chk_warranty_pre').checked ? 'block' : 'none';
     document.getElementById('box_war_now').style.display = document.getElementById('chk_warranty_now').checked ? 'block' : 'none';
     
-    // --- 定期保養 / 引擎維修 邏輯 ---
+  // --- 定期保養 / 引擎維修 邏輯 ---
     let maintenanceItems = [];
     
-    // 電瓶整合區邏輯（含電容量、壽命附加提示、非原廠電瓶註記）
+    // 電瓶整合區邏輯：全面解耦，確保每一項勾選皆為獨立斷行
     if (document.getElementById('chk_battery').checked) {
         let val = document.getElementById('num_battery').value || '--';
-        let advText = document.getElementById('chk_battery_adv').checked ? "（電瓶平均壽命約一年半至兩年建議調早預防性更換）" : "";
-        let oemText = document.getElementById('chk_battery_non_oem').checked ? "【⚠️ 注意：目前車輛安裝非原廠電瓶】" : "";
-        maintenanceItems.push(`  ▪️ 電瓶電容量約：${val}% ${advText}${oemText}`);
-    } else {
-        if (document.getElementById('chk_battery_adv').checked) {
-            maintenanceItems.push(`  ▪️ 電瓶維護建議：電瓶平均壽命約一年半至兩年建議調早預防性更換。`);
-        }
-        if (document.getElementById('chk_battery_non_oem').checked) {
-            maintenanceItems.push(`  ▪️ 電瓶狀態備註：目前車輛安裝之電瓶非原廠電瓶。`);
-        }
+        maintenanceItems.push(`  ▪️ 電瓶電容量約：${val}%`);
+    }
+    
+    if (document.getElementById('chk_battery_adv').checked) {
+        maintenanceItems.push(`  ▪️ 電瓶維護建議：電瓶平均壽命約一年半至兩年，建議調早進行預防性更換。`);
+    }
+    
+    if (document.getElementById('chk_battery_non_oem').checked) {
+        maintenanceItems.push(`  ⚠️ 補記：目前車輛安裝之電瓶非原廠電瓶。`);
+    }
     }
     
     if (document.getElementById('chk_tyre').checked) {
