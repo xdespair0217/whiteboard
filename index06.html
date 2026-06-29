@@ -39,7 +39,6 @@
         }
         .top-navbar span { font-size: 12px; color: #ffca28; font-weight: normal; }
         
-        /* 比例優化：鎖定整體最大高度，防止版面拉動 */
         .main-dashboard {
             display: grid;
             grid-template-columns: 1fr 1.3fr 1fr;
@@ -66,8 +65,10 @@
             overflow: hidden;
         }
 
-        /* 針對中間欄位進行極致空間優化，確保靜態不位移 */
-        .main-dashboard > .section-card:nth-child(2) {
+        /* 讓三個主要區塊在超出高度時皆能獨立捲動，確保在任何螢幕上排版不崩潰 */
+        .main-dashboard > .section-card:nth-child(1),
+        .main-dashboard > .section-card:nth-child(2),
+        .main-dashboard > .section-card:nth-child(3) {
             overflow-y: auto;
             overflow-x: hidden;
         }
@@ -90,13 +91,15 @@
         .sop-list .step-1 { color: #f96315; }
         .sop-list .step-2 { color: #8e44ad; }
         .sop-list .step-3 { color: #2980b9; }
-        .sop-list .highlight-box { background: #fff0f0; border: 1px dashed #ffcccc; padding: 8px; border-radius: 4px; margin-top: 5px; }
+        .sop-list .step-4 { color: #e67e22; }
+        .sop-list .step-5 { color: #27ae60; }
+        .sop-list .step-6 { color: #2c3e50; }
+        .sop-list .highlight-box { background: #fff0f0; border: 1px dashed #ffcccc; padding: 8px; border-radius: 4px; margin-top: 5px; margin-bottom: 5px; }
         
         .tire-matrix-title { font-weight: bold; margin-bottom: 8px; color: #555; font-size: 13px;}
         .tire-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 10px; }
         .tire-btn { display: none; }
         
-        /* 核心修復：縮減按鈕高度與內距，騰出更多垂直空間 */
         .tire-label {
             display: flex; justify-content: center; align-items: center;
             color: #ffffff; padding: 8px 6px; font-size: 13px; font-weight: bold;
@@ -112,8 +115,8 @@
         .tire-btn:checked + .tire-label { opacity: 1; box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1a252f; }
         .tire-label:hover { opacity: 0.85; }
         
-        .form-group { margin-bottom: 10px; display: flex; flex-direction: column; }
-        .form-group label { font-size: 13px; font-weight: bold; color: #555; margin-bottom: 4px; }
+        .form-group { margin-bottom: 12px; display: flex; flex-direction: column; }
+        .form-group label { font-size: 13px; font-weight: bold; color: #555; margin-bottom: 6px; }
         .form-inline-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
         
         .tyre-four-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; width: 100%; margin-top: 4px; padding-left: 25px; }
@@ -127,8 +130,7 @@
         .input-short { width: 65px !important; display: inline-block; text-align: center; padding: 4px !important; font-size: 12px; }
         .input-date { width: 130px !important; display: inline-block; padding: 4px !important; font-size: 12px; }
         
-        /* 微調行距，節省空間 */
-        .check-row { display: flex; align-items: center; padding: 4px 0; border-bottom: 1px solid #f5f5f5; }
+        .check-row { display: flex; align-items: center; padding: 6px 0; border-bottom: 1px solid #f5f5f5; }
         .check-row:last-child { border-bottom: none; }
         input[type="checkbox"] { width: 18px; height: 18px; margin-right: 8px; cursor: pointer; flex-shrink: 0; }
         .check-row label { cursor: pointer; font-weight: 500; display: flex; align-items: center; width: 100%; flex-wrap: wrap; font-size: 13px; }
@@ -140,7 +142,7 @@
         
         .preview-box { 
             background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 4px; padding: 12px; 
-            height: 380px; white-space: pre-wrap; font-size: 14px; color: #334155; 
+            height: 300px; white-space: pre-wrap; font-size: 14px; color: #334155; 
             margin-bottom: 15px; line-height: 1.5; overflow-y: auto; 
         }
         
@@ -186,7 +188,9 @@
                 <strong>🚨 塗裝保固核心要件：</strong><br>
                 漆面塗裝於維修中應拍攝「施工磨土照」及「完成照」以便原廠審查確認。
             </li>
-            <li><span class="step-num step-3">7</span> 理賠項目之零件與工資價格，皆依原廠嘉嘉联合保固與工時系統為準申請，請按規範作業。</li>
+            <li><span class="step-num step-4">4</span> 保固項目之零件與工資價格，皆依原廠嘉嘉聯合保固與工時系統為準申請，請按規範作業。</li>
+            <li><span class="step-num step-5">5</span> <strong>庫存維護：</strong>只要用電瓶儀器上傳到 Optimus 即可，請注意填寫 12V 及 48V 數據。</li>
+            <li><span class="step-num step-6">6</span> <strong>新車整備：</strong>12V 電瓶數據需列印，48V 檢測即可不用印。</li>
         </ul>
     </div>
     
@@ -214,18 +218,23 @@
         </div>
         
         <div class="check-row">
+            <input type="checkbox" id="chk_tpms_init" onchange="generateText()">
+            <label for="chk_tpms_init" style="font-weight: bold; color: var(--color-line);">🛞 胎壓保養初始化完成</label>
+        </div>
+
+        <div class="check-row">
             <input type="checkbox" id="chk_battery" onchange="generateText()">
             <label for="chk_battery">電瓶電容量約：<input type="number" id="num_battery" class="input-short" placeholder="--" oninput="generateText()"> %</label>
         </div>
         
-        <div class="check-row" style="padding-left: 20px; background: #fdfdfd;">
+        <div class="check-row">
             <input type="checkbox" id="chk_battery_adv" onchange="generateText()">
-            <label for="chk_battery_adv" style="font-size: 12px; color: #666;">💡 附加：電瓶平均壽命約一年半至兩年建議調早預防性更換</label>
+            <label for="chk_battery_adv" style="color: #666;">💡 附加：電瓶平均壽命約一年半至兩年建議調早預防性更換</label>
         </div>
 
-        <div class="check-row" style="padding-left: 20px; background: #fdfdfd;">
+        <div class="check-row">
             <input type="checkbox" id="chk_battery_non_oem" onchange="generateText()">
-            <label for="chk_battery_non_oem" style="font-size: 12px; color: #d83b01; font-weight: bold;">⚠️ 註記：目前車輛安裝之電瓶非原廠電瓶</label>
+            <label for="chk_battery_non_oem" style="color: #d83b01; font-weight: bold;">⚠️ 註記：目前車輛安裝之電瓶非原廠電瓶</label>
         </div>
         
         <div class="check-row" style="flex-direction: column; align-items: flex-start;">
@@ -324,15 +333,15 @@
                 </label>
             </div>
         </div>
-
-        <div class="form-group" style="margin-top: 10px;">
-            <label>💬 其他綜合維修 / 複雜故障描述手寫區（此內容將直接串接至訊息最後）：</label>
-            <textarea id="txt_other" placeholder="在此輸入手寫內容，將會以純文字型態附加在訊息末端..." oninput="generateText()"></textarea>
-        </div>
     </div>
     
     <div class="section-card">
         <div class="section-title">📱 Line 訊息封裝與即時預覽</div>
+        
+        <div class="form-group">
+            <label>💬 其他綜合維修 / 複雜故障描述手寫區（此內容將直接串接至訊息最後）：</label>
+            <textarea id="txt_other" style="height: 100px;" placeholder="在此輸入手寫內容，將會以純文字型態附加在訊息末端..." oninput="generateText()"></textarea>
+        </div>
         
         <div class="preview-title">拼裝主旨與內文預覽：</div>
         <div class="preview-box" id="preview">尚未勾選或輸入任何項目</div>
@@ -380,22 +389,24 @@ function generateText() {
     document.getElementById('box_war_pre').style.display = document.getElementById('chk_warranty_pre').checked ? 'block' : 'none';
     document.getElementById('box_war_now').style.display = document.getElementById('chk_warranty_now').checked ? 'block' : 'none';
     
-  // --- 定期保養 / 引擎維修 邏輯 ---
+    // --- 定期保養 / 引擎維修 邏輯 ---
     let maintenanceItems = [];
     
-    // 電瓶整合區邏輯：全面解耦，確保每一項勾選皆為獨立斷行
+    if (document.getElementById('chk_tpms_init').checked) {
+        maintenanceItems.push(`  ▪️ 輪胎整備：胎壓保養初始化完成`);
+    }
+    
     if (document.getElementById('chk_battery').checked) {
         let val = document.getElementById('num_battery').value || '--';
         maintenanceItems.push(`  ▪️ 電瓶電容量約：${val}%`);
     }
     
     if (document.getElementById('chk_battery_adv').checked) {
-        maintenanceItems.push(`  ▪️ 電瓶維護建議：電瓶平均壽命約一年半至兩年，建議調早進行預防性更換。`);
+        maintenanceItems.push(`  ▪️ 電瓶維護建議：電瓶平均壽命約一年半至兩年建議調早預防性更換。`);
     }
     
     if (document.getElementById('chk_battery_non_oem').checked) {
-        maintenanceItems.push(`  ⚠️ 補記：目前車輛安裝之電瓶非原廠電瓶。`);
-    }
+        maintenanceItems.push(`  ⚠️ 註記：目前車輛安裝之電瓶非原廠電瓶。`);
     }
     
     if (document.getElementById('chk_tyre').checked) {
@@ -416,7 +427,6 @@ function generateText() {
         maintenanceItems.push(`  ▪️ 輪胎施工：${selectedTires.join('、')}`);
     }
 
-    // 新增：雨刷輸出邏輯
     if (document.getElementById('chk_wiper').checked) {
         maintenanceItems.push(`  ▪️ 雨刷狀態檢查：雨刷片刷不乾淨，若影響視線建議更換。`);
     }
@@ -428,7 +438,6 @@ function generateText() {
         maintenanceItems.push(`  ▪️ 尿素施工：尿素添加完成 實施初始化`);
     }
 
-    // 新增：正時皮帶輸出邏輯
     if (document.getElementById('chk_timing_belt').checked) {
         maintenanceItems.push(`  ▪️ 正時皮帶提醒：正時皮帶每3年或6萬KM需更換，避免引擎受損。`);
     }
@@ -462,7 +471,7 @@ function generateText() {
         let complaint = complaintInput.value.trim() || complaintInput.getAttribute('placeholder');
         let part = partInput.value.trim() || partInput.getAttribute('placeholder');
         
-        warrantyParts.push(`  ▪️ ：${complaint}/${part} 後確診故障，更新新品後問題得到解決。`);
+        warrantyParts.push(`  ▪️ 確診更換件：${complaint}/${part} 後確診故障，更新新品後問題得到解決。`);
     }
     
     if (document.getElementById('chk_didi').checked) {
@@ -489,11 +498,11 @@ function generateText() {
         result.push(`【新車 PDI 整備紀錄】\n${pdiItems.join('\n')}`);
     }
 
-    // --- 新增：特別聲明與改裝責任宣告 邏輯 ---
     if (document.getElementById('chk_modification_warn').checked) {
         result.push(`【重要特別聲明事項】\n  ⚠️ 已建議並告知車主車輛勿加裝並移除非原廠設備，避免產生車輛使用上任何不確定因素及干擾，基於專業服務立場特此告知。`);
     }
     
+    // 手寫純文字依然維持附加在訊息最後面
     let otherText = document.getElementById('txt_other').value.trim();
     if (otherText) {
         result.push(otherText);
@@ -551,7 +560,6 @@ function confirmModalAndSend() {
     executeLineLink(text);
 }
 
-/* 純複製邏輯 */
 function executeLineLink(text) {
     navigator.clipboard.writeText(text).then(() => {
         alert("通報罐頭已成功複製至剪貼簿！");
