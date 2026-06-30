@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>企業級多功能郵件聯絡人面板</title>
+    <style>
+        body {
+            font-family: "Microsoft JhengHei", Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .main-wrapper {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            gap: 20px;
+        }
+        /* 左側：聯絡人選擇區 */
+        .left-panel {
+            flex: 2;
+            background: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        /* 右側：罐頭訊息與發送區 */
+        .right-panel {
+            flex: 1;
+            background: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        h2 {
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 20px;
+            border-bottom: 2px solid #34495e;
+            padding-bottom: 10px;
+        }
+        /* 搜尋與快速工具 */
+        .search-bar {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        .ctrl-btns {
+            margin-bottom: 15px;
+        }
+        .btn-mini {
+            padding: 4px 10px;
+            font-size: 12px;
+            background: #ecf0f1;
+            border: 1px solid #bdc3c7;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+        .btn-mini:hover { background: #dcdde1; }
+
+        /* 緊湊型高容量列表 */
+        .dept-group {
+            margin-bottom: 25px;
+        }
+        .dept-name {
+            background: #34495e;
+            color: #fff;
+            padding: 6px 12px;
+            font-weight: bold;
+            font-size: 14px;
+            border-radius: 4px;
+            margin-bottom: 5px;
+        }
+        .contact-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .contact-row {
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+        .contact-row:hover {
+            background-color: #f1f2f6;
+        }
+        .contact-row td {
+            padding: 8px 10px;
+            font-size: 14px;
+        }
+        .td-cb { width: 30px; text-align: center; }
+        .td-name { width: 150px; font-weight: bold; }
+        .td-dept { width: 260px; color: #7f8c8d; font-size: 13px; }
+        .td-email { color: #95a5a6; font-size: 13px; }
+
+        /* 罐頭訊息樣式 */
+        .template-box {
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 10px;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+        .template-item {
+            padding: 8px 12px;
+            background: #fff;
+            border: 1px solid #dcdde1;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .template-item:hover {
+            border-color: #1e90ff;
+            background: #f1f9ff;
+            color: #1e90ff;
+        }
+        
+        /* 表單與發送鈕 */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .form-group label { font-weight: bold; font-size: 14px; }
+        .form-group input, .form-group textarea {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        /* 按鈕群組 */
+        .action-btns {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .btn-send {
+            background: #2ed573;
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-send:hover { background: #26af5f; }
+
+        .btn-copy {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-copy:hover { background: #2980b9; }
+        .btn-copy-secondary {
+            background: #7f8c8d;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-copy-secondary:hover { background: #64748b; }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    
+    <!-- 左邊面板：名單管理 -->
+    <div class="left-panel">
+        <h2>收件人動態清單</h2>
+        <input type="text" id="searchInput" class="search-bar" placeholder="🔍 輸入姓名、職稱、廠別、部門或 Email 快速過濾..." onkeyup="filterContacts()">
+        
+        <div class="ctrl-btns">
+            <button class="btn-mini" onclick="checkAll(true)">全部勾選</button>
+            <button class="btn-mini" onclick="checkAll(false)">全部取消</button>
+        </div>
+
+        <div id="contactContainer">
+
+            <!-- 高階主管區塊 -->
+            <div class="dept-group">
+                <div class="dept-name" style="background: #1e3799;">公司決策層 / 高階主管</div>
+                <table class="contact-table">
+                    <tr class="contact-row" onclick="toggleRow(this)">
+                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="副董事長-盧張浩 &lt;peter@am-volvocars.com.tw&gt;" onclick="event.stopPropagation();"></td>
+                        <td class="td-name">盧張浩</td>
+                        <td class="td-dept">副董事長</td>
+                        <td class="td-email">peter@am-volvocars.com.tw</td>
+                    </tr>
+                    <tr class="contact-row" onclick="toggleRow(this)">
+                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="董事長室特助-盧佩伶 &lt;frances@am-volvocars.com.tw&gt;" onclick="event.stopPropagation();"></td>
+                        <td class="td-name">盧佩伶</td>
+                        <td class="td-dept">董事長室 / 特助</td>
+                        <td class="td-email">frances@am-volvocars.com.tw</td>
+                    </tr>
+                    <tr class="contact-row" onclick="toggleRow(this)">
+                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="總經理-徐文勇 &lt;william@starunited.tw&gt;" onclick="event.stopPropagation();"></td>
+                        <td class="td-name">徐文勇</td>
+                        <td class="td-dept">總經理</td>
+                        <td class="td-email">william@starunited.tw</td>
+                    </tr>
+                    <tr class="contact-row" onclick="toggleRow(this)">
+                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="售後總監-林欣旭 &lt;george@starunited.tw&gt;" onclick="event.stopPropagation();"></td>
+                        <td class="td-name">林欣旭</td>
+                        <td class="td-dept">售後總監</td>
+                        <td class="td-email">george@starunited.tw</td>
+                    </tr>
+                    <tr class="contact-row" onclick="toggleRow(this)">
+                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="銷售總監-廖宗俊 &lt;eric@starunited.tw&gt;" onclick="event.stopPropagation();"></td>
+                        <td class="td-name">廖宗俊</td>
+                        <td class="td-dept">銷售總監</td>
+                        <td class="td-email">eric@starunited.tw</td>
+                    </tr>
+                    <tr class="contact-row" onclick="toggleRow(this)">
+                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="CRM經理-陳永信 &lt;mike_chen@starunited.tw&gt;" onclick="event.stopPropagation();"></td>
+                        <td class="td-name">陳永信</td>
+                        <td class="td-dept">CRM 經理</td>
+                        <td class="td-email">mike_chen@starunited.tw</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- 財務部區塊 -->
+            <div class="dept-group">
+                <div class="dept-name" style="background: #eccc68; color: #2f3542;">財務部</div>
+                <table class="contact-table">
+                    <tr class="contact-row" onclick="toggleRow(this)">
+                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="財務副總-曹復維 &lt;frank@am-volvocars.com.tw&gt;" onclick="event.stopPropagation();"></td>
+                        <td class="td-name">曹復維</td>
+                        <td class="td-dept">副總經理</td>
+                        <td class="td-email">frank@am-volvocars.com.tw</td>
+                    </tr>
+                    <tr class="contact-row" onclick="toggleRow(this)">
+                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="財務經理-林金鑾 &lt;katie@am-volvocars.com.tw&gt;" onclick="event.stopPropagation();"></td>
+                        <td class="td-name">林金鑾</td>
+                        <td class="td-dept">財務經理</td>
+                        <td class="td-email">katie@am-volvocars.com.tw</td>
+                    </tr>
+                    <tr class="contact-row" onclick="toggleRow(this)">
+                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="財務部-薛曉芬 &lt;Fan_hsueh@am-volvocars.com.tw&gt;" onclick="event.stopPropagation();"></td>
+                        <td class="td-name">薛曉芬</td>
+                        <td class="td-dept">每日報表 / 尚鵬查帳</td>
+                        <td class="td-email">Fan_hsueh@am-volvocars.com.tw</td>
+                    </tr>
+                    <tr class="contact-row" onclick="toggleRow(this)">
+                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="財務部-陳宣輔 &lt;tom_chen@am-volvocars.com.tw&gt;" onclick="event.stopPropagation();"></td>
+                        <td class="td-name">陳宣輔</td>
+                        <td class="td-dept">每日報表 / 尚鵬查帳</td>
+                        <td class="td-email">tom_chen@am-volvocars.com.tw</td>
+                    </tr>
+                    <tr class="contact-row" onclick="toggleRow(this)">
+                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="財務部-Alan &lt;alan_ho@am-volvocars.com.tw&gt;" onclick="event.stopPropagation();"></td>
+                        <td class="td-name">Alan</td>
+                        <td class="td-dept">星聯帳款 / 寶嘉帳款對應窗口</td>
+                        <td class="td-email">alan_ho@am-volvocars.com.tw</td>
+                    </tr>
+                    <tr class="contact-row" onclick="toggleRow(this)">
+                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="財務部-鄭丞佑Andy &lt;andy_cheng@am-volvocars.com.tw&gt;" onclick="event.stopPropagation();"></td>
+                        <td class="td-name">鄭丞佑 Andy</td>
+                        <td class="td-dept">供應商建檔 / 零用金帳務查詢</td>
+                        <td class="td-email">andy_cheng@am-volvocars.com.tw</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- 各服務廠長區塊 -->
+            <div class="dept-group">
+                <div class="dept-name" style="background: #20bf6b;">服務廠長</div>
+                <table class="contact-table">
+                    <tr class="contact-row" onclick="toggleRow(this)">
+                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="北投廠長-陳俊逸 &lt;matt_chen@starunited.tw&gt;" onclick="event.stopPropagation();"></td>
+                        <td class="td-name">陳俊逸</td>
+                        <td class="td-dept">北投廠長</td>
+                        <td class="td-email">matt_chen@starunited.tw</td>
+                    </tr>
+                    <tr class="contact-row" onclick="toggleRow(this)">
+                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="松江廠長-張師誠 &lt;shihcheng@starunited.tw&gt;" onclick="event.stopPropagation();"></td>
+                        <td class="td-name">張師誠</td>
+                        <td class="td-dept">松江廠長</td>
+                        <td class="td-email">shihcheng@starunited.tw</td>
+                    </tr>
+                    <tr class="contact-row" onclick="toggleRow(this)">
+                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="板橋廠長-陳政威 &lt;alex_chen@starunited.tw&gt;" onclick="event.stopPropagation();"></td>
+                        <td class="td-name">陳政威</td>
+                        <td class="td-dept">板橋廠長</td>
+                        <td class="td-email">alex_chen@starunited.tw</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- 各廠出納區塊 -->
+            <div class="dept-group">
+                <div class="dept-name" style="background: #a55eea;">各廠出納</div>
+                <table class="contact-table">
+                    <tr class="contact-row" onclick="toggleRow(this)">
+                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="出納-劉安莉 &lt;anly_liu@starunited.tw&gt;" onclick="event.stopPropagation();"></td>
+                        <td class="td-name">劉安莉</td>
+                        <td class="td-dept">出納</td>
+                        <td class="td-email">anly_liu@starunited.tw</td>
+                    </tr>
+                    <tr class="contact-row" onclick="toggleRow(this)">
+                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="出納-張詠婕 &lt;elle_chang@starunited.tw&gt;" onclick="event.stopPropagation();"></td>
+                        <td class="td-name">張詠婕</td>
+                        <td class="td-dept">出納</td>
+                        <td class="td-email">elle_chang@starunited.tw</td>
+                    </tr>
+                    <tr class="contact-row" onclick="toggleRow(this)">
+                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="出納-陳宥鈺 &lt;tps.nkcrm01@sunpekmotors.com&gt;" onclick="event.stopPropagation();"></td>
+                        <td class="td-name">陳宥鈺</td>
+                        <td class="td-dept">出納</td>
+                        <td class="td-email">tps.nkcrm01@sunpekmotors.com</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- 總代理 PGU 區塊 -->
+            <div class="dept-group">
+                <div class="dept-name" style="background: #eb3b5a;">總代理 PGU</div>
+                <table class="contact-table">
+                    <tr class="contact-row" onclick="toggleRow(this)">
+                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="PGU-翁士航 &lt;austin.weng@pgu.com.tw&gt;" onclick="event.stopPropagation();"></td>
+                        <td class="td-name">翁士航</td>
+                        <td class="td-dept">總代理 PGU 窗口</td>
+                        <td class="td-email">austin.weng@pgu.com.tw</td>
+                    </tr>
+                    <tr class="contact-row" onclick="toggleRow(this)">
+                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="PGU-LEE &lt;lee.lee@pgu.com.tw&gt;" onclick="event.stopPropagation();"></td>
+                        <td class="td-name">LEE</td>
+                        <td class="td-dept">總代理 PGU 窗口</td>
+                        <td class="td-email">lee.lee@pgu.com.tw</td>
+                    </tr>
+                    <tr class="contact-row" onclick="toggleRow(this)">
+                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="PGU-Joseph_TSENG &lt;joseph.tseng@pgu.com.tw&gt;" onclick="event.stopPropagation();"></td>
+                        <td class="td-name">Joseph TSENG</td>
+                        <td class="td-dept">總代理 PGU 窗口</td>
+                        <td class="td-email">joseph.tseng@pgu.com.tw</td>
+                    </tr>
+                    <tr class="contact-row" onclick="toggleRow(this)">
+                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="PGU-benson &lt;benson.liu@pgu.com.tw&gt;" onclick="event.stopPropagation();"></td>
+                        <td class="td-name">benson</td>
+                        <td class="td-dept">總代理 PGU 窗口</td>
+                        <td class="td-email">benson.liu@pgu.com.tw</td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 右邊面板：罐頭訊息與發送 -->
+    <div class="right-panel">
+        <h2>常用罐頭訊息</h2>
+        <div class="template-box">
+            <div class="template-item" onclick="loadTemplate('每日內湖廠營運日報表', 'DEAR ALL：\n\n附件檔為2026-06-29營運日報表，煩請查閱。\n如內容有需補充或調整之處，敬請告知，謝謝。')">
+                🚗 內湖廠營運日報表通知
+            </div>
+            <div class="template-item" onclick="loadTemplate('【重大通報】營運及售後策略業務會報會議通知', '各位長官、廠長好：\n\n謹定於本週召開營運業務例會，將針對近期售後服務品質與指標進行檢討。\n相關報表資料請各服務廠長提前準備完畢。\n\n謝謝。')">
+                👑 高階/廠長經營會議通知
+            </div>
+            <div class="template-item" onclick="loadTemplate('【財務】每日營業報表與尚鵬查帳進度彙整', '副總、經理、財務部同仁好：\n\n今日各廠營運日報表、尚鵬查帳明細與對帳憑證已上傳完畢。\n再請協助核算及審查，謝謝。')">
+                📊 每日報表/查帳呈送
+            </div>
+            <div class="template-item" onclick="loadTemplate('【帳務】出納零用金核銷與帳務查詢處理', '出納同仁好：\n\n本期臨店零用金結報與廠商建檔明細如附，請協助安排核銷作業，謝謝。')">
+                💰 出納零用金核銷
+            </div>
+            <div class="template-item" onclick="loadTemplate('【PGU 業務】總代理聯繫與文件呈報', 'Dear PGU Team,\n\n檢附本期業務營運文件與對應聯絡資料，請查收附件並協助審閱，謝謝。')">
+                📩 PGU 總代理業務聯繫
+            </div>
+        </div>
+
+        <h2>郵件內容編輯</h2>
+        <div class="form-group">
+            <label>郵件主旨</label>
+            <input type="text" id="mailSubject" placeholder="請填寫主旨或選擇罐頭訊息...">
+        </div>
+        <div class="form-group">
+            <label>郵件內文</label>
+            <textarea id="mailBody" rows="12" placeholder="請填寫內文或選擇罐頭訊息..."></textarea>
+        </div>
+
+        <!-- 功能按鈕群組 -->
+        <div class="action-btns">
+            <button type="button" class="btn-send" onclick="sendEmail()">🚀 立即開啟郵件發送</button>
+            <button type="button" class="btn-copy" onclick="copyRecipientsOnly()">📋 僅複製收件人名單</button>
+            <button type="button" class="btn-copy-secondary" onclick="copyFullContent()">📝 複製完整郵件內容</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // 點擊整行就能勾選
+    function toggleRow(row) {
+        const checkbox = row.querySelector('.mail-checkbox');
+        checkbox.checked = !checkbox.checked;
+    }
+
+    // 載入罐頭訊息
+    function loadTemplate(subject, body) {
+        document.getElementById('mailSubject').value = subject;
+        document.getElementById('mailBody').value = body;
+    }
+
+    // 全選 / 全不選
+    function checkAll(status) {
+        const rows = document.querySelectorAll('.contact-row');
+        rows.forEach(row => {
+            if (row.style.display !== 'none') {
+                row.querySelector('.mail-checkbox').checked = status;
+            }
+        });
+    }
+
+    // 即時關鍵字搜尋過濾
+    function filterContacts() {
+        const input = document.getElementById('searchInput').value.toLowerCase();
+        const rows = document.querySelectorAll('.contact-row');
+        
+        rows.forEach(row => {
+            const text = row.innerText.toLowerCase();
+            if (text.includes(input)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    // 獲取當前所有被勾選的名單字串
+    function getSelectedRecipients() {
+        const checkboxes = document.querySelectorAll('.mail-checkbox:checked');
+        if (checkboxes.length === 0) return '';
+        
+        const recipientsArray = [];
+        checkboxes.forEach(cb => {
+            recipientsArray.push(cb.value);
+        });
+        return recipientsArray.join('; ');
+    }
+
+    // 新增功能一：僅複製收件人
+    function copyRecipientsOnly() {
+        const recipients = getSelectedRecipients();
+        if (!recipients) {
+            alert('請至少勾選一位收件人！');
+            return;
+        }
+        
+        navigator.clipboard.writeText(recipients).then(() => {
+            alert('已成功複製收件人名單至剪貼簿！');
+        }).catch(err => {
+            alert('複製失敗，請手動複製。');
+        });
+    }
+
+    // 新增功能二：複製完整郵件內容 (主旨 + 內文)
+    function copyFullContent() {
+        const subject = document.getElementById('mailSubject').value;
+        const body = document.getElementById('mailBody').value;
+        
+        const fullText = `主旨：${subject}\n\n${body}`;
+        
+        navigator.clipboard.writeText(fullText).then(() => {
+            alert('已成功複製「主旨與內文」至剪貼簿！');
+        }).catch(err => {
+            alert('複製失敗，請手動複製。');
+        });
+    }
+
+    // 發送郵件核心邏輯
+    function sendEmail() {
+        const checkboxes = document.querySelectorAll('.mail-checkbox:checked');
+        if (checkboxes.length === 0) {
+            alert('請至少勾選一位收件人！');
+            return;
+        }
+
+        const recipients = getSelectedRecipients();
+        const subject = encodeURIComponent(document.getElementById('mailSubject').value);
+        const body = encodeURIComponent(document.getElementById('mailBody').value);
+
+        let mailtoUrl = `mailto:${recipients}`;
+        const params = [];
+        if (subject) params.push(`subject=${subject}`);
+        if (body) params.push(`body=${body}`);
+        
+        if (params.length > 0) {
+            mailtoUrl += `?${params.join('&')}`;
+        }
+
+        window.location.href = mailtoUrl;
+    }
+</script>
+
+</body>
+</html>
