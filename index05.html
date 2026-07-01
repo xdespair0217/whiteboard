@@ -118,6 +118,8 @@
         .btn-mini-copy:hover { background: #334155; color: #7dd3fc; }
         .btn-sys-open { padding: 4px 8px; background: #2563eb; border: none; border-radius: 4px; color: white; cursor: pointer; font-weight: bold; font-size: 0.82em; display: flex; align-items: center; gap: 2px; text-decoration: none; }
         .btn-sys-open:hover { background: #1d4ed8; }
+        .btn-sys-open.isolve-btn { background: #c2410c; }
+        .btn-sys-open.isolve-btn:hover { background: #ea580c; }
         
         .brand-block { background: #16224f; border: 1px solid #223775; border-radius: 6px; padding: 8px; margin-bottom: 4px; }
         .brand-name { color: #ffffff; font-weight: bold; margin-bottom: 4px; display: flex; align-items: center; justify-content: space-between; font-size: 0.95em; border-bottom: 1px solid #223775; padding-bottom: 2px; }
@@ -188,7 +190,7 @@
                 <div class="input-group didi">
                     DIDI 案號：<input type="text" id="txt-plugin-diy-num" placeholder="輸入案號">
                 </div>
-                <!-- 調整後的快捷入口按鈕文字與圖示 -->
+                <!-- 快捷入口按鈕 -->
                 <button class="btn-linkentry" onclick="openModal()">📲 技術網站 / 電瓶代號</button>
             </div>
             
@@ -304,6 +306,14 @@
                     <button class="btn-mini-copy" onclick="copyText('plmokn88')">複製</button>
                 </div>
             </div>
+
+            <!-- ISOLVE 區塊 -->
+            <div class="brand-block" style="background: #1c1917; border-color: #44403c;">
+                <div class="brand-name">
+                    <span style="color: #ea580c;">🔍 ISOLVE 系統</span>
+                    <a href="https://isolve.mpsa.com/" target="_blank" class="btn-sys-open isolve-btn">↗ ISOLVE 網站</a>
+                </div>
+            </div>
         </div>
         
         <!-- 診斷與儀器代碼區 -->
@@ -348,7 +358,7 @@
         spark: { p1: "引擎故障燈亮 抖動無力", p2: "P1337 第一缸火星塞 點火不良 PPD 任務編碼的末端：[輸入編碼]", p3: "更換第一缸 火星塞\n9829930180" },
         engine: { p1: "引擎燈亮", p2: "P0443 活性碳罐電磁閥 電氣故障", p3: "更換新品 活性碳罐電磁閥\n1563P0" },
         water: { p1: "水溫過高 故障告警", p2: "P2B29 7B 電動水泵浦 電氣故障\n依照技術專家 \" Patrick KWOK \" 現場排查建議", p3: "更換電動水泵浦\n9833196380" },
-        paint: { p1: "[右前門] 漆面顆粒凸點 / 引擎蓋漆面凸點", p2: "[右前門及引擎蓋] 漆面瑕疵 外觀缺陷", p3: "[右前門及引擎蓋] 漆面重新塗裝\n98 524 435 80\n98 524 312 80" },
+        paint: { p1: "[右前門] 漆面顆模凸點 / 引擎蓋漆面凸點", p2: "[右前門及引擎蓋] 漆面瑕疵 外觀缺陷", p3: "[右前門及引擎蓋] 漆面重新塗裝\n98 524 435 80\n98 524 312 80" },
         lock: { p1: "左後車門 無法上鎖", p2: "左後車門鎖 電氣故障", p3: "更換新品 左後車門鎖\n9848011880" },
         glass: { p1: "客戶反應4門車窗玻璃為單層玻璃而非雙層玻璃（有貼隔熱紙）", p2: "經查詢比對 廠內同車型 前車門車窗 確實有雙層與單層差異存在 零件錯裝", p3: "更換新品 左右前車車窗 雙層\n98 397 586 80\n98 397 588 80" },
         rubber: { p1: "天窗膠條變形 (或左前門LED氣氛燈有斷點)", p2: "天窗膠條 變形故障 外觀缺陷 (或左前門LED氣氛燈 電子故障)", p3: "更換新品天窗膠條 [98 550 093 80] (或更換門內飾板─left [98381577ZD])" },
