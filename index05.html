@@ -72,6 +72,10 @@
         .input-group.didi { color: #16a34a; }
         .input-group input[type="text"] { padding: 4px 6px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 0.88em; width: 120px; color: #1e293b; font-weight: 500; }
 
+        /* 快捷入口按鈕樣式 */
+        .btn-linkentry { padding: 4px 10px; background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 4px; color: #0284c7; cursor: pointer; font-size: 0.82em; font-weight: bold; display: flex; align-items: center; gap: 4px; transition: 0.1s; margin-left: auto; }
+        .btn-linkentry:hover { background: #e0f2fe; border-color: #7dd3fc; color: #0369a1; }
+
         /* 案例快捷按鈕 */
         .macro-section { margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid #e2e8f0; display: flex; flex-direction: column; overflow: hidden; max-height: 125px; }
         .template-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px; overflow-y: auto; padding-right: 2px; }
@@ -95,6 +99,31 @@
         .preview-container { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
         .preview-box { flex: 1; background: #fafafa; border: 1px dashed var(--border-color); padding: 8px; border-radius: 4px; font-family: 'Consolas', monospace; font-size: 0.88em; white-space: pre-wrap; color: #1e293b; line-height: 1.4; overflow-y: auto; }
         .toast { display: none; text-align: center; color: white; font-weight: bold; margin-top: 4px; background: var(--success); padding: 4px; border-radius: 4px; font-size: 0.82em; flex-shrink: 0; }
+
+        /* 彈窗 (Modal) 樣式：完全復刻黑底深藍科技感 */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 9999; justify-content: center; align-items: center; }
+        .modal-content { background: #0b132b; color: #00bfff; width: 560px; border-radius: 8px; border: 1px solid #005f73; box-shadow: 0 0 20px rgba(0, 191, 255, 0.3); padding: 18px; box-sizing: border-box; display: flex; flex-direction: column; gap: 12px; position: relative; font-size: 0.85em; max-height: 90vh; overflow-y: auto; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 1.05em; color: #00e5ff; border-bottom: 1px dashed #005f73; padding-bottom: 8px; }
+        .modal-close { cursor: pointer; font-size: 1.3em; color: #64748b; transition: 0.1s; }
+        .modal-close:hover { color: #ef4444; }
+        
+        .info-section { display: flex; flex-direction: column; gap: 5px; }
+        .info-title { font-weight: bold; color: #00e5ff; display: flex; align-items: center; gap: 4px; margin-bottom: 2px; border-left: 3px solid #00bfff; padding-left: 6px; }
+        .info-row { display: flex; align-items: center; background: #111a36; border: 1px solid #1d2d50; padding: 5px 8px; border-radius: 4px; gap: 6px; }
+        .info-label { width: 50px; color: #8e9aaf; flex-shrink: 0; }
+        .info-val { font-family: 'Consolas', monospace; color: #ffffff; font-weight: bold; flex: 1; cursor: pointer; }
+        .info-val:hover { color: #38bdf8; text-decoration: underline; }
+        
+        .btn-mini-copy { padding: 2px 6px; background: #1e293b; border: 1px solid #334155; border-radius: 3px; color: #38bdf8; cursor: pointer; font-size: 0.82em; font-weight: bold; flex-shrink: 0; }
+        .btn-mini-copy:hover { background: #334155; color: #7dd3fc; }
+        .btn-sys-open { padding: 4px 8px; background: #2563eb; border: none; border-radius: 4px; color: white; cursor: pointer; font-weight: bold; font-size: 0.82em; display: flex; align-items: center; gap: 2px; text-decoration: none; }
+        .btn-sys-open:hover { background: #1d4ed8; }
+        
+        .brand-block { background: #16224f; border: 1px solid #223775; border-radius: 6px; padding: 8px; margin-bottom: 4px; }
+        .brand-name { color: #ffffff; font-weight: bold; margin-bottom: 4px; display: flex; align-items: center; justify-content: space-between; font-size: 0.95em; border-bottom: 1px solid #223775; padding-bottom: 2px; }
+        .brand-code-row { display: flex; justify-content: space-between; align-items: center; background: #111a36; padding: 6px 10px; border-radius: 4px; border: 1px dashed #223775; }
+        
+        .modal-toast { display: none; position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); background: #00a870; color: white; padding: 4px 12px; border-radius: 4px; font-weight: bold; font-size: 0.85em; box-shadow: 0 2px 8px rgba(0,0,0,0.2); z-index: 10000; }
     </style>
 </head>
 <body>
@@ -159,6 +188,8 @@
                 <div class="input-group didi">
                     DIDI 案號：<input type="text" id="txt-plugin-diy-num" placeholder="輸入案號">
                 </div>
+                <!-- 調整後的快捷入口按鈕文字與圖示 -->
+                <button class="btn-linkentry" onclick="openModal()">📲 技術網站 / 電瓶代號</button>
             </div>
             
             <div class="plugin-row" style="margin-bottom: 1px;">
@@ -207,6 +238,105 @@
         <div class="toast" id="copy-toast">✓ 已複製！可直接貼回開單系統。</div>
     </div>
     
+</div>
+
+<!-- 彈出視窗底層遮罩與內容區塊 -->
+<div class="modal-overlay" id="entry-modal" onclick="closeModalOnOverlay(event)">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span>💻 技術資訊、診斷網站與儀器代碼核對</span>
+            <span class="modal-close" onclick="closeModal()">×</span>
+        </div>
+        
+        <!-- 核心登入資訊區 -->
+        <div class="info-section">
+            <div class="info-title">💻 【技術網站 / 診斷電腦 帳號密碼】(點擊數值可複製)</div>
+            
+            <!-- P品牌 -->
+            <div class="brand-block">
+                <div class="brand-name">
+                    <span>🦁 P 品牌</span>
+                    <a href="https://servicebox.peugeot.com/" target="_blank" class="btn-sys-open">↗ ServiceBox 網站</a>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">帳號：</div>
+                    <div class="info-val" onclick="copyText('do01123')">do01123</div>
+                    <button class="btn-mini-copy" onclick="copyText('do01123')">複製</button>
+                </div>
+                <div class="info-row" style="margin-top: 4px;">
+                    <div class="info-label">密碼：</div>
+                    <div class="info-val" onclick="copyText('plmokn22')">plmokn22</div>
+                    <button class="btn-mini-copy" onclick="copyText('plmokn22')">複製</button>
+                </div>
+            </div>
+
+            <!-- C品牌 -->
+            <div class="brand-block">
+                <div class="brand-name">
+                    <span>🐍 C 品牌</span>
+                    <a href="https://networkservice.citroen.com/" target="_blank" class="btn-sys-open">↗ Citroen 網站</a>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">帳號：</div>
+                    <div class="info-val" onclick="copyText('do01119')">do01119</div>
+                    <button class="btn-mini-copy" onclick="copyText('do01119')">複製</button>
+                </div>
+                <div class="info-row" style="margin-top: 4px;">
+                    <div class="info-label">密碼：</div>
+                    <div class="info-val" onclick="copyText('plmokn22')">plmokn22</div>
+                    <button class="btn-mini-copy" onclick="copyText('plmokn22')">複製</button>
+                </div>
+            </div>
+
+            <!-- PC雙品牌 -->
+            <div class="brand-block">
+                <div class="brand-name">
+                    <span>🏎️ PC 雙品牌</span>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">帳號：</div>
+                    <div class="info-val" onclick="copyText('dq63659')">dq63659</div>
+                    <button class="btn-mini-copy" onclick="copyText('dq63659')">複製</button>
+                </div>
+                <div class="info-row" style="margin-top: 4px;">
+                    <div class="info-label">密碼：</div>
+                    <div class="info-val" onclick="copyText('plmokn88')">plmokn88</div>
+                    <button class="btn-mini-copy" onclick="copyText('plmokn88')">複製</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 診斷與儀器代碼區 -->
+        <div class="info-section" style="margin-top: 4px;">
+            <div class="info-title">🛠️ 【尚鵬內湖 AP/AC 診斷/電瓶儀器代碼】</div>
+            
+            <div class="brand-block" style="background: #0f1c3f; border-color: #1d3573;">
+                <div class="brand-name" style="border-bottom-color: #1d3573;">🦁 Peugeot (寶獅)</div>
+                <div class="brand-code-row">
+                    <span style="color: #8e9aaf;">經銷商代碼：</span>
+                    <span class="info-val" style="text-align: right; color: #00e5ff;" onclick="copyText('PTW018U')">PTW018U</span>
+                    <button class="btn-mini-copy" style="margin-left: 8px;" onclick="copyText('PTW018U')">複製</button>
+                </div>
+            </div>
+
+            <div class="brand-block" style="background: #0f1c3f; border-color: #1d3573;">
+                <div class="brand-name" style="border-bottom-color: #1d3573;">⚡ Citroen (雪鐵龍)</div>
+                <div class="brand-code-row">
+                    <span style="color: #8e9aaf;">經銷商代碼：</span>
+                    <span class="info-val" style="text-align: right; color: #00e5ff;" onclick="copyText('CTW014T')">CTW014T</span>
+                    <button class="btn-mini-copy" style="margin-left: 8px;" onclick="copyText('CTW014T')">複製</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部註記說明 -->
+        <div style="font-size: 0.88em; color: #64748b; border-top: 1px dashed #005f73; padding-top: 6px; margin-top: 4px;">
+            🔋 <strong>適用範圍：</strong>診斷儀器連線、電瓶診斷儀設定、保固登錄等。
+        </div>
+
+        <!-- 內建小提示通知 -->
+        <div class="modal-toast" id="modal-toast">✓ 已複製到剪貼簿</div>
+    </div>
 </div>
 
 <script>
@@ -327,8 +457,30 @@
         });
     }
 
+    /* 彈窗控制與點擊複製功能 */
+    function openModal() {
+        document.getElementById('entry-modal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('entry-modal').style.display = 'none';
+    }
+
+    function closeModalOnOverlay(event) {
+        if (event.target.id === 'entry-modal') {
+            closeModal();
+        }
+    }
+
+    function copyText(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            const toast = document.getElementById('modal-toast');
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 1500);
+        });
+    }
+
     window.onload = function() {
-        // 核心修正：預設完全清空不點選，直接等待人員操作
         clearInputs();
         setupLivePreview();
     };
