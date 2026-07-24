@@ -124,6 +124,17 @@
                 <div class="text-xs text-purple-400 font-mono font-bold whitespace-nowrap bg-purple-950/40 px-3 py-1.5 rounded-lg border border-purple-900/60">查看必備附件 ➜</div>
             </div>
 
+            <div class="flex justify-center"><div class="w-0.5 h-6 neon-line-v"></div></div>
+
+            <div class="node-card glass-panel w-full p-6 rounded-2xl border-l-4 border-l-blue-500 flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0" onclick="openModal('m-208')">
+                <div class="space-y-1">
+                    <span class="bg-blue-500/10 text-blue-400 px-2 py-0.5 rounded text-[10px] font-mono tracking-wider">STAGE 4</span>
+                    <h3 class="text-base font-bold text-white">4. Peugeot 208 車型專屬價格表</h3>
+                    <p class="text-xs text-slate-400">最新公告 208 新車上市 5 年 15 萬公里延長保固價格與規範。</p>
+                </div>
+                <div class="text-xs text-blue-400 font-mono font-bold whitespace-nowrap bg-blue-950/40 px-3 py-1.5 rounded-lg border border-blue-900/60">查詢 208 售價 ➜</div>
+            </div>
+
             <div class="pt-2">
                 <section class="glass-panel rounded-2xl p-5 border border-sky-500/20 shadow-[0_0_20px_rgba(56,189,248,0.05)]">
                     <div class="flex items-center space-x-2 mb-4">
@@ -144,6 +155,14 @@
                                 <span class="text-[10px] font-mono text-slate-500 block">INTERNAL VIEWER</span>
                                 <span class="text-xs font-bold text-slate-200">第 202605014 號 通報</span>
                                 <span class="text-[11px] text-slate-400 block">Alfa Romeo 售價與購買流程</span>
+                            </div>
+                            <span class="text-sky-400 text-lg font-mono pl-2">📄</span>
+                        </div>
+                        <div onclick="openIframeModal('doc-208series', 'if-208series', 'https://drive.google.com/file/d/1sEqgGGHCsA6q_XdZjShfqeX1rvY7aNef/preview')" class="file-btn flex items-center justify-between p-4 bg-slate-900/80 border border-slate-800 rounded-xl text-left w-full sm:col-span-2">
+                            <div class="space-y-1">
+                                <span class="text-[10px] font-mono text-slate-500 block">INTERNAL VIEWER</span>
+                                <span class="text-xs font-bold text-slate-200">208 系列延長保固售價通報</span>
+                                <span class="text-[11px] text-slate-400 block">Peugeot 208 系列延長保固最新售價規範</span>
                             </div>
                             <span class="text-sky-400 text-lg font-mono pl-2">📄</span>
                         </div>
@@ -371,6 +390,27 @@
         </div>
     </div>
 
+    <div id="m-208" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'm-208')">
+        <div class="bg-slate-900 border border-slate-800 max-w-2xl w-full rounded-2xl p-6 relative overflow-y-auto max-h-[85vh] modal-content shadow-2xl">
+            <h3 class="text-lg font-bold text-blue-400 mb-3">四、Peugeot 208 車型延長保固價格與規範</h3>
+            <div class="p-4 bg-slate-950 rounded-xl border border-slate-800 space-y-4 text-xs font-mono">
+                <div class="border-b border-slate-800 pb-3">
+                    <span class="text-amber-400 font-bold block text-sm mb-1">🚗 5 年 15 萬公里延長保固價格：</span>
+                    <p class="text-slate-200 mt-2">● 新車加購價：<span class="text-emerald-400 font-bold text-sm">34,000 元</span></p>
+                    <p class="text-slate-200 mt-1">● 一般購買價（保固期內）：<span class="text-amber-400 font-bold text-sm">40,000 元</span></p>
+                </div>
+                <div class="space-y-2 text-slate-300 font-sans leading-relaxed">
+                    <span class="text-blue-400 font-bold block">⏱️ 銷售時機與資格範例：</span>
+                    <p>新車交車前、或新車保固（3 年/10 萬公里）到期日前 90 天以上均可購買。</p>
+                    <p class="text-rose-400 font-bold bg-rose-950/40 p-2.5 rounded-lg border border-rose-900/50 mt-2">
+                        🚨 範例與限制：新車保固期間共 36 個月，可購買延長保固期間為 0~33 個月；第 34、35、36 個月則不能購買。
+                    </p>
+                </div>
+            </div>
+            <button class="mt-4 bg-slate-800 hover:bg-slate-700 text-xs text-white px-4 py-2 rounded-lg float-right" onclick="closeModal('m-208')">關閉視窗</button>
+        </div>
+    </div>
+
     <div id="doc-114062" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'doc-114062')">
         <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-4 relative modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-3 space-x-2">
@@ -400,6 +440,23 @@
             <div class="w-full bg-slate-950 rounded-xl border border-slate-800 overflow-hidden h-[70vh]">
                 <div class="scrollable-iframe-container">
                     <iframe id="if-202605014" src="about:blank" class="w-full h-full border-none"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="doc-208series" class="modal fixed inset-0 z-50 opacity-0 pointer-events-none flex items-center justify-center p-4 modal-backdrop" onclick="checkClose(event, 'doc-208series')">
+        <div class="bg-slate-900 border border-slate-800 max-w-4xl w-full rounded-2xl p-4 relative modal-content shadow-2xl">
+            <div class="flex justify-between items-center mb-3 space-x-2">
+                <h3 class="text-sm font-bold text-sky-400 font-mono flex-1 truncate">📄 208 系列延長保固售價通報</h3>
+                <div class="flex items-center space-x-1.5 flex-shrink-0">
+                    <a href="https://drive.google.com/file/d/1sEqgGGHCsA6q_XdZjShfqeX1rvY7aNef/view?usp=sharing" target="_blank" class="open-new-btn text-white font-sans font-bold text-[11px] px-2.5 py-1.5 rounded-lg whitespace-nowrap">↗ 開啟新連結</a>
+                    <button class="bg-slate-800 hover:bg-slate-700 text-xs text-white px-2.5 py-1.5 rounded-lg" onclick="closeModal('doc-208series')">關閉</button>
+                </div>
+            </div>
+            <div class="w-full bg-slate-950 rounded-xl border border-slate-800 overflow-hidden h-[70vh]">
+                <div class="scrollable-iframe-container">
+                    <iframe id="if-208series" src="about:blank" class="w-full h-full border-none"></iframe>
                 </div>
             </div>
         </div>
