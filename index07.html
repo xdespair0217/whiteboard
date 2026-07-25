@@ -3,382 +3,390 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>企業級多功能郵件聯絡人面板</title>
+    <title>企業級現代化郵件聯絡人系統</title>
     <style>
+        :root {
+            --bg-main: #f0f2f5;
+            --panel-bg: #ffffff;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --primary-light: #eff6ff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --radius-lg: 12px;
+            --radius-md: 8px;
+            --radius-sm: 6px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: "Microsoft JhengHei", Arial, sans-serif;
-            background-color: #f0f2f5;
-            color: #333;
-            margin: 0;
-            padding: 20px;
-        }
-        .main-wrapper {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft JhengHei", sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            height: 100vh;
             display: flex;
-            max-width: 1400px;
-            margin: 0 auto;
-            gap: 20px;
+            padding: 16px;
+            gap: 16px;
+            overflow: hidden;
         }
-        /* 左側：聯絡人選擇區 */
-        .left-panel {
-            flex: 2;
-            background: #fff;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-        /* 右側：罐頭訊息與發送區 */
-        .right-panel {
-            flex: 1;
-            background: #fff;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+
+        /* 第一欄：側邊部門導航 */
+        .sidebar {
+            width: 240px;
+            background: var(--panel-bg);
+            border-radius: var(--radius-lg);
+            padding: 20px 16px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+            flex-shrink: 0;
         }
-        h2 {
-            color: #2c3e50;
-            margin-top: 0;
-            margin-bottom: 15px;
-            font-size: 20px;
-            border-bottom: 2px solid #34495e;
-            padding-bottom: 10px;
+        .sidebar-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            padding-left: 8px;
+            letter-spacing: 0.5px;
         }
-        /* 搜尋與快速工具 */
-        .search-bar {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
+        .dept-nav-item {
+            padding: 10px 12px;
+            border-radius: var(--radius-md);
             font-size: 14px;
+            font-weight: 600;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .dept-nav-item:hover {
+            background-color: #f8fafc;
+            color: var(--primary);
+        }
+        .dept-nav-item.active {
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+        .badge-count {
+            background: #e2e8f0;
+            color: var(--text-muted);
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+        .dept-nav-item.active .badge-count {
+            background: #dbeafe;
+            color: var(--primary);
+        }
+
+        /* 第二欄：聯絡人卡片清單 */
+        .contact-list-panel {
+            flex: 1;
+            background: var(--panel-bg);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+            overflow: hidden;
+        }
+        .search-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .search-input {
+            flex: 1;
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            outline: none;
+            background-color: #f8fafc;
+            transition: all 0.2s;
+        }
+        .search-input:focus {
+            border-color: var(--primary);
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
         .ctrl-btns {
-            margin-bottom: 15px;
+            display: flex;
+            gap: 6px;
         }
         .btn-mini {
-            padding: 4px 10px;
+            padding: 8px 12px;
             font-size: 12px;
-            background: #ecf0f1;
-            border: 1px solid #bdc3c7;
-            border-radius: 3px;
+            font-weight: 600;
+            background: #f1f5f9;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
             cursor: pointer;
-            margin-right: 5px;
+            color: #475569;
+            transition: all 0.2s;
         }
-        .btn-mini:hover { background: #dcdde1; }
+        .btn-mini:hover { background: #e2e8f0; }
 
-        /* 緊湊型高容量列表 */
-        .dept-group {
-            margin-bottom: 25px;
+        /* 比照車管系統：頂部 quick pills 標籤列 */
+        .quick-pills {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 4px;
         }
-        .dept-name {
-            background: #34495e;
-            color: #fff;
-            padding: 6px 12px;
-            font-weight: bold;
-            font-size: 14px;
-            border-radius: 4px;
-            margin-bottom: 5px;
-        }
-        .contact-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .contact-row {
-            border-bottom: 1px solid #eee;
+        .pill-filter {
+            padding: 6px 14px;
+            background: #f1f5f9;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #475569;
             cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
         }
-        .contact-row:hover {
-            background-color: #f1f2f6;
+        .pill-filter.active {
+            background: #1e293b;
+            color: #ffffff;
         }
-        .contact-row td {
-            padding: 8px 10px;
-            font-size: 14px;
-        }
-        .td-cb { width: 30px; text-align: center; }
-        .td-name { width: 150px; font-weight: bold; }
-        .td-dept { width: 260px; color: #7f8c8d; font-size: 13px; }
-        .td-email { color: #95a5a6; font-size: 13px; }
 
-        /* 罐頭訊息樣式 */
+        .contact-cards-container {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding-right: 4px;
+        }
+        
+        /* 車管系統卡片風格 UI */
+        .contact-card {
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            background: #fff;
+            border-left: 4px solid transparent;
+        }
+        .contact-card:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .contact-card.selected {
+            background-color: var(--primary-light);
+            border-color: var(--primary);
+            border-left: 4px solid var(--primary);
+        }
+        .card-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .card-checkbox {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+        .card-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card-name {
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--text-main);
+        }
+        .card-dept-badge {
+            background: #f1f5f9;
+            color: #475569;
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+        }
+        .card-email {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* 第三欄：郵件編輯與罐頭訊息 */
+        .composer-panel {
+            width: 380px;
+            background: var(--panel-bg);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+            flex-shrink: 0;
+        }
+        .panel-header {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-main);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
         .template-box {
-            background: #f9f9f9;
-            border: 1px solid #e0e0e0;
-            border-radius: 6px;
-            padding: 10px;
-            max-height: 250px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-height: 180px;
             overflow-y: auto;
         }
         .template-item {
             padding: 8px 12px;
-            background: #fff;
-            border: 1px solid #dcdde1;
-            border-radius: 4px;
-            margin-bottom: 8px;
-            cursor: pointer;
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
             font-size: 13px;
-            font-weight: bold;
+            font-weight: 600;
+            cursor: pointer;
             transition: all 0.2s;
         }
         .template-item:hover {
-            border-color: #1e90ff;
-            background: #f1f9ff;
-            color: #1e90ff;
+            border-color: var(--primary);
+            background: var(--primary-light);
+            color: var(--primary);
         }
-        
-        /* 表單與發送鈕 */
+
         .form-group {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 6px;
         }
-        .form-group label { font-weight: bold; font-size: 14px; }
+        .form-group label {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
         .form-group input, .form-group textarea {
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
             padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
             font-size: 14px;
+            outline: none;
+            font-family: inherit;
         }
-        
-        /* 按鈕群組 */
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
         .action-btns {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 8px;
+            margin-top: auto;
         }
         .btn-send {
-            background: #2ed573;
+            background: #22c55e;
             color: white;
             border: none;
-            padding: 15px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 6px;
+            padding: 12px;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            font-size: 15px;
             cursor: pointer;
             transition: background 0.2s;
         }
-        .btn-send:hover { background: #26af5f; }
-
+        .btn-send:hover { background: #16a34a; }
         .btn-copy {
-            background: #3498db;
+            background: var(--primary);
             color: white;
             border: none;
             padding: 10px;
-            font-size: 14px;
-            font-weight: bold;
-            border-radius: 6px;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 13px;
             cursor: pointer;
             transition: background 0.2s;
         }
-        .btn-copy:hover { background: #2980b9; }
-        .btn-copy-secondary {
-            background: #7f8c8d;
-            color: white;
-            border: none;
+        .btn-copy:hover { background: var(--primary-hover); }
+        .btn-copy-sec {
+            background: #f1f5f9;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
             padding: 10px;
-            font-size: 14px;
-            font-weight: bold;
-            border-radius: 6px;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 13px;
             cursor: pointer;
-            transition: background 0.2s;
         }
-        .btn-copy-secondary:hover { background: #64748b; }
+        .btn-copy-sec:hover { background: #e2e8f0; }
     </style>
 </head>
 <body>
 
-<div class="main-wrapper">
-    
-    <!-- 左邊面板：名單管理 -->
-    <div class="left-panel">
-        <h2>收件人動態清單</h2>
-        <input type="text" id="searchInput" class="search-bar" placeholder="🔍 輸入姓名、職稱、廠別、部門或 Email 快速過濾..." onkeyup="filterContacts()">
-        
-        <div class="ctrl-btns">
-            <button class="btn-mini" onclick="checkAll(true)">全部勾選</button>
-            <button class="btn-mini" onclick="checkAll(false)">全部取消</button>
+    <!-- 第一欄：部門分類導航 (含點擊過濾功能) -->
+    <div class="sidebar">
+        <div class="sidebar-title">組織與部門</div>
+        <div class="dept-nav-item active" onclick="filterByDept('ALL', this)">
+            <span>全部名單</span> <span class="badge-count" id="cnt-ALL">0</span>
         </div>
-
-        <div id="contactContainer">
-
-            <!-- 高階主管區塊 -->
-            <div class="dept-group">
-                <div class="dept-name" style="background: #1e3799;">公司決策層 / 高階主管</div>
-                <table class="contact-table">
-                    <tr class="contact-row" onclick="toggleRow(this)">
-                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="副董事長-盧張浩 &lt;peter@am-volvocars.com.tw&gt;" onclick="event.stopPropagation();"></td>
-                        <td class="td-name">盧張浩</td>
-                        <td class="td-dept">副董事長</td>
-                        <td class="td-email">peter@am-volvocars.com.tw</td>
-                    </tr>
-                    <tr class="contact-row" onclick="toggleRow(this)">
-                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="董事長室特助-盧佩伶 &lt;frances@am-volvocars.com.tw&gt;" onclick="event.stopPropagation();"></td>
-                        <td class="td-name">盧佩伶</td>
-                        <td class="td-dept">董事長室 / 特助</td>
-                        <td class="td-email">frances@am-volvocars.com.tw</td>
-                    </tr>
-                    <tr class="contact-row" onclick="toggleRow(this)">
-                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="總經理-徐文勇 &lt;william@starunited.tw&gt;" onclick="event.stopPropagation();"></td>
-                        <td class="td-name">徐文勇</td>
-                        <td class="td-dept">總經理</td>
-                        <td class="td-email">william@starunited.tw</td>
-                    </tr>
-                    <tr class="contact-row" onclick="toggleRow(this)">
-                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="售後總監-林欣旭 &lt;george@starunited.tw&gt;" onclick="event.stopPropagation();"></td>
-                        <td class="td-name">林欣旭</td>
-                        <td class="td-dept">售後總監</td>
-                        <td class="td-email">george@starunited.tw</td>
-                    </tr>
-                    <tr class="contact-row" onclick="toggleRow(this)">
-                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="銷售總監-廖宗俊 &lt;eric@starunited.tw&gt;" onclick="event.stopPropagation();"></td>
-                        <td class="td-name">廖宗俊</td>
-                        <td class="td-dept">銷售總監</td>
-                        <td class="td-email">eric@starunited.tw</td>
-                    </tr>
-                    <tr class="contact-row" onclick="toggleRow(this)">
-                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="CRM經理-陳永信 &lt;mike_chen@starunited.tw&gt;" onclick="event.stopPropagation();"></td>
-                        <td class="td-name">陳永信</td>
-                        <td class="td-dept">CRM 經理</td>
-                        <td class="td-email">mike_chen@starunited.tw</td>
-                    </tr>
-                </table>
-            </div>
-
-            <!-- 財務部區塊 -->
-            <div class="dept-group">
-                <div class="dept-name" style="background: #eccc68; color: #2f3542;">財務部</div>
-                <table class="contact-table">
-                    <tr class="contact-row" onclick="toggleRow(this)">
-                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="財務副總-曹復維 &lt;frank@am-volvocars.com.tw&gt;" onclick="event.stopPropagation();"></td>
-                        <td class="td-name">曹復維</td>
-                        <td class="td-dept">副總經理</td>
-                        <td class="td-email">frank@am-volvocars.com.tw</td>
-                    </tr>
-                    <tr class="contact-row" onclick="toggleRow(this)">
-                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="財務經理-林金鑾 &lt;katie@am-volvocars.com.tw&gt;" onclick="event.stopPropagation();"></td>
-                        <td class="td-name">林金鑾</td>
-                        <td class="td-dept">財務經理</td>
-                        <td class="td-email">katie@am-volvocars.com.tw</td>
-                    </tr>
-                    <tr class="contact-row" onclick="toggleRow(this)">
-                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="財務部-薛曉芬 &lt;Fan_hsueh@am-volvocars.com.tw&gt;" onclick="event.stopPropagation();"></td>
-                        <td class="td-name">薛曉芬</td>
-                        <td class="td-dept">每日報表 / 尚鵬查帳</td>
-                        <td class="td-email">Fan_hsueh@am-volvocars.com.tw</td>
-                    </tr>
-                    <tr class="contact-row" onclick="toggleRow(this)">
-                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="財務部-陳宣輔 &lt;tom_chen@am-volvocars.com.tw&gt;" onclick="event.stopPropagation();"></td>
-                        <td class="td-name">陳宣輔</td>
-                        <td class="td-dept">每日報表 / 尚鵬查帳</td>
-                        <td class="td-email">tom_chen@am-volvocars.com.tw</td>
-                    </tr>
-                    <tr class="contact-row" onclick="toggleRow(this)">
-                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="財務部-Alan &lt;alan_ho@am-volvocars.com.tw&gt;" onclick="event.stopPropagation();"></td>
-                        <td class="td-name">Alan</td>
-                        <td class="td-dept">星聯帳款 / 寶嘉帳款對應窗口</td>
-                        <td class="td-email">alan_ho@am-volvocars.com.tw</td>
-                    </tr>
-                    <tr class="contact-row" onclick="toggleRow(this)">
-                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="財務部-鄭丞佑Andy &lt;andy_cheng@am-volvocars.com.tw&gt;" onclick="event.stopPropagation();"></td>
-                        <td class="td-name">鄭丞佑 Andy</td>
-                        <td class="td-dept">供應商建檔 / 零用金帳務查詢</td>
-                        <td class="td-email">andy_cheng@am-volvocars.com.tw</td>
-                    </tr>
-                </table>
-            </div>
-
-            <!-- 各服務廠長區塊 -->
-            <div class="dept-group">
-                <div class="dept-name" style="background: #20bf6b;">服務廠長</div>
-                <table class="contact-table">
-                    <tr class="contact-row" onclick="toggleRow(this)">
-                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="北投廠長-陳俊逸 &lt;matt_chen@starunited.tw&gt;" onclick="event.stopPropagation();"></td>
-                        <td class="td-name">陳俊逸</td>
-                        <td class="td-dept">北投廠長</td>
-                        <td class="td-email">matt_chen@starunited.tw</td>
-                    </tr>
-                    <tr class="contact-row" onclick="toggleRow(this)">
-                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="松江廠長-張師誠 &lt;shihcheng@starunited.tw&gt;" onclick="event.stopPropagation();"></td>
-                        <td class="td-name">張師誠</td>
-                        <td class="td-dept">松江廠長</td>
-                        <td class="td-email">shihcheng@starunited.tw</td>
-                    </tr>
-                    <tr class="contact-row" onclick="toggleRow(this)">
-                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="板橋廠長-陳政威 &lt;alex_chen@starunited.tw&gt;" onclick="event.stopPropagation();"></td>
-                        <td class="td-name">陳政威</td>
-                        <td class="td-dept">板橋廠長</td>
-                        <td class="td-email">alex_chen@starunited.tw</td>
-                    </tr>
-                </table>
-            </div>
-
-            <!-- 各廠出納區塊 -->
-            <div class="dept-group">
-                <div class="dept-name" style="background: #a55eea;">各廠出納</div>
-                <table class="contact-table">
-                    <tr class="contact-row" onclick="toggleRow(this)">
-                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="出納-劉安莉 &lt;anly_liu@starunited.tw&gt;" onclick="event.stopPropagation();"></td>
-                        <td class="td-name">劉安莉</td>
-                        <td class="td-dept">出納</td>
-                        <td class="td-email">anly_liu@starunited.tw</td>
-                    </tr>
-                    <tr class="contact-row" onclick="toggleRow(this)">
-                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="出納-張詠婕 &lt;elle_chang@starunited.tw&gt;" onclick="event.stopPropagation();"></td>
-                        <td class="td-name">張詠婕</td>
-                        <td class="td-dept">出納</td>
-                        <td class="td-email">elle_chang@starunited.tw</td>
-                    </tr>
-                    <tr class="contact-row" onclick="toggleRow(this)">
-                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="出納-陳宥鈺 &lt;tps.nkcrm01@sunpekmotors.com&gt;" onclick="event.stopPropagation();"></td>
-                        <td class="td-name">陳宥鈺</td>
-                        <td class="td-dept">出納</td>
-                        <td class="td-email">tps.nkcrm01@sunpekmotors.com</td>
-                    </tr>
-                </table>
-            </div>
-
-            <!-- 總代理 PGU 區塊 -->
-            <div class="dept-group">
-                <div class="dept-name" style="background: #eb3b5a;">總代理 PGU</div>
-                <table class="contact-table">
-                    <tr class="contact-row" onclick="toggleRow(this)">
-                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="PGU-翁士航 &lt;austin.weng@pgu.com.tw&gt;" onclick="event.stopPropagation();"></td>
-                        <td class="td-name">翁士航</td>
-                        <td class="td-dept">總代理 PGU 窗口</td>
-                        <td class="td-email">austin.weng@pgu.com.tw</td>
-                    </tr>
-                    <tr class="contact-row" onclick="toggleRow(this)">
-                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="PGU-LEE &lt;lee.lee@pgu.com.tw&gt;" onclick="event.stopPropagation();"></td>
-                        <td class="td-name">LEE</td>
-                        <td class="td-dept">總代理 PGU 窗口</td>
-                        <td class="td-email">lee.lee@pgu.com.tw</td>
-                    </tr>
-                    <tr class="contact-row" onclick="toggleRow(this)">
-                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="PGU-Joseph_TSENG &lt;joseph.tseng@pgu.com.tw&gt;" onclick="event.stopPropagation();"></td>
-                        <td class="td-name">Joseph TSENG</td>
-                        <td class="td-dept">總代理 PGU 窗口</td>
-                        <td class="td-email">joseph.tseng@pgu.com.tw</td>
-                    </tr>
-                    <tr class="contact-row" onclick="toggleRow(this)">
-                        <td class="td-cb"><input type="checkbox" class="mail-checkbox" value="PGU-benson &lt;benson.liu@pgu.com.tw&gt;" onclick="event.stopPropagation();"></td>
-                        <td class="td-name">benson</td>
-                        <td class="td-dept">總代理 PGU 窗口</td>
-                        <td class="td-email">benson.liu@pgu.com.tw</td>
-                    </tr>
-                </table>
-            </div>
-
+        <div class="dept-nav-item" onclick="filterByDept('高階主管', this)">
+            <span>高階主管</span> <span class="badge-count" id="cnt-高階主管">0</span>
+        </div>
+        <div class="dept-nav-item" onclick="filterByDept('財務部', this)">
+            <span>財務部</span> <span class="badge-count" id="cnt-財務部">0</span>
+        </div>
+        <div class="dept-nav-item" onclick="filterByDept('服務廠長', this)">
+            <span>服務廠長</span> <span class="badge-count" id="cnt-服務廠長">0</span>
+        </div>
+        <div class="dept-nav-item" onclick="filterByDept('各廠出納', this)">
+            <span>各廠出納</span> <span class="badge-count" id="cnt-各廠出納">0</span>
+        </div>
+        <div class="dept-nav-item" onclick="filterByDept('總代理 PGU', this)">
+            <span>總代理 PGU</span> <span class="badge-count" id="cnt-總代理 PGU">0</span>
         </div>
     </div>
 
-    <!-- 右邊面板：罐頭訊息與發送 -->
-    <div class="right-panel">
-        <h2>常用罐頭訊息</h2>
+    <!-- 第二欄：聯絡人卡片列表 -->
+    <div class="contact-list-panel">
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="🔍 搜尋姓名、職稱、Email..." onkeyup="handleSearch()">
+            <div class="ctrl-btns">
+                <button class="btn-mini" onclick="checkAll(true)">全選</button>
+                <button class="btn-mini" onclick="checkAll(false)">全取消</button>
+            </div>
+        </div>
+
+        <!-- 比照車管系統：廠區 Quick Select -->
+        <div class="quick-pills">
+            <div class="pill-filter active" onclick="filterBySite('ALL', this)">全部地區</div>
+            <div class="pill-filter" onclick="filterBySite('北投', this)">北投廠</div>
+            <div class="pill-filter" onclick="filterBySite('松江', this)">松江廠</div>
+            <div class="pill-filter" onclick="filterBySite('板橋', this)">板橋廠</div>
+            <div class="pill-filter" onclick="filterBySite('PGU', this)">PGU</div>
+        </div>
+
+        <!-- 動態渲染卡片區域 -->
+        <div class="contact-cards-container" id="cardsContainer"></div>
+    </div>
+
+    <!-- 第三欄：罐頭訊息與郵件編輯區 -->
+    <div class="composer-panel">
+        <div class="panel-header">常用罐頭訊息</div>
         <div class="template-box">
-            <div class="template-item" onclick="loadTemplate('每日內湖廠營運日報表', 'DEAR ALL：\n\n附件檔為2026-06-29營運日報表，煩請查閱。\n如內容有需補充或調整之處，敬請告知，謝謝。')">
+            <div class="template-item" onclick="loadTemplate('每日內湖廠營運日報表', 'DEAR ALL：\n\n附件檔為營運日報表，煩請查閱。\n如內容有需補充或調整之處，敬請告知，謝謝。')">
                 🚗 內湖廠營運日報表通知
             </div>
             <div class="template-item" onclick="loadTemplate('【重大通報】營運及售後策略業務會報會議通知', '各位長官、廠長好：\n\n謹定於本週召開營運業務例會，將針對近期售後服務品質與指標進行檢討。\n相關報表資料請各服務廠長提前準備完畢。\n\n謝謝。')">
@@ -395,129 +403,233 @@
             </div>
         </div>
 
-        <h2>郵件內容編輯</h2>
+        <div class="panel-header" style="margin-top: 10px;">郵件內容編輯</div>
         <div class="form-group">
             <label>郵件主旨</label>
-            <input type="text" id="mailSubject" placeholder="請填寫主旨或選擇罐頭訊息...">
+            <input type="text" id="mailSubject" placeholder="請填寫主旨或點選罐頭訊息...">
         </div>
         <div class="form-group">
             <label>郵件內文</label>
-            <textarea id="mailBody" rows="12" placeholder="請填寫內文或選擇罐頭訊息..."></textarea>
+            <textarea id="mailBody" rows="7" placeholder="請填寫內文..."></textarea>
         </div>
 
-        <!-- 功能按鈕群組 -->
         <div class="action-btns">
-            <button type="button" class="btn-send" onclick="sendEmail()">🚀 立即開啟郵件發送</button>
-            <button type="button" class="btn-copy" onclick="copyRecipientsOnly()">📋 僅複製收件人名單</button>
-            <button type="button" class="btn-copy-secondary" onclick="copyFullContent()">📝 複製完整郵件內容</button>
+            <button class="btn-send" onclick="sendEmail()">🚀 立即開啟郵件發送</button>
+            <button class="btn-copy" onclick="copyRecipientsOnly()">📋 僅複製收件人名單</button>
+            <button class="btn-copy-sec" onclick="copyFullContent()">📝 複製完整郵件內容</button>
         </div>
     </div>
 
-</div>
-
 <script>
-    // 點擊整行就能勾選
-    function toggleRow(row) {
-        const checkbox = row.querySelector('.mail-checkbox');
-        checkbox.checked = !checkbox.checked;
+    // 完整的聯絡人資料集
+    const contactsData = [
+        { name: "盧張浩", title: "副董事長", dept: "高階主管", email: "peter@am-volvocars.com.tw" },
+        { name: "盧佩伶", title: "董事長室 / 特助", dept: "高階主管", email: "frances@am-volvocars.com.tw" },
+        { name: "徐文勇", title: "總經理", dept: "高階主管", email: "william@starunited.tw" },
+        { name: "林欣旭", title: "售後總監", dept: "高階主管", email: "george@starunited.tw" },
+        { name: "廖宗俊", title: "銷售總監", dept: "高階主管", email: "eric@starunited.tw" },
+        { name: "陳永信", title: "CRM 經理", dept: "高階主管", email: "mike_chen@starunited.tw" },
+        
+        { name: "曹復維", title: "副總經理", dept: "財務部", email: "frank@am-volvocars.com.tw" },
+        { name: "林金鑾", title: "財務經理", dept: "財務部", email: "katie@am-volvocars.com.tw" },
+        { name: "薛曉芬", title: "每日報表 / 尚鵬查帳", dept: "財務部", email: "Fan_hsueh@am-volvocars.com.tw" },
+        { name: "陳宣輔", title: "每日報表 / 尚鵬查帳", dept: "財務部", email: "tom_chen@am-volvocars.com.tw" },
+        { name: "Alan", title: "星聯帳款 / 寶嘉帳款對應窗口", dept: "財務部", email: "alan_ho@am-volvocars.com.tw" },
+        { name: "鄭丞佑 Andy", title: "供應商建檔 / 零用金帳務查詢", dept: "財務部", email: "andy_cheng@am-volvocars.com.tw" },
+
+        { name: "陳俊逸", title: "北投廠長", dept: "服務廠長", email: "matt_chen@starunited.tw" },
+        { name: "張師誠", title: "松江廠長", dept: "服務廠長", email: "shihcheng@starunited.tw" },
+        { name: "陳政威", title: "板橋廠長", dept: "服務廠長", email: "alex_chen@starunited.tw" },
+
+        { name: "劉安莉", title: "出納", dept: "各廠出納", email: "anly_liu@starunited.tw" },
+        { name: "張詠婕", title: "出納", dept: "各廠出納", email: "elle_chang@starunited.tw" },
+        { name: "陳宥鈺", title: "出納", dept: "各廠出納", email: "tps.nkcrm01@sunpekmotors.com" },
+
+        { name: "翁士航", title: "總代理 PGU 窗口", dept: "總代理 PGU", email: "austin.weng@pgu.com.tw" },
+        { name: "LEE", title: "總代理 PGU 窗口", dept: "總代理 PGU", email: "lee.lee@pgu.com.tw" },
+        { name: "Joseph TSENG", title: "總代理 PGU 窗口", dept: "總代理 PGU", email: "joseph.tseng@pgu.com.tw" },
+        { name: "benson", title: "總代理 PGU 窗口", dept: "總代理 PGU", email: "benson.liu@pgu.com.tw" }
+    ];
+
+    // 狀態控管
+    let currentDept = 'ALL';
+    let currentSite = 'ALL';
+    let selectedEmails = new Set();
+
+    // 初始化渲染
+    window.onload = function() {
+        updateCounts();
+        renderCards();
+    };
+
+    // 計算各部門人數數量
+    function updateCounts() {
+        document.getElementById('cnt-ALL').innerText = contactsData.length;
+        const counts = {};
+        contactsData.forEach(c => {
+            counts[c.dept] = (counts[c.dept] || 0) + 1;
+        });
+        for (let dept in counts) {
+            const el = document.getElementById(`cnt-${dept}`);
+            if (el) el.innerText = counts[dept];
+        }
     }
 
-    // 載入罐頭訊息
+    // 渲染卡片核心邏輯
+    function renderCards() {
+        const container = document.getElementById('cardsContainer');
+        const searchKw = document.getElementById('searchInput').value.toLowerCase().trim();
+        container.innerHTML = '';
+
+        const filtered = contactsData.filter(item => {
+            // 1. 部門過濾
+            const matchDept = (currentDept === 'ALL' || item.dept === currentDept);
+            // 2. 地區/廠區 Pill 過濾
+            const matchSite = (currentSite === 'ALL' || item.title.includes(currentSite) || item.dept.includes(currentSite));
+            // 3. 搜尋關鍵字過濾
+            const matchKw = !searchKw || 
+                item.name.toLowerCase().includes(searchKw) || 
+                item.title.toLowerCase().includes(searchKw) || 
+                item.email.toLowerCase().includes(searchKw);
+
+            return matchDept && matchSite && matchKw;
+        });
+
+        if (filtered.length === 0) {
+            container.innerHTML = `<div style="text-align:center; padding: 40px; color: #94a3b8; font-size: 14px;">查無符合條件的聯絡人</div>`;
+            return;
+        }
+
+        filtered.forEach(item => {
+            const fullVal = `${item.title}-${item.name} <${item.email}>`;
+            const isChecked = selectedEmails.has(fullVal);
+
+            const card = document.createElement('div');
+            card.className = `contact-card ${isChecked ? 'selected' : ''}`;
+            card.onclick = (e) => toggleCardSelect(card, fullVal, e);
+
+            card.innerHTML = `
+                <div class="card-left">
+                    <input type="checkbox" class="card-checkbox" ${isChecked ? 'checked' : ''} onclick="event.stopPropagation(); toggleCheckboxDirect(this, '${fullVal}');">
+                    <div class="card-info">
+                        <div class="card-header">
+                            <span class="card-name">${item.name}</span>
+                            <span class="card-dept-badge">${item.title}</span>
+                        </div>
+                        <span class="card-email">${item.email}</span>
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    // 切換點擊部門 (第一欄)
+    function filterByDept(deptName, element) {
+        currentDept = deptName;
+        document.querySelectorAll('.sidebar .dept-nav-item').forEach(el => el.classList.remove('active'));
+        element.classList.add('active');
+        renderCards();
+    }
+
+    // 切換點擊地區 Pill (第二欄頂部)
+    function filterBySite(siteName, element) {
+        currentSite = siteName;
+        document.querySelectorAll('.quick-pills .pill-filter').forEach(el => el.classList.remove('active'));
+        element.classList.add('active');
+        renderCards();
+    }
+
+    // 關鍵字搜尋處理
+    function handleSearch() {
+        renderCards();
+    }
+
+    // 切換卡片選取狀態
+    function toggleCardSelect(cardEl, value, event) {
+        const checkbox = cardEl.querySelector('.card-checkbox');
+        checkbox.checked = !checkbox.checked;
+        
+        if (checkbox.checked) {
+            selectedEmails.add(value);
+            cardEl.classList.add('selected');
+        } else {
+            selectedEmails.delete(value);
+            cardEl.classList.remove('selected');
+        }
+    }
+
+    function toggleCheckboxDirect(cbEl, value) {
+        const cardEl = cbEl.closest('.contact-card');
+        if (cbEl.checked) {
+            selectedEmails.add(value);
+            cardEl.classList.add('selected');
+        } else {
+            selectedEmails.delete(value);
+            cardEl.classList.remove('selected');
+        }
+    }
+
+    // 全選 / 全取消（針對目前畫面上看得見的卡片）
+    function checkAll(status) {
+        const cards = document.querySelectorAll('.contact-card');
+        cards.forEach(card => {
+            const cb = card.querySelector('.card-checkbox');
+            const onclickStr = card.getAttribute('onclick');
+            const valueMatch = onclickStr.match(/'([^']+)'\s*,\s*e/);
+            
+            if (valueMatch && valueMatch[1]) {
+                const val = valueMatch[1];
+                cb.checked = status;
+                if (status) {
+                    selectedEmails.add(val);
+                    card.classList.add('selected');
+                } else {
+                    selectedEmails.delete(val);
+                    card.classList.remove('selected');
+                }
+            }
+        });
+    }
+
+    // 載入罐頭範本
     function loadTemplate(subject, body) {
         document.getElementById('mailSubject').value = subject;
         document.getElementById('mailBody').value = body;
     }
 
-    // 全選 / 全不選
-    function checkAll(status) {
-        const rows = document.querySelectorAll('.contact-row');
-        rows.forEach(row => {
-            if (row.style.display !== 'none') {
-                row.querySelector('.mail-checkbox').checked = status;
-            }
-        });
+    // 複製與發送邏輯
+    function getSelectedRecipientsStr() {
+        return Array.from(selectedEmails).join('; ');
     }
 
-    // 即時關鍵字搜尋過濾
-    function filterContacts() {
-        const input = document.getElementById('searchInput').value.toLowerCase();
-        const rows = document.querySelectorAll('.contact-row');
-        
-        rows.forEach(row => {
-            const text = row.innerText.toLowerCase();
-            if (text.includes(input)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-    }
-
-    // 獲取當前所有被勾選的名單字串
-    function getSelectedRecipients() {
-        const checkboxes = document.querySelectorAll('.mail-checkbox:checked');
-        if (checkboxes.length === 0) return '';
-        
-        const recipientsArray = [];
-        checkboxes.forEach(cb => {
-            recipientsArray.push(cb.value);
-        });
-        return recipientsArray.join('; ');
-    }
-
-    // 新增功能一：僅複製收件人
     function copyRecipientsOnly() {
-        const recipients = getSelectedRecipients();
+        const recipients = getSelectedRecipientsStr();
         if (!recipients) {
             alert('請至少勾選一位收件人！');
             return;
         }
-        
-        navigator.clipboard.writeText(recipients).then(() => {
-            alert('已成功複製收件人名單至剪貼簿！');
-        }).catch(err => {
-            alert('複製失敗，請手動複製。');
-        });
+        navigator.clipboard.writeText(recipients).then(() => alert('已成功複製收件人名單！'));
     }
 
-    // 新增功能二：複製完整郵件內容 (主旨 + 內文)
     function copyFullContent() {
         const subject = document.getElementById('mailSubject').value;
         const body = document.getElementById('mailBody').value;
-        
-        const fullText = `主旨：${subject}\n\n${body}`;
-        
-        navigator.clipboard.writeText(fullText).then(() => {
-            alert('已成功複製「主旨與內文」至剪貼簿！');
-        }).catch(err => {
-            alert('複製失敗，請手動複製。');
-        });
+        navigator.clipboard.writeText(`主旨：${subject}\n\n${body}`).then(() => alert('已成功複製主旨與內文！'));
     }
 
-    // 發送郵件核心邏輯
     function sendEmail() {
-        const checkboxes = document.querySelectorAll('.mail-checkbox:checked');
-        if (checkboxes.length === 0) {
+        const recipients = getSelectedRecipientsStr();
+        if (!recipients) {
             alert('請至少勾選一位收件人！');
             return;
         }
-
-        const recipients = getSelectedRecipients();
         const subject = encodeURIComponent(document.getElementById('mailSubject').value);
         const body = encodeURIComponent(document.getElementById('mailBody').value);
-
-        let mailtoUrl = `mailto:${recipients}`;
-        const params = [];
-        if (subject) params.push(`subject=${subject}`);
-        if (body) params.push(`body=${body}`);
         
-        if (params.length > 0) {
-            mailtoUrl += `?${params.join('&')}`;
-        }
-
+        let mailtoUrl = `mailto:${recipients}?subject=${subject}&body=${body}`;
         window.location.href = mailtoUrl;
     }
 </script>
-
 </body>
 </html>
