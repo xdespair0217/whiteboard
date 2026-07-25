@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PEUGEOT & CITROËN 保固作業控制台 V13</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #eef2f5;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --border-color: #cbd5e1;
+            
+            --psa-navy: #0e2a47;
+            --psa-blue: #0055a5;
+            --color-blue: #1e40af;
+            --color-orange: #d97706;
+            --color-black: #1e1e1e;
+            --color-teal: #0f766e;
+            --color-green: #15803d;
+            --color-red: #b91c1c;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans TC', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); padding: 15px; }
+
+        header {
+            background: linear-gradient(135deg, var(--psa-navy), #1c3d5a);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header h1 { font-size: 18px; font-weight: 700; letter-spacing: 0.5px; }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 320px 1fr 430px;
+            gap: 15px;
+            align-items: start;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pdf-rule-card {
+            border-left: 4px solid var(--border-color);
+            padding: 10px 12px;
+            margin-bottom: 10px;
+            border-radius: 0 6px 6px 0;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+        .rule-priority-1 { border-left-color: var(--color-red); background: #fef2f2; color: #991b1b; }
+        .rule-priority-2 { border-left-color: var(--color-blue); background: #f0f9ff; color: #0369a1; }
+        .rule-priority-3 { border-left-color: var(--color-orange); background: #fffbeb; color: #9a3412; }
+
+        .outline-btn {
+            width: 100%;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            padding: 11px 12px;
+            border-radius: 6px;
+            text-align: left;
+            font-size: 12.5px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s;
+            color: #334155;
+        }
+        .outline-btn:hover { background: #f0fdf4; border-color: var(--color-teal); color: var(--color-teal); }
+
+        .form-group { margin-bottom: 10px; }
+        .form-group label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 4px; }
+        
+        .label-with-check {
+            display: flex !important;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .form-control { width: 100%; padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 5px; font-size: 13px; outline: none; }
+        
+        .vin-input-group {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+        .btn-dam-quick {
+            background-color: #faf5ff;
+            color: #7c3aed;
+            border: 1px solid #ddd6fe;
+            padding: 6px 10px;
+            border-radius: 5px;
+            font-size: 11.5px;
+            font-weight: bold;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+            height: 33px;
+            transition: all 0.2s;
+        }
+        .btn-dam-quick:hover { background-color: #7c3aed; color: white; border-color: #7c3aed; }
+
+        .textarea-control {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 5px;
+            font-size: 13px;
+            outline: none;
+            resize: vertical;
+            line-height: 1.5;
+        }
+
+        .dida-didi-compact { background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px; border-radius: 6px; margin-bottom: 10px; }
+        .dida-title { color: #4f46e5; font-weight: 700; font-size: 12px; }
+        .didi-title { color: #059669; font-weight: 700; font-size: 12px; }
+        
+        .checkbox-sub-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed #cbd5e1;
+        }
+
+        .dms-syntax-box {
+            background: #f0f4f8;
+            border: 1px solid #d0dbe5;
+            border-left: 4px solid var(--psa-blue);
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        .paint-builder-box {
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            border-left: 4px solid var(--color-orange);
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        .dms-grid-container { display: grid; grid-template-columns: 1.2fr 1fr 1fr 0.8fr; gap: 4px; }
+        .dms-input-wrapper { display: flex; flex-direction: column; gap: 2px; }
+        .dms-permanent-label { font-size: 10.5px; color: #64748b; font-weight: 500; padding-left: 2px; }
+        
+        .pos-quick-links { display: flex; gap: 4px; margin-top: 2px; }
+        .btn-pos-shortcut {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 3px;
+            font-size: 9.5px;
+            color: #475569;
+            cursor: pointer;
+            padding: 1px 3px;
+            font-weight: bold;
+            text-align: center;
+            flex: 1;
+            transition: all 0.15s;
+        }
+        .btn-pos-shortcut:hover { background: var(--psa-blue); color: white; border-color: var(--psa-blue); }
+
+        .btn-syntax-clear {
+            background-color: #fef2f2;
+            color: var(--color-red);
+            border: 2px solid var(--color-red);
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-right: 6px;
+        }
+        .btn-syntax-clear:hover { background-color: var(--color-red); color: white; }
+
+        .btn-video-quick {
+            background-color: #f0fdf4;
+            color: #16a34a;
+            border: 1px solid #bbf7d0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-right: 6px;
+        }
+        .btn-video-quick:hover { background-color: #16a34a; color: white; border-color: #16a34a; }
+
+        .btn-docs-quick {
+            background-color: #fff7ed;
+            color: #c2410c;
+            border: 1px solid #ffedd5;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-right: 6px;
+        }
+        .btn-docs-quick:hover { background-color: #c2410c; color: white; border-color: #c2410c; }
+
+        .btn-linkentry-quick {
+            background-color: #f0f9ff;
+            color: #0ea5e9;
+            border: 1px solid #bae6fd;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11.5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .btn-linkentry-quick:hover { background-color: #0ea5e9; color: white; border-color: #0ea5e9; }
+
+        .btn-scenario-grid { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 6px; 
+            margin-bottom: 12px; 
+        }
+        .case-btn {
+            border: none; 
+            color: white; 
+            padding: 8px 2px; 
+            border-radius: 6px; 
+            font-size: 11.5px; 
+            font-weight: 700;
+            cursor: pointer; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 3px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+            transition: transform 0.1s;
+        }
+        .case-btn:hover { opacity: 0.95; }
+
+        .btn-case-blue   { background-color: var(--color-blue); }
+        .btn-case-orange { background-color: var(--color-orange); }
+        .btn-case-black  { background-color: var(--color-black); }
+        .btn-case-teal   { background-color: var(--color-teal); }
+
+        /* 右欄預覽與輸出 */
+        .textarea-output { width: 100%; height: 65px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 5px; padding: 6px 8px; font-size: 12px; resize: none; margin-bottom: 8px; }
+        
+        .textarea-combined-output {
+            width: 100%;
+            height: 160px;
+            background: #ffffff;
+            border: 2px dashed #cbd5e1;
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 12.5px;
+            color: #0f172a;
+            font-family: inherit;
+            resize: none;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .btn-combined-clear {
+            width: 100%;
+            background-color: #fff1f2;
+            color: var(--color-red);
+            border: 1px solid #fecdd3;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 12.5px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+        .btn-combined-clear:hover { background-color: var(--color-red); color: white; }
+
+        .btn-submit { width: 100%; background-color: var(--psa-blue); color: white; border: none; padding: 12px; border-radius: 6px; font-size: 14px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .btn-submit:hover { filter: brightness(1.1); }
+
+        .checkbox-item { display: flex; align-items: center; gap: 5px; cursor: pointer; font-size: 12px; }
+        .toast { position: fixed; bottom: 20px; right: 20px; background: rgba(15, 23, 42, 0.9); color: white; padding: 8px 16px; border-radius: 4px; font-size: 13px; display: none; z-index: 99999; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div>
+            <h1>PEUGEOT & CITROËN 保固稽核與專案作業控制台</h1>
+        </div>
+        <div style="font-size: 12px;"><i class="fa-solid fa-xs fa-shield-halved"></i> 2026 年度 Stellantis 法系保固整備規範</div>
+    </header>
+
+    <div class="grid-container">
+        
+        <div>
+            <div class="card">
+                <div class="card-title" style="color: var(--psa-blue); flex-direction: column; align-items: flex-start; gap: 2px;">
+                    <div><i class="fa-solid fa-file-pdf"></i> PDF 核心通報精華 (無須點開)</div>
+                </div>
+                
+                <div class="pdf-rule-card rule-priority-1">
+                    <div style="font-size: 13px; font-weight: 700; margin-bottom: 3px;">1 第一重：DMS 紀錄優先檢視</div>
+                    <strong>執行時機：</strong>開單前請先確認是否有執行過歷史履歷。
+                </div>
+
+                <div class="pdf-rule-card rule-priority-2">
+                    <div style="font-size: 13px; font-weight: 700; margin-bottom: 3px;">2 第二重：VIN 實時狀態查核</div>
+                    <strong>顯示驚嘆號：</strong>代表有專案須執行。
+                </div>
+
+                <div class="pdf-rule-card rule-priority-3">
+                    <div style="font-size: 13px; font-weight: 700; margin-bottom: 3px;">3 第三重：結案軌跡機制</div>
+                    情境 A (系統未鎖定) 撤銷；情境 B (系統已鎖定) 工資打零。
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-square-check"></i> 本車專案防呆程序確認</div>
+                <div style="display: flex; flex-direction:column; gap: 8px; background: #f1f5f9; padding: 8px; border-radius: 5px;">
+                    <label class="checkbox-item"><input type="checkbox" id="chk_dms"> DMS 歷史履歷交叉比對已優先執行</label>
+                    <label class="checkbox-item"><input type="checkbox" id="chk_vin"> Workshop Online 實時 VIN 燈號已判定</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title" style="display: flex; justify-content: space-between; align-items: center;">
+                <div><i class="fa-solid fa-keyboard"></i> 數據錄入與案例快速戴入</div>
+            </div>
+            
+            <!-- 真實案例快速套用按鈕 -->
+            <div class="btn-scenario-grid">
+                <button class="case-btn btn-case-blue" onclick="loadRealCase('408_door')">
+                    <span>408X 門片瑕疵</span>
+                </button>
+                <button class="case-btn btn-case-orange" onclick="loadRealCase('408_full')">
+                    <span>408X 全車漆面</span>
+                </button>
+                <button class="case-btn btn-case-black" onclick="loadRealCase('berlingo_peel')">
+                    <span>Berlingo 脫漆</span>
+                </button>
+                <button class="case-btn btn-case-teal" onclick="loadRealCase('berlingo_bump')">
+                    <span>Berlingo 顆粒</span>
+                </button>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                <div class="form-group">
+                    <label class="label-with-check">
+                        <input type="checkbox" id="sync_plate_checked" onchange="updatePreview()"> <span>車牌</span>
+                    </label>
+                    <input type="text" id="car_plate" class="form-control" placeholder="ABC-1234" oninput="updatePreview()" style="height: 33px;">
+                </div>
+                <div class="form-group">
+                    <label class="label-with-check">
+                        <input type="checkbox" id="sync_vin_checked" onchange="updatePreview()"> <span>車身號碼 (VIN)</span>
+                    </label>
+                    <input type="text" id="vin_code" class="form-control" placeholder="17位字元" oninput="updatePreview()" style="height: 33px;">
+                </div>
+            </div>
+
+            <div class="dida-didi-compact">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                    <div><span class="dida-title">DIDA 案號</span><input type="text" id="dida_no" class="form-control" placeholder="輸入案號" oninput="updatePreview()"></div>
+                    <div><span class="didi-title">DIDI 案號</span><input type="text" id="didi_no" class="form-control" placeholder="輸入案號" oninput="updatePreview()"></div>
+                </div>
+                
+                <div class="checkbox-sub-grid">
+                    <label class="checkbox-item" style="color: #3b82f6;">
+                        <input type="checkbox" id="chk_flow_cif" onchange="updatePreview()"> <span>CIF紙本及電子檔</span>
+                    </label>
+                    <label class="checkbox-item" style="color: #10b981;">
+                        <input type="checkbox" id="chk_flow_media" onchange="updatePreview()"> <span>影片照片</span>
+                    </label>
+                    <label class="checkbox-item" style="color: #f59e0b;">
+                        <input type="checkbox" id="chk_flow_dtc" onchange="updatePreview()"> <span>故障碼</span>
+                    </label>
+                    <label class="checkbox-item" style="color: #8b5cf6;">
+                        <input type="checkbox" id="chk_flow_clock" onchange="updatePreview()"> <span>打卡</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- 漆面料號快速勾選點選區 -->
+            <div class="paint-builder-box">
+                <div class="box-title-container">
+                    <span style="font-size: 12px; font-weight: bold; color: #b45309;">
+                        <i class="fa-solid fa-spray-can"></i> 第三段漆面處置與料號快捷挑選
+                    </span>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 6px;">
+                    <div>
+                        <label style="font-size: 11px; font-weight: bold; color: #475569;">選擇車型：</label>
+                        <select id="paint_car_model" class="form-control" style="height: 30px; font-size: 11.5px;" onchange="updatePaintPartOptions()">
+                            <option value="408X">PEUGEOT 408X</option>
+                            <option value="BERLINGO">CITROËN New Berlingo</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="font-size: 11px; font-weight: bold; color: #475569;">選擇前綴敘述：</label>
+                        <select id="paint_action_prefix" class="form-control" style="height: 30px; font-size: 11.5px;">
+                            <option value="需重新塗裝">需重新塗裝</option>
+                            <option value="需重新塗裝及美容">需重新塗裝及美容</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 6px;">
+                    <label style="font-size: 11px; font-weight: bold; color: #475569;">選擇包含部位 (點擊多選)：</label>
+                    <div id="part_checkbox_container" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; background: #fff; padding: 6px; border: 1px solid #cbd5e1; border-radius: 4px; max-height: 100px; overflow-y: auto;">
+                        <!-- JS 動態載入區域 -->
+                    </div>
+                </div>
+
+                <button type="button" onclick="injectPaintToThirdField()" style="width: 100%; background: var(--color-orange); color: white; border: none; padding: 5px; border-radius: 4px; font-size: 11.5px; font-weight: bold; cursor: pointer;">
+                    <i class="fa-solid fa-arrow-down-long"></i> 生成並插入第三段 (處置與料號)
+                </button>
+            </div>
+
+            <div class="form-group">
+                <label>第一段：車主車輛故障信息 (原始症狀)</label>
+                <textarea id="field_info" class="textarea-control" style="height: 45px;" placeholder="例如：右後門.左前門漆面瑕疵" oninput="updatePreview()"></textarea>
+            </div>
+            <div class="form-group">
+                <label>第二段：檢修過程 (檢查結果)</label>
+                <textarea id="field_reason" class="textarea-control" style="height: 45px;" placeholder="例如：檢查為漆面瑕疵" oninput="updatePreview()"></textarea>
+            </div>
+            <div class="form-group">
+                <label>第三段：檢查 (處置與料號)</label>
+                <textarea id="field_check" class="textarea-control" style="height: 90px;" placeholder="例如：&#10;需重新塗裝&#10;左前門YL02230780&#10;右後門YL02155580" oninput="updatePreview()"></textarea>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title" style="color: var(--psa-blue);"><i class="fa-solid fa-eye"></i> 即時預覽與複製區</div>
+            <div class="form-group"><label>第一段預覽</label><textarea id="out_info" class="textarea-output" readonly></textarea></div>
+            <div class="form-group"><label>第二段預覽</label><textarea id="out_reason" class="textarea-output" readonly></textarea></div>
+            <div class="form-group"><label>第三段預覽</label><textarea id="out_check" class="textarea-output" readonly></textarea></div>
+            
+            <div class="form-group" style="margin-top: 10px; border-top: 2px solid #f1f5f9; padding-top: 8px;">
+                <label style="color: var(--psa-blue); font-weight: bold;"><i class="fa-solid fa-layer-group"></i> 乾淨總合文本 (直接複製使用)</label>
+                <textarea id="out_combined_all" class="textarea-combined-output" readonly></textarea>
+            </div>
+
+            <button type="button" class="btn-combined-clear" onclick="clearAllCombinedPreviews()">
+                <i class="fa-solid fa-trash-arrow-up"></i> 一鍵清空所有內容
+            </button>
+
+            <button class="btn-submit" onclick="copyAllFields()">
+                <i class="fa-solid fa-copy"></i> 複製全部文本到剪貼簿
+            </button>
+        </div>
+    </div>
+
+    <div id="toast_msg" class="toast"></div>
+
+    <script>
+        /* -------------------------------------------------------------
+           您提供的真實案例資料庫 (部位名稱與單純料號)
+        ------------------------------------------------------------- */
+        const PAINT_PARTS_DB = {
+            "408X": [
+                { name: "左前門", code: "YL02230780" },
+                { name: "右後門", code: "YL02155580" },
+                { name: "尾門", code: "YL02232980" },
+                { name: "右後保", code: "YL02216480" },
+                { name: "右後葉", code: "YL02155080" },
+                { name: "車頂", code: "YL02154980" },
+                { name: "油箱蓋", code: "YL02174980" },
+                { name: "引擎蓋", code: "YL02155280" },
+                { name: "右前葉", code: "YL02155380" },
+                { name: "右前保", code: "9858481010" }
+            ],
+            "BERLINGO": [
+                { name: "右後葉", code: "1680992780" },
+                { name: "左前門", code: "9843490180" }
+            ]
+        };
+
+        // 動態更新部位多選清單
+        function updatePaintPartOptions() {
+            const model = document.getElementById('paint_car_model').value;
+            const container = document.getElementById('part_checkbox_container');
+            container.innerHTML = '';
+
+            const parts = PAINT_PARTS_DB[model] || [];
+            parts.forEach((item, idx) => {
+                const label = document.createElement('label');
+                label.className = 'checkbox-item';
+                label.style.fontSize = '11px';
+                label.innerHTML = `<input type="checkbox" class="paint-part-chk" value="${item.code}" data-name="${item.name}"> ${item.name}`;
+                container.appendChild(label);
+            });
+        }
+
+        // 生成第三段精簡處置
+        function injectPaintToThirdField() {
+            const prefix = document.getElementById('paint_action_prefix').value;
+            const checkboxes = document.querySelectorAll('.paint-part-chk:checked');
+            
+            if(checkboxes.length === 0) {
+                alert('請先勾選至少一個部位');
+                return;
+            }
+
+            let lines = [prefix];
+            checkboxes.forEach(chk => {
+                const name = chk.getAttribute('data-name');
+                const code = chk.value;
+                lines.push(`${name}.${code}`);
+            });
+
+            document.getElementById('field_check').value = lines.join('\n');
+            updatePreview();
+            showToast("已成功帶入第三段敘述！");
+        }
+
+        // 載入您提供的真實案例
+        function loadRealCase(caseKey) {
+            if (caseKey === '408_door') {
+                document.getElementById('field_info').value = "右後門.左前門漆面瑕疵";
+                document.getElementById('field_reason').value = "檢查為漆面瑕疵";
+                document.getElementById('field_check').value = "需重新塗裝\n左前門YL02230780\n右後門YL02155580";
+            }
+            else if (caseKey === '408_full') {
+                document.getElementById('field_info').value = "尾門.右後保.右後葉.車頂.油箱蓋 右後門 引擎蓋 右前葉 右前保 漆面瑕疵";
+                document.getElementById('field_reason').value = "檢查全車漆面汙染受損嚴重及飛漆狀態";
+                document.getElementById('field_check').value = "需重新塗裝及美容\n尾門.YL02232980\n右後保.YL02216480\n右後葉.YL02155080\n車頂.YL02154980\n油箱蓋YL02174980\n右後門YL02155580\n引擎蓋YL02155280\n右前葉YL02155380\n右前保9858481010";
+            }
+            else if (caseKey === 'berlingo_peel') {
+                document.getElementById('field_info').value = "右後葉漆面瑕疵";
+                document.getElementById('field_reason').value = "檢查為漆面脫漆瑕疵";
+                document.getElementById('field_check').value = "需重新塗裝\n右後葉1680992780";
+            }
+            else if (caseKey === 'berlingo_bump') {
+                document.getElementById('field_info').value = "左前門漆面顆粒凸起";
+                document.getElementById('field_reason').value = "新車整備 外觀缺陷";
+                document.getElementById('field_check').value = "左前門漆面重新塗裝\n左前門9843490180";
+            }
+            updatePreview();
+            showToast("已載入案例");
+        }
+
+        function clearAllCombinedPreviews() {
+            document.getElementById('field_info').value = '';
+            document.getElementById('field_reason').value = '';
+            document.getElementById('field_check').value = '';
+            
+            document.getElementById('sync_plate_checked').checked = false;
+            document.getElementById('sync_vin_checked').checked = false;
+            document.getElementById('chk_flow_cif').checked = false;
+            document.getElementById('chk_flow_media').checked = false;
+            document.getElementById('chk_flow_dtc').checked = false;
+            document.getElementById('chk_flow_clock').checked = false;
+            
+            updatePreview();
+            showToast("❌ 已清空全部欄位");
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast_msg');
+            toast.innerText = msg;
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 2000);
+        }
+
+        // 更新右側預覽 (去除了欄位一、欄位二等廢話)
+        function updatePreview() {
+            const plate = document.getElementById('car_plate').value || '';
+            const vin = document.getElementById('vin_code').value || '';
+            
+            const syncPlate = document.getElementById('sync_plate_checked').checked;
+            const syncVin = document.getElementById('sync_vin_checked').checked;
+
+            let headerLine = "";
+            if (syncPlate && plate) headerLine += `車牌: ${plate}`;
+            if (syncVin && vin) {
+                if (headerLine) headerLine += " | ";
+                headerLine += `VIN: ${vin}`;
+            }
+            if (headerLine) headerLine += "\n";
+
+            const dida = document.getElementById('dida_no').value.trim();
+            const didi = document.getElementById('didi_no').value.trim();
+            
+            let idLine = "";
+            if (dida) idLine += `DIDA: ${dida} `;
+            if (didi) idLine += `DIDI: ${didi} `;
+            if (idLine) idLine += "\n";
+
+            let selectedItems = [];
+            if (document.getElementById('chk_flow_cif').checked) selectedItems.push("CIF紙本/電子檔");
+            if (document.getElementById('chk_flow_media').checked) selectedItems.push("影音照片");
+            if (document.getElementById('chk_flow_dtc').checked) selectedItems.push("故障碼");
+            if (document.getElementById('chk_flow_clock').checked) selectedItems.push("打卡");
+
+            let flowLine = "";
+            if (selectedItems.length > 0) flowLine = `【${selectedItems.join('、')}】已上傳DIDI\n`;
+
+            const rawInfo = document.getElementById('field_info').value;
+            const rawReason = document.getElementById('field_reason').value;
+            const rawCheck = document.getElementById('field_check').value;
+
+            const finalInfo = `${headerLine}${idLine}${flowLine}${rawInfo}`.trim();
+            
+            document.getElementById('out_info').value = finalInfo;
+            document.getElementById('out_reason').value = rawReason;
+            document.getElementById('out_check').value = rawCheck;
+
+            // 乾淨無雜質總合，方便直接複製
+            document.getElementById('out_combined_all').value = 
+`${finalInfo}
+---
+${rawReason}
+---
+${rawCheck}`.trim();
+        }
+
+        function copyAllFields() {
+            const combinedText = document.getElementById('out_combined_all').value;
+            if(!combinedText) {
+                alert('目前沒有文字可複製！');
+                return;
+            }
+            navigator.clipboard.writeText(combinedText).then(() => {
+                showToast("文本已成功複製到剪貼簿！");
+            });
+        }
+
+        window.onload = function() {
+            updatePaintPartOptions();
+            updatePreview();
+        }
+    </script>
+</body>
+</html>
