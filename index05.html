@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>保固稽核與專案作業控制台 V15_CleanText</title>
+    <title>保固稽核與專案作業控制台 V16_TechWeb_Fixed</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     
@@ -250,21 +250,22 @@
         }
         .btn-docs-quick:hover { background-color: #c2410c; color: white; border-color: #c2410c; }
 
-        .btn-linkentry-quick {
-            background-color: #f0f9ff;
-            color: #0ea5e9;
+        /* 依截圖 G01 樣式打造之『技術網站 / 電瓶代號』捷徑按鈕 */
+        .btn-techweb-quick {
+            background-color: #e0f2fe;
+            color: #0284c7;
             border: 1px solid #bae6fd;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 11.5px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.2s;
             display: inline-flex;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
         }
-        .btn-linkentry-quick:hover { background-color: #0ea5e9; color: white; border-color: #0ea5e9; }
+        .btn-techweb-quick:hover { background-color: #0284c7; color: white; border-color: #0284c7; }
 
         .btn-scenario-grid { 
             display: grid; 
@@ -298,7 +299,6 @@
 
         .textarea-output { width: 100%; height: 65px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 5px; padding: 6px 8px; font-size: 12px; resize: none; margin-bottom: 8px; }
         
-        /* 總合文字框：純淨文本樣式 */
         .textarea-combined-output {
             width: 100%;
             height: 160px;
@@ -336,6 +336,7 @@
         .btn-submit { width: 100%; background-color: var(--color-green); color: white; border: none; padding: 12px; border-radius: 6px; font-size: 14px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 6px rgba(16, 185, 129, 0.15); }
         .btn-submit:hover { filter: brightness(1.03); }
 
+        /* Modal 彈窗通用基礎 */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.75); display: none; align-items: center; justify-content: center; z-index: 9999;
@@ -361,15 +362,55 @@
         .modal-data-label { width: 100px; color: #94a3b8; font-weight: 500; }
         .modal-data-value { flex: 1; font-family: monospace; font-size: 13px; color: #f1f5f9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
-        .modal-btn-action { background: #10b981; color: white; border: none; padding: 8px 14px; border-radius: 5px; font-size: 12.5px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; transition: background 0.2s; }
-        .modal-btn-action:hover { background: #059669; }
+        .modal-btn-action { background: #2563eb; color: white; border: none; padding: 4px 10px; border-radius: 4px; font-size: 11.5px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; text-decoration: none; transition: background 0.2s; }
+        .modal-btn-action:hover { background: #1d4ed8; }
+
+        /* 依據截圖 G02 打造的專屬卡片面板 */
+        .g02-card {
+            background: #0d1b2a;
+            border: 1px solid #1e3a8a;
+            border-radius: 8px;
+            padding: 10px 14px;
+            margin-bottom: 10px;
+        }
+        .g02-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #f8fafc;
+        }
+        .g02-field-row {
+            display: flex;
+            align-items: center;
+            background: #111827;
+            border: 1px solid #1f2937;
+            border-radius: 5px;
+            padding: 6px 10px;
+            margin-bottom: 6px;
+            font-size: 12.5px;
+        }
+        .g02-field-label { width: 70px; color: #9ca3af; }
+        .g02-field-val { flex: 1; font-family: monospace; font-weight: bold; color: #f3f4f6; }
+        .btn-copy-grey {
+            background: #374151;
+            color: #d1d5db;
+            border: 1px solid #4b5563;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-copy-grey:hover { background: #4b5563; color: #fff; }
 
         .checkbox-item { display: flex; align-items: center; gap: 5px; cursor: pointer; font-size: 12px; }
         .toast { position: fixed; bottom: 20px; right: 20px; background: rgba(15, 23, 42, 0.9); color: white; padding: 8px 16px; border-radius: 4px; font-size: 13px; display: none; z-index: 99999; }
-        
         .inline-copy-btn { background: #0284c7; color: white; border: none; padding: 2px 6px; border-radius: 4px; font-size: 11px; cursor: pointer; margin-left: 5px; flex-shrink: 0; }
         .inline-copy-btn:hover { background: #0369a1; }
-
         .modal-embedded-img { width: 100%; height: auto; border: 1px solid #334155; border-radius: 6px; margin-top: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
     </style>
 </head>
@@ -453,12 +494,12 @@
         <div class="card">
             <div class="card-title" style="display: flex; justify-content: space-between; align-items: center;">
                 <div><i class="fa-solid fa-keyboard"></i> 數據錄入與案例快速戴入</div>
-                <button type="button" class="btn-linkentry-quick" onclick="openModal('modal_linkentry_sop')">
-                    <i class="fa-solid fa-xs fa-right-to-bracket"></i> LinkEntry 帳密與入口
+                <!-- 依截圖 G01 重構之『技術網站 / 電瓶代號』捷徑按鈕 -->
+                <button type="button" class="btn-techweb-quick" onclick="openModal('modal_techweb_sop')">
+                    <i class="fa-solid fa-mobile-screen-button"></i> 技術網站 / 電瓶代號
                 </button>
             </div>
             
-            <!-- 實體真實案例快捷區域 -->
             <div class="btn-scenario-grid">
                 <button class="case-btn btn-case-blue" onclick="loadRealCase('408_door')">
                     <i class="fa-solid fa-car"></i><span>408X門片瑕疵</span>
@@ -533,7 +574,7 @@
                 </div>
             </div>
 
-            <!-- 單獨植入：漆面保固第三段快捷部位點選工具面板 -->
+            <!-- 漆面保固第三段快捷部位點選工具面板 -->
             <div class="paint-builder-box">
                 <div class="box-title-container">
                     <span style="font-size: 12px; font-weight: bold; color: #b45309;">
@@ -657,7 +698,110 @@
         </div>
     </div>
 
-    <!-- Modals 彈窗 -->
+    <!-- 依據截圖 G02 打造的專屬 Modal：技術資訊、診斷網站與儀器代碼核對 -->
+    <div class="modal-overlay" id="modal_techweb_sop">
+        <div class="modal-content" style="width: 680px; border-color: #0284c7;">
+            <button class="modal-close" onclick="closeModal('modal_techweb_sop')"><i class="fa-solid fa-xmark"></i></button>
+            <div class="modal-header-title" style="color: #38bdf8; display: flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-desktop"></i> 技術資訊、診斷網站與儀器代碼核對
+            </div>
+
+            <div style="font-size: 12.5px; color: #38bdf8; font-weight: bold; margin-bottom: 10px;">
+                💻 【技術網站 / 診斷電腦 帳號密碼】 (點擊數值可複製)
+            </div>
+
+            <!-- P 品牌 -->
+            <div class="g02-card">
+                <div class="g02-card-header">
+                    <span>🦁 P 品牌</span>
+                    <a href="https://servicebox.peugeot.com/" target="_blank" class="modal-btn-action"><i class="fa-solid fa-arrow-up-right-from-square"></i> ServiceBox 網站</a>
+                </div>
+                <div class="g02-field-row">
+                    <span class="g02-field-label">帳號：</span>
+                    <span class="g02-field-val">do01123</span>
+                    <button class="btn-copy-grey" onclick="quickCopyText('do01123')">複製</button>
+                </div>
+                <div class="g02-field-row" style="margin-bottom:0;">
+                    <span class="g02-field-label">密碼：</span>
+                    <span class="g02-field-val">plmokn22</span>
+                    <button class="btn-copy-grey" onclick="quickCopyText('plmokn22')">複製</button>
+                </div>
+            </div>
+
+            <!-- C 品牌 -->
+            <div class="g02-card">
+                <div class="g02-card-header">
+                    <span>🌱 C 品牌</span>
+                    <a href="https://networkservice.citroen.com/" target="_blank" class="modal-btn-action"><i class="fa-solid fa-arrow-up-right-from-square"></i> Citroen 網站</a>
+                </div>
+                <div class="g02-field-row">
+                    <span class="g02-field-label">帳號：</span>
+                    <span class="g02-field-val">do01119</span>
+                    <button class="btn-copy-grey" onclick="quickCopyText('do01119')">複製</button>
+                </div>
+                <div class="g02-field-row" style="margin-bottom:0;">
+                    <span class="g02-field-label">密碼：</span>
+                    <span class="g02-field-val">plmokn22</span>
+                    <button class="btn-copy-grey" onclick="quickCopyText('plmokn22')">複製</button>
+                </div>
+            </div>
+
+            <!-- PC 雙品牌 -->
+            <div class="g02-card">
+                <div class="g02-card-header">
+                    <span>🏎️ PC 雙品牌</span>
+                </div>
+                <div class="g02-field-row">
+                    <span class="g02-field-label">帳號：</span>
+                    <span class="g02-field-val">dq63659</span>
+                    <button class="btn-copy-grey" onclick="quickCopyText('dq63659')">複製</button>
+                </div>
+                <div class="g02-field-row" style="margin-bottom:0;">
+                    <span class="g02-field-label">密碼：</span>
+                    <span class="g02-field-val">plmokn88</span>
+                    <button class="btn-copy-grey" onclick="quickCopyText('plmokn88')">複製</button>
+                </div>
+            </div>
+
+            <!-- ISOLVE 系統 -->
+            <div class="g02-card" style="border-color: #b45309;">
+                <div class="g02-card-header" style="margin-bottom:0;">
+                    <span style="color: #f97316;"><i class="fa-solid fa-magnifying-glass"></i> ISOLVE 系統</span>
+                    <a href="https://isolve.mpsa.com/" target="_blank" class="modal-btn-action" style="background: #c2410c;"><i class="fa-solid fa-arrow-up-right-from-square"></i> ISOLVE 網站</a>
+                </div>
+            </div>
+
+            <div style="font-size: 12.5px; color: #38bdf8; font-weight: bold; margin-top: 15px; margin-bottom: 10px;">
+                🛠️ 【尚鵬內湖 AP/AC 診斷/電瓶儀器代碼】
+            </div>
+
+            <!-- Peugeot (寶獅) 代碼 -->
+            <div class="g02-card">
+                <div style="font-size: 12px; font-weight: bold; color: #f8fafc; margin-bottom: 6px;">🦁 Peugeot (寶獅)</div>
+                <div class="g02-field-row" style="margin-bottom:0;">
+                    <span class="g02-field-label" style="width: 90px;">經銷商代碼：</span>
+                    <span class="g02-field-val" style="color: #38bdf8;">PTW018U</span>
+                    <button class="btn-copy-grey" onclick="quickCopyText('PTW018U')">複製</button>
+                </div>
+            </div>
+
+            <!-- Citroen (雪鐵龍) 代碼 -->
+            <div class="g02-card">
+                <div style="font-size: 12px; font-weight: bold; color: #f8fafc; margin-bottom: 6px;">⚡ Citroen (雪鐵龍)</div>
+                <div class="g02-field-row" style="margin-bottom:0;">
+                    <span class="g02-field-label" style="width: 90px;">經銷商代碼：</span>
+                    <span class="g02-field-val" style="color: #38bdf8;">CTW014T</span>
+                    <button class="btn-copy-grey" onclick="quickCopyText('CTW014T')">複製</button>
+                </div>
+            </div>
+
+            <div style="font-size: 11px; color: #94a3b8; margin-top: 10px;">
+                🔋 適用範圍：診斷儀器連線、電瓶診斷儀設定、保固登錄等。
+            </div>
+        </div>
+    </div>
+
+    <!-- 其他原本 Modal 彈窗 -->
     <div class="modal-overlay" id="modal_dam_guide">
         <div class="modal-content" style="border-color: #7c3aed; width: 620px;">
             <button class="modal-close" onclick="closeModal('modal_dam_guide')"><i class="fa-solid fa-xmark"></i></button>
@@ -693,18 +837,6 @@
                 <div style="background: #14213d; padding: 15px; border-radius: 8px; margin-top: 10px;">
                     <a href="https://youtu.be/EVE_ZunvKNM?si=e4OSu_9mkxTipTTs" target="_blank" class="modal-btn-action" style="background: #ef4444;"><i class="fa-brands fa-youtube"></i> 開啟 YouTube 課程影片</a>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="modal_linkentry_sop">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal('modal_linkentry_sop')"><i class="fa-solid fa-xmark"></i></button>
-            <div class="modal-header-title">09. 服務顧問可以進入 Link-e-entry 並了解功能</div>
-            <div class="modal-sub-section">
-                <div class="modal-sub-title"><i class="fa-solid fa-key"></i> 【核心登入資訊】</div>
-                <div class="modal-data-row"><span class="modal-data-label">帳號：</span><span class="modal-data-value">TW-I482000.D037</span><button class="inline-copy-btn" onclick="quickCopyText('TW-I482000.D037')">複製帳號</button></div>
-                <div class="modal-data-row"><span class="modal-data-label">密碼：</span><span class="modal-data-value">ZZZ.zzz33</span><button class="inline-copy-btn" onclick="quickCopyText('ZZZ.zzz33')">複製密碼</button></div>
             </div>
         </div>
     </div>
@@ -905,7 +1037,6 @@
             updatePreview();
         }
 
-        /* 核心修訂：完全移除『=== 欄位X... ===』等提示字樣，保持最純粹的三段文本 */
         function updatePreview() {
             const plate = document.getElementById('car_plate').value || '';
             const vin = document.getElementById('vin_code').value || '';
@@ -973,7 +1104,6 @@
             document.getElementById('out_reason').value = rawReason;
             document.getElementById('out_check').value = rawCheck;
 
-            // 純淨總合組合，去除欄位標籤字樣
             let combinedParts = [];
             if (finalInfo) combinedParts.push(finalInfo);
             if (rawReason) combinedParts.push(rawReason);
