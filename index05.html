@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>保固稽核與專案作業控制台 V16_TechWeb_Fixed</title>
+    <title>PEUGEOT & CITROËN 保固稽核與專案作業控制台 V19</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     
@@ -14,31 +14,33 @@
             --text-main: #1e293b;
             --border-color: #cbd5e1;
             
-            /* 色塊配色 */
-            --color-blue: #005691;
-            --color-orange: #e65c00;
+            /* PEUGEOT & CITROËN 法系品牌專屬配色 */
+            --psa-navy: #0e2a47;      /* Peugeot 標緻深海藍 */
+            --psa-blue: #0055a5;      /* 法系專用經典藍 */
+            --psa-red: #c8102e;       /* Citroën 雪鐵龍品牌紅 */
+            --color-blue: #0055a5;
+            --color-orange: #d97706;
             --color-black: #1e1e1e;
-            --color-teal: #008b74;
-            --color-green: #10b981;
-            --color-red: #ef4444;
-            --alfa-crimson: #8b0000;
+            --color-teal: #0f766e;
+            --color-green: #15803d;
+            --color-red: #b91c1c;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans TC', sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); padding: 15px; }
 
         header {
-            background: linear-gradient(135deg, var(--alfa-crimson), #3a0000);
+            background: linear-gradient(135deg, var(--psa-navy), #1c3d5a);
             color: white;
             padding: 12px 20px;
             border-radius: 8px;
             margin-bottom: 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.12);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        header h1 { font-size: 18px; font-weight: 700; }
+        header h1 { font-size: 18px; font-weight: 700; letter-spacing: 0.5px; }
 
         /* 三欄黃金比例 */
         .grid-container {
@@ -78,7 +80,7 @@
             line-height: 1.5;
         }
         .rule-priority-1 { border-left-color: var(--color-red); background: #fef2f2; color: #991b1b; }
-        .rule-priority-2 { border-left-color: var(--color-blue); background: #f0f9ff; color: #0369a1; }
+        .rule-priority-2 { border-left-color: var(--psa-blue); background: #f0f9ff; color: #0369a1; }
         .rule-priority-3 { border-left-color: var(--color-orange); background: #fffbeb; color: #9a3412; }
 
         /* 左欄按鈕 */
@@ -162,9 +164,9 @@
         }
 
         .dms-syntax-box {
-            background: #fdfdf2;
-            border: 1px solid #e2e8f0;
-            border-left: 4px solid #eab308;
+            background: #f0f4f8;
+            border: 1px solid #d0dbe5;
+            border-left: 4px solid var(--psa-blue);
             padding: 10px;
             border-radius: 6px;
             margin-bottom: 10px;
@@ -185,7 +187,7 @@
         
         .pos-quick-links { display: flex; gap: 4px; margin-top: 2px; }
         .btn-pos-shortcut {
-            background: #f1f5f9;
+            background: #ffffff;
             border: 1px solid #cbd5e1;
             border-radius: 3px;
             font-size: 9.5px;
@@ -197,7 +199,7 @@
             flex: 1;
             transition: all 0.15s;
         }
-        .btn-pos-shortcut:hover { background: var(--color-blue); color: white; border-color: var(--color-blue); }
+        .btn-pos-shortcut:hover { background: var(--psa-blue); color: white; border-color: var(--psa-blue); }
 
         .btn-syntax-clear {
             background-color: #fef2f2;
@@ -250,7 +252,6 @@
         }
         .btn-docs-quick:hover { background-color: #c2410c; color: white; border-color: #c2410c; }
 
-        /* 依截圖 G01 樣式打造之『技術網站 / 電瓶代號』捷徑按鈕 */
         .btn-techweb-quick {
             background-color: #e0f2fe;
             color: #0284c7;
@@ -292,7 +293,7 @@
         .case-btn i { font-size: 12px; }
         .case-btn:hover { opacity: 0.95; filter: brightness(1.05); }
 
-        .btn-case-blue   { background-color: var(--color-blue); }
+        .btn-case-blue   { background-color: var(--psa-blue); }
         .btn-case-orange { background-color: var(--color-orange); }
         .btn-case-black  { background-color: var(--color-black); }
         .btn-case-teal   { background-color: var(--color-teal); }
@@ -333,39 +334,37 @@
         }
         .btn-combined-clear:hover { background-color: var(--color-red); color: white; border-color: var(--color-red); }
 
-        .btn-submit { width: 100%; background-color: var(--color-green); color: white; border: none; padding: 12px; border-radius: 6px; font-size: 14px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 6px rgba(16, 185, 129, 0.15); }
-        .btn-submit:hover { filter: brightness(1.03); }
+        .btn-submit { width: 100%; background-color: var(--psa-blue); color: white; border: none; padding: 12px; border-radius: 6px; font-size: 14px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 6px rgba(0, 85, 165, 0.2); }
+        .btn-submit:hover { filter: brightness(1.1); }
 
-        /* Modal 彈窗通用基礎 */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.75); display: none; align-items: center; justify-content: center; z-index: 9999;
         }
         .modal-content {
-            background: #0b132b; color: #f1f5f9; border: 2px solid #00b4d8; box-shadow: 0 0 20px rgba(0, 180, 216, 0.5);
+            background: #0f172a; color: #f1f5f9; border: 2px solid #38bdf8; box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
             width: 760px; max-width: 95%; border-radius: 10px; padding: 22px; position: relative; max-height: 90vh; overflow-y: auto;
         }
         .modal-close { position: absolute; top: 15px; right: 15px; background: none; border: none; color: #64748b; font-size: 20px; cursor: pointer; }
         .modal-close:hover { color: #ef4444; }
         
-        .modal-header-title { font-size: 15px; font-weight: 700; color: #00b4d8; margin-bottom: 12px; border-bottom: 1px solid #1e293b; padding-bottom: 8px; }
+        .modal-header-title { font-size: 15px; font-weight: 700; color: #38bdf8; margin-bottom: 12px; border-bottom: 1px solid #1e293b; padding-bottom: 8px; }
         .modal-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 12.5px; }
-        .modal-table th { background: #1e293b; color: #00b4d8; text-align: left; padding: 8px; border: 1px solid #334155; }
+        .modal-table th { background: #1e293b; color: #38bdf8; text-align: left; padding: 8px; border: 1px solid #334155; }
         .modal-table td { padding: 8px; border: 1px solid #334155; }
         
         .modal-list { margin-left: 18px; margin-top: 6px; font-size: 13px; color: #cbd5e1; }
         .modal-list li { margin-bottom: 8px; line-height: 1.5; }
         
         .modal-sub-section { margin-bottom: 16px; font-size: 13px; }
-        .modal-sub-title { font-size: 14px; font-weight: 700; color: #00b4d8; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
-        .modal-data-row { display: flex; align-items: center; background: #14213d; padding: 8px 12px; border-radius: 6px; margin-bottom: 6px; border: 1px solid #1c2d42; }
+        .modal-sub-title { font-size: 14px; font-weight: 700; color: #38bdf8; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+        .modal-data-row { display: flex; align-items: center; background: #1e293b; padding: 8px 12px; border-radius: 6px; margin-bottom: 6px; border: 1px solid #334155; }
         .modal-data-label { width: 100px; color: #94a3b8; font-weight: 500; }
         .modal-data-value { flex: 1; font-family: monospace; font-size: 13px; color: #f1f5f9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
-        .modal-btn-action { background: #2563eb; color: white; border: none; padding: 4px 10px; border-radius: 4px; font-size: 11.5px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; text-decoration: none; transition: background 0.2s; }
-        .modal-btn-action:hover { background: #1d4ed8; }
+        .modal-btn-action { background: var(--psa-blue); color: white; border: none; padding: 4px 10px; border-radius: 4px; font-size: 11.5px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; text-decoration: none; transition: background 0.2s; }
+        .modal-btn-action:hover { filter: brightness(1.1); }
 
-        /* 依據截圖 G02 打造的專屬卡片面板 */
         .g02-card {
             background: #0d1b2a;
             border: 1px solid #1e3a8a;
@@ -418,18 +417,18 @@
 
     <header>
         <div>
-            <h1>保固稽核與專案作業控制台</h1>
+            <h1>PEUGEOT & CITROËN 保固稽核與專案作業控制台</h1>
         </div>
-        <div style="font-size: 12px;"><i class="fa-solid fa-xs fa-shield-halved"></i> 2026 年度原廠保固稽核整備規範</div>
+        <div style="font-size: 12px;"><i class="fa-solid fa-xs fa-shield-halved"></i> 2026 年度 Stellantis 法系保固整備規範</div>
     </header>
 
     <div class="grid-container">
         
         <div>
             <div class="card">
-                <div class="card-title" style="color: var(--alfa-crimson); flex-direction: column; align-items: flex-start; gap: 2px;">
+                <div class="card-title" style="color: var(--psa-blue); flex-direction: column; align-items: flex-start; gap: 2px;">
                     <div><i class="fa-solid fa-file-pdf"></i> PDF 核心通報精華 (無須點開)</div>
-                    <div style="font-size: 11px; color: var(--text-main); opacity: 0.75; font-weight: normal; margin-top: 3px;">專案前請確認DMS 及技術網站</div>
+                    <div style="font-size: 11px; color: var(--text-main); opacity: 0.75; font-weight: normal; margin-top: 3px;">專案前請確認DMS 及 ServiceBox 系統</div>
                 </div>
                 
                 <div class="pdf-rule-card rule-priority-1">
@@ -494,7 +493,6 @@
         <div class="card">
             <div class="card-title" style="display: flex; justify-content: space-between; align-items: center;">
                 <div><i class="fa-solid fa-keyboard"></i> 數據錄入與案例快速戴入</div>
-                <!-- 依截圖 G01 重構之『技術網站 / 電瓶代號』捷徑按鈕 -->
                 <button type="button" class="btn-techweb-quick" onclick="openModal('modal_techweb_sop')">
                     <i class="fa-solid fa-mobile-screen-button"></i> 技術網站 / 電瓶代號
                 </button>
@@ -600,7 +598,7 @@
                 
                 <div style="margin-bottom: 6px;">
                     <label style="font-size: 11px; font-weight: bold; color: #475569;">包含部位 (可勾選多項)：</label>
-                    <div id="part_checkbox_container" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; background: #fff; padding: 6px; border: 1px solid #cbd5e1; border-radius: 4px; max-height: 90px; overflow-y: auto;">
+                    <div id="part_checkbox_container" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; background: #fff; padding: 6px; border: 1px solid #cbd5e1; border-radius: 4px; max-height: 100px; overflow-y: auto;">
                         <!-- JS 動態帶入 -->
                     </div>
                 </div>
@@ -612,12 +610,12 @@
 
             <div class="dms-syntax-box">
                 <div class="box-title-container">
-                    <span style="font-size: 12px; font-weight: bold; color: #854d0e;"><i class="fa-solid fa-calculator"></i> DMS 索賠專員打單工具</span>
+                    <span style="font-size: 12px; font-weight: bold; color: #1e3a5f;"><i class="fa-solid fa-calculator"></i> DMS 索賠專員打單工具</span>
                     <div style="display: flex; align-items: center;">
                         <button type="button" class="btn-docs-quick" onclick="openModal('modal_保固_docs')"><i class="fa-solid fa-file-invoice"></i> 簡報</button>
                         <button type="button" class="btn-video-quick" onclick="openModal('modal_保固_video')"><i class="fa-brands fa-youtube"></i> 影片</button>
                         <button type="button" class="btn-syntax-clear" onclick="clearDmsInputs()">取消</button>
-                        <button type="button" onclick="openModal('modal_expense_codes')" style="background: #eab308; border: none; padding: 2px 10px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; color: #fff;">
+                        <button type="button" onclick="openModal('modal_expense_codes')" style="background: var(--psa-blue); border: none; padding: 2px 10px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; color: #fff;">
                             <i class="fa-solid fa-magnifying-glass"></i> 分類碼
                         </button>
                     </div>
@@ -650,7 +648,7 @@
                 
                 <div style="margin-top: 6px; display: flex; align-items: center; justify-content: space-between; background: #fff; padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px;">
                     <span style="font-size: 11px; color:#475569;">拼裝結果：<strong id="syntax_result_text" style="color:var(--color-red);"></strong></span>
-                    <button type="button" onclick="copySyntaxResult()" style="background:var(--color-blue); color:white; border:none; padding:2px 6px; border-radius:3px; font-size:11px; cursor:pointer;">複製主因鏈</button>
+                    <button type="button" onclick="copySyntaxResult()" style="background:var(--psa-blue); color:white; border:none; padding:2px 6px; border-radius:3px; font-size:11px; cursor:pointer;">複製主因鏈</button>
                 </div>
             </div>
 
@@ -678,13 +676,13 @@
         </div>
 
         <div class="card">
-            <div class="card-title" style="color: var(--color-teal);"><i class="fa-solid fa-eye"></i> 即時預覽與總合文本</div>
+            <div class="card-title" style="color: var(--psa-blue);"><i class="fa-solid fa-eye"></i> 即時預覽與總合文本</div>
             <div class="form-group"><label>第一段預覽</label><textarea id="out_info" class="textarea-output" readonly></textarea></div>
             <div class="form-group"><label>第二段預覽</label><textarea id="out_reason" class="textarea-output" readonly></textarea></div>
             <div class="form-group"><label>第三段預覽</label><textarea id="out_check" class="textarea-output" readonly></textarea></div>
             
             <div class="form-group" style="margin-top: 12px; border-top: 2px solid #f1f5f9; padding-top: 10px;">
-                <label style="color: var(--color-blue); font-weight: bold;"><i class="fa-solid fa-layer-group"></i> 純淨總合文本 (直接複製去打單)</label>
+                <label style="color: var(--psa-blue); font-weight: bold;"><i class="fa-solid fa-layer-group"></i> 純淨總合文本 (直接複製去打單)</label>
                 <textarea id="out_combined_all" class="textarea-combined-output" readonly></textarea>
             </div>
 
@@ -698,7 +696,7 @@
         </div>
     </div>
 
-    <!-- 依據截圖 G02 打造的專屬 Modal：技術資訊、診斷網站與儀器代碼核對 -->
+    <!-- 彈窗：技術資訊、診斷網站與儀器代碼核對 -->
     <div class="modal-overlay" id="modal_techweb_sop">
         <div class="modal-content" style="width: 680px; border-color: #0284c7;">
             <button class="modal-close" onclick="closeModal('modal_techweb_sop')"><i class="fa-solid fa-xmark"></i></button>
@@ -710,7 +708,6 @@
                 💻 【技術網站 / 診斷電腦 帳號密碼】 (點擊數值可複製)
             </div>
 
-            <!-- P 品牌 -->
             <div class="g02-card">
                 <div class="g02-card-header">
                     <span>🦁 P 品牌</span>
@@ -728,10 +725,9 @@
                 </div>
             </div>
 
-            <!-- C 品牌 -->
             <div class="g02-card">
                 <div class="g02-card-header">
-                    <span>🌱 C 品牌</span>
+                    <span>⚡ C 品牌</span>
                     <a href="https://networkservice.citroen.com/" target="_blank" class="modal-btn-action"><i class="fa-solid fa-arrow-up-right-from-square"></i> Citroen 網站</a>
                 </div>
                 <div class="g02-field-row">
@@ -746,7 +742,6 @@
                 </div>
             </div>
 
-            <!-- PC 雙品牌 -->
             <div class="g02-card">
                 <div class="g02-card-header">
                     <span>🏎️ PC 雙品牌</span>
@@ -763,7 +758,6 @@
                 </div>
             </div>
 
-            <!-- ISOLVE 系統 -->
             <div class="g02-card" style="border-color: #b45309;">
                 <div class="g02-card-header" style="margin-bottom:0;">
                     <span style="color: #f97316;"><i class="fa-solid fa-magnifying-glass"></i> ISOLVE 系統</span>
@@ -775,7 +769,6 @@
                 🛠️ 【尚鵬內湖 AP/AC 診斷/電瓶儀器代碼】
             </div>
 
-            <!-- Peugeot (寶獅) 代碼 -->
             <div class="g02-card">
                 <div style="font-size: 12px; font-weight: bold; color: #f8fafc; margin-bottom: 6px;">🦁 Peugeot (寶獅)</div>
                 <div class="g02-field-row" style="margin-bottom:0;">
@@ -785,7 +778,6 @@
                 </div>
             </div>
 
-            <!-- Citroen (雪鐵龍) 代碼 -->
             <div class="g02-card">
                 <div style="font-size: 12px; font-weight: bold; color: #f8fafc; margin-bottom: 6px;">⚡ Citroen (雪鐵龍)</div>
                 <div class="g02-field-row" style="margin-bottom:0;">
@@ -801,7 +793,7 @@
         </div>
     </div>
 
-    <!-- 其他原本 Modal 彈窗 -->
+    <!-- 其他彈窗 -->
     <div class="modal-overlay" id="modal_dam_guide">
         <div class="modal-content" style="border-color: #7c3aed; width: 620px;">
             <button class="modal-close" onclick="closeModal('modal_dam_guide')"><i class="fa-solid fa-xmark"></i></button>
@@ -866,22 +858,44 @@
     <div id="toast_msg" class="toast"></div>
 
     <script>
+        /* -------------------------------------------------------------
+           408X 與 New Berlingo 漆面部位與零件號碼資料庫
+        ------------------------------------------------------------- */
         const PAINT_PARTS_DB = {
             "408X": [
-                { name: "左前門", code: "YL02230780" },
-                { name: "右後門", code: "YL02155580" },
-                { name: "尾門", code: "YL02232980" },
-                { name: "右後保", code: "YL02216480" },
-                { name: "右後葉", code: "YL02155080" },
-                { name: "車頂", code: "YL02154980" },
-                { name: "油箱蓋", code: "YL02174980" },
-                { name: "引擎蓋", code: "YL02155280" },
+                { name: "左前保", code: "9844515010" },
+                { name: "右前保", code: "9858481010" },
+                { name: "前保上側", code: "984077011T" },
+                { name: "左前葉", code: "YL02155480" },
                 { name: "右前葉", code: "YL02155380" },
-                { name: "右前保", code: "9858481010" }
+                { name: "引擎蓋", code: "YL02155280" },
+                { name: "左後保", code: "YL02216380" },
+                { name: "右後保", code: "YL02216480" },
+                { name: "後廂蓋", code: "YL 022 329 80" },
+                { name: "左側圍板含左後葉", code: "YL02155180" },
+                { name: "右側圍板含左後葉", code: "YL02155080" },
+                { name: "左前門", code: "YL02230780" },
+                { name: "右前門", code: "YL02230880" },
+                { name: "左後門", code: "YL02155680" },
+                { name: "右後門", code: "YL02155580" },
+                { name: "帶天窗車頂", code: "YL02154980" }
             ],
             "BERLINGO": [
-                { name: "右後葉", code: "1680992780" },
-                { name: "左前門", code: "9843490180" }
+                { name: "上前保桿", code: "85583121T" },
+                { name: "中前保桿", code: "169348231T" },
+                { name: "左前葉", code: "9816482780" },
+                { name: "右前葉", code: "9816482380" },
+                { name: "引擎蓋", code: "9859382180" },
+                { name: "尾門", code: "9880921180" },
+                { name: "左前側圍板含B柱", code: "9827671580" },
+                { name: "右前側圍板含B柱", code: "9827687280" },
+                { name: "左後側圍板含C柱及左後葉", code: "9827672180" },
+                { name: "右後側圍板含C柱及右後葉", code: "9827669780" },
+                { name: "左前門", code: "9856199880" },
+                { name: "右前門", code: "9855554380" },
+                { name: "左後門", code: "9820434580" },
+                { name: "右後門", code: "9820425280" },
+                { name: "滿板車頂", code: "9870081280" }
             ]
         };
 
@@ -935,12 +949,12 @@
             else if (caseKey === 'berlingo_peel') {
                 document.getElementById('field_info').value = "右後葉漆面瑕疵";
                 document.getElementById('field_reason').value = "檢查為漆面脫漆瑕疵";
-                document.getElementById('field_check').value = "需重新塗裝\n右後葉1680992780";
+                document.getElementById('field_check').value = "需重新塗裝\n右後側圍板含C柱及右後葉9827669780";
             }
             else if (caseKey === 'berlingo_bump') {
                 document.getElementById('field_info').value = "左前門漆面顆粒凸起";
                 document.getElementById('field_reason').value = "新車整備 外觀缺陷";
-                document.getElementById('field_check').value = "左前門漆面重新塗裝\n左前門9843490180";
+                document.getElementById('field_check').value = "左前門漆面重新塗裝\n左前門9856199880";
             }
             updatePreview();
             showToast("已載入案例");
