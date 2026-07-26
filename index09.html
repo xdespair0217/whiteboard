@@ -2,293 +2,266 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>行動版車管級郵件聯絡人系統</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>企業級現代化郵件聯絡人系統</title>
     <style>
         :root {
-            --bg-main: #f8fafc;
+            --bg-main: #f0f2f5;
             --panel-bg: #ffffff;
             --primary: #2563eb;
             --primary-hover: #1d4ed8;
             --primary-light: #eff6ff;
-            --text-main: #0f172a;
+            --text-main: #1e293b;
             --text-muted: #64748b;
             --border-color: #e2e8f0;
-            --radius-lg: 16px;
-            --radius-md: 12px;
-            --radius-sm: 8px;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --radius-lg: 12px;
+            --radius-md: 8px;
+            --radius-sm: 6px;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft JhengHei", sans-serif;
             background-color: var(--bg-main);
             color: var(--text-main);
-            padding: 12px;
-            max-width: 480px;
-            margin: 0 auto;
-            min-height: 100vh;
+            height: 100vh;
             display: flex;
-            flex-direction: column;
-            gap: 12px;
+            padding: 16px;
+            gap: 16px;
+            overflow: hidden;
         }
 
-        /* 頂部系統標題卡片 */
-        .sys-header-card {
-            background: #0f172a;
-            color: #ffffff;
-            padding: 18px 20px;
+        /* 第一欄：側邊部門導航 */
+        .sidebar {
+            width: 240px;
+            background: var(--panel-bg);
             border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
+            padding: 20px 16px;
             display: flex;
             flex-direction: column;
-            gap: 6px;
-        }
-        .sys-title-row {
-            display: flex;
-            align-items: center;
             gap: 8px;
-            font-size: 18px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+            flex-shrink: 0;
+        }
+        .sidebar-title {
+            font-size: 13px;
             font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            padding-left: 8px;
             letter-spacing: 0.5px;
         }
-        .sys-subtitle {
-            font-size: 12px;
-            color: #94a3b8;
-        }
-
-        /* 組織部門切換折疊區 */
-        .accordion-box {
-            background: var(--panel-bg);
+        .dept-nav-item {
+            padding: 10px 12px;
             border-radius: var(--radius-md);
-            border: 1px solid var(--border-color);
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
-        }
-        .accordion-toggle {
-            padding: 12px 16px;
-            background: #f1f5f9;
-            font-size: 13px;
-            font-weight: 600;
-            color: #334155;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-        }
-        .accordion-content {
-            display: none;
-            padding: 12px;
-            background: #fff;
-            gap: 6px;
-            flex-wrap: wrap;
-            border-top: 1px solid var(--border-color);
-        }
-        .accordion-content.show {
-            display: flex;
-        }
-        .dept-chip {
-            padding: 6px 12px;
-            background: #f1f5f9;
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 600;
             color: #475569;
             cursor: pointer;
             transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .dept-chip.active {
-            background: var(--primary);
-            color: #fff;
-            border-color: var(--primary);
+        .dept-nav-item:hover {
+            background-color: #f8fafc;
+            color: var(--primary);
+        }
+        .dept-nav-item.active {
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+        .badge-count {
+            background: #e2e8f0;
+            color: var(--text-muted);
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+        .dept-nav-item.active .badge-count {
+            background: #dbeafe;
+            color: var(--primary);
         }
 
-        /* 搜尋與地區快速 Pills 篩選列 */
-        .filter-section {
+        /* 第二欄：聯絡人卡片清單 */
+        .contact-list-panel {
+            flex: 1;
             background: var(--panel-bg);
-            padding: 14px;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            box-shadow: var(--shadow-sm);
+            gap: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+            overflow: hidden;
         }
-        .search-box {
+        .search-container {
             display: flex;
+            gap: 10px;
             align-items: center;
-            background: #f8fafc;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            padding: 8px 12px;
-            gap: 8px;
         }
         .search-input {
-            border: none;
-            background: transparent;
-            outline: none;
+            flex: 1;
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
             font-size: 14px;
-            width: 100%;
-            color: var(--text-main);
+            outline: none;
+            background-color: #f8fafc;
+            transition: all 0.2s;
         }
-        .quick-pills {
+        .search-input:focus {
+            border-color: var(--primary);
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        .ctrl-btns {
             display: flex;
             gap: 6px;
-            overflow-x: auto;
-            padding-bottom: 2px;
-            scrollbar-width: none;
         }
-        .quick-pills::-webkit-scrollbar { display: none; }
-        .pill-tag {
+        .btn-mini {
+            padding: 8px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            background: #f1f5f9;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            color: #475569;
+            transition: all 0.2s;
+        }
+        .btn-mini:hover { background: #e2e8f0; }
+
+        /* 頂部 quick pills 標籤列 */
+        .quick-pills {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+        .pill-filter {
             padding: 6px 14px;
             background: #f1f5f9;
             border-radius: 20px;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 600;
             color: #475569;
             cursor: pointer;
             white-space: nowrap;
-            border: 1px solid var(--border-color);
             transition: all 0.2s;
         }
-        .pill-tag.active {
-            background: #0f172a;
-            color: #fff;
-            border-color: #0f172a;
+        .pill-filter.active {
+            background: #1e293b;
+            color: #ffffff;
         }
 
-        /* 批量操作工具列 */
-        .batch-toolbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 13px;
-            color: var(--text-muted);
-            padding: 0 4px;
-        }
-        .batch-btns {
-            display: flex;
-            gap: 8px;
-        }
-        .btn-mini {
-            padding: 4px 10px;
-            background: #fff;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            color: #475569;
-            cursor: pointer;
-        }
-
-        /* 手機版卡片清單區 */
-        .cards-container {
+        .contact-cards-container {
+            flex: 1;
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
             gap: 8px;
-            max-height: 320px;
-            overflow-y: auto;
-            padding-right: 2px;
+            padding-right: 4px;
         }
+        
         .contact-card {
-            background: var(--panel-bg);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-md);
-            padding: 12px 14px;
+            padding: 12px 16px;
             display: flex;
-            flex-direction: column;
-            gap: 8px;
+            align-items: center;
+            justify-content: space-between;
             cursor: pointer;
-            position: relative;
+            transition: all 0.15s ease;
+            background: #fff;
             border-left: 4px solid transparent;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.15s;
+        }
+        .contact-card:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
         .contact-card.selected {
             background-color: var(--primary-light);
             border-color: var(--primary);
             border-left: 4px solid var(--primary);
         }
-        .card-top-row {
+        .card-left {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 12px;
         }
-        .card-name-group {
+        .card-checkbox {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+        .card-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .card-header {
             display: flex;
             align-items: center;
             gap: 8px;
         }
         .card-name {
-            font-size: 15px;
             font-weight: 700;
+            font-size: 15px;
             color: var(--text-main);
         }
-        .card-badge {
+        .card-dept-badge {
             background: #f1f5f9;
             color: #475569;
-            font-size: 11px;
+            font-size: 12px;
             padding: 2px 8px;
-            border-radius: 4px;
+            border-radius: var(--radius-sm);
             font-weight: 600;
         }
         .card-email {
-            font-size: 12px;
+            font-size: 13px;
             color: var(--text-muted);
         }
-        .card-checkbox {
-            width: 18px;
-            height: 18px;
-            accent-color: var(--primary);
-            cursor: pointer;
-        }
 
-        /* 底部郵件與罐頭訊息組合面板 */
-        .composer-card {
+        /* 第三欄：郵件編輯與罐頭訊息 */
+        .composer-panel {
+            width: 380px;
             background: var(--panel-bg);
             border-radius: var(--radius-lg);
-            border: 1px solid var(--border-color);
-            padding: 16px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            box-shadow: var(--shadow-sm);
+            gap: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+            flex-shrink: 0;
         }
-        .section-heading {
-            font-size: 14px;
+        .panel-header {
+            font-size: 16px;
             font-weight: 700;
             color: var(--text-main);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
             border-bottom: 1px solid var(--border-color);
-            padding-bottom: 8px;
+            padding-bottom: 10px;
         }
-        .template-scroll {
+        .template-box {
             display: flex;
+            flex-direction: column;
             gap: 6px;
-            overflow-x: auto;
-            padding-bottom: 4px;
-            scrollbar-width: none;
+            max-height: 180px;
+            overflow-y: auto;
         }
-        .template-scroll::-webkit-scrollbar { display: none; }
-        .template-chip {
+        .template-item {
+            padding: 8px 12px;
             background: #f8fafc;
             border: 1px solid var(--border-color);
-            padding: 6px 10px;
-            border-radius: var(--radius-sm);
-            font-size: 12px;
+            border-radius: var(--radius-md);
+            font-size: 13px;
             font-weight: 600;
-            color: #334155;
             cursor: pointer;
-            white-space: nowrap;
             transition: all 0.2s;
         }
-        .template-chip:hover {
+        .template-item:hover {
             border-color: var(--primary);
             background: var(--primary-light);
             color: var(--primary);
@@ -297,146 +270,153 @@
         .form-group {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 6px;
         }
         .form-group label {
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 700;
             color: var(--text-muted);
         }
         .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 10px;
             border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
+            border-radius: var(--radius-md);
+            padding: 10px;
             font-size: 14px;
             outline: none;
             font-family: inherit;
-            background: #fff;
         }
-        .form-group textarea {
-            resize: none;
-            height: 90px;
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
-        .action-buttons {
+        .action-btns {
             display: flex;
             flex-direction: column;
             gap: 8px;
-            margin-top: 4px;
+            margin-top: auto;
         }
         .btn-send {
             background: #22c55e;
-            color: #fff;
+            color: white;
             border: none;
             padding: 12px;
-            border-radius: var(--radius-sm);
-            font-size: 15px;
+            border-radius: var(--radius-md);
             font-weight: 700;
+            font-size: 15px;
             cursor: pointer;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(34, 197, 94, 0.2);
+            transition: background 0.2s;
         }
-        .btn-send:active { background: #16a34a; }
-        .btn-row {
-            display: flex;
-            gap: 8px;
-        }
-        .btn-sub {
-            flex: 1;
+        .btn-send:hover { background: #16a34a; }
+        .btn-copy {
+            background: var(--primary);
+            color: white;
+            border: none;
             padding: 10px;
-            border-radius: var(--radius-sm);
-            font-size: 13px;
+            border-radius: var(--radius-md);
             font-weight: 600;
+            font-size: 13px;
             cursor: pointer;
-            border: 1px solid var(--border-color);
-            text-align: center;
+            transition: background 0.2s;
         }
-        .btn-copy-rec { background: var(--primary); color: #fff; border: none; }
-        .btn-copy-all { background: #f1f5f9; color: var(--text-main); }
+        .btn-copy:hover { background: var(--primary-hover); }
+        .btn-copy-sec {
+            background: #f1f5f9;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        .btn-copy-sec:hover { background: #e2e8f0; }
     </style>
 </head>
 <body>
 
-    <!-- 頂部卡片 -->
-    <div class="sys-header-card">
-        <div class="sys-title-row">
-            <span>📧 行動通訊郵件聯絡系統</span>
+    <!-- 第一欄：部門分類導航 -->
+    <div class="sidebar">
+        <div class="sidebar-title">組織與部門</div>
+        <div class="dept-nav-item active" onclick="filterByDept('ALL', this)">
+            <span>全部名單</span> <span class="badge-count" id="cnt-ALL">0</span>
         </div>
-        <div class="sys-subtitle">跨部門快速選人與協同發送監控</div>
+        <div class="dept-nav-item" onclick="filterByDept('高階主管', this)">
+            <span>高階主管</span> <span class="badge-count" id="cnt-高階主管">0</span>
+        </div>
+        <div class="dept-nav-item" onclick="filterByDept('財務部', this)">
+            <span>財務部</span> <span class="badge-count" id="cnt-財務部">0</span>
+        </div>
+        <div class="dept-nav-item" onclick="filterByDept('服務廠長', this)">
+            <span>服務廠長</span> <span class="badge-count" id="cnt-服務廠長">0</span>
+        </div>
+        <div class="dept-nav-item" onclick="filterByDept('各廠出納', this)">
+            <span>各廠出納</span> <span class="badge-count" id="cnt-各廠出納">0</span>
+        </div>
+        <div class="dept-nav-item" onclick="filterByDept('總代理 PGU', this)">
+            <span>總代理 PGU</span> <span class="badge-count" id="cnt-總代理 PGU">0</span>
+        </div>
     </div>
 
-    <!-- 組織部門折疊篩選列 -->
-    <div class="accordion-box">
-        <div class="accordion-toggle" onclick="toggleAccordion()">
-            <span>📂 組織架構篩選（目前：<span id="currentDeptLabel">全部名單</span>）</span>
-            <span id="arrowIcon">▼</span>
+    <!-- 第二欄：聯絡人卡片列表 -->
+    <div class="contact-list-panel">
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="🔍 搜尋姓名、職稱、Email..." onkeyup="handleSearch()">
+            <div class="ctrl-btns">
+                <button class="btn-mini" onclick="checkAll(true)">全選</button>
+                <button class="btn-mini" onclick="checkAll(false)">全取消</button>
+            </div>
         </div>
-        <div class="accordion-content" id="accordionContent">
-            <div class="dept-chip active" onclick="selectDept('ALL', this)">全部名單</div>
-            <div class="dept-chip" onclick="selectDept('高階主管', this)">高階主管</div>
-            <div class="dept-chip" onclick="selectDept('財務部', this)">財務部</div>
-            <div class="dept-chip" onclick="selectDept('服務廠長', this)">服務廠長</div>
-            <div class="dept-chip" onclick="selectDept('各廠出納', this)">各廠出納</div>
-            <div class="dept-chip" onclick="selectDept('總代理 PGU', this)">總代理 PGU</div>
-        </div>
-    </div>
 
-    <!-- 搜尋與快速標籤列 -->
-    <div class="filter-section">
-        <div class="search-box">
-            <span>🔍</span>
-            <input type="text" id="mobileSearch" class="search-input" placeholder="輸入姓名、職稱、Email..." onkeyup="renderMobileCards()">
-        </div>
+        <!-- 廠區 Quick Select -->
         <div class="quick-pills">
-            <div class="pill-tag active" onclick="selectSite('ALL', this)">全部地區</div>
-            <div class="pill-tag" onclick="selectSite('北投', this)">北投廠</div>
-            <div class="pill-tag" onclick="selectSite('松江', this)">松江廠</div>
-            <div class="pill-tag" onclick="selectSite('板橋', this)">板橋廠</div>
-            <div class="pill-tag" onclick="selectSite('PGU', this)">PGU</div>
+            <div class="pill-filter active" onclick="filterBySite('ALL', this)">全部地區</div>
+            <div class="pill-filter" onclick="filterBySite('北投', this)">北投廠</div>
+            <div class="pill-filter" onclick="filterBySite('松江', this)">松江廠</div>
+            <div class="pill-filter" onclick="filterBySite('板橋', this)">板橋廠</div>
+            <div class="pill-filter" onclick="filterBySite('PGU', this)">PGU</div>
         </div>
+
+        <!-- 動態渲染卡片區域 -->
+        <div class="contact-cards-container" id="cardsContainer"></div>
     </div>
 
-    <!-- 批量工具列 -->
-    <div class="batch-toolbar">
-        <span>已選取 <strong id="selectedCount">0</strong> 人</span>
-        <div class="batch-btns">
-            <button class="btn-mini" onclick="checkAllMobile(true)">全選</button>
-            <button class="btn-mini" onclick="checkAllMobile(false)">取消</button>
-        </div>
-    </div>
-
-    <!-- 卡片清單區 -->
-    <div class="cards-container" id="mobileCardsContainer"></div>
-
-    <!-- 底部郵件編輯面板 -->
-    <div class="composer-card">
-        <div class="section-heading">
-            <span>常用罐頭訊息</span>
-        </div>
-        <div class="template-scroll">
-            <div class="template-chip" onclick="loadTemplate('每日內湖廠營運日報表', 'DEAR ALL：\n\n附件檔為營運日報表，煩請查閱。\n如內容有需補充或調整之處，敬請告知，謝謝。')">🚗 營運日報表</div>
-            <div class="template-chip" onclick="loadTemplate('【重大通報】營運會議通知', '各位長官、廠長好：\n\n謹定於本週召開營運業務例會，請提前準備報表。')">👑 會議通知</div>
-            <div class="template-chip" onclick="loadTemplate('【財務】每日營業報表與查帳', '副總、經理、財務同仁好：\n\n今日各廠營運報表已上傳，請協助審查。')">📊 財務查帳</div>
-            <div class="template-chip" onclick="loadTemplate('【帳務】出納零用金核銷', '出納同仁好：\n\n本期臨店零用金結報與廠商建檔明細如附。')">💰 零用金核銷</div>
-            <div class="template-chip" onclick="loadTemplate('【PGU 業務】總代理聯繫', 'Dear PGU Team,\n\n檢附本期業務營運文件，請查收附件。')">📩 PGU 聯繫</div>
+    <!-- 第三欄：罐頭訊息與郵件編輯區 -->
+    <div class="composer-panel">
+        <div class="panel-header">常用罐頭訊息</div>
+        <div class="template-box">
+            <!-- 動態自動帶入當天日期的營報表範本 -->
+            <div class="template-item" onclick="loadDailyReportTemplate()">
+                🚗 內湖廠營運日報表通知
+            </div>
+            <div class="template-item" onclick="loadTemplate('【重大通報】營運及售後策略業務會報會議通知', '各位長官、廠長好：\n\n謹定於本週召開營運業務例會，將針對近期售後服務品質與指標進行檢討。\n相關報表資料請各服務廠長提前準備完畢。\n\n謝謝。')">
+                👑 高階/廠長經營會議通知
+            </div>
+            <div class="template-item" onclick="loadTemplate('【財務】每日營業報表與尚鵬查帳進度彙整', '副總、經理、財務部同仁好：\n\n今日各廠營運日報表、尚鵬查帳明細與對帳憑證已上傳完畢。\n再請協助核算及審查，謝謝。')">
+                📊 每日報表/查帳呈送
+            </div>
+            <div class="template-item" onclick="loadTemplate('【帳務】出納零用金核銷與帳務查詢處理', '出納同仁好：\n\n本期臨店零用金結報與廠商建檔明細如附，請協助安排核銷作業，謝謝。')">
+                💰 出納零用金核銷
+            </div>
+            <div class="template-item" onclick="loadTemplate('【PGU 業務】總代理聯繫與文件呈報', 'Dear PGU Team,\n\n檢附本期業務營運文件與對應聯絡資料，請查收附件並協助審閱，謝謝。')">
+                📩 PGU 總代理業務聯繫
+            </div>
         </div>
 
-        <div class="form-group" style="margin-top: 4px;">
+        <div class="panel-header" style="margin-top: 10px;">郵件內容編輯</div>
+        <div class="form-group">
             <label>郵件主旨</label>
-            <input type="text" id="mSubject" placeholder="請填寫主旨或選擇罐頭訊息...">
+            <input type="text" id="mailSubject" placeholder="請填寫主旨或點選罐頭訊息...">
         </div>
         <div class="form-group">
             <label>郵件內文</label>
-            <textarea id="mBody" placeholder="請填寫內文..."></textarea>
+            <textarea id="mailBody" rows="7" placeholder="請填寫內文..."></textarea>
         </div>
 
-        <div class="action-buttons">
-            <button class="btn-send" onclick="sendMobileEmail()">🚀 立即開啟郵件發送</button>
-            <div class="btn-row">
-                <button class="btn-sub btn-copy-rec" onclick="copyMobileRecipients()">📋 複製收件人</button>
-                <button class="btn-sub btn-copy-all" onclick="copyMobileFull()">📝 複製主旨內文</button>
-            </div>
+        <div class="action-btns">
+            <button class="btn-send" onclick="sendEmail()">🚀 立即開啟郵件發送</button>
+            <button class="btn-copy" onclick="copyRecipientsOnly()">📋 僅複製收件人名單</button>
+            <button class="btn-copy-sec" onclick="copyFullContent()">📝 複製完整郵件內容</button>
         </div>
     </div>
 
@@ -453,8 +433,8 @@
         { name: "林金鑾", title: "財務經理", dept: "財務部", email: "katie@am-volvocars.com.tw" },
         { name: "薛曉芬", title: "每日報表 / 尚鵬查帳", dept: "財務部", email: "Fan_hsueh@am-volvocars.com.tw" },
         { name: "陳宣輔", title: "每日報表 / 尚鵬查帳", dept: "財務部", email: "tom_chen@am-volvocars.com.tw" },
-        { name: "Alan", title: "星聯帳款窗口", dept: "財務部", email: "alan_ho@am-volvocars.com.tw" },
-        { name: "鄭丞佑", title: "供應商建檔", dept: "財務部", email: "andy_cheng@am-volvocars.com.tw" },
+        { name: "Alan", title: "星聯帳款 / 寶嘉帳款對應窗口", dept: "財務部", email: "alan_ho@am-volvocars.com.tw" },
+        { name: "鄭丞佑 Andy", title: "供應商建檔 / 零用金帳務查詢", dept: "財務部", email: "andy_cheng@am-volvocars.com.tw" },
 
         { name: "陳俊逸", title: "北投廠長", dept: "服務廠長", email: "matt_chen@starunited.tw" },
         { name: "張師誠", title: "松江廠長", dept: "服務廠長", email: "shihcheng@starunited.tw" },
@@ -464,10 +444,10 @@
         { name: "張詠婕", title: "出納", dept: "各廠出納", email: "elle_chang@starunited.tw" },
         { name: "陳宥鈺", title: "出納", dept: "各廠出納", email: "tps.nkcrm01@sunpekmotors.com" },
 
-        { name: "翁士航", title: "總代理窗口", dept: "總代理 PGU", email: "austin.weng@pgu.com.tw" },
-        { name: "LEE", title: "總代理窗口", dept: "總代理 PGU", email: "lee.lee@pgu.com.tw" },
-        { name: "Joseph", title: "總代理窗口", dept: "總代理 PGU", email: "joseph.tseng@pgu.com.tw" },
-        { name: "benson", title: "總代理窗口", dept: "總代理 PGU", email: "benson.liu@pgu.com.tw" }
+        { name: "翁士航", title: "總代理 PGU 窗口", dept: "總代理 PGU", email: "austin.weng@pgu.com.tw" },
+        { name: "LEE", title: "總代理 PGU 窗口", dept: "總代理 PGU", email: "lee.lee@pgu.com.tw" },
+        { name: "Joseph TSENG", title: "總代理 PGU 窗口", dept: "總代理 PGU", email: "joseph.tseng@pgu.com.tw" },
+        { name: "benson", title: "總代理 PGU 窗口", dept: "總代理 PGU", email: "benson.liu@pgu.com.tw" }
     ];
 
     let currentDept = 'ALL';
@@ -475,139 +455,180 @@
     let selectedEmails = new Set();
 
     window.onload = function() {
-        renderMobileCards();
+        updateCounts();
+        renderCards();
     };
 
-    function toggleAccordion() {
-        const content = document.getElementById('accordionContent');
-        const arrow = document.getElementById('arrowIcon');
-        content.classList.toggle('show');
-        arrow.innerText = content.classList.contains('show') ? '▲' : '▼';
+    function updateCounts() {
+        document.getElementById('cnt-ALL').innerText = contactsData.length;
+        const counts = {};
+        contactsData.forEach(c => {
+            counts[c.dept] = (counts[c.dept] || 0) + 1;
+        });
+        for (let dept in counts) {
+            const el = document.getElementById(`cnt-${dept}`);
+            if (el) el.innerText = counts[dept];
+        }
     }
 
-    function selectDept(dept, el) {
-        currentDept = dept;
-        document.getElementById('currentDeptLabel').innerText = dept === 'ALL' ? '全部名單' : dept;
-        document.querySelectorAll('.dept-chip').forEach(c => c.classList.remove('active'));
-        el.classList.add('active');
-        toggleAccordion();
-        renderMobileCards();
-    }
-
-    function selectSite(site, el) {
-        currentSite = site;
-        document.querySelectorAll('.pill-tag').forEach(t => t.classList.remove('active'));
-        el.classList.add('active');
-        renderMobileCards();
-    }
-
-    function renderMobileCards() {
-        const container = document.getElementById('mobileCardsContainer');
-        const kw = document.getElementById('mobileSearch').value.toLowerCase().trim();
+    function renderCards() {
+        const container = document.getElementById('cardsContainer');
+        const searchKw = document.getElementById('searchInput').value.toLowerCase().trim();
         container.innerHTML = '';
 
         const filtered = contactsData.filter(item => {
             const matchDept = (currentDept === 'ALL' || item.dept === currentDept);
             const matchSite = (currentSite === 'ALL' || item.title.includes(currentSite) || item.dept.includes(currentSite));
-            const matchKw = !kw || item.name.toLowerCase().includes(kw) || item.title.toLowerCase().includes(kw) || item.email.toLowerCase().includes(kw);
+            const matchKw = !searchKw || 
+                item.name.toLowerCase().includes(searchKw) || 
+                item.title.toLowerCase().includes(searchKw) || 
+                item.email.toLowerCase().includes(searchKw);
+
             return matchDept && matchSite && matchKw;
         });
 
         if (filtered.length === 0) {
-            container.innerHTML = `<div style="text-align:center; padding: 24px; color: #94a3b8; font-size: 13px;">無符合條件的聯絡人</div>`;
+            container.innerHTML = `<div style="text-align:center; padding: 40px; color: #94a3b8; font-size: 14px;">查無符合條件的聯絡人</div>`;
             return;
         }
 
         filtered.forEach(item => {
-            const val = `${item.title}-${item.name} <${item.email}>`;
-            const isChecked = selectedEmails.has(val);
+            const fullVal = `${item.title}-${item.name} <${item.email}>`;
+            const isChecked = selectedEmails.has(fullVal);
 
             const card = document.createElement('div');
             card.className = `contact-card ${isChecked ? 'selected' : ''}`;
-            card.onclick = (e) => toggleCard(card, val);
+            card.onclick = (e) => toggleCardSelect(card, fullVal, e);
 
             card.innerHTML = `
-                <div class="card-top-row">
-                    <div class="card-name-group">
-                        <span class="card-name">${item.name}</span>
-                        <span class="card-badge">${item.title}</span>
+                <div class="card-left">
+                    <input type="checkbox" class="card-checkbox" ${isChecked ? 'checked' : ''} onclick="event.stopPropagation(); toggleCheckboxDirect(this, '${fullVal}');">
+                    <div class="card-info">
+                        <div class="card-header">
+                            <span class="card-name">${item.name}</span>
+                            <span class="card-dept-badge">${item.title}</span>
+                        </div>
+                        <span class="card-email">${item.email}</span>
                     </div>
-                    <input type="checkbox" class="card-checkbox" ${isChecked ? 'checked' : ''} onclick="event.stopPropagation(); checkboxChanged(this, '${val}')">
                 </div>
-                <div class="card-email">${item.email}</div>
             `;
             container.appendChild(card);
         });
-
-        document.getElementById('selectedCount').innerText = selectedEmails.size;
     }
 
-    function toggleCard(cardEl, val) {
-        const cb = cardEl.querySelector('.card-checkbox');
-        cb.checked = !cb.checked;
-        updateSelectionState(cb, val, cardEl);
+    function filterByDept(deptName, element) {
+        currentDept = deptName;
+        document.querySelectorAll('.sidebar .dept-nav-item').forEach(el => el.classList.remove('active'));
+        element.classList.add('active');
+        renderCards();
     }
 
-    function checkboxChanged(cb, val) {
-        const cardEl = cb.closest('.contact-card');
-        updateSelectionState(cb, val, cardEl);
+    function filterBySite(siteName, element) {
+        currentSite = siteName;
+        document.querySelectorAll('.quick-pills .pill-filter').forEach(el => el.classList.remove('active'));
+        element.classList.add('active');
+        renderCards();
     }
 
-    function updateSelectionState(cb, val, cardEl) {
-        if (cb.checked) {
-            selectedEmails.add(val);
+    function handleSearch() {
+        renderCards();
+    }
+
+    function toggleCardSelect(cardEl, value, event) {
+        const checkbox = cardEl.querySelector('.card-checkbox');
+        checkbox.checked = !checkbox.checked;
+        
+        if (checkbox.checked) {
+            selectedEmails.add(value);
             cardEl.classList.add('selected');
         } else {
-            selectedEmails.delete(val);
+            selectedEmails.delete(value);
             cardEl.classList.remove('selected');
         }
-        document.getElementById('selectedCount').innerText = selectedEmails.size;
     }
 
-    function checkAllMobile(status) {
+    function toggleCheckboxDirect(cbEl, value) {
+        const cardEl = cbEl.closest('.contact-card');
+        if (cbEl.checked) {
+            selectedEmails.add(value);
+            cardEl.classList.add('selected');
+        } else {
+            selectedEmails.delete(value);
+            cardEl.classList.remove('selected');
+        }
+    }
+
+    function checkAll(status) {
         const cards = document.querySelectorAll('.contact-card');
         cards.forEach(card => {
             const cb = card.querySelector('.card-checkbox');
-            const val = cb.getAttribute('onclick').match(/'([^']+)'/)[1];
-            cb.checked = status;
-            if (status) {
-                selectedEmails.add(val);
-                card.classList.add('selected');
-            } else {
-                selectedEmails.delete(val);
-                card.classList.remove('selected');
+            const onclickStr = card.getAttribute('onclick');
+            const valueMatch = onclickStr.match(/'([^']+)'\s*,\s*e/);
+            
+            if (valueMatch && valueMatch[1]) {
+                const val = valueMatch[1];
+                cb.checked = status;
+                if (status) {
+                    selectedEmails.add(val);
+                    card.classList.add('selected');
+                } else {
+                    selectedEmails.delete(val);
+                    card.classList.remove('selected');
+                }
             }
         });
-        document.getElementById('selectedCount').innerText = selectedEmails.size;
     }
 
-    function loadTemplate(subj, body) {
-        document.getElementById('mSubject').value = subj;
-        document.getElementById('mBody').value = body;
+    // 動態計算當日日期的內湖廠日報表範本邏輯
+    function loadDailyReportTemplate() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        
+        // 生成如：尚鵬內湖營收報表2026.07.26
+        const subject = `尚鵬內湖營收報表${year}.${month}.${day}`;
+        const body = `DEAR ALL：\n\n附件檔為營運日報表，煩請查閱。\n如內容有需補充或調整之處，敬請告知，謝謝。`;
+        
+        loadTemplate(subject, body);
     }
 
-    function getRecipientsStr() {
+    // 一般載入罐頭範本
+    function loadTemplate(subject, body) {
+        document.getElementById('mailSubject').value = subject;
+        document.getElementById('mailBody').value = body;
+    }
+
+    function getSelectedRecipientsStr() {
         return Array.from(selectedEmails).join('; ');
     }
 
-    function copyMobileRecipients() {
-        const rec = getRecipientsStr();
-        if (!rec) { alert('請先勾選聯絡人！'); return; }
-        navigator.clipboard.writeText(rec).then(() => alert('已複製收件人名單！'));
+    function copyRecipientsOnly() {
+        const recipients = getSelectedRecipientsStr();
+        if (!recipients) {
+            alert('請至少勾選一位收件人！');
+            return;
+        }
+        navigator.clipboard.writeText(recipients).then(() => alert('已成功複製收件人名單！'));
     }
 
-    function copyMobileFull() {
-        const subj = document.getElementById('mSubject').value;
-        const body = document.getElementById('mBody').value;
-        navigator.clipboard.writeText(`主旨：${subj}\n\n${body}`).then(() => alert('已複製完整內容！'));
+    function copyFullContent() {
+        const subject = document.getElementById('mailSubject').value;
+        const body = document.getElementById('mailBody').value;
+        navigator.clipboard.writeText(`主旨：${subject}\n\n${body}`).then(() => alert('已成功複製主旨與內文！'));
     }
 
-    function sendMobileEmail() {
-        const rec = getRecipientsStr();
-        if (!rec) { alert('請先勾選聯絡人！'); return; }
-        const subj = encodeURIComponent(document.getElementById('mSubject').value);
-        const body = encodeURIComponent(document.getElementById('mBody').value);
-        window.location.href = `mailto:${rec}?subject=${subj}&body=${body}`;
+    function sendEmail() {
+        const recipients = getSelectedRecipientsStr();
+        if (!recipients) {
+            alert('請至少勾選一位收件人！');
+            return;
+        }
+        const subject = encodeURIComponent(document.getElementById('mailSubject').value);
+        const body = encodeURIComponent(document.getElementById('mailBody').value);
+        
+        let mailtoUrl = `mailto:${recipients}?subject=${subject}&body=${body}`;
+        window.location.href = mailtoUrl;
     }
 </script>
 </body>
