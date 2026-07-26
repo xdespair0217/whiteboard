@@ -133,7 +133,7 @@
         }
         .btn-mini:hover { background: #e2e8f0; }
 
-        /* 比照車管系統：頂部 quick pills 標籤列 */
+        /* 頂部 quick pills 標籤列 */
         .quick-pills {
             display: flex;
             gap: 8px;
@@ -165,7 +165,6 @@
             padding-right: 4px;
         }
         
-        /* 車管系統卡片風格 UI */
         .contact-card {
             border: 1px solid var(--border-color);
             border-radius: var(--radius-md);
@@ -336,7 +335,7 @@
 </head>
 <body>
 
-    <!-- 第一欄：部門分類導航 (含點擊過濾功能) -->
+    <!-- 第一欄：部門分類導航 -->
     <div class="sidebar">
         <div class="sidebar-title">組織與部門</div>
         <div class="dept-nav-item active" onclick="filterByDept('ALL', this)">
@@ -369,7 +368,7 @@
             </div>
         </div>
 
-        <!-- 比照車管系統：廠區 Quick Select -->
+        <!-- 廠區 Quick Select -->
         <div class="quick-pills">
             <div class="pill-filter active" onclick="filterBySite('ALL', this)">全部地區</div>
             <div class="pill-filter" onclick="filterBySite('北投', this)">北投廠</div>
@@ -386,7 +385,8 @@
     <div class="composer-panel">
         <div class="panel-header">常用罐頭訊息</div>
         <div class="template-box">
-            <div class="template-item" onclick="loadTemplate('每日內湖廠營運日報表', 'DEAR ALL：\n\n附件檔為營運日報表，煩請查閱。\n如內容有需補充或調整之處，敬請告知，謝謝。')">
+            <!-- 動態自動帶入當天日期的營報表範本 -->
+            <div class="template-item" onclick="loadDailyReportTemplate()">
                 🚗 內湖廠營運日報表通知
             </div>
             <div class="template-item" onclick="loadTemplate('【重大通報】營運及售後策略業務會報會議通知', '各位長官、廠長好：\n\n謹定於本週召開營運業務例會，將針對近期售後服務品質與指標進行檢討。\n相關報表資料請各服務廠長提前準備完畢。\n\n謝謝。')">
@@ -421,7 +421,6 @@
     </div>
 
 <script>
-    // 完整的聯絡人資料集
     const contactsData = [
         { name: "盧張浩", title: "副董事長", dept: "高階主管", email: "peter@am-volvocars.com.tw" },
         { name: "盧佩伶", title: "董事長室 / 特助", dept: "高階主管", email: "frances@am-volvocars.com.tw" },
@@ -451,18 +450,15 @@
         { name: "benson", title: "總代理 PGU 窗口", dept: "總代理 PGU", email: "benson.liu@pgu.com.tw" }
     ];
 
-    // 狀態控管
     let currentDept = 'ALL';
     let currentSite = 'ALL';
     let selectedEmails = new Set();
 
-    // 初始化渲染
     window.onload = function() {
         updateCounts();
         renderCards();
     };
 
-    // 計算各部門人數數量
     function updateCounts() {
         document.getElementById('cnt-ALL').innerText = contactsData.length;
         const counts = {};
@@ -475,18 +471,14 @@
         }
     }
 
-    // 渲染卡片核心邏輯
     function renderCards() {
         const container = document.getElementById('cardsContainer');
         const searchKw = document.getElementById('searchInput').value.toLowerCase().trim();
         container.innerHTML = '';
 
         const filtered = contactsData.filter(item => {
-            // 1. 部門過濾
             const matchDept = (currentDept === 'ALL' || item.dept === currentDept);
-            // 2. 地區/廠區 Pill 過濾
             const matchSite = (currentSite === 'ALL' || item.title.includes(currentSite) || item.dept.includes(currentSite));
-            // 3. 搜尋關鍵字過濾
             const matchKw = !searchKw || 
                 item.name.toLowerCase().includes(searchKw) || 
                 item.title.toLowerCase().includes(searchKw) || 
@@ -524,7 +516,6 @@
         });
     }
 
-    // 切換點擊部門 (第一欄)
     function filterByDept(deptName, element) {
         currentDept = deptName;
         document.querySelectorAll('.sidebar .dept-nav-item').forEach(el => el.classList.remove('active'));
@@ -532,7 +523,6 @@
         renderCards();
     }
 
-    // 切換點擊地區 Pill (第二欄頂部)
     function filterBySite(siteName, element) {
         currentSite = siteName;
         document.querySelectorAll('.quick-pills .pill-filter').forEach(el => el.classList.remove('active'));
@@ -540,12 +530,10 @@
         renderCards();
     }
 
-    // 關鍵字搜尋處理
     function handleSearch() {
         renderCards();
     }
 
-    // 切換卡片選取狀態
     function toggleCardSelect(cardEl, value, event) {
         const checkbox = cardEl.querySelector('.card-checkbox');
         checkbox.checked = !checkbox.checked;
@@ -570,7 +558,6 @@
         }
     }
 
-    // 全選 / 全取消（針對目前畫面上看得見的卡片）
     function checkAll(status) {
         const cards = document.querySelectorAll('.contact-card');
         cards.forEach(card => {
@@ -592,13 +579,26 @@
         });
     }
 
-    // 載入罐頭範本
+    // 動態計算當日日期的內湖廠日報表範本邏輯
+    function loadDailyReportTemplate() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        
+        // 生成如：尚鵬內湖營收報表2026.07.26
+        const subject = `尚鵬內湖營收報表${year}.${month}.${day}`;
+        const body = `DEAR ALL：\n\n附件檔為營運日報表，煩請查閱。\n如內容有需補充或調整之處，敬請告知，謝謝。`;
+        
+        loadTemplate(subject, body);
+    }
+
+    // 一般載入罐頭範本
     function loadTemplate(subject, body) {
         document.getElementById('mailSubject').value = subject;
         document.getElementById('mailBody').value = body;
     }
 
-    // 複製與發送邏輯
     function getSelectedRecipientsStr() {
         return Array.from(selectedEmails).join('; ');
     }
