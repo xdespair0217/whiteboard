@@ -510,24 +510,43 @@
 
     <script>
         /* -------------------------------------------------------------
-           您提供的真實案例資料庫 (部位名稱與單純料號)
+           修正後的真實案例資料庫 (完全依照指定順序與料號)
         ------------------------------------------------------------- */
         const PAINT_PARTS_DB = {
             "408X": [
-                { name: "左前門", code: "YL02230780" },
-                { name: "右後門", code: "YL02155580" },
-                { name: "尾門", code: "YL02232980" },
-                { name: "右後保", code: "YL02216480" },
-                { name: "右後葉", code: "YL02155080" },
-                { name: "車頂", code: "YL02154980" },
-                { name: "油箱蓋", code: "YL02174980" },
-                { name: "引擎蓋", code: "YL02155280" },
+                { name: "左前保", code: "9844515010" },
+                { name: "右前保", code: "9858481010" },
+                { name: "前保上側", code: "984077011T" },
+                { name: "左前葉", code: "YL02155480" },
                 { name: "右前葉", code: "YL02155380" },
-                { name: "右前保", code: "9858481010" }
+                { name: "引擎蓋", code: "YL02155280" },
+                { name: "左後保", code: "YL02216380" },
+                { name: "右後保", code: "YL02216480" },
+                { name: "後廂蓋", code: "YL02232980" },
+                { name: "左側圍板含左後葉", code: "YL02155180" },
+                { name: "右側圍板含左後葉", code: "YL02155080" },
+                { name: "左前門", code: "YL02230780" },
+                { name: "右前門", code: "YL02230880" },
+                { name: "左後門", code: "YL02155680" },
+                { name: "右後門", code: "YL02155580" },
+                { name: "帶天窗車頂", code: "YL02154980" }
             ],
             "BERLINGO": [
-                { name: "右後葉", code: "1680992780" },
-                { name: "左前門", code: "9843490180" }
+                { name: "上前保桿", code: "85583121T" },
+                { name: "中前保桿", code: "169348231T" },
+                { name: "左前葉", code: "9816482780" },
+                { name: "右前葉", code: "9816482380" },
+                { name: "引擎蓋", code: "9859382180" },
+                { name: "尾門", code: "9880921180" },
+                { name: "左前側圍板含B柱", code: "9827671580" },
+                { name: "右前側圍板含B柱", code: "9827687280" },
+                { name: "左後側圍板含C柱及左後葉", code: "9827672180" },
+                { name: "右後側圍板含C柱及右後葉", code: "9827669780" },
+                { name: "左前門", code: "9856199880" },
+                { name: "右前門", code: "9855554380" },
+                { name: "左後門", code: "9820434580" },
+                { name: "右後門", code: "9820425280" },
+                { name: "滿板車頂", code: "9870081280" }
             ]
         };
 
@@ -561,7 +580,7 @@
             checkboxes.forEach(chk => {
                 const name = chk.getAttribute('data-name');
                 const code = chk.value;
-                lines.push(`${name}.${code}`);
+                lines.push(`${name}${code}`);
             });
 
             document.getElementById('field_check').value = lines.join('\n');
@@ -569,7 +588,7 @@
             showToast("已成功帶入第三段敘述！");
         }
 
-        // 載入您提供的真實案例
+        // 載入真實案例
         function loadRealCase(caseKey) {
             if (caseKey === '408_door') {
                 document.getElementById('field_info').value = "右後門.左前門漆面瑕疵";
@@ -577,19 +596,19 @@
                 document.getElementById('field_check').value = "需重新塗裝\n左前門YL02230780\n右後門YL02155580";
             }
             else if (caseKey === '408_full') {
-                document.getElementById('field_info').value = "尾門.右後保.右後葉.車頂.油箱蓋 右後門 引擎蓋 右前葉 右前保 漆面瑕疵";
+                document.getElementById('field_info').value = "後廂蓋.右後保.右側圍板含左後葉.帶天窗車頂 引擎蓋 右前葉 右前保 漆面瑕疵";
                 document.getElementById('field_reason').value = "檢查全車漆面汙染受損嚴重及飛漆狀態";
-                document.getElementById('field_check').value = "需重新塗裝及美容\n尾門.YL02232980\n右後保.YL02216480\n右後葉.YL02155080\n車頂.YL02154980\n油箱蓋YL02174980\n右後門YL02155580\n引擎蓋YL02155280\n右前葉YL02155380\n右前保9858481010";
+                document.getElementById('field_check').value = "需重新塗裝及美容\n後廂蓋YL02232980\n右後保YL02216480\n右側圍板含左後葉YL02155080\n帶天窗車頂YL02154980\n右後門YL02155580\n引擎蓋YL02155280\n右前葉YL02155380\n右前保9858481010";
             }
             else if (caseKey === 'berlingo_peel') {
-                document.getElementById('field_info').value = "右後葉漆面瑕疵";
+                document.getElementById('field_info').value = "右後側圍板含C柱及右後葉漆面瑕疵";
                 document.getElementById('field_reason').value = "檢查為漆面脫漆瑕疵";
-                document.getElementById('field_check').value = "需重新塗裝\n右後葉1680992780";
+                document.getElementById('field_check').value = "需重新塗裝\n右後側圍板含C柱及右後葉9827669780";
             }
             else if (caseKey === 'berlingo_bump') {
                 document.getElementById('field_info').value = "左前門漆面顆粒凸起";
                 document.getElementById('field_reason').value = "新車整備 外觀缺陷";
-                document.getElementById('field_check').value = "左前門漆面重新塗裝\n左前門9843490180";
+                document.getElementById('field_check').value = "左前門漆面重新塗裝\n左前門9856199880";
             }
             updatePreview();
             showToast("已載入案例");
@@ -618,7 +637,7 @@
             setTimeout(() => { toast.style.display = 'none'; }, 2000);
         }
 
-        // 更新右側預覽 (去除了欄位一、欄位二等廢話)
+        // 更新右側預覽
         function updatePreview() {
             const plate = document.getElementById('car_plate').value || '';
             const vin = document.getElementById('vin_code').value || '';
@@ -661,7 +680,7 @@
             document.getElementById('out_reason').value = rawReason;
             document.getElementById('out_check').value = rawCheck;
 
-            // 乾淨無雜質總合，方便直接複製
+            // 乾淨總合，方便直接複製
             document.getElementById('out_combined_all').value = 
 `${finalInfo}
 ---
