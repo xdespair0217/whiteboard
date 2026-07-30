@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PEUGEOT & CITROËN 漆面保固專屬作業控制台 V14</title>
+    <title>PEUGEOT & CITROËN & JEEP 漆面保固專屬作業控制台 V15</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     
@@ -201,7 +201,7 @@
 
     <header>
         <div>
-            <h1>PEUGEOT & CITROËN 漆面保固專屬稽核與專案作業控制台</h1>
+            <h1>PEUGEOT & CITROËN & JEEP 漆面保固專屬稽核與專案作業控制台</h1>
         </div>
         <div style="font-size: 12px;"><i class="fa-solid fa-xs fa-shield-halved"></i> 2026 年度 Stellantis 法系保固整備規範</div>
     </header>
@@ -311,6 +311,7 @@
                             <option value="408X">PEUGEOT 408X</option>
                             <option value="BERLINGO">CITROËN New Berlingo</option>
                             <option value="208_P21E">PEUGEOT 208 P21E</option>
+                            <option value="JL_WRANGLER">JEEP JL WRANGLER</option>
                         </select>
                     </div>
                     <div>
@@ -373,7 +374,7 @@
 
     <script>
         /* -------------------------------------------------------------
-           完整案例資料庫 (包含 408X, BERLINGO, 208 P21E)
+           完整案例資料庫 (包含 408X, BERLINGO, 208 P21E, JL WRANGLER)
         ------------------------------------------------------------- */
         const PAINT_PARTS_DB = {
             "408X": [
@@ -432,6 +433,19 @@
                 { name: "左後門", code: "9827577980" },
                 { name: "右後門", code: "9827578080" },
                 { name: "車頂", code: "9850552880" }
+            ],
+            "JL_WRANGLER": [
+                { name: "右前門", code: "K68281910AQ" },
+                { name: "左前門", code: "K68281911AQ" },
+                { name: "右後門", code: "K68281908AP" },
+                { name: "左後門", code: "K68281909AP" },
+                { name: "右前葉", code: "K68281946AC" },
+                { name: "左前葉", code: "K68281947AC" },
+                { name: "引擎蓋", code: "K68281965AF" },
+                { name: "右後葉", code: "K68302722AE" },
+                { name: "左後葉", code: "K68302723AE" },
+                { name: "尾門", code: "K68497996AA" },
+                { name: "後車頂", code: "K5VN26RXFAT" }
             ]
         };
 
