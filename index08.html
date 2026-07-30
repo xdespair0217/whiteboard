@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PEUGEOT & CITROËN 漆面保固專屬作業控制台 V13</title>
+    <title>PEUGEOT & CITROËN 漆面保固專屬作業控制台 V14</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     
@@ -79,25 +79,6 @@
         .rule-priority-2 { border-left-color: var(--color-blue); background: #f0f9ff; color: #0369a1; }
         .rule-priority-3 { border-left-color: var(--color-orange); background: #fffbeb; color: #9a3412; }
 
-        .outline-btn {
-            width: 100%;
-            background: #ffffff;
-            border: 1px solid #cbd5e1;
-            padding: 11px 12px;
-            border-radius: 6px;
-            text-align: left;
-            font-size: 12.5px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: all 0.2s;
-            color: #334155;
-        }
-        .outline-btn:hover { background: #f0fdf4; border-color: var(--color-teal); color: var(--color-teal); }
-
         .form-group { margin-bottom: 10px; }
         .form-group label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 4px; }
         
@@ -110,29 +91,6 @@
         }
 
         .form-control { width: 100%; padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 5px; font-size: 13px; outline: none; }
-        
-        .vin-input-group {
-            display: flex;
-            gap: 6px;
-            align-items: center;
-        }
-        .btn-dam-quick {
-            background-color: #faf5ff;
-            color: #7c3aed;
-            border: 1px solid #ddd6fe;
-            padding: 6px 10px;
-            border-radius: 5px;
-            font-size: 11.5px;
-            font-weight: bold;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            white-space: nowrap;
-            height: 33px;
-            transition: all 0.2s;
-        }
-        .btn-dam-quick:hover { background-color: #7c3aed; color: white; border-color: #7c3aed; }
 
         .textarea-control {
             width: 100%;
@@ -158,15 +116,6 @@
             border-top: 1px dashed #cbd5e1;
         }
 
-        .dms-syntax-box {
-            background: #f0f4f8;
-            border: 1px solid #d0dbe5;
-            border-left: 4px solid var(--psa-blue);
-            padding: 10px;
-            border-radius: 6px;
-            margin-bottom: 10px;
-        }
-
         .paint-builder-box {
             background: #fffbeb;
             border: 1px solid #fde68a;
@@ -175,93 +124,6 @@
             border-radius: 6px;
             margin-bottom: 10px;
         }
-
-        .dms-grid-container { display: grid; grid-template-columns: 1.2fr 1fr 1fr 0.8fr; gap: 4px; }
-        .dms-input-wrapper { display: flex; flex-direction: column; gap: 2px; }
-        .dms-permanent-label { font-size: 10.5px; color: #64748b; font-weight: 500; padding-left: 2px; }
-        
-        .pos-quick-links { display: flex; gap: 4px; margin-top: 2px; }
-        .btn-pos-shortcut {
-            background: #ffffff;
-            border: 1px solid #cbd5e1;
-            border-radius: 3px;
-            font-size: 9.5px;
-            color: #475569;
-            cursor: pointer;
-            padding: 1px 3px;
-            font-weight: bold;
-            text-align: center;
-            flex: 1;
-            transition: all 0.15s;
-        }
-        .btn-pos-shortcut:hover { background: var(--psa-blue); color: white; border-color: var(--psa-blue); }
-
-        .btn-syntax-clear {
-            background-color: #fef2f2;
-            color: var(--color-red);
-            border: 2px solid var(--color-red);
-            padding: 2px 10px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            margin-right: 6px;
-        }
-        .btn-syntax-clear:hover { background-color: var(--color-red); color: white; }
-
-        .btn-video-quick {
-            background-color: #f0fdf4;
-            color: #16a34a;
-            border: 1px solid #bbf7d0;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            margin-right: 6px;
-        }
-        .btn-video-quick:hover { background-color: #16a34a; color: white; border-color: #16a34a; }
-
-        .btn-docs-quick {
-            background-color: #fff7ed;
-            color: #c2410c;
-            border: 1px solid #ffedd5;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            margin-right: 6px;
-        }
-        .btn-docs-quick:hover { background-color: #c2410c; color: white; border-color: #c2410c; }
-
-        .btn-linkentry-quick {
-            background-color: #f0f9ff;
-            color: #0ea5e9;
-            border: 1px solid #bae6fd;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 11.5px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .btn-linkentry-quick:hover { background-color: #0ea5e9; color: white; border-color: #0ea5e9; }
 
         .btn-scenario-grid { 
             display: grid; 
@@ -448,6 +310,7 @@
                         <select id="paint_car_model" class="form-control" style="height: 30px; font-size: 11.5px;" onchange="updatePaintPartOptions()">
                             <option value="408X">PEUGEOT 408X</option>
                             <option value="BERLINGO">CITROËN New Berlingo</option>
+                            <option value="208_P21E">PEUGEOT 208 P21E</option>
                         </select>
                     </div>
                     <div>
@@ -510,7 +373,7 @@
 
     <script>
         /* -------------------------------------------------------------
-           修正後的真實案例資料庫 (完全依照指定順序與料號)
+           完整案例資料庫 (包含 408X, BERLINGO, 208 P21E)
         ------------------------------------------------------------- */
         const PAINT_PARTS_DB = {
             "408X": [
@@ -547,6 +410,28 @@
                 { name: "左後門", code: "9820434580" },
                 { name: "右後門", code: "9820425280" },
                 { name: "滿板車頂", code: "9870081280" }
+            ],
+            "208_P21E": [
+                { name: "前保上", code: "982320401T" },
+                { name: "前保下", code: "169233151T" },
+                { name: "左前葉", code: "9823208480" },
+                { name: "右前葉", code: "9823146980" },
+                { name: "引擎蓋", code: "9827576880" },
+                { name: "後保桿", code: "164979851T" },
+                { name: "後保下飾板版", code: "16497974XY" },
+                { name: "後保下下飾板", code: "98252028XY" },
+                { name: "尾門", code: "9827577380" },
+                { name: "尾門飾板", code: "98545918XY" },
+                { name: "尾翼", code: "1648299680" },
+                { name: "左後葉", code: "1660272080" },
+                { name: "右後葉", code: "1660272380" },
+                { name: "左前含AB柱側圍", code: "1660272680" },
+                { name: "右前含AB柱側圍", code: "1660272980" },
+                { name: "左前門", code: "9823202780" },
+                { name: "右前門", code: "9823202380" },
+                { name: "左後門", code: "9827577980" },
+                { name: "右後門", code: "9827578080" },
+                { name: "車頂", code: "9850552880" }
             ]
         };
 
