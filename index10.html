@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Peugeot 全車系 (3008 / 408X) 原廠鈑噴請款試算系統</title>
+<title>Peugeot 原廠車色對應純漆面請款系統 (3008 / 408X 完整版)</title>
 <style>
     :root {
         --slate-900: #0f172a;
@@ -25,12 +25,12 @@
     .header-panel {
         background: var(--slate-900);
         color: white;
-        padding: 24px;
+        padding: 22px 24px;
         border-radius: 10px;
         margin-bottom: 20px;
         border-bottom: 4px solid var(--blue-600);
     }
-    .header-panel h1 { margin: 0; font-size: 22px; font-weight: 700; }
+    .header-panel h1 { margin: 0; font-size: 20px; font-weight: 700; }
     .header-panel p { margin: 4px 0 0 0; color: #94a3b8; font-size: 13px; }
 
     .card { background: white; border-radius: 8px; border: 1px solid var(--border); padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
@@ -58,61 +58,56 @@
 
     .tag-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
     .tag-item { background: #dbeafe; color: #1e40af; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; border: 1px solid #bfdbfe; }
-    
-    .manual-box { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; padding: 20px; margin-top: 24px; }
-    .manual-title { font-size: 15px; font-weight: 700; color: var(--slate-900); border-bottom: 2px solid var(--slate-700); padding-bottom: 8px; margin-bottom: 12px; }
-    .manual-list { margin: 0; padding-left: 20px; color: var(--slate-700); }
-    .manual-list li { margin-bottom: 8px; }
+
+    .info-box { background: #f1f5f9; border-left: 4px solid var(--slate-700); padding: 10px 14px; font-size: 12.5px; color: var(--slate-800); border-radius: 0 6px 6px 0; margin-top: 10px; }
 </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header-panel">
-        <h1>Peugeot 全車系原廠鈑噴與請款合一系統</h1>
-        <p>整合 3008 (P64) / 408 (P54) 與 東風標緻 408X (P54C) 官方資料庫</p>
+        <h1>Peugeot 原廠車色對應純漆面請款系統</h1>
+        <p>核心導向：自動映射原廠色號、漆面工藝代碼、相鄰件折減與出險核算</p>
     </div>
 
-    <!-- 車型與漆種設定 -->
+    <!-- 第一層：車型與原廠車色選擇 -->
     <div class="card">
-        <div class="card-title">一、 車型切換與車色漆種設定</div>
+        <div class="card-title">一、 車籍車型與原廠車色選擇</div>
         <div class="grid-3">
             <div>
-                <label>1. 車輛型號選擇 (載入專屬數據庫)</label>
+                <label>1. 選擇車輛型號</label>
                 <select id="modelSelect" onchange="onModelChange()">
-                    <option value="408X_P54C" selected>東風標緻 408X (P54C)</option>
-                    <option value="3008_P64">Peugeot 3008 (P64) / 408 (P54)</option>
+                    <option value="408X_P54C" selected>東風標緻 408X (P54C) [完整部位版]</option>
+                    <option value="3008_P64">Peugeot 3008 (P64) [完整部位版]</option>
                 </select>
             </div>
             <div>
-                <label>2. 漆面屬性 (依據 Servicebox 車籍)</label>
-                <select id="coatType" onchange="renderParts()">
-                    <option value="clearcoat|1.00|70E01U" selected>雙層金屬漆 / 清漆 (深藍色/水矽鈣石白) [固定 +1.00h / 70E01U]</option>
-                    <option value="pearl|1.30|70E03Z">三層珠光漆 / 亮漆 (珍珠白/黑珍珠車頂) [固定 +1.30h / 70E03Z]</option>
-                    <option value="colorClear|1.60|70E04W">四層彩色清漆 / 特殊漆面 [固定 +1.60h / 70E04W]</option>
-                    <option value="opaque|0.70|70E00V">單層不透明漆 / 素色漆 [固定 +0.70h / 70E00V]</option>
-                </select>
+                <label>2. 選擇原廠車身顏色</label>
+                <select id="colorSelect" onchange="onColorChange()"></select>
             </div>
             <div>
-                <label>3. 廠內單價設定 (NT$)</label>
+                <label>3. 請款單價設定 (NT$)</label>
                 <div style="display:flex; gap:8px;">
-                    <input type="number" id="laborRate" value="1200" placeholder="工資/h" oninput="calculate()">
-                    <input type="number" id="materialRate" value="800" placeholder="耗材/h" oninput="calculate()">
+                    <input type="number" id="laborRate" value="900" placeholder="工資/h" oninput="calculate()">
+                    <input type="number" id="materialRate" value="900" placeholder="耗材/h" oninput="calculate()">
                 </div>
             </div>
         </div>
+        <div class="info-box" id="colorInfoBadge">
+            已自動識別車色塗裝屬性與定額準備時間...
+        </div>
     </div>
 
-    <!-- 噴漆部位選擇 -->
+    <!-- 第二層：施工噴漆部位選擇 -->
     <div class="card">
-        <div class="card-title">二、 選取施工噴漆部位與等級</div>
+        <div class="card-title">二、 選取施工噴漆部位與受損等級</div>
         <table>
             <thead>
                 <tr>
                     <th>施工鈑件部位</th>
-                    <th>修復等級 (Level)</th>
-                    <th>對應 FRT 標準代碼</th>
-                    <th>基礎工時 (hrs)</th>
+                    <th>修復等級 (Damage Level)</th>
+                    <th>原廠漆面 FRT 代碼</th>
+                    <th>基礎噴漆工時 (hrs)</th>
                     <th>相鄰件折減</th>
                     <th>操作</th>
                 </tr>
@@ -122,39 +117,22 @@
         <button class="btn" style="margin-top: 12px;" onclick="addPartRow()">+ 新增噴漆部位</button>
     </div>
 
-    <!-- 鈑金拆裝疊加 -->
-    <div class="card">
-        <div class="card-title">三、 疊加實際鈑金拆裝與補充工序</div>
-        <table>
-            <thead>
-                <tr>
-                    <th>拆裝 / 補充作業項目</th>
-                    <th>標準代碼</th>
-                    <th>認可工時 (hrs)</th>
-                    <th>操作</th>
-                </tr>
-            </thead>
-            <tbody id="extraList"></tbody>
-        </table>
-        <button class="btn" style="margin-top: 12px; background:#475569;" onclick="addExtraRow()">+ 追加拆裝工序</button>
-    </div>
-
-    <!-- 試算結果 -->
+    <!-- 第三層：試算結果面板 -->
     <div class="result-card">
-        <div class="result-title">📊 估價請款總計明細</div>
+        <div class="result-title">📊 漆面請款與工時試算總計</div>
         <div class="grid-3" style="margin-bottom: 20px;">
             <div>
-                <div class="stat-label">折減後噴漆工時</div>
+                <div class="stat-label">鈑件噴漆工時 (含折減)</div>
                 <div class="stat-val" id="resPaintHours">0.00 <span style="font-size:14px; font-weight:400;">hrs</span></div>
                 <div id="resDiscountNotice" style="font-size:12px; color:var(--green-600); font-weight:600;"></div>
             </div>
             <div>
-                <div class="stat-label">鈑金拆裝工時疊加</div>
-                <div class="stat-val" id="resExtraHours" style="color:#0284c7;">0.00 <span style="font-size:14px; font-weight:400;">hrs</span></div>
+                <div class="stat-label">原廠漆面固定準備時間</div>
+                <div class="stat-val" id="resFixedHours" style="color:#475569;">1.00 <span style="font-size:14px; font-weight:400;">hrs</span></div>
             </div>
             <div>
-                <div class="stat-label">漆面固定準備時間</div>
-                <div class="stat-val" id="resFixedHours" style="color:#475569;">1.00 <span style="font-size:14px; font-weight:400;">hrs</span></div>
+                <div class="stat-label">總計請款工時</div>
+                <div class="stat-val" id="resTotalHours" style="color:var(--blue-700);">0.00 <span style="font-size:14px; font-weight:400;">hrs</span></div>
             </div>
         </div>
 
@@ -162,195 +140,319 @@
 
         <div class="grid-2" style="align-items: center;">
             <div>
-                <div class="stat-label" style="font-size:14px; color:var(--slate-900);">總計報銷工時 (Total Billing Hours)</div>
-                <div class="stat-val" id="resTotalHours" style="font-size:32px;">0.00 <span style="font-size:18px;">小時</span></div>
-                <div style="font-size:13px; color:var(--slate-700); margin-top:4px;">
-                    預估請款總金額：<strong id="resTotalMoney" style="color:var(--blue-700); font-size:16px;">NT$ 0</strong> 
+                <div class="stat-label" style="font-size:14px; color:var(--slate-900);">估價請款總金額 (Total Amount)</div>
+                <div class="stat-val" id="resTotalMoney" style="font-size:32px;">NT$ 0</div>
+                <div style="font-size:12px; color:#64748b; margin-top:4px;">
+                    工資費率 NT$ <span id="resLaborMoney">0</span> + 耗材費率 NT$ <span id="resMaterialMoney">0</span>
                 </div>
             </div>
             <div>
-                <div class="stat-label" style="margin-bottom:6px;">請款代碼組合 (提供理賠稽核)</div>
+                <div class="stat-label" style="margin-bottom:6px;">漆面請款代碼組合 (提供理賠稽核)</div>
                 <div id="resCodeTags" class="tag-container"></div>
             </div>
         </div>
-    </div>
-
-    <!-- 說明書 -->
-    <div class="manual-box">
-        <div class="manual-title">📖 Peugeot 整合系統操作說明書</div>
-        <ul class="manual-list">
-            <li><strong>車型與漆面動態連動</strong>：選取「車輛型號」與「漆面屬性」後，系統會自動在背景切換相應的官方代碼矩陣，絕不混淆 3008 與 408X 的數據。</li>
-            <li><strong>相鄰件折減機制</strong>：當同一次作業勾選 2 個相鄰鈑件時工時自動折扣 15%、3 個折扣 20%、4 個以上折扣 25%（0 級全新件不折減）。</li>
-            <li><strong>結算算式</strong>：
-                <ul>
-                    <li>工資總金額 ＝ (折減後噴漆工時 ＋ 鈑金拆裝工時 ＋ 固定時間) × 工資單價</li>
-                    <li>耗材費總額 ＝ (折減後噴漆工时 ＋ 固定時間) × 耗材單價</li>
-                </ul>
-            </li>
-            <li><strong>未來擴充</strong>：後續若需要再加入 2008、5008 等新車型，只需將數據寫入 `carDatabase` 物件即可。</li>
-        </ul>
     </div>
 </div>
 
 <script>
 /* ========================================================
-   Peugeot 全車系整合資料庫
+   原廠車型與純漆面 (P2) 全資料庫
    ======================================================== */
-const carDatabase = {
-    // 1. 東風標緻 408X (P54C)
+const vehicleRegistry = {
+    // 1. 東風標緻 408X (P54C) 完整資料庫
     "408X_P54C": {
         name: "東風標緻 408X (P54C)",
+        colors: [
+            { id: "obsession_blue", name: "深藍色油漆 / 噴塗金屬漆 (Obsession Blue)", type: "clearcoat", prepCode: "70E01U", prepHours: 1.00, desc: "雙層金屬漆 (代碼 70E01U / +1.00h)" },
+            { id: "okenite_white",  name: "水矽鈣石白漆 (Okenite White)",               type: "clearcoat", prepCode: "70E01U", prepHours: 1.00, desc: "雙層金屬漆 (代碼 70E01U / +1.00h)" },
+            { id: "carbon_black",   name: "碳晶黑 (Carbon Black)",                      type: "clearcoat", prepCode: "70E01U", prepHours: 1.00, desc: "雙層金屬漆 (代碼 70E01U / +1.00h)" },
+            { id: "grey",           name: "迷幻灰 (Grey)",                              type: "clearcoat", prepCode: "70E01U", prepHours: 1.00, desc: "雙層金屬漆 (代碼 70E01U / +1.00h)" },
+            { id: "pearl_white",    name: "珍珠白 (Pearl White)",                        type: "pearl",     prepCode: "70E03Z", prepHours: 1.30, desc: "三層珠光/亮漆 (代碼 70E03Z / +1.30h)" },
+            { id: "elixir_red",     name: "炫彩紅 / 特效漆 (Elixir Red)",                type: "colorClear",prepCode: "70E04W", prepHours: 1.60, desc: "四層彩色清漆 (代碼 70E04W / +1.60h)" }
+        ],
         parts: {
+            frontBumper: { 
+                name: '1. 前保險槓總成', 
+                clearcoat: { 0: ['74EQIZ', 1.20], 1: ['74EQMV', 2.10], 2: ['74EQMV', 2.10], 3: ['74EQOW', 2.10] },
+                pearl:     { 0: ['74EQJZ', 1.40], 1: ['74EQNV', 2.30], 2: ['74EQNV', 2.30], 3: ['74EQXW', 2.30] },
+                colorClear:{ 0: ['74EQKZ', 1.30], 1: ['74EQPV', 2.60], 2: ['74EQPV', 2.60], 3: ['74EQ5W', 2.00] },
+                opaque:    { 0: ['74EQHZ', 1.00], 1: ['74EQLV', 1.90], 2: ['74EQLV', 1.90], 3: ['74EQNW', 1.90] }
+            },
+            frontBumperUpper: { 
+                name: '1-1. 前保險槓上部', 
+                clearcoat: { 0: ['74EW2Z', 0.60], 1: ['74EW2V', 1.00], 2: ['74EW2V', 1.00], 3: ['74EW2W', 1.00] },
+                pearl:     { 0: ['74EW3Z', 0.80], 1: ['74EW3V', 1.20], 2: ['74EW3V', 1.20], 3: ['74EW3W', 1.20] },
+                colorClear:{ 0: ['74EW3Z', 0.80], 1: ['74EW3V', 1.20], 2: ['74EW3V', 1.20], 3: ['74EW3W', 1.20] },
+                opaque:    { 0: ['74EWIZ', 0.40], 1: ['74EWIV', 0.80], 2: ['74EWIV', 0.80], 3: ['74EW1W', 0.80] }
+            },
+            frontBumperSide: { 
+                name: '1-2. 前保險槓側面零件 (一側)', 
+                clearcoat: { 0: ['74F3SA', 0.60], 1: ['74F3TA', 0.90], 2: ['74F3TA', 0.90], 3: ['74F3UA', 0.90] },
+                pearl:     { 0: ['74F3VA', 0.80], 1: ['74F3WA', 1.10], 2: ['74F3WA', 1.10], 3: ['74F3XA', 1.10] },
+                colorClear:{ 0: ['74F3VA', 0.80], 1: ['74F3WA', 1.10], 2: ['74F3WA', 1.10], 3: ['74F3XA', 1.10] },
+                opaque:    { 0: ['74F30A', 0.40], 1: ['74F3RA', 0.70], 2: ['74F3RA', 0.70], 3: ['74F3QA', 0.70] }
+            },
             hood: { 
-                name: '發動機罩 (Hood)', 
+                name: '2. 發動機罩 (Hood)', 
                 clearcoat: { 0: ['79E1GZ', 3.40], 1: ['79E1IU', 4.10], 2: ['79E1KV', 2.60], 3: ['79E1MW', 2.10] },
                 pearl:     { 0: ['79E1HZ', 3.60], 1: ['79E1NU', 4.30], 2: ['79E1XV', 2.80], 3: ['79E1YW', 2.30] },
                 colorClear:{ 0: ['79E1JZ', 2.50], 1: ['79E1CU', 2.60], 2: ['79E1DV', 2.60], 3: ['79E1EW', 2.00] },
                 opaque:    { 0: ['79E1FZ', 3.20], 1: ['79E1HU', 3.90], 2: ['79E1JV', 2.40], 3: ['79E1LW', 1.90] }
             },
             fenderR: { 
-                name: '右前翼子板', 
+                name: '3. 前翼子板 / 葉子板 (單側)', 
                 clearcoat: { 0: ['78EELZ', 0.90], 1: ['78EENU', 1.50], 2: ['78EEQV', 1.10], 3: ['78EESW', 1.00] },
                 pearl:     { 0: ['78EEMZ', 1.10], 1: ['78EEPU', 1.70], 2: ['78EEXV', 1.30], 3: ['78EEYW', 1.20] },
                 colorClear:{ 0: ['78EENZ', 1.30], 1: ['78EERU', 2.00], 2: ['78EEDV', 2.00], 3: ['78EEEW', 1.60] },
                 opaque:    { 0: ['78EEKZ', 0.70], 1: ['78EEMU', 1.30], 2: ['78EEPV', 0.90], 3: ['78EERW', 0.80] }
             },
-            frontBumper: { 
-                name: '前保險槓', 
-                clearcoat: { 0: ['74EQIZ', 1.20], 1: ['74EQMV', 2.10], 2: ['74EQMV', 2.10], 3: ['74EQOW', 2.10] },
-                pearl:     { 0: ['74EQJZ', 1.40], 1: ['74EQNV', 2.30], 2: ['74EQNV', 2.30], 3: ['74EQXW', 2.30] },
-                colorClear:{ 0: ['74EQKZ', 1.30], 1: ['74EQPV', 2.60], 2: ['74EQPV', 2.60], 3: ['74EQ5W', 2.00] },
-                opaque:    { 0: ['74EQHZ', 1.00], 1: ['74EQLV', 1.90], 2: ['74EQLV', 1.90], 3: ['74EQNW', 1.90] }
-            },
-            rearBumper: { 
-                name: '後保險槓 (兩側)', 
-                clearcoat: { 0: ['74ES4Z', 0.80], 1: ['74ES6Z', 1.30], 2: ['74ES6Z', 1.30], 3: ['74ES7Z', 1.30] },
-                pearl:     { 0: ['74ES8Z', 1.00], 1: ['74ESXZ', 1.50], 2: ['74ESXZ', 1.50], 3: ['74ESYZ', 1.50] },
-                colorClear:{ 0: ['74ES8Z', 1.00], 1: ['74ESXZ', 1.50], 2: ['74ESXZ', 1.50], 3: ['74ESYZ', 1.50] },
-                opaque:    { 0: ['74ESOZ', 0.60], 1: ['74ES2Z', 1.10], 2: ['74ES2Z', 1.10], 3: ['74ES3Z', 1.10] }
-            },
-            frontDoorR: { 
-                name: '右前門總成', 
+            frontDoor: { 
+                name: '4. 前鉸接側門', 
                 clearcoat: { 0: ['90F02Z', 2.40], 1: ['90F04U', 3.50], 2: ['90F06V', 1.80], 3: ['90F08W', 1.60] },
-                pearl:     { 0: ['90F02Z', 2.40], 1: ['90F04U', 3.50], 2: ['90F0XV', 2.00], 3: ['90F09W', 1.80] },
-                colorClear:{ 0: ['90F02Z', 2.40], 1: ['90F06U', 3.10], 2: ['90F0DV', 2.90], 3: ['90F10W', 2.00] },
-                opaque:    { 0: ['90F02Z', 2.40], 1: ['90F04U', 3.50], 2: ['90F05V', 1.60], 3: ['90F07W', 1.40] }
+                pearl:     { 0: ['90F03Z', 2.60], 1: ['90F05U', 3.70], 2: ['90F0XV', 2.00], 3: ['90F09W', 1.80] },
+                colorClear:{ 0: ['90F04Z', 2.30], 1: ['90F06U', 3.10], 2: ['90F0DV', 2.90], 3: ['90F10W', 2.00] },
+                opaque:    { 0: ['90F01Z', 2.20], 1: ['90F03U', 3.30], 2: ['90F05V', 1.60], 3: ['90F07W', 1.40] }
             },
-            rearDoorR: { 
-                name: '右後門總成', 
+            rearDoor: { 
+                name: '5. 後鉸接側門', 
                 clearcoat: { 0: ['90EUKZ', 2.30], 1: ['90EUMU', 3.30], 2: ['90EUPV', 1.80], 3: ['90EURW', 1.50] },
                 pearl:     { 0: ['90EULZ', 2.50], 1: ['90EUPU', 3.50], 2: ['90EUXV', 2.00], 3: ['90EUYW', 1.70] },
                 colorClear:{ 0: ['90EUMZ', 1.70], 1: ['90EURU', 2.30], 2: ['90EUDV', 2.50], 3: ['90EUEW', 1.90] },
                 opaque:    { 0: ['90EUJZ', 2.10], 1: ['90EULU', 2.30], 2: ['90EUNV', 1.60], 3: ['90EUQW', 1.30] }
             },
             roof: { 
-                name: '車頂 (Roof)', 
+                name: '6. 車頂板 (全區)', 
                 clearcoat: { 0: ['83EGDU', 4.70], 1: ['83EGDU', 4.70], 2: ['83EGFV', 4.00], 3: ['83EGHW', 2.70] },
                 pearl:     { 0: ['83EGCU', 4.90], 1: ['83EGCU', 4.90], 2: ['83EGXV', 4.20], 3: ['83EGYW', 2.90] },
                 colorClear:{ 0: ['83EGWA', 4.90], 1: ['83EGWA', 4.90], 2: ['83EGDV', 4.30], 3: ['83EGEW', 2.80] },
                 opaque:    { 0: ['83EGBU', 4.50], 1: ['83EGBU', 4.50], 2: ['83EGEV', 3.80], 3: ['83EGGW', 2.50] }
+            },
+            roofRear: { 
+                name: '6-1. 車頂後部 (局部)', 
+                clearcoat: { 0: ['83EGJU', 2.50], 1: ['83EGJU', 2.50], 2: ['83EGLV', 2.10], 3: ['83EGNW', 1.60] },
+                pearl:     { 0: ['83EGKU', 2.70], 1: ['83EGKU', 2.70], 2: ['83EGRV', 2.30], 3: ['83EG1W', 1.80] },
+                colorClear:{ 0: ['83EGLU', 4.20], 1: ['83EGLU', 4.20], 2: ['83EGYV', 3.10], 3: ['83EG2W', 2.50] },
+                opaque:    { 0: ['83EGIU', 2.30], 1: ['83EGIU', 2.30], 2: ['83EGKV', 1.90], 3: ['83EGMW', 1.40] }
+            },
+            sidePanelR: { 
+                name: '7. 側板側門框 (右側)', 
+                clearcoat: { 0: ['85F4RU', 4.10], 1: ['85F4RU', 4.10], 2: ['85F4RU', 4.10], 3: ['85F4RU', 4.10] },
+                pearl:     { 0: ['85F4SU', 4.30], 1: ['85F4SU', 4.30], 2: ['85F4SU', 4.30], 3: ['85F4SU', 4.30] },
+                colorClear:{ 0: ['85F4TU', 5.90], 1: ['85F4TU', 5.90], 2: ['85F4TU', 5.90], 3: ['85F4TU', 5.90] },
+                opaque:    { 0: ['85F4QU', 3.90], 1: ['85F4QU', 3.90], 2: ['85F4QU', 3.90], 3: ['85F4QU', 3.90] }
+            },
+            sidePanelL: { 
+                name: '7-1. 側板側門框 (左側)', 
+                clearcoat: { 0: ['85F5RU', 4.10], 1: ['85F5RU', 4.10], 2: ['85F5RU', 4.10], 3: ['85F5RU', 4.10] },
+                pearl:     { 0: ['85F5SU', 4.30], 1: ['85F5SU', 4.30], 2: ['85F5SU', 4.30], 3: ['85F5SU', 4.30] },
+                colorClear:{ 0: ['85F5TU', 5.90], 1: ['85F5TU', 5.90], 2: ['85F5TU', 5.90], 3: ['85F5TU', 5.90] },
+                opaque:    { 0: ['85F5QU', 3.90], 1: ['85F5QU', 3.90], 2: ['85F5QU', 3.90], 3: ['85F5QU', 3.90] }
+            },
+            rearFenderPartR: { 
+                name: '8. 後翼子板 (右側部分)', 
+                clearcoat: { 0: ['85F3YU', 2.50], 1: ['85F3YU', 2.50], 2: ['85F40V', 1.30], 3: ['85F42W', 1.10] },
+                pearl:     { 0: ['85SD3U', 2.70], 1: ['85SD3U', 2.70], 2: ['85FD9A', 1.50], 3: ['85F4NW', 1.30] },
+                colorClear:{ 0: ['85SD3U', 2.70], 1: ['85SD3U', 2.70], 2: ['85FD9A', 1.50], 3: ['85F4NW', 1.30] },
+                opaque:    { 0: ['85F3XU', 2.30], 1: ['85F3XU', 2.30], 2: ['85F3ZV', 1.10], 3: ['85F41W', 0.90] }
+            },
+            rearFenderPartL: { 
+                name: '8-1. 後翼子板 (左側部分)', 
+                clearcoat: { 0: ['85F44U', 2.50], 1: ['85F44U', 2.50], 2: ['85F46V', 1.30], 3: ['85F48W', 1.10] },
+                pearl:     { 0: ['85SG3U', 2.70], 1: ['85SG3U', 2.70], 2: ['85FDAA', 1.50], 3: ['85F57W', 1.30] },
+                colorClear:{ 0: ['85SG3U', 2.70], 1: ['85SG3U', 2.70], 2: ['85FDAA', 1.50], 3: ['85F57W', 1.30] },
+                opaque:    { 0: ['85F43U', 2.30], 1: ['85F43U', 2.30], 2: ['85F45V', 1.10], 3: ['85F47W', 0.90] }
+            },
+            rearFenderAssyR: { 
+                name: '8-2. 後翼子板總成 (右側全區)', 
+                clearcoat: { 0: ['85F4CU', 2.80], 1: ['85F4CU', 2.80], 2: ['85F4BV', 1.60], 3: ['85F4BW', 1.30] },
+                pearl:     { 0: ['85FD3U', 3.00], 1: ['85FD3U', 3.00], 2: ['85F4CV', 1.80], 3: ['85F5CW', 1.50] },
+                colorClear:{ 0: ['85FD3U', 3.00], 1: ['85FD3U', 3.00], 2: ['85F4CV', 1.80], 3: ['85F5CW', 1.50] },
+                opaque:    { 0: ['85F4AU', 2.60], 1: ['85F4AU', 2.60], 2: ['85F4AV', 1.40], 3: ['85F5AW', 1.10] }
+            },
+            sideSillR: { 
+                name: '8-3. 車身門檻外側梁 (右側)', 
+                clearcoat: { 0: ['85F40U', 2.40], 1: ['85F40U', 2.40], 2: ['85F42V', 2.20], 3: ['85F44W', 1.70] },
+                pearl:     { 0: ['85LE3U', 2.60], 1: ['85LE3U', 2.60], 2: ['85F4XV', 2.40], 3: ['85F45W', 1.90] },
+                colorClear:{ 0: ['85LE4U', 4.00], 1: ['85LE4U', 4.00], 2: ['85F4YV', 2.50], 3: ['85F46W', 1.90] },
+                opaque:    { 0: ['85F3ZU', 2.20], 1: ['85F3ZU', 2.20], 2: ['85F41V', 2.00], 3: ['85F43W', 1.50] }
+            },
+            tailgate: { 
+                name: '9. 尾門玻璃裝飾件', 
+                clearcoat: { 0: ['74EQAZ', 2.10], 1: ['74EQCU', 3.20], 2: ['74EQEV', 2.60], 3: ['74EQGW', 2.40] },
+                pearl:     { 0: ['74EQBZ', 2.30], 1: ['74EQFU', 3.40], 2: ['74EQFV', 2.80], 3: ['74EQYW', 2.60] },
+                colorClear:{ 0: ['74EQAZ', 2.10], 1: ['74EQCU', 3.20], 2: ['74EQEV', 2.60], 3: ['74EQGW', 2.40] },
+                opaque:    { 0: ['74EQ9Z', 1.90], 1: ['74EQBU', 3.00], 2: ['74EQDV', 2.40], 3: ['74EQFW', 2.20] }
+            },
+            rearBumper1Side: { 
+                name: '10. 後保險槓護板 (1側)', 
+                clearcoat: { 0: ['74EP4Z', 0.60], 1: ['74EP6Z', 0.90], 2: ['74EP6Z', 0.90], 3: ['74EP7Z', 0.90] },
+                pearl:     { 0: ['74EP8Z', 0.80], 1: ['74EPXZ', 1.10], 2: ['74EPXZ', 1.10], 3: ['74EPYZ', 1.10] },
+                colorClear:{ 0: ['74EP8Z', 0.80], 1: ['74EPXZ', 1.10], 2: ['74EPXZ', 1.10], 3: ['74EPYZ', 1.10] },
+                opaque:    { 0: ['74EPOZ', 0.40], 1: ['74EP2Z', 0.70], 2: ['74EP2Z', 0.70], 3: ['74EP3Z', 0.70] }
+            },
+            rearBumper2Sides: { 
+                name: '10-1. 後保險槓護板 (2側)', 
+                clearcoat: { 0: ['74ES4Z', 0.80], 1: ['74ES6Z', 1.30], 2: ['74ES6Z', 1.30], 3: ['74ES7Z', 1.30] },
+                pearl:     { 0: ['74ES8Z', 1.00], 1: ['74ESXZ', 1.50], 2: ['74ESXZ', 1.50], 3: ['74ESYZ', 1.50] },
+                colorClear:{ 0: ['74ES8Z', 1.00], 1: ['74ESXZ', 1.50], 2: ['74ESXZ', 1.50], 3: ['74ESYZ', 1.50] },
+                opaque:    { 0: ['74ESOZ', 0.60], 1: ['74ES2Z', 1.10], 2: ['74ES2Z', 1.10], 3: ['74ES3Z', 1.10] }
             }
-        },
-        extras: [
-            { code: '79E0YA', name: '拆卸 - 安裝：發動機罩', hours: 0.20 },
-            { code: '78E5UA', name: '更換：1側或前右翼子板', hours: 1.70 },
-            { code: '74EBGA', name: '拆卸 - 安裝：前保險槓', hours: 1.30 },
-            { code: '74EJ2A', name: '拆卸 - 安裝：後保險桿', hours: 0.90 },
-            { code: '74EMGA', name: '更換：後保險桿', hours: 1.60 },
-            { code: '65EK7A', name: '校準：360°攝影機', hours: 1.30 },
-            { code: '65EK9A', name: '校準：360°後置攝影機', hours: 0.80 },
-            { code: '90E8IA', name: '更換：前門 (車輛上)', hours: 2.80 },
-            { code: '90ECHA', name: '更換：後車門 (車輛上)', hours: 2.50 },
-            { code: '85E31A', name: '更換：右側面板 (車輛上)', hours: 13.70 },
-            { code: '83E6RA', name: '更換：車頂 (車輛上)', hours: 6.80 },
-            { code: '74E16A', name: '更換：尾門 (車輛上)', hours: 2.80 },
-            { code: '56E0OS', name: '補充：切斷-再連接電源 驅動蓄電池', hours: 0.60 }
-        ]
+        }
     },
 
-    // 2. Peugeot 3008 (P64) / 408 (P54)
+    // 2. Peugeot 3008 (P64) 完整資料庫
     "3008_P64": {
-        name: "Peugeot 3008 (P64) / 408 (P54)",
+        name: "Peugeot 3008 (P64)",
+        colors: [
+            { id: "obsession_blue_metal", name: "深藍色油漆 / 噴塗金屬漆 (Obsession Blue)", type: "clearcoat", prepCode: "70E01U", prepHours: 1.00, desc: "雙層金屬漆 (代碼 70E01U / +1.00h)" },
+            { id: "black_pearl_roof",    name: "黑珍珠車頂 / 特殊雙色 (Black Pearl)",     type: "pearl",     prepCode: "70E03Z", prepHours: 1.30, desc: "三層珠光漆/黑珍珠 (代碼 70E03Z / +1.30h)" },
+            { id: "standard_white",      name: "雪白色 / 單層素色漆 (Standard White)",    type: "opaque",    prepCode: "70E00V", prepHours: 0.70, desc: "單層素色漆 (代碼 70E00V / +0.70h)" }
+        ],
         parts: {
+            frontBumper: {
+                name: '1PPD303 - 前保險槓總成',
+                clearcoat: { 0: ['74EQIZ', 1.10], 1: ['74EQMV', 2.10], 2: ['74EQMV', 2.10], 3: ['74EQOW', 2.00] },
+                pearl:     { 0: ['74EQJZ', 1.30], 1: ['74EQNV', 2.30], 2: ['74EQNV', 2.30], 3: ['74EQXW', 2.20] },
+                opaque:    { 0: ['74EQHZ', 0.90], 1: ['74EQLV', 1.90], 2: ['74EQLV', 1.90], 3: ['74EQNW', 1.80] }
+            },
+            frontBumperUpper: {
+                name: '1PPD303 - 前保險槓上部',
+                clearcoat: { 0: ['74EW2Z', 0.50], 1: ['74EW2V', 0.70], 2: ['74EW2V', 0.70], 3: ['74EW2W', 0.70] },
+                pearl:     { 0: ['74EW3Z', 0.70], 1: ['74EW3V', 0.90], 2: ['74EW3V', 0.90], 3: ['74EW3W', 0.90] },
+                opaque:    { 0: ['74EWIZ', 0.30], 1: ['74EWIV', 0.50], 2: ['74EWIV', 0.50], 3: ['74EW1W', 0.50] }
+            },
             hood: { 
-                name: '引擎蓋 (Hood)', 
-                clearcoat: { 0: ['79E1GZ', 3.40], 1: ['79E1HU', 2.60], 2: ['79E1KV', 2.50], 3: ['79E1MW', 2.00] },
-                pearl:     { 0: ['79E1GZ', 3.40], 1: ['79E1HU', 2.60], 2: ['79E1KV', 2.50], 3: ['79E1MW', 2.00] },
-                colorClear:{ 0: ['79E1GZ', 3.40], 1: ['79E1HU', 2.60], 2: ['79E1KV', 2.50], 3: ['79E1MW', 2.00] },
-                opaque:    { 0: ['79E1FZ', 3.20], 1: ['79E1HU', 2.40], 2: ['79E1JV', 2.30], 3: ['79E1LW', 1.80] }
+                name: '1PPD306 - 引擎罩 (Hood)', 
+                clearcoat: { 0: ['79E1GZ', 3.40], 1: ['79EHU', 2.80], 2: ['79E1KV', 2.50], 3: ['79E1MW', 2.00] },
+                pearl:     { 0: ['79E1HZ', 3.60], 1: ['79EINU', 3.00], 2: ['79E1XV', 2.70], 3: ['79E1YW', 2.20] },
+                opaque:    { 0: ['79E1FZ', 3.20], 1: ['79E1HU', 2.60], 2: ['79E1JV', 2.30], 3: ['79E1LW', 1.80] }
             },
-            fenderR: { 
-                name: '右前翼 / 葉子板', 
+            fender: { 
+                name: '1PPD305 - 前翼子板', 
                 clearcoat: { 0: ['78EELZ', 1.00], 1: ['78EENU', 1.00], 2: ['78EEQV', 1.00], 3: ['78EESW', 0.90] },
-                pearl:     { 0: ['78EELZ', 1.00], 1: ['78EENU', 1.00], 2: ['78EEQV', 1.00], 3: ['78EESW', 0.90] },
-                colorClear:{ 0: ['78EELZ', 1.00], 1: ['78EENU', 1.00], 2: ['78EEQV', 1.00], 3: ['78EESW', 0.90] },
-                opaque:    { 0: ['78EEKZ', 0.80], 1: ['78EEMU', 0.90], 2: ['78EEPV', 0.90], 3: ['78EERW', 0.80] }
+                pearl:     { 0: ['78EEMZ', 1.00], 1: ['78EEPU', 1.20], 2: ['78EEXV', 1.20], 3: ['78EEYW', 1.10] },
+                opaque:    { 0: ['78EEKZ', 0.60], 1: ['78EEMU', 0.80], 2: ['78EEPV', 0.80], 3: ['78EERW', 0.70] }
             },
-            frontDoorR: { 
-                name: '右前門總成', 
+            frontDoor: { 
+                name: '1PPD350 - 前鉸接側門', 
                 clearcoat: { 0: ['90F02Z', 2.20], 1: ['90F04U', 2.90], 2: ['90F06V', 1.50], 3: ['90F08W', 1.30] },
-                pearl:     { 0: ['90F02Z', 2.20], 1: ['90F04U', 2.90], 2: ['90F06V', 1.50], 3: ['90F08W', 1.30] },
-                colorClear:{ 0: ['90F02Z', 2.20], 1: ['90F04U', 2.90], 2: ['90F06V', 1.50], 3: ['90F08W', 1.30] },
-                opaque:    { 0: ['90F02Z', 2.20], 1: ['90F04U', 2.70], 2: ['90F05V', 1.40], 3: ['90F07W', 1.20] }
+                pearl:     { 0: ['90F03Z', 2.40], 1: ['90F05U', 3.10], 2: ['90F0XV', 1.70], 3: ['90F09W', 1.50] },
+                opaque:    { 0: ['90F01Z', 2.00], 1: ['90F03U', 2.70], 2: ['90F05V', 1.30], 3: ['90F07W', 1.10] }
             },
-            rearDoorR: { 
-                name: '右後門總成', 
+            rearDoor: { 
+                name: '1PPD360 - 後鉸接側門', 
                 clearcoat: { 0: ['90EUKZ', 2.20], 1: ['90EUMU', 2.90], 2: ['90EUPV', 1.40], 3: ['90EURW', 1.20] },
-                pearl:     { 0: ['90EUKZ', 2.20], 1: ['90EUMU', 2.90], 2: ['90EUPV', 1.40], 3: ['90EURW', 1.20] },
-                colorClear:{ 0: ['90EUKZ', 2.20], 1: ['90EUMU', 2.90], 2: ['90EUPV', 1.40], 3: ['90EURW', 1.20] },
-                opaque:    { 0: ['90EUJZ', 2.00], 1: ['90EULU', 2.70], 2: ['90EUNV', 1.30], 3: ['90EUQW', 1.10] }
+                pearl:     { 0: ['90EULZ', 2.40], 1: ['90EUPU', 3.10], 2: ['90EUXV', 1.60], 3: ['90EUYW', 1.40] },
+                opaque:    { 0: ['90EUJZ', 2.00], 1: ['90EULU', 2.70], 2: ['90EUNV', 1.20], 3: ['90EUQW', 1.00] }
             },
             roof: { 
-                name: '車頂面板 (無天窗)', 
+                name: '1PPD371 - 車頂板 (無天窗)', 
                 clearcoat: { 0: ['83EGDU', 3.70], 1: ['83EGDU', 3.70], 2: ['83EGFV', 2.90], 3: ['83EGHW', 1.90] },
-                pearl:     { 0: ['83EGDU', 3.70], 1: ['83EGDU', 3.70], 2: ['83EGFV', 2.90], 3: ['83EGHW', 1.90] },
-                colorClear:{ 0: ['83EGDU', 3.70], 1: ['83EGDU', 3.70], 2: ['83EGFV', 2.90], 3: ['83EGHW', 1.90] },
+                pearl:     { 0: ['83EGCU', 3.90], 1: ['83EGCU', 3.90], 2: ['83EGXV', 3.10], 3: ['83EGYW', 2.10] },
                 opaque:    { 0: ['83EGBU', 3.50], 1: ['83EGBU', 3.50], 2: ['83EGEV', 2.70], 3: ['83EGGW', 1.70] }
+            },
+            roofSunroof: { 
+                name: '1PPD371 - 車頂板 (帶天窗)', 
+                clearcoat: { 0: ['83EIPA', 2.90], 1: ['83EIPA', 2.90], 2: ['83EISA', 2.20], 3: ['83EIVA', 1.70] },
+                pearl:     { 0: ['83EIQA', 3.10], 1: ['83EIQA', 3.10], 2: ['83EITA', 2.40], 3: ['83EIWA', 1.90] },
+                opaque:    { 0: ['83EIOA', 2.70], 1: ['83EIOA', 2.70], 2: ['83EIRA', 2.00], 3: ['83EIUA', 1.50] }
+            },
+            sidePanel: { 
+                name: '1PPD344 - 側板側門框 (單側)', 
+                clearcoat: { 0: ['85F4RU', 3.80], 1: ['85F4RU', 3.80], 2: ['85F4RU', 3.80], 3: ['85F4RU', 3.80] },
+                pearl:     { 0: ['85F4SU', 4.00], 1: ['85F4SU', 4.00], 2: ['85F4SU', 4.00], 3: ['85F4SU', 4.00] },
+                opaque:    { 0: ['85F4QU', 3.60], 1: ['85F4QU', 3.60], 2: ['85F4QU', 3.60], 3: ['85F4QU', 3.60] }
+            },
+            pillarA: {
+                name: '1PPD341 - 前門立柱 (A柱)',
+                clearcoat: { 0: ['85F50U', 1.10], 1: ['85F50U', 1.10], 2: ['85F50U', 1.10], 3: ['85F50U', 1.10] },
+                pearl:     { 0: ['85F53U', 1.30], 1: ['85F53U', 1.30], 2: ['85F53U', 1.30], 3: ['85F53U', 1.30] },
+                opaque:    { 0: ['85F49U', 0.90], 1: ['85F49U', 0.90], 2: ['85F49U', 0.90], 3: ['85F49U', 0.90] }
+            },
+            pillarB: {
+                name: '1PPD343 - 中立柱 (B柱)',
+                clearcoat: { 0: ['85F36U', 1.50], 1: ['85F36U', 1.50], 2: ['85F36U', 1.50], 3: ['85F36U', 1.50] },
+                pearl:     { 0: ['85F37U', 1.70], 1: ['85F37U', 1.70], 2: ['85F37U', 1.70], 3: ['85F37U', 1.70] },
+                opaque:    { 0: ['85F35U', 1.30], 1: ['85F35U', 1.30], 2: ['85F35U', 1.30], 3: ['85F35U', 1.30] }
+            },
+            rearFenderAssy: {
+                name: '1PPD324 - 後翼子板總成',
+                clearcoat: { 0: ['85F4CU', 3.00], 1: ['85F4CU', 3.00], 2: ['85F4BV', 1.00], 3: ['85F4BW', 0.90] },
+                pearl:     { 0: ['85FD3U', 3.20], 1: ['85FD3U', 3.20], 2: ['85F4CV', 1.20], 3: ['85F5CW', 1.10] },
+                opaque:    { 0: ['85F4AU', 2.80], 1: ['85F4AU', 2.80], 2: ['85F4AV', 0.80], 3: ['85F5AW', 0.70] }
+            },
+            rockerSill: {
+                name: '1PPD324 - 車身門檻外側梁',
+                clearcoat: { 0: ['85F40U', 1.60], 1: ['85F40U', 1.60], 2: ['85F42V', 1.50], 3: ['85F44W', 1.20] },
+                pearl:     { 0: ['85LE3U', 1.80], 1: ['85LE3U', 1.80], 2: ['85F4XV', 1.70], 3: ['85F45W', 1.40] },
+                opaque:    { 0: ['85F3ZU', 1.40], 1: ['85F3ZU', 1.40], 2: ['85F41V', 1.30], 3: ['85F43W', 1.00] }
+            },
+            tailgate: { 
+                name: '1PPD327 - 尾門 (Tailgate)', 
+                clearcoat: { 0: ['74EQAZ', 1.40], 1: ['74EQCU', 2.20], 2: ['74EQEV', 2.10], 3: ['74EQGW', 1.80] },
+                pearl:     { 0: ['74EQBZ', 1.60], 1: ['74EQFU', 2.40], 2: ['74EQFV', 2.30], 3: ['74EQYW', 2.00] },
+                opaque:    { 0: ['74EQ9Z', 1.20], 1: ['74EQBU', 2.00], 2: ['74EQDV', 1.90], 3: ['74EQFW', 1.60] }
+            },
+            rearBumperSkirt: {
+                name: '1PPD321 - 後保險槓裙板',
+                clearcoat: { 0: ['74E15Z', 1.20], 1: ['74E15V', 2.10], 2: ['74E15V', 2.10], 3: ['74E15W', 2.00] },
+                pearl:     { 0: ['74E16Z', 1.40], 1: ['74E16V', 2.30], 2: ['74E16V', 2.30], 3: ['74E16W', 2.20] },
+                opaque:    { 0: ['74E14Z', 1.00], 1: ['74E14V', 1.90], 2: ['74E14V', 1.90], 3: ['74E14W', 1.80] }
             }
-        },
-        extras: [
-            { code: '79E0YA', name: '拆卸-重新安裝：引擎蓋', hours: 0.30 },
-            { code: '78E5UA', name: '更換：右前翼 (含燈具保桿拆裝)', hours: 1.55 },
-            { code: '62E1KS', name: '補充：調整頭燈', hours: 0.25 },
-            { code: '90E8IA', name: '更換：前門 (現場安裝)', hours: 2.30 },
-            { code: '90ECHA', name: '更換：後門 (現場安裝)', hours: 2.10 },
-            { code: '85E31A', name: '更換：右側面板總成', hours: 8.55 },
-            { code: '74E16A', name: '更換：後擋板 / 尾門', hours: 2.30 },
-            { code: '83E6RA', name: '更換：車頂總成', hours: 4.65 }
-        ]
+        }
     }
 };
 
 /* ========================================================
-   系統控制邏輯
+   核心控制邏輯
    ======================================================== */
 let selectedParts = [];
-let selectedExtras = [];
 
 function getCurrentModelData() {
     const key = document.getElementById('modelSelect').value;
-    return carDatabase[key] || carDatabase["408X_P54C"];
+    return vehicleRegistry[key] || vehicleRegistry["408X_P54C"];
 }
 
-function getCurrentCoatCategory() {
-    return document.getElementById('coatType').value.split('|')[0];
+function getCurrentColorObj() {
+    const modelData = getCurrentModelData();
+    const colorId = document.getElementById('colorSelect').value;
+    return modelData.colors.find(c => c.id === colorId) || modelData.colors[0];
 }
 
 function onModelChange() {
     const modelData = getCurrentModelData();
-    const firstPartKey = Object.keys(modelData.parts)[0];
-    const firstExtraCode = modelData.extras[0] ? modelData.extras[0].code : '';
+    const colorSelect = document.getElementById('colorSelect');
+    colorSelect.innerHTML = '';
 
-    selectedParts = [{ partKey: firstPartKey, level: 2, isAdjacent: true }];
-    selectedExtras = firstExtraCode ? [firstExtraCode] : [];
+    modelData.colors.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.id;
+        opt.innerText = c.name;
+        colorSelect.appendChild(opt);
+    });
+
+    selectedParts = [];
+    onColorChange();
+}
+
+function onColorChange() {
+    const modelData = getCurrentModelData();
+    const colorObj = getCurrentColorObj();
+
+    document.getElementById('colorInfoBadge').innerHTML = `📌 漆面連動鎖定：<strong>${colorObj.desc}</strong>`;
+
+    if (selectedParts.length === 0) {
+        const firstPartKey = Object.keys(modelData.parts)[0];
+        selectedParts = [{ partKey: firstPartKey, level: 2, isAdjacent: true }];
+    }
 
     renderParts();
-    renderExtras();
 }
 
 function renderParts() {
     const modelData = getCurrentModelData();
-    const coatCat = getCurrentCoatCategory();
+    const colorObj = getCurrentColorObj();
+    const coatCat = colorObj.type;
     const tbody = document.getElementById('partsList');
     tbody.innerHTML = '';
 
@@ -371,7 +473,7 @@ function renderParts() {
                     <option value="2" ${item.level===2?'selected':''}>2 級 (修復 <20%)</option>
                     <option value="1" ${item.level===1?'selected':''}>1 級 (修復 >20%)</option>
                     <option value="3" ${item.level===3?'selected':''}>3 級 (純噴無修)</option>
-                    <option value="0" ${item.level===0?'selected':''}>0 級 (全新空件)</option>
+                    <option value="0" ${item.level===0?'selected':''}>0 級 (全新件)</option>
                 </select>
             </td>
             <td><span class="code-badge">${code}</span></td>
@@ -386,54 +488,30 @@ function renderParts() {
     calculate();
 }
 
-function renderExtras() {
-    const modelData = getCurrentModelData();
-    const tbody = document.getElementById('extraList');
-    tbody.innerHTML = '';
-
-    selectedExtras.forEach((code, index) => {
-        const exData = modelData.extras.find(e => e.code === code) || modelData.extras[0];
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>
-                <select onchange="updateExtra(${index}, this.value)">
-                    ${modelData.extras.map(e => `<option value="${e.code}" ${e.code===code?'selected':''}>${e.name}</option>`).join('')}
-                </select>
-            </td>
-            <td><span class="code-badge">${exData.code}</span></td>
-            <td><strong>${exData.hours.toFixed(2)}</strong> h</td>
-            <td><button class="btn-danger" onclick="removeExtra(${index})">刪除</button></td>
-        `;
-        tbody.appendChild(tr);
-    });
-    calculate();
-}
-
-function addPartRow() { 
+function addPartRow() {
     const modelData = getCurrentModelData();
     const firstKey = Object.keys(modelData.parts)[0];
-    selectedParts.push({ partKey: firstKey, level: 2, isAdjacent: true }); 
-    renderParts(); 
+    selectedParts.push({ partKey: firstKey, level: 2, isAdjacent: true });
+    renderParts();
 }
-function removePart(index) { selectedParts.splice(index, 1); renderParts(); }
-function updatePart(index, field, value) { selectedParts[index][field] = value; renderParts(); }
 
-function addExtraRow() { 
-    const modelData = getCurrentModelData();
-    if(modelData.extras.length > 0) {
-        selectedExtras.push(modelData.extras[0].code); 
-        renderExtras(); 
-    }
+function removePart(index) {
+    selectedParts.splice(index, 1);
+    renderParts();
 }
-function removeExtra(index) { selectedExtras.splice(index, 1); renderExtras(); }
-function updateExtra(index, value) { selectedExtras[index] = value; renderExtras(); }
+
+function updatePart(index, field, value) {
+    selectedParts[index][field] = value;
+    renderParts();
+}
 
 function calculate() {
     const modelData = getCurrentModelData();
-    const coatCat = getCurrentCoatCategory();
-    const coatVal = document.getElementById('coatType').value.split('|');
-    const fixedHours = parseFloat(coatVal[1]);
-    const fixedCode = coatVal[2];
+    const colorObj = getCurrentColorObj();
+    const coatCat = colorObj.type;
+
+    const fixedHours = colorObj.prepHours;
+    const fixedCode = colorObj.prepCode;
 
     let adjacentCount = 0;
     let adjacentBaseHours = 0;
@@ -456,34 +534,28 @@ function calculate() {
     else if (adjacentCount >= 4) discountRate = 0.25;
 
     const paintHours = (adjacentBaseHours * (1 - discountRate)) + nonDiscountHours;
-
-    let extraHours = 0;
-    selectedExtras.forEach(code => {
-        const exData = modelData.extras.find(e => e.code === code);
-        if (exData) { extraHours += exData.hours; codeTags.push(exData.code); }
-    });
-
-    const totalHours = paintHours + extraHours + fixedHours;
+    const totalHours = paintHours + fixedHours;
     codeTags.push(fixedCode);
 
     const laborRate = parseFloat(document.getElementById('laborRate').value) || 0;
     const materialRate = parseFloat(document.getElementById('materialRate').value) || 0;
 
     const laborMoney = totalHours * laborRate;
-    const materialMoney = (paintHours + fixedHours) * materialRate;
+    const materialMoney = totalHours * materialRate;
     const totalMoney = laborMoney + materialMoney;
 
     document.getElementById('resPaintHours').innerText = paintHours.toFixed(2);
-    document.getElementById('resDiscountNotice').innerText = discountRate > 0 ? `✓ 相鄰件 -${discountRate*100}% 折減` : '';
-    document.getElementById('resExtraHours').innerText = extraHours.toFixed(2);
+    document.getElementById('resDiscountNotice').innerText = discountRate > 0 ? `✓ 套用 ${adjacentCount} 件相鄰 -${discountRate*100}%` : '';
     document.getElementById('resFixedHours').innerText = fixedHours.toFixed(2);
 
     document.getElementById('resTotalHours').innerText = totalHours.toFixed(2);
+    document.getElementById('resLaborMoney').innerText = Math.round(laborMoney).toLocaleString();
+    document.getElementById('resMaterialMoney').innerText = Math.round(materialMoney).toLocaleString();
     document.getElementById('resTotalMoney').innerText = `NT$ ${Math.round(totalMoney).toLocaleString()}`;
     document.getElementById('resCodeTags').innerHTML = codeTags.map(c => `<div class="tag-item">${c}</div>`).join('');
 }
 
-// 頁面啟動初始化
+// 初次啟動
 onModelChange();
 </script>
 </body>
