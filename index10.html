@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Peugeot 原廠車色對應純漆面請款系統 (3008 / 408X 完整版)</title>
+<title>Peugeot 原廠車色對應純漆面請款系統 (3008 / 408X / 208)</title>
 <style>
     :root {
         --slate-900: #0f172a;
@@ -77,13 +77,16 @@
             <div>
                 <label>1. 選擇車輛型號</label>
                 <select id="modelSelect" onchange="onModelChange()">
-                    <option value="408X_P54C" selected>東風標緻 408X (P54C) [完整部位版]</option>
-                    <option value="3008_P64">Peugeot 3008 (P64) [完整部位版]</option>
+                    <option value="208_P21E" selected>Peugeot 208 (P21E) [全新新增]</option>
+                    <option value="3008_P64">Peugeot 3008 (P64)</option>
+                    <option value="408X_P54C">東風標緻 408X (P54C)</option>
                 </select>
             </div>
             <div>
                 <label>2. 選擇原廠車身顏色</label>
-                <select id="colorSelect" onchange="onColorChange()"></select>
+                <select id="colorSelect" onchange="onColorChange()">
+                    <!-- 由 JS 動態載入 -->
+                </select>
             </div>
             <div>
                 <label>3. 請款單價設定 (NT$)</label>
@@ -156,157 +159,106 @@
 
 <script>
 /* ========================================================
-   原廠車型與純漆面 (P2) 全資料庫
+   原廠車型與純漆面 (P2) 註冊庫
    ======================================================== */
 const vehicleRegistry = {
-    // 1. 東風標緻 408X (P54C) 完整資料庫
-    "408X_P54C": {
-        name: "東風標緻 408X (P54C)",
+    // 新增：Peugeot 208 (P21E) 完整 12 部件 P2 資料庫
+    "208_P21E": {
+        name: "Peugeot 208 (P21E)",
         colors: [
-            { id: "obsession_blue", name: "深藍色油漆 / 噴塗金屬漆 (Obsession Blue)", type: "clearcoat", prepCode: "70E01U", prepHours: 1.00, desc: "雙層金屬漆 (代碼 70E01U / +1.00h)" },
-            { id: "okenite_white",  name: "水矽鈣石白漆 (Okenite White)",               type: "clearcoat", prepCode: "70E01U", prepHours: 1.00, desc: "雙層金屬漆 (代碼 70E01U / +1.00h)" },
-            { id: "carbon_black",   name: "碳晶黑 (Carbon Black)",                      type: "clearcoat", prepCode: "70E01U", prepHours: 1.00, desc: "雙層金屬漆 (代碼 70E01U / +1.00h)" },
-            { id: "grey",           name: "迷幻灰 (Grey)",                              type: "clearcoat", prepCode: "70E01U", prepHours: 1.00, desc: "雙層金屬漆 (代碼 70E01U / +1.00h)" },
-            { id: "pearl_white",    name: "珍珠白 (Pearl White)",                        type: "pearl",     prepCode: "70E03Z", prepHours: 1.30, desc: "三層珠光/亮漆 (代碼 70E03Z / +1.30h)" },
-            { id: "elixir_red",     name: "炫彩紅 / 特效漆 (Elixir Red)",                type: "colorClear",prepCode: "70E04W", prepHours: 1.60, desc: "四層彩色清漆 (代碼 70E04W / +1.60h)" }
+            { id: "p21_clearcoat", name: "雙層金屬漆 / 清漆 (Clearcoat)", type: "clearcoat", prepCode: "70E01U", prepHours: 1.00, desc: "雙層金屬漆 (代碼 70E01U / +1.00h)" },
+            { id: "p21_pearl",     name: "三層珠光漆 / 亮漆 (Pearl/Gloss)", type: "pearl",     prepCode: "70E03Z", prepHours: 1.30, desc: "三層珠光漆 (代碼 70E03Z / +1.30h)" },
+            { id: "p21_opaque",    name: "單層素色漆 / 不透明漆 (Opaque)",  type: "opaque",    prepCode: "70E00V", prepHours: 0.70, desc: "單層素色漆 (代碼 70E00V / +0.70h)" }
         ],
         parts: {
-            frontBumper: { 
-                name: '1. 前保險槓總成', 
-                clearcoat: { 0: ['74EQIZ', 1.20], 1: ['74EQMV', 2.10], 2: ['74EQMV', 2.10], 3: ['74EQOW', 2.10] },
-                pearl:     { 0: ['74EQJZ', 1.40], 1: ['74EQNV', 2.30], 2: ['74EQNV', 2.30], 3: ['74EQXW', 2.30] },
-                colorClear:{ 0: ['74EQKZ', 1.30], 1: ['74EQPV', 2.60], 2: ['74EQPV', 2.60], 3: ['74EQ5W', 2.00] },
-                opaque:    { 0: ['74EQHZ', 1.00], 1: ['74EQLV', 1.90], 2: ['74EQLV', 1.90], 3: ['74EQNW', 1.90] }
+            frontBumper: {
+                name: '208 (P21E) 1PP2303 - 前保險槓',
+                clearcoat: { 0: ['74EKVA', 1.10], 1: ['74E04A', 2.40], 2: ['74E04A', 2.40], 3: ['74E4MA', 2.30] },
+                pearl:     { 0: ['74ERIA', 1.30], 1: ['74ERRA', 2.60], 2: ['74ERRA', 2.60], 3: ['74ERZA', 2.50] },
+                opaque:    { 0: ['74E2LA', 0.90], 1: ['74EGXA', 2.20], 2: ['74EGXA', 2.20], 3: ['74EN4A', 2.10] }
             },
-            frontBumperUpper: { 
-                name: '1-1. 前保險槓上部', 
-                clearcoat: { 0: ['74EW2Z', 0.60], 1: ['74EW2V', 1.00], 2: ['74EW2V', 1.00], 3: ['74EW2W', 1.00] },
-                pearl:     { 0: ['74EW3Z', 0.80], 1: ['74EW3V', 1.20], 2: ['74EW3V', 1.20], 3: ['74EW3W', 1.20] },
-                colorClear:{ 0: ['74EW3Z', 0.80], 1: ['74EW3V', 1.20], 2: ['74EW3V', 1.20], 3: ['74EW3W', 1.20] },
-                opaque:    { 0: ['74EWIZ', 0.40], 1: ['74EWIV', 0.80], 2: ['74EWIV', 0.80], 3: ['74EW1W', 0.80] }
+            fender: {
+                name: '208 (P21E) 1PP2305 - 前翼子板',
+                clearcoat: { 0: ['78EDFA', 0.80], 1: ['78EBTA', 1.10], 2: ['78E9UA', 1.10], 3: ['78E8ZA', 1.00] },
+                pearl:     { 0: ['78EEOA', 1.00], 1: ['78EEUA', 1.30], 2: ['78EEQA', 1.30], 3: ['78EESA', 1.20] },
+                opaque:    { 0: ['78EAXA', 0.60], 1: ['78E5DA', 0.90], 2: ['78E23A', 0.90], 3: ['78ED5A', 0.80] }
             },
-            frontBumperSide: { 
-                name: '1-2. 前保險槓側面零件 (一側)', 
-                clearcoat: { 0: ['74F3SA', 0.60], 1: ['74F3TA', 0.90], 2: ['74F3TA', 0.90], 3: ['74F3UA', 0.90] },
-                pearl:     { 0: ['74F3VA', 0.80], 1: ['74F3WA', 1.10], 2: ['74F3WA', 1.10], 3: ['74F3XA', 1.10] },
-                colorClear:{ 0: ['74F3VA', 0.80], 1: ['74F3WA', 1.10], 2: ['74F3WA', 1.10], 3: ['74F3XA', 1.10] },
-                opaque:    { 0: ['74F30A', 0.40], 1: ['74F3RA', 0.70], 2: ['74F3RA', 0.70], 3: ['74F3QA', 0.70] }
+            hood: {
+                name: '208 (P21E) 1PP2306 - 引擎罩 (Hood)',
+                clearcoat: { 0: ['79E04A', 2.30], 1: ['79E01A', 3.00], 2: ['79E0CA', 2.70], 3: ['79E0VA', 2.10] },
+                pearl:     { 0: ['79E1KA', 2.50], 1: ['79E1QA', 3.20], 2: ['79EIMA', 2.90], 3: ['79E10A', 2.30] },
+                opaque:    { 0: ['79E00A', 2.10], 1: ['79E0JA', 2.80], 2: ['79E0FA', 2.50], 3: ['79E0XA', 1.90] }
             },
-            hood: { 
-                name: '2. 發動機罩 (Hood)', 
-                clearcoat: { 0: ['79E1GZ', 3.40], 1: ['79E1IU', 4.10], 2: ['79E1KV', 2.60], 3: ['79E1MW', 2.10] },
-                pearl:     { 0: ['79E1HZ', 3.60], 1: ['79E1NU', 4.30], 2: ['79E1XV', 2.80], 3: ['79E1YW', 2.30] },
-                colorClear:{ 0: ['79E1JZ', 2.50], 1: ['79E1CU', 2.60], 2: ['79E1DV', 2.60], 3: ['79E1EW', 2.00] },
-                opaque:    { 0: ['79E1FZ', 3.20], 1: ['79E1HU', 3.90], 2: ['79E1JV', 2.40], 3: ['79E1LW', 1.90] }
+            rearBumper: {
+                name: '208 (P21E) 1PP2321 - 後保險槓',
+                clearcoat: { 0: ['74EABA', 1.30], 1: ['74E2BA', 1.90], 2: ['74E2BA', 1.90], 3: ['74EC0A', 2.10] },
+                pearl:     { 0: ['74ERJA', 1.30], 1: ['74ERSA', 2.10], 2: ['74ERSA', 2.10], 3: ['74ES0A', 2.10] },
+                opaque:    { 0: ['74EN3A', 0.90], 1: ['74EG2A', 1.70], 2: ['74EG2A', 1.70], 3: ['74EIRA', 1.70] }
             },
-            fenderR: { 
-                name: '3. 前翼子板 / 葉子板 (單側)', 
-                clearcoat: { 0: ['78EELZ', 0.90], 1: ['78EENU', 1.50], 2: ['78EEQV', 1.10], 3: ['78EESW', 1.00] },
-                pearl:     { 0: ['78EEMZ', 1.10], 1: ['78EEPU', 1.70], 2: ['78EEXV', 1.30], 3: ['78EEYW', 1.20] },
-                colorClear:{ 0: ['78EENZ', 1.30], 1: ['78EERU', 2.00], 2: ['78EEDV', 2.00], 3: ['78EEEW', 1.60] },
-                opaque:    { 0: ['78EEKZ', 0.70], 1: ['78EEMU', 1.30], 2: ['78EEPV', 0.90], 3: ['78EERW', 0.80] }
+            rearFenderAssy: {
+                name: '208 (P21E) 1PP2324 - 後翼子板總成',
+                clearcoat: { 0: ['85F35A', 2.00], 1: ['85F35A', 2.00], 2: ['85F34A', 1.90], 3: ['85F38A', 1.60] },
+                pearl:     { 0: ['85F4YA', 2.20], 1: ['85F4YA', 2.20], 2: ['85F5HA', 2.10], 3: ['85F5PA', 1.80] },
+                opaque:    { 0: ['85F23A', 1.80], 1: ['85F23A', 1.80], 2: ['85F36A', 1.70], 3: ['85F37A', 1.40] }
             },
-            frontDoor: { 
-                name: '4. 前鉸接側門', 
-                clearcoat: { 0: ['90F02Z', 2.40], 1: ['90F04U', 3.50], 2: ['90F06V', 1.80], 3: ['90F08W', 1.60] },
-                pearl:     { 0: ['90F03Z', 2.60], 1: ['90F05U', 3.70], 2: ['90F0XV', 2.00], 3: ['90F09W', 1.80] },
-                colorClear:{ 0: ['90F04Z', 2.30], 1: ['90F06U', 3.10], 2: ['90F0DV', 2.90], 3: ['90F10W', 2.00] },
-                opaque:    { 0: ['90F01Z', 2.20], 1: ['90F03U', 3.30], 2: ['90F05V', 1.60], 3: ['90F07W', 1.40] }
+            rockerSill: {
+                name: '208 (P21E) 1PP2324 - 車身門檻外側梁',
+                clearcoat: { 0: ['85F30A', 2.10], 1: ['85F30A', 2.10], 2: ['85F63A', 1.90], 3: ['85F5NA', 1.50] },
+                pearl:     { 0: ['85F52A', 2.30], 1: ['85F52A', 2.30], 2: ['85F5GA', 2.10], 3: ['85F50A', 1.70] },
+                opaque:    { 0: ['85E2JA', 1.90], 1: ['85E2JA', 1.90], 2: ['85F62A', 1.70], 3: ['85F5MA', 1.30] }
             },
-            rearDoor: { 
-                name: '5. 後鉸接側門', 
-                clearcoat: { 0: ['90EUKZ', 2.30], 1: ['90EUMU', 3.30], 2: ['90EUPV', 1.80], 3: ['90EURW', 1.50] },
-                pearl:     { 0: ['90EULZ', 2.50], 1: ['90EUPU', 3.50], 2: ['90EUXV', 2.00], 3: ['90EUYW', 1.70] },
-                colorClear:{ 0: ['90EUMZ', 1.70], 1: ['90EURU', 2.30], 2: ['90EUDV', 2.50], 3: ['90EUEW', 1.90] },
-                opaque:    { 0: ['90EUJZ', 2.10], 1: ['90EULU', 2.30], 2: ['90EUNV', 1.60], 3: ['90EUQW', 1.30] }
+            tailgate: {
+                name: '208 (P21E) 1PP2327 - 尾門 (Tailgate)',
+                clearcoat: { 0: ['74EH9A', 1.40], 1: ['74EDZA', 2.30], 2: ['74EJ6A', 2.10], 3: ['74EDPA', 1.80] },
+                pearl:     { 0: ['74ERGA', 1.60], 1: ['74ES8A', 2.50], 2: ['74ERVA', 2.30], 3: ['74ESIA', 2.00] },
+                opaque:    { 0: ['74E09A', 1.20], 1: ['74EKKA', 2.10], 2: ['74E3FA', 1.90], 3: ['74E2DA', 1.60] }
             },
-            roof: { 
-                name: '6. 車頂板 (全區)', 
-                clearcoat: { 0: ['83EGDU', 4.70], 1: ['83EGDU', 4.70], 2: ['83EGFV', 4.00], 3: ['83EGHW', 2.70] },
-                pearl:     { 0: ['83EGCU', 4.90], 1: ['83EGCU', 4.90], 2: ['83EGXV', 4.20], 3: ['83EGYW', 2.90] },
-                colorClear:{ 0: ['83EGWA', 4.90], 1: ['83EGWA', 4.90], 2: ['83EGDV', 4.30], 3: ['83EGEW', 2.80] },
-                opaque:    { 0: ['83EGBU', 4.50], 1: ['83EGBU', 4.50], 2: ['83EGEV', 3.80], 3: ['83EGGW', 2.50] }
+            pillarA: {
+                name: '208 (P21E) 1PP2341 - 前門立柱 (A柱)',
+                clearcoat: { 0: ['85F3ZA', 1.30], 1: ['85F3ZA', 1.30], 2: ['85F3ZA', 1.30], 3: ['85F3ZA', 1.30] },
+                pearl:     { 0: ['85F53A', 1.50], 1: ['85F53A', 1.50], 2: ['85F53A', 1.50], 3: ['85F53A', 1.50] },
+                opaque:    { 0: ['85ERWA', 1.10], 1: ['85ERWA', 1.10], 2: ['85ERWA', 1.10], 3: ['85ERWA', 1.10] }
             },
-            roofRear: { 
-                name: '6-1. 車頂後部 (局部)', 
-                clearcoat: { 0: ['83EGJU', 2.50], 1: ['83EGJU', 2.50], 2: ['83EGLV', 2.10], 3: ['83EGNW', 1.60] },
-                pearl:     { 0: ['83EGKU', 2.70], 1: ['83EGKU', 2.70], 2: ['83EGRV', 2.30], 3: ['83EG1W', 1.80] },
-                colorClear:{ 0: ['83EGLU', 4.20], 1: ['83EGLU', 4.20], 2: ['83EGYV', 3.10], 3: ['83EG2W', 2.50] },
-                opaque:    { 0: ['83EGIU', 2.30], 1: ['83EGIU', 2.30], 2: ['83EGKV', 1.90], 3: ['83EGMW', 1.40] }
+            pillarB: {
+                name: '208 (P21E) 1PP2343 - 中立柱 (B柱)',
+                clearcoat: { 0: ['85F8SA', 1.70], 1: ['85F8SA', 1.70], 2: ['85F8SA', 1.70], 3: ['85F8SA', 1.70] },
+                pearl:     { 0: ['85F8TA', 1.90], 1: ['85F8TA', 1.90], 2: ['85F8TA', 1.90], 3: ['85F8TA', 1.90] },
+                opaque:    { 0: ['85F8RA', 1.50], 1: ['85F8RA', 1.50], 2: ['85F8RA', 1.50], 3: ['85F8RA', 1.50] }
             },
-            sidePanelR: { 
-                name: '7. 側板側門框 (右側)', 
-                clearcoat: { 0: ['85F4RU', 4.10], 1: ['85F4RU', 4.10], 2: ['85F4RU', 4.10], 3: ['85F4RU', 4.10] },
-                pearl:     { 0: ['85F4SU', 4.30], 1: ['85F4SU', 4.30], 2: ['85F4SU', 4.30], 3: ['85F4SU', 4.30] },
-                colorClear:{ 0: ['85F4TU', 5.90], 1: ['85F4TU', 5.90], 2: ['85F4TU', 5.90], 3: ['85F4TU', 5.90] },
-                opaque:    { 0: ['85F4QU', 3.90], 1: ['85F4QU', 3.90], 2: ['85F4QU', 3.90], 3: ['85F4QU', 3.90] }
+            sidePanel: {
+                name: '208 (P21E) 1PP2344 - 側板側門框',
+                clearcoat: { 0: ['85F4SA', 4.20], 1: ['85F4SA', 4.20], 2: ['85F4SA', 4.20], 3: ['85F4SA', 4.20] },
+                pearl:     { 0: ['85F4UA', 4.40], 1: ['85F4UA', 4.40], 2: ['85F4UA', 4.40], 3: ['85F4UA', 4.40] },
+                opaque:    { 0: ['85F4QA', 4.00], 1: ['85F4QA', 4.00], 2: ['85F4QA', 4.00], 3: ['85F4QA', 4.00] }
             },
-            sidePanelL: { 
-                name: '7-1. 側板側門框 (左側)', 
-                clearcoat: { 0: ['85F5RU', 4.10], 1: ['85F5RU', 4.10], 2: ['85F5RU', 4.10], 3: ['85F5RU', 4.10] },
-                pearl:     { 0: ['85F5SU', 4.30], 1: ['85F5SU', 4.30], 2: ['85F5SU', 4.30], 3: ['85F5SU', 4.30] },
-                colorClear:{ 0: ['85F5TU', 5.90], 1: ['85F5TU', 5.90], 2: ['85F5TU', 5.90], 3: ['85F5TU', 5.90] },
-                opaque:    { 0: ['85F5QU', 3.90], 1: ['85F5QU', 3.90], 2: ['85F5QU', 3.90], 3: ['85F5QU', 3.90] }
+            frontDoor: {
+                name: '208 (P21E) 1PP2350 - 前鉸接側門',
+                clearcoat: { 0: ['90E26A', 1.50], 1: ['90EAPA', 2.10], 2: ['90EEIA', 1.90], 3: ['90E96A', 1.60] },
+                pearl:     { 0: ['90EVQA', 1.70], 1: ['90EWJA', 2.30], 2: ['90EW2A', 2.10], 3: ['90EWBA', 1.80] },
+                opaque:    { 0: ['90EMIA', 1.30], 1: ['90ECAA', 1.90], 2: ['90EITA', 1.70], 3: ['90EQHA', 1.40] }
             },
-            rearFenderPartR: { 
-                name: '8. 後翼子板 (右側部分)', 
-                clearcoat: { 0: ['85F3YU', 2.50], 1: ['85F3YU', 2.50], 2: ['85F40V', 1.30], 3: ['85F42W', 1.10] },
-                pearl:     { 0: ['85SD3U', 2.70], 1: ['85SD3U', 2.70], 2: ['85FD9A', 1.50], 3: ['85F4NW', 1.30] },
-                colorClear:{ 0: ['85SD3U', 2.70], 1: ['85SD3U', 2.70], 2: ['85FD9A', 1.50], 3: ['85F4NW', 1.30] },
-                opaque:    { 0: ['85F3XU', 2.30], 1: ['85F3XU', 2.30], 2: ['85F3ZV', 1.10], 3: ['85F41W', 0.90] }
+            rearDoor: {
+                name: '208 (P21E) 1PP2360 - 後鉸接側門',
+                clearcoat: { 0: ['90EKEA', 1.30], 1: ['90EG9A', 1.70], 2: ['90ETRA', 1.60], 3: ['90EPWA', 1.40] },
+                pearl:     { 0: ['90EVUA', 1.50], 1: ['90EWKA', 1.90], 2: ['90EW3A', 1.80], 3: ['90EWCA', 1.60] },
+                opaque:    { 0: ['90E27A', 1.10], 1: ['90EE0A', 1.50], 2: ['90E50A', 1.40], 3: ['90EC0A', 1.20] }
             },
-            rearFenderPartL: { 
-                name: '8-1. 後翼子板 (左側部分)', 
-                clearcoat: { 0: ['85F44U', 2.50], 1: ['85F44U', 2.50], 2: ['85F46V', 1.30], 3: ['85F48W', 1.10] },
-                pearl:     { 0: ['85SG3U', 2.70], 1: ['85SG3U', 2.70], 2: ['85FDAA', 1.50], 3: ['85F57W', 1.30] },
-                colorClear:{ 0: ['85SG3U', 2.70], 1: ['85SG3U', 2.70], 2: ['85FDAA', 1.50], 3: ['85F57W', 1.30] },
-                opaque:    { 0: ['85F43U', 2.30], 1: ['85F43U', 2.30], 2: ['85F45V', 1.10], 3: ['85F47W', 0.90] }
-            },
-            rearFenderAssyR: { 
-                name: '8-2. 後翼子板總成 (右側全區)', 
-                clearcoat: { 0: ['85F4CU', 2.80], 1: ['85F4CU', 2.80], 2: ['85F4BV', 1.60], 3: ['85F4BW', 1.30] },
-                pearl:     { 0: ['85FD3U', 3.00], 1: ['85FD3U', 3.00], 2: ['85F4CV', 1.80], 3: ['85F5CW', 1.50] },
-                colorClear:{ 0: ['85FD3U', 3.00], 1: ['85FD3U', 3.00], 2: ['85F4CV', 1.80], 3: ['85F5CW', 1.50] },
-                opaque:    { 0: ['85F4AU', 2.60], 1: ['85F4AU', 2.60], 2: ['85F4AV', 1.40], 3: ['85F5AW', 1.10] }
-            },
-            sideSillR: { 
-                name: '8-3. 車身門檻外側梁 (右側)', 
-                clearcoat: { 0: ['85F40U', 2.40], 1: ['85F40U', 2.40], 2: ['85F42V', 2.20], 3: ['85F44W', 1.70] },
-                pearl:     { 0: ['85LE3U', 2.60], 1: ['85LE3U', 2.60], 2: ['85F4XV', 2.40], 3: ['85F45W', 1.90] },
-                colorClear:{ 0: ['85LE4U', 4.00], 1: ['85LE4U', 4.00], 2: ['85F4YV', 2.50], 3: ['85F46W', 1.90] },
-                opaque:    { 0: ['85F3ZU', 2.20], 1: ['85F3ZU', 2.20], 2: ['85F41V', 2.00], 3: ['85F43W', 1.50] }
-            },
-            tailgate: { 
-                name: '9. 尾門玻璃裝飾件', 
-                clearcoat: { 0: ['74EQAZ', 2.10], 1: ['74EQCU', 3.20], 2: ['74EQEV', 2.60], 3: ['74EQGW', 2.40] },
-                pearl:     { 0: ['74EQBZ', 2.30], 1: ['74EQFU', 3.40], 2: ['74EQFV', 2.80], 3: ['74EQYW', 2.60] },
-                colorClear:{ 0: ['74EQAZ', 2.10], 1: ['74EQCU', 3.20], 2: ['74EQEV', 2.60], 3: ['74EQGW', 2.40] },
-                opaque:    { 0: ['74EQ9Z', 1.90], 1: ['74EQBU', 3.00], 2: ['74EQDV', 2.40], 3: ['74EQFW', 2.20] }
-            },
-            rearBumper1Side: { 
-                name: '10. 後保險槓護板 (1側)', 
-                clearcoat: { 0: ['74EP4Z', 0.60], 1: ['74EP6Z', 0.90], 2: ['74EP6Z', 0.90], 3: ['74EP7Z', 0.90] },
-                pearl:     { 0: ['74EP8Z', 0.80], 1: ['74EPXZ', 1.10], 2: ['74EPXZ', 1.10], 3: ['74EPYZ', 1.10] },
-                colorClear:{ 0: ['74EP8Z', 0.80], 1: ['74EPXZ', 1.10], 2: ['74EPXZ', 1.10], 3: ['74EPYZ', 1.10] },
-                opaque:    { 0: ['74EPOZ', 0.40], 1: ['74EP2Z', 0.70], 2: ['74EP2Z', 0.70], 3: ['74EP3Z', 0.70] }
-            },
-            rearBumper2Sides: { 
-                name: '10-1. 後保險槓護板 (2側)', 
-                clearcoat: { 0: ['74ES4Z', 0.80], 1: ['74ES6Z', 1.30], 2: ['74ES6Z', 1.30], 3: ['74ES7Z', 1.30] },
-                pearl:     { 0: ['74ES8Z', 1.00], 1: ['74ESXZ', 1.50], 2: ['74ESXZ', 1.50], 3: ['74ESYZ', 1.50] },
-                colorClear:{ 0: ['74ES8Z', 1.00], 1: ['74ESXZ', 1.50], 2: ['74ESXZ', 1.50], 3: ['74ESYZ', 1.50] },
-                opaque:    { 0: ['74ESOZ', 0.60], 1: ['74ES2Z', 1.10], 2: ['74ES2Z', 1.10], 3: ['74ES3Z', 1.10] }
+            roof: {
+                name: '208 (P21E) 1PP2371 - 車頂板 (車輛上)',
+                clearcoat: { 0: ['83EEUA', 4.10], 1: ['83EEUA', 4.10], 2: ['83EBIA', 3.70], 3: ['83E5MA', 2.40] },
+                pearl:     { 0: ['83EGXA', 4.30], 1: ['83EGXA', 4.30], 2: ['83EH1A', 3.90], 3: ['83EH5A', 2.60] },
+                opaque:    { 0: ['83EBZA', 3.90], 1: ['83EBZA', 3.90], 2: ['83E00A', 3.50], 3: ['83EAPA', 2.20] }
             }
         }
     },
 
-    // 2. Peugeot 3008 (P64) 完整資料庫
+    // Peugeot 3008 (P64)
     "3008_P64": {
         name: "Peugeot 3008 (P64)",
         colors: [
-            { id: "obsession_blue_metal", name: "深藍色油漆 / 噴塗金屬漆 (Obsession Blue)", type: "clearcoat", prepCode: "70E01U", prepHours: 1.00, desc: "雙層金屬漆 (代碼 70E01U / +1.00h)" },
-            { id: "black_pearl_roof",    name: "黑珍珠車頂 / 特殊雙色 (Black Pearl)",     type: "pearl",     prepCode: "70E03Z", prepHours: 1.30, desc: "三層珠光漆/黑珍珠 (代碼 70E03Z / +1.30h)" },
-            { id: "standard_white",      name: "雪白色 / 單層素色漆 (Standard White)",    type: "opaque",    prepCode: "70E00V", prepHours: 0.70, desc: "單層素色漆 (代碼 70E00V / +0.70h)" }
+            { id: "obsession_blue_3", name: "魅惑藍 / 雙層金屬漆 (Obsession Blue)", type: "clearcoat", prepCode: "70E01U", prepHours: 1.00, desc: "雙層金屬漆 (代碼 70E01U / +1.00h)" },
+            { id: "black_pearl_roof", name: "黑珍珠車頂 / 三層珠光漆 (Black Pearl)", type: "pearl",     prepCode: "70E03Z", prepHours: 1.30, desc: "三層珠光漆 (代碼 70E03Z / +1.30h)" },
+            { id: "standard_white",   name: "雪白色 / 單層素色漆 (Standard White)",  type: "opaque",    prepCode: "70E00V", prepHours: 0.70, desc: "單層素色漆 (代碼 70E00V / +0.70h)" }
         ],
         parts: {
             frontBumper: {
@@ -315,102 +267,42 @@ const vehicleRegistry = {
                 pearl:     { 0: ['74EQJZ', 1.30], 1: ['74EQNV', 2.30], 2: ['74EQNV', 2.30], 3: ['74EQXW', 2.20] },
                 opaque:    { 0: ['74EQHZ', 0.90], 1: ['74EQLV', 1.90], 2: ['74EQLV', 1.90], 3: ['74EQNW', 1.80] }
             },
-            frontBumperUpper: {
-                name: '1PPD303 - 前保險槓上部',
-                clearcoat: { 0: ['74EW2Z', 0.50], 1: ['74EW2V', 0.70], 2: ['74EW2V', 0.70], 3: ['74EW2W', 0.70] },
-                pearl:     { 0: ['74EW3Z', 0.70], 1: ['74EW3V', 0.90], 2: ['74EW3V', 0.90], 3: ['74EW3W', 0.90] },
-                opaque:    { 0: ['74EWIZ', 0.30], 1: ['74EWIV', 0.50], 2: ['74EWIV', 0.50], 3: ['74EW1W', 0.50] }
-            },
             hood: { 
                 name: '1PPD306 - 引擎罩 (Hood)', 
                 clearcoat: { 0: ['79E1GZ', 3.40], 1: ['79EHU', 2.80], 2: ['79E1KV', 2.50], 3: ['79E1MW', 2.00] },
                 pearl:     { 0: ['79E1HZ', 3.60], 1: ['79EINU', 3.00], 2: ['79E1XV', 2.70], 3: ['79E1YW', 2.20] },
                 opaque:    { 0: ['79E1FZ', 3.20], 1: ['79E1HU', 2.60], 2: ['79E1JV', 2.30], 3: ['79E1LW', 1.80] }
-            },
-            fender: { 
-                name: '1PPD305 - 前翼子板', 
-                clearcoat: { 0: ['78EELZ', 1.00], 1: ['78EENU', 1.00], 2: ['78EEQV', 1.00], 3: ['78EESW', 0.90] },
-                pearl:     { 0: ['78EEMZ', 1.00], 1: ['78EEPU', 1.20], 2: ['78EEXV', 1.20], 3: ['78EEYW', 1.10] },
-                opaque:    { 0: ['78EEKZ', 0.60], 1: ['78EEMU', 0.80], 2: ['78EEPV', 0.80], 3: ['78EERW', 0.70] }
-            },
-            frontDoor: { 
-                name: '1PPD350 - 前鉸接側門', 
-                clearcoat: { 0: ['90F02Z', 2.20], 1: ['90F04U', 2.90], 2: ['90F06V', 1.50], 3: ['90F08W', 1.30] },
-                pearl:     { 0: ['90F03Z', 2.40], 1: ['90F05U', 3.10], 2: ['90F0XV', 1.70], 3: ['90F09W', 1.50] },
-                opaque:    { 0: ['90F01Z', 2.00], 1: ['90F03U', 2.70], 2: ['90F05V', 1.30], 3: ['90F07W', 1.10] }
-            },
-            rearDoor: { 
-                name: '1PPD360 - 後鉸接側門', 
-                clearcoat: { 0: ['90EUKZ', 2.20], 1: ['90EUMU', 2.90], 2: ['90EUPV', 1.40], 3: ['90EURW', 1.20] },
-                pearl:     { 0: ['90EULZ', 2.40], 1: ['90EUPU', 3.10], 2: ['90EUXV', 1.60], 3: ['90EUYW', 1.40] },
-                opaque:    { 0: ['90EUJZ', 2.00], 1: ['90EULU', 2.70], 2: ['90EUNV', 1.20], 3: ['90EUQW', 1.00] }
-            },
-            roof: { 
-                name: '1PPD371 - 車頂板 (無天窗)', 
-                clearcoat: { 0: ['83EGDU', 3.70], 1: ['83EGDU', 3.70], 2: ['83EGFV', 2.90], 3: ['83EGHW', 1.90] },
-                pearl:     { 0: ['83EGCU', 3.90], 1: ['83EGCU', 3.90], 2: ['83EGXV', 3.10], 3: ['83EGYW', 2.10] },
-                opaque:    { 0: ['83EGBU', 3.50], 1: ['83EGBU', 3.50], 2: ['83EGEV', 2.70], 3: ['83EGGW', 1.70] }
-            },
-            roofSunroof: { 
-                name: '1PPD371 - 車頂板 (帶天窗)', 
-                clearcoat: { 0: ['83EIPA', 2.90], 1: ['83EIPA', 2.90], 2: ['83EISA', 2.20], 3: ['83EIVA', 1.70] },
-                pearl:     { 0: ['83EIQA', 3.10], 1: ['83EIQA', 3.10], 2: ['83EITA', 2.40], 3: ['83EIWA', 1.90] },
-                opaque:    { 0: ['83EIOA', 2.70], 1: ['83EIOA', 2.70], 2: ['83EIRA', 2.00], 3: ['83EIUA', 1.50] }
-            },
-            sidePanel: { 
-                name: '1PPD344 - 側板側門框 (單側)', 
-                clearcoat: { 0: ['85F4RU', 3.80], 1: ['85F4RU', 3.80], 2: ['85F4RU', 3.80], 3: ['85F4RU', 3.80] },
-                pearl:     { 0: ['85F4SU', 4.00], 1: ['85F4SU', 4.00], 2: ['85F4SU', 4.00], 3: ['85F4SU', 4.00] },
-                opaque:    { 0: ['85F4QU', 3.60], 1: ['85F4QU', 3.60], 2: ['85F4QU', 3.60], 3: ['85F4QU', 3.60] }
-            },
-            pillarA: {
-                name: '1PPD341 - 前門立柱 (A柱)',
-                clearcoat: { 0: ['85F50U', 1.10], 1: ['85F50U', 1.10], 2: ['85F50U', 1.10], 3: ['85F50U', 1.10] },
-                pearl:     { 0: ['85F53U', 1.30], 1: ['85F53U', 1.30], 2: ['85F53U', 1.30], 3: ['85F53U', 1.30] },
-                opaque:    { 0: ['85F49U', 0.90], 1: ['85F49U', 0.90], 2: ['85F49U', 0.90], 3: ['85F49U', 0.90] }
-            },
-            pillarB: {
-                name: '1PPD343 - 中立柱 (B柱)',
-                clearcoat: { 0: ['85F36U', 1.50], 1: ['85F36U', 1.50], 2: ['85F36U', 1.50], 3: ['85F36U', 1.50] },
-                pearl:     { 0: ['85F37U', 1.70], 1: ['85F37U', 1.70], 2: ['85F37U', 1.70], 3: ['85F37U', 1.70] },
-                opaque:    { 0: ['85F35U', 1.30], 1: ['85F35U', 1.30], 2: ['85F35U', 1.30], 3: ['85F35U', 1.30] }
-            },
-            rearFenderAssy: {
-                name: '1PPD324 - 後翼子板總成',
-                clearcoat: { 0: ['85F4CU', 3.00], 1: ['85F4CU', 3.00], 2: ['85F4BV', 1.00], 3: ['85F4BW', 0.90] },
-                pearl:     { 0: ['85FD3U', 3.20], 1: ['85FD3U', 3.20], 2: ['85F4CV', 1.20], 3: ['85F5CW', 1.10] },
-                opaque:    { 0: ['85F4AU', 2.80], 1: ['85F4AU', 2.80], 2: ['85F4AV', 0.80], 3: ['85F5AW', 0.70] }
-            },
-            rockerSill: {
-                name: '1PPD324 - 車身門檻外側梁',
-                clearcoat: { 0: ['85F40U', 1.60], 1: ['85F40U', 1.60], 2: ['85F42V', 1.50], 3: ['85F44W', 1.20] },
-                pearl:     { 0: ['85LE3U', 1.80], 1: ['85LE3U', 1.80], 2: ['85F4XV', 1.70], 3: ['85F45W', 1.40] },
-                opaque:    { 0: ['85F3ZU', 1.40], 1: ['85F3ZU', 1.40], 2: ['85F41V', 1.30], 3: ['85F43W', 1.00] }
-            },
-            tailgate: { 
-                name: '1PPD327 - 尾門 (Tailgate)', 
-                clearcoat: { 0: ['74EQAZ', 1.40], 1: ['74EQCU', 2.20], 2: ['74EQEV', 2.10], 3: ['74EQGW', 1.80] },
-                pearl:     { 0: ['74EQBZ', 1.60], 1: ['74EQFU', 2.40], 2: ['74EQFV', 2.30], 3: ['74EQYW', 2.00] },
-                opaque:    { 0: ['74EQ9Z', 1.20], 1: ['74EQBU', 2.00], 2: ['74EQDV', 1.90], 3: ['74EQFW', 1.60] }
-            },
-            rearBumperSkirt: {
-                name: '1PPD321 - 後保險槓裙板',
-                clearcoat: { 0: ['74E15Z', 1.20], 1: ['74E15V', 2.10], 2: ['74E15V', 2.10], 3: ['74E15W', 2.00] },
-                pearl:     { 0: ['74E16Z', 1.40], 1: ['74E16V', 2.30], 2: ['74E16V', 2.30], 3: ['74E16W', 2.20] },
-                opaque:    { 0: ['74E14Z', 1.00], 1: ['74E14V', 1.90], 2: ['74E14V', 1.90], 3: ['74E14W', 1.80] }
+            }
+        }
+    },
+
+    // 東風標緻 408X (P54C)
+    "408X_P54C": {
+        name: "東風標緻 408X (P54C)",
+        colors: [
+            { id: "obsession_blue", name: "深藍色油漆 (Obsession Blue)", type: "clearcoat", prepCode: "70E01U", prepHours: 1.00, desc: "雙層金屬漆 (代碼 70E01U / +1.00h)" },
+            { id: "pearl_white",    name: "珍珠白 (Pearl White)",          type: "pearl",     prepCode: "70E03Z", prepHours: 1.30, desc: "三層珠光/亮漆 (代碼 70E03Z / +1.30h)" },
+            { id: "elixir_red",     name: "炫彩紅 / 特效漆 (Elixir Red)",  type: "colorClear",prepCode: "70E04W", prepHours: 1.60, desc: "四層彩色清漆 (代碼 70E04W / +1.60h)" }
+        ],
+        parts: {
+            hood: { 
+                name: '發動機罩 (Hood)', 
+                clearcoat: { 0: ['79E1GZ', 3.40], 1: ['79E1IU', 4.10], 2: ['79E1KV', 2.60], 3: ['79E1MW', 2.10] },
+                pearl:     { 0: ['79E1HZ', 3.60], 1: ['79E1NU', 4.30], 2: ['79E1XV', 2.80], 3: ['79E1YW', 2.30] },
+                colorClear:{ 0: ['79E1JZ', 2.50], 1: ['79E1CU', 2.60], 2: ['79E1DV', 2.60], 3: ['79E1EW', 2.00] }
             }
         }
     }
 };
 
 /* ========================================================
-   核心控制邏輯
+   核心控制邏輯 (保持原樣不變)
    ======================================================== */
 let selectedParts = [];
 
 function getCurrentModelData() {
     const key = document.getElementById('modelSelect').value;
-    return vehicleRegistry[key] || vehicleRegistry["408X_P54C"];
+    return vehicleRegistry[key] || vehicleRegistry["208_P21E"];
 }
 
 function getCurrentColorObj() {
@@ -555,7 +447,7 @@ function calculate() {
     document.getElementById('resCodeTags').innerHTML = codeTags.map(c => `<div class="tag-item">${c}</div>`).join('');
 }
 
-// 初次啟動
+// 初次載入
 onModelChange();
 </script>
 </body>
