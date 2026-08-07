@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peugeot 3008 (P64) 漆面塗料請款試算系統</title>
+<style>
+    :root {
+        --slate-900: #0f172a;
+        --slate-800: #1e293b;
+        --slate-700: #334155;
+        --slate-100: #f1f5f9;
+        --blue-600: #2563eb;
+        --blue-700: #1d4ed8;
+        --blue-50: #eff6ff;
+        --green-600: #16a34a;
+        --red-600: #dc2626;
+        --border: #cbd5e1;
+    }
+
+    * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
+    body { background-color: #f8fafc; color: var(--slate-900); margin: 0; padding: 20px; font-size: 14px; line-height: 1.5; }
+    .container { max-width: 1000px; margin: 0 auto; }
+
+    .header-panel {
+        background: var(--slate-900);
+        color: white;
+        padding: 24px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        border-bottom: 4px solid var(--blue-600);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .header-panel h1 { margin: 0; font-size: 22px; font-weight: 700; }
+    .header-panel p { margin: 4px 0 0 0; color: #94a3b8; font-size: 13px; }
+
+    .card { background: white; border-radius: 8px; border: 1px solid var(--border); padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    .card-title { font-size: 15px; font-weight: 700; color: var(--slate-900); border-left: 4px solid var(--blue-600); padding-left: 10px; margin-bottom: 16px; }
+
+    .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    label { font-weight: 600; font-size: 13px; color: var(--slate-700); display: block; margin-bottom: 6px; }
+    select, input { width: 100%; padding: 9px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 13.5px; background-color: #fff; color: var(--slate-900); }
+    select:focus, input:focus { outline: none; border-color: var(--blue-600); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { padding: 10px 12px; border-bottom: 1px solid #e2e8f0; text-align: left; }
+    th { background: var(--slate-100); color: var(--slate-700); font-size: 12.5px; font-weight: 600; }
+
+    .code-badge { background: #e2e8f0; color: var(--slate-900); padding: 3px 8px; border-radius: 4px; font-family: monospace; font-size: 12px; font-weight: 600; }
+    .btn { background: var(--blue-600); color: white; border: none; padding: 9px 18px; border-radius: 6px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
+    .btn:hover { background: var(--blue-700); }
+    .btn-secondary { background: #059669; }
+    .btn-secondary:hover { background: #047857; }
+    .btn-danger { background: var(--red-600); padding: 5px 10px; font-size: 12px; }
+
+    .result-card { background: var(--blue-50); border: 1px solid #bfdbfe; border-radius: 10px; padding: 24px; margin-top: 20px; }
+    .result-title { font-size: 16px; font-weight: 700; color: #1e40af; margin-bottom: 16px; }
+    .stat-val { font-size: 24px; font-weight: 700; color: var(--blue-700); }
+    .stat-label { font-size: 12px; color: var(--slate-700); font-weight: 600; text-transform: uppercase; }
+
+    .tag-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .tag-item { background: #dbeafe; color: #1e40af; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; border: 1px solid #bfdbfe; }
+    .note-box { background: #fffbe0; border-left: 4px solid #f59e0b; padding: 10px 14px; font-size: 12.5px; color: #92400e; border-radius: 0 6px 6px 0; margin-top: 12px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-panel">
+        <div>
+            <h1>Peugeot 3008 (P64) 漆面塗料請款試算系統</h1>
+            <p>標準規範：Servicebox 官方規範與 P64 原廠漆面工時數據庫</p>
+        </div>
+    </div>
+
+    <!-- 車型、色號與漆種設定 -->
+    <div class="card">
+        <div class="card-title">一、 車輛型號、車身色號與漆面單價設定</div>
+        <div class="grid-4">
+            <div>
+                <label>1. 車輛型號</label>
+                <input type="text" value="Peugeot 3008 (P64)" disabled style="background:#f1f5f9; font-weight:600;">
+            </div>
+            <div>
+                <label>2. 車身色號 (銘牌比對)</label>
+                <select id="colorSelect" onchange="onColorChange()"></select>
+            </div>
+            <div>
+                <label>3. 漆面屬性 (Servicebox 規則)</label>
+                <select id="coatType" onchange="calculate()">
+                    <option value="1.00|70E01U" selected>金屬漆 / 清漆 (兩層) (+1.00h) [70E01U]</option>
+                    <option value="0.70|70E00V">不透明漆 / 素色漆 (單層) (+0.70h) [70E00V]</option>
+                    <option value="1.30|70E03Z">三層金屬 / 珠光漆 (+1.30h) [70E03Z]</option>
+                    <option value="1.60|70E04W">特殊彩色清漆 (+1.60h) [70E04W]</option>
+                </select>
+            </div>
+            <div>
+                <label>4. 廠內單價設定 (NT$)</label>
+                <div style="display:flex; gap:8px;">
+                    <input type="number" id="laborRate" value="900" placeholder="漆工費/h" oninput="calculate()">
+                    <input type="number" id="materialRate" value="900" placeholder="耗材費/h" oninput="calculate()">
+                </div>
+            </div>
+        </div>
+        <div class="note-box" id="colorNote">
+            📌 銘牌色號對應提示：選取色號後系統將自動匹配對應的固定塗裝時間與請款代碼。
+        </div>
+    </div>
+
+    <!-- 噴漆部位選擇 -->
+    <div class="card">
+        <div class="card-title">二、 選擇噴漆鈑件與受損修復等級</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>施工鈑件部位 (3008 P64 原廠 Servicebox 區域)</th>
+                    <th>受損修復等級</th>
+                    <th>標準代碼</th>
+                    <th>基礎工時 (FRT)</th>
+                    <th>相鄰件屬性</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="partsList"></tbody>
+        </table>
+        <button class="btn" style="margin-top: 12px;" onclick="addPartRow()">+ 新增噴漆鈑件</button>
+    </div>
+
+    <!-- 試算結果 -->
+    <div class="result-card">
+        <div class="result-title">📊 漆面請款明細總計</div>
+        <div class="grid-3" style="margin-bottom: 20px;">
+            <div>
+                <div class="stat-label">折減後噴漆工時</div>
+                <div class="stat-val" id="resPaintHours">0.00 <span style="font-size:14px; font-weight:400;">hrs</span></div>
+                <div id="resDiscountNotice" style="font-size:12px; color:var(--green-600); font-weight:600;"></div>
+            </div>
+            <div>
+                <div class="stat-label">漆面固定準備時間</div>
+                <div class="stat-val" id="resFixedHours" style="color:#475569;">1.00 <span style="font-size:14px; font-weight:400;">hrs</span></div>
+            </div>
+            <div>
+                <div class="stat-label">總計報銷工時</div>
+                <div class="stat-val" id="resTotalHours" style="color:#0284c7;">0.00 <span style="font-size:14px; font-weight:400;">hrs</span></div>
+            </div>
+        </div>
+
+        <hr style="border:0; border-top:1px solid #bfdbfe; margin:16px 0;">
+
+        <div class="grid-2" style="align-items: flex-end;">
+            <div>
+                <div class="stat-label" style="font-size:14px; color:var(--slate-900);">預估請款總金額 (含工資與耗材)</div>
+                <div class="stat-val" id="resTotalMoney" style="font-size:32px;">NT$ 0</div>
+                <div id="resFeeDetail" style="font-size:12.5px; color:var(--slate-700); margin-top:4px;">
+                    漆工費：NT$ 0 | 漆料耗材：NT$ 0
+                </div>
+            </div>
+            <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                    <div class="stat-label">請款代碼組合 (提供保險審核)</div>
+                    <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 12px;" onclick="copyClaimDetails()">📋 複製請款文字</button>
+                </div>
+                <div id="resCodeTags" class="tag-container"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Peugeot 3008 (P64) 專屬數據庫
+const p64Data = {
+    colors: {
+        "EDP": { name: "EDP / EDPC - 深藍色 (金屬漆)", coatType: "1.00|70E01U", note: "✓ 已匹配 EDP/EDPC 銘牌色號：深藍色金屬漆 [70E01U / +1.00 小時]" },
+        "custom": { name: "手動指定 / 其他漆種", coatType: "", note: "📌 請由右方下拉選單手動選擇正確的漆面屬性。" }
+    },
+    parts: {
+        hood: { name: '引擎罩 (1PPD306 7 74)', codes: { 0: ['79E1GZ', 3.40], 1: ['79E1HU', 2.80], 2: ['79E1KV', 2.50], 3: ['79E1MW', 2.00] } },
+        fenderF: { name: '前翼子板 (1PPD305 7 71)', codes: { 0: ['78EELZ', 1.00], 1: ['78EENU', 1.00], 2: ['78EEQV', 1.00], 3: ['78EESW', 0.90] } },
+        bumperF: { name: '前保險槓 (1PPD303 6 65)', codes: { 0: ['74EQIZ', 1.10], 1: ['74EQPV', 2.50], 2: ['74EQMV', 2.10], 3: ['74EQOW', 2.00] } },
+        doorF: { name: '前鉸接側門 (1PPD350 7 74)', codes: { 0: ['90F02Z', 2.20], 1: ['90F04U', 2.90], 2: ['90F06V', 1.50], 3: ['90F08W', 1.30] } },
+        doorR: { name: '後鉸接側門 (1PPD360 7 74)', codes: { 0: ['90EUKZ', 2.20], 1: ['90EUMU', 2.90], 2: ['90EUPV', 1.40], 3: ['90EURW', 1.20] } },
+        pillarF: { name: '前門立柱與側板 (1PPD341 8 85)', codes: { 0: ['85E84A', 1.30], 1: ['85F50U', 1.10], 2: ['85F50U', 1.10], 3: ['85F53U', 1.30] } },
+        pillarM: { name: '中立柱 (1PPD343 8 85)', codes: { 0: ['85F35U', 1.30], 1: ['85F36U', 1.50], 2: ['85F36U', 1.50], 3: ['85F37U', 1.70] } },
+        sideFrame: { name: '側板側門框 (1PPD344 8 85)', codes: { 0: ['85F4QU', 3.60], 1: ['85F4RU', 3.80], 2: ['85F4RU', 3.80], 3: ['85F4SU', 4.00] } },
+        sill_beam: { name: '右手車身門檻外側梁 (1PPD324 8 85)', codes: { 0: ['85F3ZU', 1.40], 1: ['85F40U', 1.60], 2: ['85F42V', 1.50], 3: ['85F44W', 1.20] } },
+        fenderR_part: { name: '後翼子板 (部分修復) (1PPD324 8 85)', codes: { 0: ['85F3XU', 0.80], 1: ['85F3YU', 1.00], 2: ['85F40V', 1.00], 3: ['85F42W', 0.90] } },
+        fenderR_full: { name: '後翼子板總成 (1PPD324 8 85)', codes: { 0: ['85F4AU', 2.80], 1: ['85F4CU', 3.00], 2: ['85F4BV', 1.00], 3: ['85F4BW', 0.90] } },
+        tailgate: { name: '尾門玻璃裝飾件 (1PPD327 6 65)', codes: { 0: ['74EQAZ', 1.40], 1: ['74EQCU', 2.20], 2: ['74EQEV', 2.10], 3: ['74EQGW', 1.80] } },
+        bumperR_guard1: { name: '後保險桿護板 (1側) (1PPD321 6 65)', codes: { 0: ['74EP4Z', 0.60], 1: ['74EP6Z', 0.90], 2: ['74EP6Z', 0.90], 3: ['74EP7Z', 0.90] } },
+        bumperR_guard2: { name: '後保險桿護板 (2側) (1PPD321 6 65)', codes: { 0: ['74ES4Z', 0.80], 1: ['74ES6Z', 1.30], 2: ['74ES6Z', 1.30], 3: ['74ES7Z', 1.30] } },
+        roof: { name: '車頂板-內框架-行李架 (1PPD371 8 83)', codes: { 0: ['83EGDU', 3.70], 1: ['83EGDU', 3.70], 2: ['83EGFV', 2.90], 3: ['83EGHW', 1.90] } }
+    }
+};
+
+let selectedParts = [{ partKey: 'hood', level: 2, isAdjacent: true }];
+let currentClaimExportText = "";
+
+function initColorOptions() {
+    const colorSelect = document.getElementById('colorSelect');
+    colorSelect.innerHTML = '';
+    const colors = p64Data.colors;
+    Object.keys(colors).forEach(code => {
+        const opt = document.createElement('option');
+        opt.value = code;
+        opt.innerText = colors[code].name;
+        colorSelect.appendChild(opt);
+    });
+    onColorChange();
+}
+
+function onColorChange() {
+    const colorKey = document.getElementById('colorSelect').value;
+    const colorData = p64Data.colors[colorKey];
+    
+    if (colorData && colorData.coatType) {
+        document.getElementById('coatType').value = colorData.coatType;
+    }
+    document.getElementById('colorNote').innerHTML = colorData.note || '📌 銘牌色號對應提示：選取色號後系統將自動匹配對應的固定塗裝時間與請款代碼。';
+    calculate();
+}
+
+function renderParts() {
+    const partsDb = p64Data.parts;
+    const tbody = document.getElementById('partsList');
+    tbody.innerHTML = '';
+
+    selectedParts.forEach((item, index) => {
+        const partData = partsDb[item.partKey] || Object.values(partsDb)[0];
+        const [code, hours] = partData.codes[item.level];
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>
+                <select onchange="updatePart(${index}, 'partKey', this.value)">
+                    ${Object.keys(partsDb).map(k => `<option value="${k}" ${k===item.partKey?'selected':''}>${partsDb[k].name}</option>`).join('')}
+                </select>
+            </td>
+            <td>
+                <select onchange="updatePart(${index}, 'level', parseInt(this.value))">
+                    <option value="2" ${item.level===2?'selected':''}>2 級 (修復 <20%)</option>
+                    <option value="1" ${item.level===1?'selected':''}>1 級 (修復 >20%)</option>
+                    <option value="3" ${item.level===3?'selected':''}>3 級 (純噴無修)</option>
+                    <option value="0" ${item.level===0?'selected':''}>0 級 (全新空件)</option>
+                </select>
+            </td>
+            <td><span class="code-badge">${code}</span></td>
+            <td><strong>${hours.toFixed(2)}</strong> h</td>
+            <td>
+                <input type="checkbox" ${item.isAdjacent ? 'checked' : ''} ${item.level===0?'disabled':''} onchange="updatePart(${index}, 'isAdjacent', this.checked)">
+            </td>
+            <td><button class="btn btn-danger" onclick="removePart(${index})">刪除</button></td>
+        `;
+        tbody.appendChild(tr);
+    });
+    calculate();
+}
+
+function addPartRow() { 
+    const partsDb = p64Data.parts;
+    const firstKey = Object.keys(partsDb)[0];
+    selectedParts.push({ partKey: firstKey, level: 2, isAdjacent: true }); 
+    renderParts(); 
+}
+
+function removePart(index) { selectedParts.splice(index, 1); renderParts(); }
+function updatePart(index, field, value) { selectedParts[index][field] = value; renderParts(); }
+
+function calculate() {
+    const partsDb = p64Data.parts;
+    const coatVal = document.getElementById('coatType').value.split('|');
+    const fixedHours = parseFloat(coatVal[0]);
+    const fixedCode = coatVal[1];
+
+    let adjacentCount = 0;
+    let adjacentBaseHours = 0;
+    let nonDiscountHours = 0;
+    let codeTags = [];
+    let exportLines = [];
+
+    selectedParts.forEach(item => {
+        const partData = partsDb[item.partKey] || Object.values(partsDb)[0];
+        const [code, hours] = partData.codes[item.level];
+        codeTags.push(code);
+
+        if (item.level === 0 || !item.isAdjacent) nonDiscountHours += hours;
+        else { adjacentCount++; adjacentBaseHours += hours; }
+    });
+
+    let discountRate = 0;
+    if (adjacentCount === 2) discountRate = 0.15;
+    else if (adjacentCount === 3) discountRate = 0.20;
+    else if (adjacentCount >= 4) discountRate = 0.25;
+
+    const paintHours = (adjacentBaseHours * (1 - discountRate)) + nonDiscountHours;
+    const totalHours = paintHours + fixedHours;
+    codeTags.push(fixedCode);
+
+    selectedParts.forEach(item => {
+        const partData = partsDb[item.partKey] || Object.values(partsDb)[0];
+        const [code, hours] = partData.codes[item.level];
+        exportLines.push(`${code}: ${hours.toFixed(2)}h`);
+    });
+    exportLines.push(`${fixedCode}: ${fixedHours.toFixed(2)}h`);
+    exportLines.push(`--------------------`);
+    exportLines.push(`總請款工時: ${totalHours.toFixed(2)}h`);
+    currentClaimExportText = exportLines.join('\n');
+
+    const laborRate = parseFloat(document.getElementById('laborRate').value) || 0;
+    const materialRate = parseFloat(document.getElementById('materialRate').value) || 0;
+
+    const laborMoney = totalHours * laborRate;
+    const materialMoney = (paintHours + fixedHours) * materialRate;
+    const totalMoney = laborMoney + materialMoney;
+
+    document.getElementById('resPaintHours').innerText = paintHours.toFixed(2);
+    document.getElementById('resDiscountNotice').innerText = discountRate > 0 ? `✓ 相鄰件 -${discountRate*100}% 折減` : '';
+    document.getElementById('resFixedHours').innerText = fixedHours.toFixed(2);
+    document.getElementById('resTotalHours').innerText = totalHours.toFixed(2);
+    
+    document.getElementById('resTotalMoney').innerText = `NT$ ${Math.round(totalMoney).toLocaleString()}`;
+    document.getElementById('resFeeDetail').innerText = `漆工費：NT$ ${Math.round(laborMoney).toLocaleString()} | 漆料耗材：NT$ ${Math.round(materialMoney).toLocaleString()}`;
+    document.getElementById('resCodeTags').innerHTML = codeTags.map(c => `<div class="tag-item">${c}</div>`).join('');
+}
+
+function copyClaimDetails() {
+    if (!currentClaimExportText) return;
+    navigator.clipboard.writeText(currentClaimExportText).then(() => {
+        alert("已成功複製請款代碼與工時至剪貼簿！\n\n" + currentClaimExportText);
+    }).catch(err => {
+        console.error("複製失敗: ", err);
+    });
+}
+
+initColorOptions();
+renderParts();
+</script>
+</body>
+</html>
