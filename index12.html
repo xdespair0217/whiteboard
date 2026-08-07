@@ -39,6 +39,11 @@
     .card { background: white; border-radius: 8px; border: 1px solid var(--border); padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
     .card-title { font-size: 15px; font-weight: 700; color: var(--slate-900); border-left: 4px solid var(--blue-600); padding-left: 10px; margin-bottom: 16px; }
 
+    .manual-box { background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 20px; padding: 12px 16px; }
+    .manual-title { font-weight: 700; color: var(--slate-800); cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+    .manual-content { margin-top: 12px; font-size: 13px; color: var(--slate-700); border-top: 1px solid var(--border); padding-top: 12px; line-height: 1.7; }
+    .manual-content ul { margin: 4px 0 8px 20px; padding: 0; }
+
     .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
     .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -76,6 +81,35 @@
             <p>標準規範：Servicebox 官方規範與 Berlingo K9 原廠漆面工時數據庫</p>
         </div>
     </div>
+
+    <!-- 系統說明與演算法則 (隱藏式選單，預設收合) -->
+    <details class="manual-box">
+        <summary class="manual-title">
+            <span>📖 系統運算邏輯與使用說明（點擊展開 / 收合）</span>
+        </summary>
+        <div class="manual-content">
+            <strong>一、 雙軌漆種自動連動法則：</strong>
+            <ul>
+                <li><strong>EPR (冰白漆 / Blanc Iquique)</strong>：自動判定為「不透明漆/素色漆」，帶入固定時間代碼 <span class="code-badge">70E00V</span> (+0.70h)，全車鈑件自動匹配 <strong>P050 / P110 / P210 / P310</strong> 專用標準代碼與 FRT 工時。</li>
+                <li><strong>KCA (淺灰色漆 / Gris Artense)</strong>：自動判定為「金屬漆/兩層清漆」，帶入固定時間代碼 <span class="code-badge">70E01U</span> (+1.00h)，全車鈑件自動匹配 <strong>P450 / P510 / P610 / P710</strong> 專用標準代碼與 FRT 工時。</li>
+            </ul>
+
+            <strong>二、 噴漆相鄰件折減機制 (Servicebox 規範)：</strong>
+            <ul>
+                <li><strong>相鄰件 1 件</strong>：不進行工時折減 (0%)。</li>
+                <li><strong>相鄰件 2 件</strong>：相鄰鈑件基礎工時合計折減 <strong>15% (-15%)</strong>。</li>
+                <li><strong>相鄰件 3 件</strong>：相鄰鈑件基礎工時合計折減 <strong>20% (-20%)</strong>。</li>
+                <li><strong>相鄰件 4 件（含以上）</strong>：相鄰鈑件基礎工時合計折減 <strong>25% (-25%)</strong>。</li>
+                <li><em>註：修復等級為「0 級（全新空件）」或取消勾選「相鄰件」者，不參與折減。</em></li>
+            </ul>
+
+            <strong>三、 費用計算公式：</strong>
+            <ul>
+                <li><strong>總請款工時</strong> = (相鄰件基礎工時合計 × 折減率) + 非折減件工時 + 漆面固定準備工時</li>
+                <li><strong>請款總金額</strong> = (總工時 × 廠內漆工費單價) + (總工時 × 漆料耗材費單價)</li>
+            </ul>
+        </div>
+    </details>
 
     <!-- 車型、色號與漆種設定 -->
     <div class="card">
@@ -171,13 +205,11 @@
 </div>
 
 <script>
-// Citroën Berlingo (K9) 雙軌漆種真實塗裝數據庫 (不透明漆 / 清漆)
+// Citroën Berlingo (K9) 精確校正數據庫 (包含 EPR、KCA 實測資料)
 const berlingoData = {
     colors: {
         "EPR": { name: "EPR - 冰白漆 (素色漆)", coatType: "0.70|70E00V", note: "✓ 已匹配 EPR 銘牌色號：冰白漆 [70E00V / +0.70 小時]，全車部位自動連動不透明漆代碼 (P050/P110/P210/P310)" },
         "KCA": { name: "KCA - 淺灰色漆 (金屬漆)", coatType: "1.00|70E01U", note: "✓ 已匹配 KCA 銘牌色號：淺灰色漆/金屬漆 [70E01U / +1.00 小時]，全車部位自動連動清漆代碼 (P450/P510/P610/P710)" },
-        "EWP": { name: "EWP - 極地白 (素色漆)", coatType: "0.70|70E00V", note: "✓ 已匹配 EWP 銘牌色號：極地白素色漆 [70E00V / +0.70 小時]，全車部位自動連動不透明漆代碼 (P050/P110/P210/P310)" },
-        "KGC": { name: "KGC - 尊爵灰 (金屬漆)", coatType: "1.00|70E01U", note: "✓ 已匹配 KGC 銘牌色號：尊爵灰金屬漆 [70E01U / +1.00 小時]，全車部位自動連動清漆代碼 (P450/P510/P610/P710)" },
         "custom": { name: "手動指定 / 其他漆種", coatType: "", note: "📌 請由右方下拉選單手動選擇正確的漆面屬性。" }
     },
     parts: {
