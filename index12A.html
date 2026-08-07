@@ -23,7 +23,7 @@
     body { background-color: #f8fafc; color: var(--slate-900); margin: 0; padding: 12px; padding-bottom: 90px; font-size: 15px; line-height: 1.5; }
     .container { max-width: 900px; margin: 0 auto; }
 
-    /* Header */
+    /* Header Panel */
     .header-panel {
         background: var(--slate-900);
         color: white;
@@ -35,21 +35,50 @@
     .header-panel h1 { margin: 0; font-size: 18px; font-weight: 700; }
     .header-panel p { margin: 4px 0 0 0; color: #94a3b8; font-size: 12px; }
 
+    /* 手機優化版說明選單 */
+    .manual-box { 
+        background: white; 
+        border: 1px solid var(--border); 
+        border-radius: 12px; 
+        margin-bottom: 12px; 
+        padding: 12px 14px; 
+        box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    }
+    .manual-title { 
+        font-weight: 700; 
+        font-size: 14px;
+        color: var(--slate-800); 
+        cursor: pointer; 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center; 
+        user-select: none; 
+    }
+    .manual-content { 
+        margin-top: 10px; 
+        font-size: 13px; 
+        color: var(--slate-700); 
+        border-top: 1px solid #e2e8f0; 
+        padding-top: 10px; 
+        line-height: 1.6; 
+    }
+    .manual-content ul { margin: 4px 0 8px 16px; padding: 0; }
+    .manual-content li { margin-bottom: 4px; }
+
     /* Card Box */
     .card { background: white; border-radius: 12px; border: 1px solid var(--border); padding: 16px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
     .card-title { font-size: 15px; font-weight: 700; color: var(--slate-900); border-left: 4px solid var(--blue-600); padding-left: 8px; margin-bottom: 12px; }
 
-    /* RWD Grid System */
+    /* Layout System */
     .grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
     @media (min-width: 640px) {
         .grid-2 { grid-template-columns: 1fr 1fr; }
-        .grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
     }
 
     label { font-weight: 600; font-size: 13px; color: var(--slate-700); display: block; margin-bottom: 6px; }
     select, input { 
         width: 100%; 
-        height: 44px; /* 手機最佳觸控高度 */
+        height: 44px; /* 手機端最佳點擊高度 */
         padding: 8px 12px; 
         border: 1px solid var(--border); 
         border-radius: 8px; 
@@ -59,14 +88,13 @@
     }
     select:focus, input:focus { outline: none; border-color: var(--blue-600); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15); }
 
-    /* 手機專用鈑件卡片式佈局 (Mobile Card View) */
+    /* 手機卡片式鈑件卡 */
     .part-item-card {
         background: #f8fafc;
         border: 1px solid #e2e8f0;
         border-radius: 10px;
         padding: 12px;
         margin-bottom: 12px;
-        position: relative;
     }
     .part-card-header {
         display: flex;
@@ -83,7 +111,7 @@
         .part-card-body { grid-template-columns: 2fr 1.5fr; }
     }
 
-    /* Switch Component */
+    /* 切換列 */
     .toggle-row {
         display: flex;
         align-items: center;
@@ -96,7 +124,7 @@
     }
     .toggle-row label { margin: 0; cursor: pointer; }
 
-    /* Badge & Buttons */
+    /* Badges & Buttons */
     .code-badge { background: #e2e8f0; color: var(--slate-900); padding: 4px 8px; border-radius: 6px; font-family: monospace; font-size: 13px; font-weight: 600; display: inline-block; }
     
     .btn { 
@@ -131,7 +159,7 @@
         cursor: pointer;
     }
 
-    /* 試算結果區塊 */
+    /* 試算結果與標籤 */
     .result-card { background: var(--blue-50); border: 1px solid #bfdbfe; border-radius: 12px; padding: 16px; margin-top: 16px; }
     .result-title { font-size: 15px; font-weight: 700; color: #1e40af; margin-bottom: 12px; }
     .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
@@ -142,7 +170,7 @@
     .tag-item { background: #dbeafe; color: #1e40af; padding: 3px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; border: 1px solid #bfdbfe; }
     .note-box { background: #fffbe0; border-left: 4px solid #f59e0b; padding: 10px; font-size: 12px; color: #92400e; border-radius: 0 8px 8px 0; margin-top: 8px; }
 
-    /* 手機端底部固定資訊欄 (Sticky Mobile Bottom Bar) */
+    /* 固定底部金額欄 */
     .mobile-bottom-bar {
         position: fixed;
         bottom: 0;
@@ -170,7 +198,36 @@
         <p>Servicebox 官方規範與 Berlingo K9 原廠漆面工時數據庫</p>
     </div>
 
-    <!-- 車型與設定 -->
+    <!-- 系統說明與演算法則 (隱藏式選單，預設收合) -->
+    <details class="manual-box">
+        <summary class="manual-title">
+            <span>📖 系統運算邏輯與說明（點擊展開）</span>
+        </summary>
+        <div class="manual-content">
+            <strong>一、 雙軌漆種自動連動法則：</strong>
+            <ul>
+                <li><strong>EPR (冰白漆 / Blanc Iquique)</strong>：自動判定為「不透明漆/素色漆」，帶入固定時間代碼 <span class="code-badge">70E00V</span> (+0.70h)，全車鈑件自動匹配 <strong>P050 / P110 / P210 / P310</strong> 專用標準代碼與 FRT 工時。</li>
+                <li><strong>KCA (淺灰色漆 / Gris Artense)</strong>：自動判定為「金屬漆/兩層清漆」，帶入固定時間代碼 <span class="code-badge">70E01U</span> (+1.00h)，全車鈑件自動匹配 <strong>P450 / P510 / P610 / P710</strong> 專用標準代碼與 FRT 工時。</li>
+            </ul>
+
+            <strong>二、 噴漆相鄰件折減機制 (Servicebox 規範)：</strong>
+            <ul>
+                <li><strong>相鄰件 1 件</strong>：不進行工時折減 (0%)。</li>
+                <li><strong>相鄰件 2 件</strong>：相鄰鈑件基礎工時合計折減 <strong>15% (-15%)</strong>。</li>
+                <li><strong>相鄰件 3 件</strong>：相鄰鈑件基礎工時合計折減 <strong>20% (-20%)</strong>。</li>
+                <li><strong>相鄰件 4 件（含以上）</strong>：相鄰鈑件基礎工時合計折減 <strong>25% (-25%)</strong>。</li>
+                <li><em>註：修復等級為「0 級（全新空件）」或取消勾選「相鄰件」者，不參與折減。</em></li>
+            </ul>
+
+            <strong>三、 費用計算公式：</strong>
+            <ul>
+                <li><strong>總請款工時</strong> = (相鄰件基礎工時合計 × 折減率) + 非折減件工時 + 漆面固定準備工時</li>
+                <li><strong>請款總金額</strong> = (總工時 × 廠內漆工費單價) + (總工時 × 漆料耗材費單價)</li>
+            </ul>
+        </div>
+    </details>
+
+    <!-- 車型、色號與漆種設定 -->
     <div class="card">
         <div class="card-title">一、 車身色號與單價設定</div>
         <div class="grid grid-2">
@@ -181,21 +238,21 @@
             <div>
                 <label>2. 漆面屬性 (Servicebox 規則)</label>
                 <select id="coatType" onchange="onCoatTypeManualChange()">
-                    <option value="0.70|70E00V">不透明漆 / 素色漆 (單層) (+0.70h)</option>
-                    <option value="1.00|70E01U">金屬漆 / 清漆 (兩層) (+1.00h)</option>
-                    <option value="1.30|70E03Z">三層金屬 / 珠光漆 (+1.30h)</option>
-                    <option value="1.60|70E04W">特殊彩色清漆 (+1.60h)</option>
+                    <option value="0.70|70E00V">不透明漆 / 素色漆 (單層) (+0.70h) [70E00V]</option>
+                    <option value="1.00|70E01U">金屬漆 / 清漆 (兩層) (+1.00h) [70E01U]</option>
+                    <option value="1.30|70E03Z">三層金屬 / 珠光漆 (+1.30h) [70E03Z]</option>
+                    <option value="1.60|70E04W">特殊彩色清漆 (+1.60h) [70E04W]</option>
                 </select>
             </div>
         </div>
 
         <div class="grid grid-2" style="margin-top: 10px;">
             <div>
-                <label>3. 漆工費單價 (NT$/h)</label>
+                <label>3. 廠內漆工費單價 (NT$/h)</label>
                 <input type="number" id="laborRate" value="900" placeholder="漆工費/h" oninput="calculate()">
             </div>
             <div>
-                <label>4. 耗材費單價 (NT$/h)</label>
+                <label>4. 廠內耗材費單價 (NT$/h)</label>
                 <input type="number" id="materialRate" value="900" placeholder="耗材費/h" oninput="calculate()">
             </div>
         </div>
@@ -251,30 +308,139 @@
 </div>
 
 <script>
-// Citroën Berlingo (K9) 數據庫與核心邏輯完全保持原樣
+// 精確校正數據庫 (全面同步 EPR, KCA 數據)
 const berlingoData = {
     colors: {
-        "EPR": { name: "EPR - 冰白漆 (素色漆)", coatType: "0.70|70E00V", note: "✓ 已匹配 EPR 銘牌色號：冰白漆 [70E00V / +0.70h]" },
-        "EWP": { name: "EWP - 極地白 (素色漆)", coatType: "0.70|70E00V", note: "✓ 已匹配 EWP 銘牌色號：極地白素色漆 [70E00V / +0.70h]" },
-        "KGC": { name: "KGC - 尊爵灰 (金屬漆)", coatType: "1.00|70E01U", note: "✓ 已匹配 KGC 銘牌色號：尊爵灰金屬漆 [70E01U / +1.00h]" },
-        "custom": { name: "手動指定 / 其他漆種", coatType: "", note: "📌 請手動選擇正確漆面屬性。" }
+        "EPR": { name: "EPR - 冰白漆 (素色漆)", coatType: "0.70|70E00V", note: "✓ 已匹配 EPR 銘牌色號：冰白漆 [70E00V / +0.70 小時]，全車部位自動連動不透明漆代碼 (P050/P110/P210/P310)" },
+        "KCA": { name: "KCA - 淺灰色漆 (金屬漆)", coatType: "1.00|70E01U", note: "✓ 已匹配 KCA 銘牌色號：淺灰色漆/金屬漆 [70E01U / +1.00 小時]，全車部位自動連動清漆代碼 (P450/P510/P610/P710)" },
+        "custom": { name: "手動指定 / 其他漆種", coatType: "", note: "📌 請由右方下拉選單手動選擇正確的漆面屬性。" }
     },
     parts: {
-        hood: { name: '引擎罩 (1CK96007 0 306)', opaque: { 0: ['6007 P050', 1.30], 1: ['6007 P110', 2.20], 2: ['6007 P210', 2.20], 3: ['6007 P310', 1.40] }, clear: { 0: ['6007 P450', 1.50], 1: ['6007 P510', 2.40], 2: ['6007 P610', 2.40], 3: ['6007 P710', 1.60] } },
-        bumperF_upper: { name: '前保險桿上部 (1CK96204 0 303)', opaque: { 0: ['6204 P050', 0.60], 1: ['6204 P250', 1.40], 2: ['6204 P250', 1.40], 3: ['6204 P350', 1.10] }, clear: { 0: ['6204 P450', 0.80], 1: ['6204 P650', 1.60], 2: ['6204 P650', 1.60], 3: ['6204 P750', 1.30] } },
-        bumperF_lower: { name: '前保險桿下部 (1CK96205 0 303)', opaque: { 0: ['6205 P050', 1.10], 1: ['6205 P250', 1.90], 2: ['6205 P250', 1.90], 3: ['6205 P350', 1.30] }, clear: { 0: ['6205 P450', 1.30], 1: ['6205 P650', 2.10], 2: ['6205 P650', 2.10], 3: ['6205 P750', 1.50] } },
-        fenderF: { name: '前右/左翼子板 (1CK96030 0 305)', opaque: { 0: ['6030 P050', 0.70], 1: ['6030 P110', 1.50], 2: ['6030 P210', 1.10], 3: ['6030 P310', 1.10] }, clear: { 0: ['6030 P450', 0.90], 1: ['6030 P510', 1.70], 2: ['6030 P610', 1.30], 3: ['6030 P710', 1.30] } },
-        doorF: { name: '前門 (1CK96336 0 350)', opaque: { 0: ['6336 P050', 1.50], 1: ['6336 P110', 2.60], 2: ['6336 P210', 2.50], 3: ['6336 P310', 1.70] }, clear: { 0: ['6336 P450', 1.70], 1: ['6336 P510', 2.80], 2: ['6336 P610', 2.70], 3: ['6336 P710', 1.90] } },
-        doorSliding: { name: '滑門 (1CK96562 0 364)', opaque: { 0: ['6562 P050', 1.50], 1: ['6562 P110', 2.20], 2: ['6562 P210', 2.50], 3: ['6562 P310', 1.60] }, clear: { 0: ['6562 P450', 1.70], 1: ['6562 P510', 2.40], 2: ['6562 P610', 2.70], 3: ['6562 P710', 1.80] } },
-        pillarF: { name: '前立柱 (1CK97420 0 341)', opaque: { 0: ['7420 P110', 4.40], 1: ['7420 P110', 4.40], 2: ['7420 P110', 4.40], 3: ['7420 P110', 4.40] }, clear: { 0: ['7420 P510', 4.60], 1: ['7420 P510', 4.60], 2: ['7420 P510', 4.60], 3: ['7420 P510', 4.60] } },
-        sillL: { name: '左車身門檻梁 (1CK97458 0 324)', opaque: { 0: ['7458 P110', 3.80], 1: ['7458 P110', 3.80], 2: ['7458 P210', 2.90], 3: ['7458 P310', 2.10] }, clear: { 0: ['7458 P510', 4.00], 1: ['7458 P510', 4.00], 2: ['7458 P610', 3.10], 3: ['7458 P710', 2.30] } },
-        sillR: { name: '右車身門檻梁 (1CK97457 0 324)', opaque: { 0: ['7457 P110', 3.80], 1: ['7457 P110', 3.80], 2: ['7457 P210', 2.90], 3: ['7457 P310', 2.10] }, clear: { 0: ['7457 P510', 4.00], 1: ['7457 P510', 4.00], 2: ['7457 P610', 3.10], 3: ['7457 P710', 2.30] } },
-        panelL: { name: '左側面板 (1CK97404 0 344/371)', opaque: { 0: ['7404 P110', 6.00], 1: ['7404 P110', 6.00], 2: ['7404 P110', 6.00], 3: ['7404 P110', 6.00] }, clear: { 0: ['7404 P510', 6.20], 1: ['7404 P510', 6.20], 2: ['7404 P510', 6.20], 3: ['7404 P510', 6.20] } },
-        panelR: { name: '右側面板 (1CK97403 0 344/371)', opaque: { 0: ['7403 P110', 6.00], 1: ['7403 P110', 6.00], 2: ['7403 P110', 6.00], 3: ['7403 P110', 6.00] }, clear: { 0: ['7403 P510', 6.20], 1: ['7403 P510', 6.20], 2: ['7403 P510', 6.20], 3: ['7403 P510', 6.20] } },
-        tailgate: { name: '尾門 (1CK96958 0 327)', opaque: { 0: ['6958 P050', 3.00], 1: ['6958 P110', 4.50], 2: ['6958 P210', 4.50], 3: ['6958 P310', 2.60] }, clear: { 0: ['6958 P450', 3.20], 1: ['6958 P510', 4.70], 2: ['6958 P610', 4.70], 3: ['6958 P710', 2.80] } },
-        bumperR: { name: '後保險桿 (1CK96815 0 321)', opaque: { 0: ['6815 P050', 1.00], 1: ['6815 P250', 2.10], 2: ['6815 P250', 2.10], 3: ['6815 P350', 1.20] }, clear: { 0: ['6815 P450', 1.20], 1: ['6815 P650', 2.30], 2: ['6815 P650', 2.30], 3: ['6815 P750', 1.40] } },
-        mirrorCap: { name: '後視鏡罩 (1CK9636A 0 352)', opaque: { 0: ['636A P050', 0.20], 1: ['636A P050', 0.20], 2: ['636A P050', 0.20], 3: ['636A P050', 0.20] }, clear: { 0: ['636A P050', 0.20], 1: ['636A P050', 0.20], 2: ['636A P050', 0.20], 3: ['636A P050', 0.20] } },
-        roof: { name: '車頂 (1CK97801 0 371)', opaque: { 0: ['7801 P110', 5.60], 1: ['7801 P110', 5.60], 2: ['7801 P210', 4.90], 3: ['7801 P310', 2.80] }, clear: { 0: ['7801 P510', 5.80], 1: ['7801 P510', 5.80], 2: ['7801 P610', 5.10], 3: ['7801 P710', 3.00] } }
+        hood: { 
+            name: '引擎罩 (1CK96007 0 306)', 
+            opaque: { 0: ['6007 P050', 1.30], 1: ['6007 P110', 2.20], 2: ['6007 P210', 2.20], 3: ['6007 P310', 1.40] },
+            clear:  { 0: ['6007 P450', 1.50], 1: ['6007 P510', 2.40], 2: ['6007 P610', 2.40], 3: ['6007 P710', 1.60] }
+        },
+        bumperF_upper: { 
+            name: '前保險桿上部 (1CK96204 0 303)', 
+            opaque: { 0: ['6204 P050', 0.60], 1: ['6204 P250', 1.40], 2: ['6204 P250', 1.40], 3: ['6204 P350', 1.10] },
+            clear:  { 0: ['6204 P450', 0.80], 1: ['6204 P650', 1.60], 2: ['6204 P650', 1.60], 3: ['6204 P750', 1.30] }
+        },
+        bumperF_lower: { 
+            name: '前保險桿下部 (1CK96205 0 303)', 
+            opaque: { 0: ['6205 P050', 1.10], 1: ['6205 P250', 1.90], 2: ['6205 P250', 1.90], 3: ['6205 P350', 1.30] },
+            clear:  { 0: ['6205 P450', 1.30], 1: ['6205 P650', 2.10], 2: ['6205 P650', 2.10], 3: ['6205 P750', 1.50] }
+        },
+        fenderF: { 
+            name: '1側或前右翼子板 (1CK96030 0 305)', 
+            opaque: { 0: ['6030 P050', 0.70], 1: ['6030 P110', 1.50], 2: ['6030 P210', 1.10], 3: ['6030 P310', 1.10] },
+            clear:  { 0: ['6030 P450', 0.90], 1: ['6030 P510', 1.70], 2: ['6030 P610', 1.30], 3: ['6030 P710', 1.30] }
+        },
+        doorF: { 
+            name: '前門 (1CK96336 0 350)', 
+            opaque: { 0: ['6336 P050', 1.50], 1: ['6336 P110', 2.60], 2: ['6336 P210', 2.50], 3: ['6336 P310', 1.70] },
+            clear:  { 0: ['6336 P450', 1.70], 1: ['6336 P510', 2.80], 2: ['6336 P610', 2.70], 3: ['6336 P710', 1.90] }
+        },
+        doorSliding: { 
+            name: '滑門 (1CK96562 0 364)', 
+            opaque: { 0: ['6562 P050', 1.50], 1: ['6562 P110', 2.20], 2: ['6562 P210', 2.50], 3: ['6562 P310', 1.60] },
+            clear:  { 0: ['6562 P450', 1.70], 1: ['6562 P510', 2.40], 2: ['6562 P610', 2.70], 3: ['6562 P710', 1.80] }
+        },
+        pillarF: { 
+            name: '前立柱右側或一側 (1CK97420 0 341)', 
+            opaque: { 0: ['7420 P110', 4.40], 1: ['7420 P110', 4.40], 2: ['7420 P110', 4.40], 3: ['7420 P110', 4.40] },
+            clear:  { 0: ['7420 P510', 4.60], 1: ['7420 P510', 4.60], 2: ['7420 P510', 4.60], 3: ['7420 P510', 4.60] }
+        },
+        sillL: { 
+            name: '左手車身門檻外側梁 (1CK97458 0 324)', 
+            opaque: { 0: ['7458 P110', 3.80], 1: ['7458 P110', 3.80], 2: ['7458 P210', 2.90], 3: ['7458 P310', 2.10] },
+            clear:  { 0: ['7458 P510', 4.00], 1: ['7458 P510', 4.00], 2: ['7458 P610', 3.10], 3: ['7458 P710', 2.30] }
+        },
+        sillR: { 
+            name: '右手車身門檻外側梁 (1CK97457 0 324)', 
+            opaque: { 0: ['7457 P110', 3.80], 1: ['7457 P110', 3.80], 2: ['7457 P210', 2.90], 3: ['7457 P310', 2.10] },
+            clear:  { 0: ['7457 P510', 4.00], 1: ['7457 P510', 4.00], 2: ['7457 P610', 3.10], 3: ['7457 P710', 2.30] }
+        },
+        panelL: { 
+            name: '左側面板 (1CK97404 0 344/371)', 
+            opaque: { 0: ['7404 P110', 6.00], 1: ['7404 P110', 6.00], 2: ['7404 P110', 6.00], 3: ['7404 P110', 6.00] },
+            clear:  { 0: ['7404 P510', 6.20], 1: ['7404 P510', 6.20], 2: ['7404 P510', 6.20], 3: ['7404 P510', 6.20] }
+        },
+        panelR: { 
+            name: '右側面板 (1CK97403 0 344/371)', 
+            opaque: { 0: ['7403 P110', 6.00], 1: ['7403 P110', 6.00], 2: ['7403 P110', 6.00], 3: ['7403 P110', 6.00] },
+            clear:  { 0: ['7403 P510', 6.20], 1: ['7403 P510', 6.20], 2: ['7403 P510', 6.20], 3: ['7403 P510', 6.20] }
+        },
+        glassPanelL: { 
+            name: '全玻璃左側面板 (1CK97564 0 344)', 
+            opaque: { 0: ['7564 PILO', 6.00], 1: ['7564 PILO', 6.00], 2: ['7564 P2L0', 5.20], 3: ['7564 P3L0', 3.10] },
+            clear:  { 0: ['7564 P5L0', 6.00], 1: ['7564 P5L0', 6.00], 2: ['7564 P6L0', 5.40], 3: ['7564 P7L0', 3.30] }
+        },
+        glassPanelR: { 
+            name: '全玻璃右側面板 (1CK97563 0 344)', 
+            opaque: { 0: ['7563 P110', 6.00], 1: ['7563 P110', 6.00], 2: ['7563 P210', 5.20], 3: ['7563 P310', 3.10] },
+            clear:  { 0: ['7563 P510', 6.20], 1: ['7563 P510', 6.20], 2: ['7563 P610', 5.40], 3: ['7563 P710', 3.30] }
+        },
+        fenderR_assembly: { 
+            name: '右後翼子板及側門(總成) (1CK96610 0 374)', 
+            opaque: { 0: ['6610 P110', 5.10], 1: ['6610 P110', 5.10], 2: ['6610 P210', 4.90], 3: ['6610 P310', 3.00] },
+            clear:  { 0: ['6610 P510', 5.30], 1: ['6610 P510', 5.30], 2: ['6610 P610', 5.10], 3: ['6610 P710', 3.20] }
+        },
+        fenderL_door: { 
+            name: '側車門的左後翼子板 (1CK96614 0 373)', 
+            opaque: { 0: ['6614 P110', 5.10], 1: ['6614 P110', 5.10], 2: ['6614 P210', 4.90], 3: ['6614 P310', 3.00] },
+            clear:  { 0: ['6614 P510', 5.30], 1: ['6614 P510', 5.30], 2: ['6614 P610', 5.10], 3: ['6614 P710', 3.20] }
+        },
+        doorRearL_panel: { 
+            name: '左後鉸接車門面板 (1CK96975 0 336)', 
+            opaque: { 0: ['6975 P050', 1.80], 1: ['6975 P110', 2.70], 2: ['6975 P210', 2.40], 3: ['6975 P310', 1.50] },
+            clear:  { 0: ['6975 P450', 2.00], 1: ['6975 P510', 2.90], 2: ['6975 P610', 2.50], 3: ['6975 P710', 1.70] }
+        },
+        doorRearR_panel: { 
+            name: '右後鉸接車門面板 (1CK96974 0 336)', 
+            opaque: { 0: ['6974 P050', 1.70], 1: ['6974 P110', 2.90], 2: ['6974 P210', 2.50], 3: ['6974 P310', 1.80] },
+            clear:  { 0: ['6974 P450', 1.90], 1: ['6974 P510', 3.10], 2: ['6974 P610', 2.70], 3: ['6974 P710', 2.00] }
+        },
+        doorRearL_glass: { 
+            name: '左後鉸接式車門玻璃 (1CK96973 0 336)', 
+            opaque: { 0: ['6973 P050', 1.60], 1: ['6973 P110', 2.70], 2: ['6973 P210', 2.40], 3: ['6973 P310', 1.60] },
+            clear:  { 0: ['6973 P450', 1.80], 1: ['6973 P510', 2.90], 2: ['6973 P610', 2.60], 3: ['6973 P710', 1.80] }
+        },
+        doorRearR_glass: { 
+            name: '右後鉸接式車門玻璃 (1CK96972 0 336)', 
+            opaque: { 0: ['6972 P050', 1.50], 1: ['6972 P110', 2.60], 2: ['6972 P210', 2.40], 3: ['6972 P310', 1.60] },
+            clear:  { 0: ['6972 P450', 1.80], 1: ['6972 P510', 2.80], 2: ['6972 P610', 2.50], 3: ['6972 P710', 1.70] }
+        },
+        tailgate: { 
+            name: '尾門 (1CK96958 0 327)', 
+            opaque: { 0: ['6958 P050', 3.00], 1: ['6958 P110', 4.50], 2: ['6958 P210', 4.50], 3: ['6958 P310', 2.60] },
+            clear:  { 0: ['6958 P450', 3.20], 1: ['6958 P510', 4.70], 2: ['6958 P610', 4.70], 3: ['6958 P710', 2.80] }
+        },
+        bumperR: { 
+            name: '後保險桿 (1CK96815 0 321)', 
+            opaque: { 0: ['6815 P050', 1.00], 1: ['6815 P250', 2.10], 2: ['6815 P250', 2.10], 3: ['6815 P350', 1.20] },
+            clear:  { 0: ['6815 P450', 1.20], 1: ['6815 P650', 2.30], 2: ['6815 P650', 2.30], 3: ['6815 P750', 1.40] }
+        },
+        guard1Side: { 
+            name: '後翼子板保護裝置1側 (1CK96637 0 324/456)', 
+            opaque: { 0: ['6637 P050', 0.30], 1: ['6637 P050', 0.30], 2: ['6637 P050', 0.30], 3: ['6637 P050', 0.30] },
+            clear:  { 0: ['6637 P450', 0.40], 1: ['6637 P450', 0.40], 2: ['6637 P450', 0.40], 3: ['6637 P450', 0.40] }
+        },
+        guard2Side: { 
+            name: '後翼子板保護裝置2側 (1CK96647 0 324/456)', 
+            opaque: { 0: ['6647 P050', 0.50], 1: ['6647 P050', 0.50], 2: ['6647 P050', 0.50], 3: ['6647 P050', 0.50] },
+            clear:  { 0: ['6647 P450', 0.60], 1: ['6647 P450', 0.60], 2: ['6647 P450', 0.60], 3: ['6647 P450', 0.60] }
+        },
+        mirrorCap: { 
+            name: '後視鏡罩 (1CK9636A 0 352)', 
+            opaque: { 0: ['636A P050', 0.20], 1: ['636A P050', 0.20], 2: ['636A P050', 0.20], 3: ['636A P050', 0.20] },
+            clear:  { 0: ['636A P050', 0.20], 1: ['636A P050', 0.20], 2: ['636A P050', 0.20], 3: ['636A P050', 0.20] }
+        },
+        roof: { 
+            name: '車頂 (1CK97801 0 371)', 
+            opaque: { 0: ['7801 P110', 5.60], 1: ['7801 P110', 5.60], 2: ['7801 P210', 4.90], 3: ['7801 P310', 2.80] },
+            clear:  { 0: ['7801 P510', 5.80], 1: ['7801 P510', 5.80], 2: ['7801 P610', 5.10], 3: ['7801 P710', 3.00] }
+        }
     }
 };
 
@@ -297,6 +463,7 @@ function initColorOptions() {
 function onColorChange() {
     const colorKey = document.getElementById('colorSelect').value;
     const colorData = berlingoData.colors[colorKey];
+    
     if (colorData && colorData.coatType) {
         document.getElementById('coatType').value = colorData.coatType;
     }
@@ -316,7 +483,6 @@ function getPartCodeAndHours(partData, level) {
     return modeDb[level] || modeDb[2];
 }
 
-/* 改造重點：渲染成適合手機卡片 UI */
 function renderParts() {
     const partsDb = berlingoData.parts;
     const container = document.getElementById('partsList');
@@ -427,7 +593,7 @@ function calculate() {
     document.getElementById('resTotalHours').innerText = totalHours.toFixed(2);
     
     document.getElementById('resTotalMoney').innerText = `NT$ ${Math.round(totalMoney).toLocaleString()}`;
-    document.getElementById('resFeeDetail').innerText = `工費: NT$ ${Math.round(laborMoney).toLocaleString()} | 耗材: NT$ ${Math.round(materialMoney).toLocaleString()}`;
+    document.getElementById('resFeeDetail').innerText = `漆工: NT$ ${Math.round(laborMoney).toLocaleString()} | 耗材: NT$ ${Math.round(materialMoney).toLocaleString()}`;
     document.getElementById('resCodeTags').innerHTML = codeTags.map(c => `<div class="tag-item">${c}</div>`).join('');
 }
 
