@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Peugeot 3008 (P64) 漆面塗料請款試算系統</title>
+<title>Peugeot 3008 (P64) 純漆面塗料請款試算系統</title>
 <style>
     :root {
         --slate-900: #0f172a;
@@ -72,8 +72,8 @@
 <div class="container">
     <div class="header-panel">
         <div>
-            <h1>Peugeot 3008 (P64) 漆面塗料請款試算系統</h1>
-            <p>標準規範：Servicebox 官方規範與 P64 原廠漆面工時數據庫</p>
+            <h1>Peugeot 3008 (P64) 純漆面塗料請款試算系統</h1>
+            <p>標準規範：Servicebox 官方 P2 塗料漆面專屬工時數據庫</p>
         </div>
     </div>
 
@@ -117,10 +117,10 @@
         <table>
             <thead>
                 <tr>
-                    <th>施工鈑件部位 (3008 P64 原廠 Servicebox 區域)</th>
+                    <th>施工鈑件部位 (100% P2 漆面塗料專屬區域)</th>
                     <th>受損修復等級</th>
-                    <th>標準代碼</th>
-                    <th>基礎工時 (FRT)</th>
+                    <th>標準漆面代碼</th>
+                    <th>基礎漆工時 (FRT)</th>
                     <th>相鄰件屬性</th>
                     <th>操作</th>
                 </tr>
@@ -171,7 +171,7 @@
 </div>
 
 <script>
-// Peugeot 3008 (P64) 專屬數據庫
+// Peugeot 3008 (P64) 純塗料漆面 (P2) 資料庫
 const p64Data = {
     colors: {
         "EDP": { name: "EDP / EDPC - 深藍色 (金屬漆)", coatType: "1.00|70E01U", note: "✓ 已匹配 EDP/EDPC 銘牌色號：深藍色金屬漆 [70E01U / +1.00 小時]" },
@@ -180,19 +180,23 @@ const p64Data = {
     parts: {
         hood: { name: '引擎罩 (1PPD306 7 74)', codes: { 0: ['79E1GZ', 3.40], 1: ['79E1HU', 2.80], 2: ['79E1KV', 2.50], 3: ['79E1MW', 2.00] } },
         fenderF: { name: '前翼子板 (1PPD305 7 71)', codes: { 0: ['78EELZ', 1.00], 1: ['78EENU', 1.00], 2: ['78EEQV', 1.00], 3: ['78EESW', 0.90] } },
-        bumperF: { name: '前保險槓 (1PPD303 6 65)', codes: { 0: ['74EQIZ', 1.10], 1: ['74EQPV', 2.50], 2: ['74EQMV', 2.10], 3: ['74EQOW', 2.00] } },
+        bumperF_main: { name: '前保險槓主體 (1PPD303 6 65)', codes: { 0: ['74EQIZ', 1.10], 1: ['74EQMV', 2.10], 2: ['74EQMV', 2.10], 3: ['74EQOW', 2.00] } },
+        bumperF_upper: { name: '前保險槓上部 (1PPD303 6 65)', codes: { 0: ['74EW2Z', 0.50], 1: ['74EW2V', 0.70], 2: ['74EW2V', 0.70], 3: ['74EW2W', 0.70] } },
         doorF: { name: '前鉸接側門 (1PPD350 7 74)', codes: { 0: ['90F02Z', 2.20], 1: ['90F04U', 2.90], 2: ['90F06V', 1.50], 3: ['90F08W', 1.30] } },
         doorR: { name: '後鉸接側門 (1PPD360 7 74)', codes: { 0: ['90EUKZ', 2.20], 1: ['90EUMU', 2.90], 2: ['90EUPV', 1.40], 3: ['90EURW', 1.20] } },
-        pillarF: { name: '前門立柱與側板 (1PPD341 8 85)', codes: { 0: ['85E84A', 1.30], 1: ['85F50U', 1.10], 2: ['85F50U', 1.10], 3: ['85F53U', 1.30] } },
-        pillarM: { name: '中立柱 (1PPD343 8 85)', codes: { 0: ['85F35U', 1.30], 1: ['85F36U', 1.50], 2: ['85F36U', 1.50], 3: ['85F37U', 1.70] } },
+        pillarF: { name: '前門立柱/A柱 (1PPD341 8 85)', codes: { 0: ['85F49U', 0.90], 1: ['85F50U', 1.10], 2: ['85F50U', 1.10], 3: ['85F53U', 1.30] } },
+        pillarM: { name: '中立柱/B柱 (1PPD343 8 85)', codes: { 0: ['85F35U', 1.30], 1: ['85F36U', 1.50], 2: ['85F36U', 1.50], 3: ['85F37U', 1.70] } },
         sideFrame: { name: '側板側門框 (1PPD344 8 85)', codes: { 0: ['85F4QU', 3.60], 1: ['85F4RU', 3.80], 2: ['85F4RU', 3.80], 3: ['85F4SU', 4.00] } },
-        sill_beam: { name: '右手車身門檻外側梁 (1PPD324 8 85)', codes: { 0: ['85F3ZU', 1.40], 1: ['85F40U', 1.60], 2: ['85F42V', 1.50], 3: ['85F44W', 1.20] } },
-        fenderR_part: { name: '後翼子板 (部分修復) (1PPD324 8 85)', codes: { 0: ['85F3XU', 0.80], 1: ['85F3YU', 1.00], 2: ['85F40V', 1.00], 3: ['85F42W', 0.90] } },
-        fenderR_full: { name: '後翼子板總成 (1PPD324 8 85)', codes: { 0: ['85F4AU', 2.80], 1: ['85F4CU', 3.00], 2: ['85F4BV', 1.00], 3: ['85F4BW', 0.90] } },
-        tailgate: { name: '尾門玻璃裝飾件 (1PPD327 6 65)', codes: { 0: ['74EQAZ', 1.40], 1: ['74EQCU', 2.20], 2: ['74EQEV', 2.10], 3: ['74EQGW', 1.80] } },
-        bumperR_guard1: { name: '後保險桿護板 (1側) (1PPD321 6 65)', codes: { 0: ['74EP4Z', 0.60], 1: ['74EP6Z', 0.90], 2: ['74EP6Z', 0.90], 3: ['74EP7Z', 0.90] } },
-        bumperR_guard2: { name: '後保險桿護板 (2側) (1PPD321 6 65)', codes: { 0: ['74ES4Z', 0.80], 1: ['74ES6Z', 1.30], 2: ['74ES6Z', 1.30], 3: ['74ES7Z', 1.30] } },
-        roof: { name: '車頂板-內框架-行李架 (1PPD371 8 83)', codes: { 0: ['83EGDU', 3.70], 1: ['83EGDU', 3.70], 2: ['83EGFV', 2.90], 3: ['83EGHW', 1.90] } }
+        sill_beam: { name: '車身門檻外側梁 (1PPD324 8 85)', codes: { 0: ['85F3ZU', 1.40], 1: ['85F40U', 1.60], 2: ['85F42V', 1.50], 3: ['85F44W', 1.20] } },
+        fenderR_part: { name: '後翼子板-局部 (1PPD324 8 85)', codes: { 0: ['85F3XU', 0.80], 1: ['85F3YU', 1.00], 2: ['85F40V', 1.00], 3: ['85F42W', 0.90] } },
+        fenderR_full: { name: '後翼子板-總成 (1PPD324 8 85)', codes: { 0: ['85F4AU', 2.80], 1: ['85F4CU', 3.00], 2: ['85F4BV', 1.00], 3: ['85F4BW', 0.90] } },
+        tailgate: { name: '尾門 (1PPD327 6 65)', codes: { 0: ['74EQAZ', 1.40], 1: ['74EQCU', 2.20], 2: ['74EQEV', 2.10], 3: ['74EQGW', 1.80] } },
+        spoilerR: { name: '後尾門上擾流板 (1PPD327 6 65)', codes: { 0: ['74F2MA', 1.00], 1: ['74F2MA', 1.00], 2: ['74F2PA', 1.00], 3: ['74F2SA', 1.00] } },
+        bumperR_skirt: { name: '後保險桿裙板 (1PPD321 6 65)', codes: { 0: ['74E15Z', 1.20], 1: ['74E15V', 2.10], 2: ['74E15V', 2.10], 3: ['74E15W', 2.00] } },
+        bumperR_guard1: { name: '後保險桿護板-1側 (1PPD321 6 65)', codes: { 0: ['74EP4Z', 0.60], 1: ['74EP6Z', 0.90], 2: ['74EP6Z', 0.90], 3: ['74EP7Z', 0.90] } },
+        bumperR_guard2: { name: '後保險桿護板-2側 (1PPD321 6 65)', codes: { 0: ['74ES4Z', 0.80], 1: ['74ES6Z', 1.30], 2: ['74ES6Z', 1.30], 3: ['74ES7Z', 1.30] } },
+        roof_std: { name: '車頂板-標準 (1PPD371 8 83)', codes: { 0: ['83EGDU', 3.70], 1: ['83EGDU', 3.70], 2: ['83EGFV', 2.90], 3: ['83EGHW', 1.90] } },
+        roof_sun: { name: '車頂板-帶天窗 (1PPD371 8 83)', codes: { 0: ['83EIPA', 2.90], 1: ['83EIPA', 2.90], 2: ['83EISA', 2.20], 3: ['83EIVA', 1.70] } }
     }
 };
 
