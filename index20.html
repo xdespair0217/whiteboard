@@ -6,12 +6,12 @@
     <title>漆面保固與請款系統索引</title>
     <style>
         :root {
-            --bg-color: #faf9f6; /* Warm alabaster/gallery white */
+            --bg-color: #faf9f6;
             --text-primary: #1a1a1a;
             --text-secondary: #757575;
             --border-color: #e2e0d8;
             --accent-color: #2b303a;
-            --highlight-color: #8c7851; /* Champagne gold tint */
+            --highlight-color: #8c7851;
         }
 
         * {
@@ -36,7 +36,6 @@
             max-width: 1100px;
         }
 
-        /* Header Section */
         header {
             margin-bottom: 4.5rem;
             border-bottom: 1px solid var(--border-color);
@@ -77,7 +76,6 @@
             line-height: 1.6;
         }
 
-        /* Main Grid Area */
         .grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -88,11 +86,10 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            min-height: 220px;
+            min-height: 240px;
             padding: 1.75rem;
             background: #ffffff;
             border: 1px solid var(--border-color);
-            text-decoration: none;
             color: inherit;
             position: relative;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -140,21 +137,54 @@
             font-weight: 300;
         }
 
-        .item-footer {
+        /* 雙連結與單連結按鈕樣式 */
+        .item-footer-single {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             font-size: 0.75rem;
             font-weight: 600;
             letter-spacing: 0.05em;
+            color: var(--text-primary);
+            text-decoration: none;
+            padding-top: 0.75rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .item-footer-dual {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .action-btn {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            justify-content: center;
+            gap: 0.3rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            padding: 0.5rem 0.25rem;
+            background: #f4f3ef;
             color: var(--text-primary);
+            text-decoration: none;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .action-btn:hover {
+            background: var(--text-primary);
+            color: #ffffff;
         }
 
         .arrow {
             transition: transform 0.3s ease;
         }
 
-        .item.active:hover .arrow {
+        .item-footer-single:hover .arrow {
             transform: translateX(4px);
         }
 
@@ -163,7 +193,6 @@
             background: rgba(0, 0, 0, 0.01);
             border-style: dashed;
             border-color: #e8e6df;
-            cursor: default;
         }
 
         .item.disabled .item-title {
@@ -175,11 +204,11 @@
             color: #c5c5c5;
         }
 
-        .item.disabled .item-footer {
+        .item.disabled .item-footer-single {
             color: #d0d0d0;
+            border-top-color: transparent;
         }
 
-        /* Responsive Breakpoints */
         @media (max-width: 900px) {
             .grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -221,7 +250,7 @@
         <main class="grid">
 
             <!-- 01. Peugeot 408X -->
-            <a href="https://xdespair0217.github.io/whiteboard/index10.html" target="_blank" class="item active">
+            <div class="item active">
                 <div>
                     <div class="item-number">
                         <span>01</span>
@@ -232,14 +261,14 @@
                         <p class="item-desc">漆面塗料保固與規格數據系統</p>
                     </div>
                 </div>
-                <div class="item-footer">
+                <a href="https://xdespair0217.github.io/whiteboard/index10.html" target="_blank" class="item-footer-single">
                     <span>EXPLORE</span>
                     <span class="arrow">→</span>
-                </div>
-            </a>
+                </a>
+            </div>
 
             <!-- 02. Peugeot 3008 -->
-            <a href="https://xdespair0217.github.io/whiteboard/index11.html" target="_blank" class="item active">
+            <div class="item active">
                 <div>
                     <div class="item-number">
                         <span>02</span>
@@ -250,14 +279,14 @@
                         <p class="item-desc">純漆面塗料數據與審核資訊</p>
                     </div>
                 </div>
-                <div class="item-footer">
+                <a href="https://xdespair0217.github.io/whiteboard/index11.html" target="_blank" class="item-footer-single">
                     <span>EXPLORE</span>
                     <span class="arrow">→</span>
-                </div>
-            </a>
+                </a>
+            </div>
 
-            <!-- 03. Citroën Berlingo -->
-            <a href="https://xdespair0217.github.io/whiteboard/index12.html" target="_blank" class="item active">
+            <!-- 03. Citroën Berlingo (修正後的分流按鈕) -->
+            <div class="item active">
                 <div>
                     <div class="item-number">
                         <span>03</span>
@@ -265,16 +294,20 @@
                     </div>
                     <div class="item-content">
                         <h2 class="item-title">Berlingo (K9)</h2>
-                        <p class="item-desc">漆面塗料請款試算與費用估算系統</p>
+                        <p class="item-desc">漆面塗料請款試算系統（跨平台最佳化）</p>
                     </div>
                 </div>
-                <div class="item-footer">
-                    <span>EXPLORE</span>
-                    <span class="arrow">→</span>
+                <div class="item-footer-dual">
+                    <a href="https://xdespair0217.github.io/whiteboard/index12A.html" target="_blank" class="action-btn">
+                        📱 手機端
+                    </a>
+                    <a href="https://xdespair0217.github.io/whiteboard/index12.html" target="_blank" class="action-btn">
+                        💻 電腦端
+                    </a>
                 </div>
-            </a>
+            </div>
 
-            <!-- 04. Reserved Slot -->
+            <!-- 04. 預留擴充 -->
             <div class="item disabled">
                 <div>
                     <div class="item-number">
@@ -286,12 +319,12 @@
                         <p class="item-desc">待填入全新車型塗料與保固規格</p>
                     </div>
                 </div>
-                <div class="item-footer">
+                <div class="item-footer-single">
                     <span>UNASSIGNED</span>
                 </div>
             </div>
 
-            <!-- 05. Reserved Slot -->
+            <!-- 05. 預留擴充 -->
             <div class="item disabled">
                 <div>
                     <div class="item-number">
@@ -303,12 +336,12 @@
                         <p class="item-desc">待填入全新車型塗料與保固規格</p>
                     </div>
                 </div>
-                <div class="item-footer">
+                <div class="item-footer-single">
                     <span>UNASSIGNED</span>
                 </div>
             </div>
 
-            <!-- 06. Reserved Slot -->
+            <!-- 06. 預留擴充 -->
             <div class="item disabled">
                 <div>
                     <div class="item-number">
@@ -320,12 +353,12 @@
                         <p class="item-desc">待填入全新車型塗料與保固規格</p>
                     </div>
                 </div>
-                <div class="item-footer">
+                <div class="item-footer-single">
                     <span>UNASSIGNED</span>
                 </div>
             </div>
 
-            <!-- 07. Reserved Slot -->
+            <!-- 07. 預留擴充 -->
             <div class="item disabled">
                 <div>
                     <div class="item-number">
@@ -337,12 +370,12 @@
                         <p class="item-desc">待填入全新車型塗料與保固規格</p>
                     </div>
                 </div>
-                <div class="item-footer">
+                <div class="item-footer-single">
                     <span>UNASSIGNED</span>
                 </div>
             </div>
 
-            <!-- 08. Reserved Slot -->
+            <!-- 08. 預留擴充 -->
             <div class="item disabled">
                 <div>
                     <div class="item-number">
@@ -354,12 +387,12 @@
                         <p class="item-desc">待填入全新車型塗料與保固規格</p>
                     </div>
                 </div>
-                <div class="item-footer">
+                <div class="item-footer-single">
                     <span>UNASSIGNED</span>
                 </div>
             </div>
 
-            <!-- 09. Reserved Slot -->
+            <!-- 09. 預留擴充 -->
             <div class="item disabled">
                 <div>
                     <div class="item-number">
@@ -371,7 +404,7 @@
                         <p class="item-desc">待填入全新車型塗料與保固規格</p>
                     </div>
                 </div>
-                <div class="item-footer">
+                <div class="item-footer-single">
                     <span>UNASSIGNED</span>
                 </div>
             </div>
