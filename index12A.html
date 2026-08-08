@@ -18,74 +18,100 @@
         --border: #cbd5e1;
     }
 
-    * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
-    body { background-color: #f8fafc; color: var(--slate-900); margin: 0; padding: 12px; font-size: 14px; line-height: 1.5; }
+    * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+    body { background-color: #f8fafc; color: var(--slate-900); margin: 0; padding: 12px; font-size: 15px; line-height: 1.5; -webkit-text-size-adjust: 100%; }
     .container { max-width: 1000px; margin: 0 auto; }
 
+    /* Header Panel */
     .header-panel {
         background: var(--slate-900);
         color: white;
         padding: 16px;
-        border-radius: 10px;
-        margin-bottom: 16px;
+        border-radius: 12px;
+        margin-bottom: 12px;
         border-bottom: 4px solid var(--blue-600);
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
     }
-    .header-panel h1 { margin: 0; font-size: 18px; font-weight: 700; }
-    .header-panel p { margin: 0; color: #94a3b8; font-size: 12px; }
+    .header-panel h1 { margin: 0; font-size: 18px; font-weight: 700; line-height: 1.3; }
+    .header-panel p { margin: 6px 0 0 0; color: #94a3b8; font-size: 12px; }
 
-    .card { background: white; border-radius: 8px; border: 1px solid var(--border); padding: 14px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-    .card-title { font-size: 15px; font-weight: 700; color: var(--slate-900); border-left: 4px solid var(--blue-600); padding-left: 10px; margin-bottom: 14px; }
+    /* Cards */
+    .card { background: white; border-radius: 10px; border: 1px solid var(--border); padding: 14px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
+    .card-title { font-size: 15px; font-weight: 700; color: var(--slate-900); border-left: 4px solid var(--blue-600); padding-left: 10px; margin-bottom: 12px; }
 
-    .manual-box { background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 16px; padding: 12px; }
+    /* Collapsible Manual */
+    .manual-box { background: #f8fafc; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 12px; padding: 12px; }
     .manual-title { font-weight: 700; color: var(--slate-800); cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; font-size: 13.5px; }
-    .manual-content { margin-top: 12px; font-size: 13px; color: var(--slate-700); border-top: 1px solid var(--border); padding-top: 12px; line-height: 1.6; }
+    .manual-content { margin-top: 10px; font-size: 13px; color: var(--slate-700); border-top: 1px solid var(--border); padding-top: 10px; line-height: 1.6; }
     .manual-content ul { margin: 4px 0 8px 16px; padding: 0; }
 
-    /* 響應式網格系統 */
-    .grid-4, .grid-3, .grid-2 { display: grid; gap: 12px; grid-template-columns: 1fr; }
+    /* Form Inputs & Controls */
+    .form-group { margin-bottom: 12px; }
+    .form-group:last-child { margin-bottom: 0; }
+    label { font-weight: 600; font-size: 13px; color: var(--slate-700); display: block; margin-bottom: 4px; }
+    
+    /* 防 iOS 放大 (font-size >= 16px) 與觸控最佳化 */
+    select, input { 
+        width: 100%; 
+        padding: 10px 12px; 
+        border: 1px solid var(--border); 
+        border-radius: 8px; 
+        font-size: 16px; 
+        background-color: #fff; 
+        color: var(--slate-900); 
+        min-height: 44px;
+    }
+    select:focus, input:focus { outline: none; border-color: var(--blue-600); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15); }
 
-    label { font-weight: 600; font-size: 13px; color: var(--slate-700); display: block; margin-bottom: 6px; }
-    select, input { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 16px; background-color: #fff; color: var(--slate-900); min-height: 44px; }
-    select:focus, input:focus { outline: none; border-color: var(--blue-600); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+    /* RWD Grid Layouts */
+    .grid-4, .grid-3, .grid-2 { display: grid; gap: 10px; grid-template-columns: 1fr; }
 
-    /* 表格響應式包裝，防止行動端撐破版面 */
-    .table-wrapper { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 10px; border-radius: 6px; border: 1px solid #e2e8f0; }
-    table { width: 100%; border-collapse: collapse; min-width: 600px; }
-    th, td { padding: 8px 10px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: middle; }
-    th { background: var(--slate-100); color: var(--slate-700); font-size: 12px; font-weight: 600; white-space: nowrap; }
+    /* Mobile Parts Container (Card Style for Mobile) */
+    .parts-container { display: flex; flex-direction: column; gap: 10px; }
+    .part-card {
+        background: #f8fafc;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px;
+        position: relative;
+    }
+    .part-card-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; gap: 8px; }
+    .part-card-row:last-child { margin-bottom: 0; }
+    .part-meta { display: flex; align-items: center; gap: 8px; }
 
-    .code-badge { background: #e2e8f0; color: var(--slate-900); padding: 4px 6px; border-radius: 4px; font-family: monospace; font-size: 12px; font-weight: 600; display: inline-block; }
-    .btn { background: var(--blue-600); color: white; border: none; padding: 12px 18px; border-radius: 6px; font-weight: 600; cursor: pointer; display: inline-flex; justify-content: center; align-items: center; gap: 6px; font-size: 14px; width: 100%; min-height: 44px; }
-    .btn:hover { background: var(--blue-700); }
-    .btn-secondary { background: #059669; width: auto; padding: 6px 12px; min-height: 36px; font-size: 13px; }
-    .btn-secondary:hover { background: #047857; }
-    .btn-danger { background: var(--red-600); padding: 6px 10px; font-size: 12px; width: auto; min-height: 32px; }
+    /* Checkbox Alignment */
+    .checkbox-label { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; cursor: pointer; user-select: none; }
+    .checkbox-label input[type="checkbox"] { width: 20px; height: 20px; min-height: 20px; accent-color: var(--blue-600); margin: 0; }
 
-    .result-card { background: var(--blue-50); border: 1px solid #bfdbfe; border-radius: 10px; padding: 16px; margin-top: 16px; }
-    .result-title { font-size: 16px; font-weight: 700; color: #1e40af; margin-bottom: 14px; }
-    .stat-val { font-size: 22px; font-weight: 700; color: var(--blue-700); }
+    /* Badges & Buttons */
+    .code-badge { background: #e2e8f0; color: var(--slate-900); padding: 4px 8px; border-radius: 4px; font-family: monospace; font-size: 12px; font-weight: 600; display: inline-block; }
+    .btn { background: var(--blue-600); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; font-size: 15px; width: 100%; min-height: 46px; }
+    .btn:active { background: var(--blue-700); transform: scale(0.99); }
+    .btn-secondary { background: #059669; min-height: 38px; padding: 6px 12px; font-size: 13px; width: auto; }
+    .btn-danger-icon { background: #fee2e2; color: var(--red-600); border: 1px solid #fca5a5; border-radius: 6px; padding: 6px 10px; font-size: 12px; font-weight: 600; cursor: pointer; }
+
+    /* Result Card */
+    .result-card { background: var(--blue-50); border: 1px solid #bfdbfe; border-radius: 12px; padding: 16px; margin-top: 12px; }
+    .result-title { font-size: 16px; font-weight: 700; color: #1e40af; margin-bottom: 12px; }
+    .stat-val { font-size: 26px; font-weight: 700; color: var(--blue-700); line-height: 1.2; }
     .stat-label { font-size: 12px; color: var(--slate-700); font-weight: 600; text-transform: uppercase; }
 
     .tag-container { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
     .tag-item { background: #dbeafe; color: #1e40af; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; border: 1px solid #bfdbfe; }
-    .note-box { background: #fffbe0; border-left: 4px solid #f59e0b; padding: 10px 12px; font-size: 12px; color: #92400e; border-radius: 0 6px 6px 0; margin-top: 12px; line-height: 1.5; }
+    .note-box { background: #fffbe0; border-left: 4px solid #f59e0b; padding: 10px 12px; font-size: 12.5px; color: #92400e; border-radius: 0 6px 6px 0; margin-top: 10px; line-height: 1.5; }
 
-    /* 平板與桌面端 media query */
-    @media (min-width: 640px) {
+    /* Desktop Layout Overrides (min-width: 768px) */
+    @media (min-width: 768px) {
         body { padding: 20px; font-size: 14px; }
-        .header-panel { padding: 24px; flex-direction: row; justify-content: space-between; align-items: center; }
+        .header-panel { padding: 24px; display: flex; justify-content: space-between; align-items: center; }
         .header-panel h1 { font-size: 22px; }
         .header-panel p { font-size: 13px; }
-        .card { padding: 20px; }
+        .card { padding: 20px; margin-bottom: 20px; }
         select, input { font-size: 13.5px; min-height: initial; padding: 9px 12px; }
-        .btn { width: auto; min-height: initial; padding: 9px 18px; font-size: 13px; }
-        .grid-2 { grid-template-columns: 1fr 1fr; }
-        .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
-        .grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
-        .stat-val { font-size: 24px; }
+        .btn { width: auto; font-size: 13px; padding: 9px 18px; min-height: initial; display: inline-flex; }
+        .grid-2 { grid-template-columns: 1fr 1fr; gap: 16px; }
+        .grid-3 { grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+        .grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
+        .form-group { margin-bottom: 0; }
     }
 </style>
 </head>
@@ -99,56 +125,45 @@
         </div>
     </div>
 
+    <!-- 系統說明 (收合) -->
     <details class="manual-box">
         <summary class="manual-title">
-            <span>📖 系統運算邏輯與使用說明（點擊展開 / 收合）</span>
+            <span>📖 運算邏輯與說明（點擊展開）</span>
         </summary>
         <div class="manual-content">
             <strong>一、 雙軌漆種自動連動法則：</strong>
             <ul>
-                <li><strong>EPR (冰白漆 / Blanc Iquique)</strong>：自動判定為「不透明漆/素色漆」，帶入固定時間代碼 <span class="code-badge">70E00V</span> (+0.70h)，全車鈑件自動匹配 <strong>P050 / P110 / P210 / P310</strong> 專用標準代碼與 FRT 工時。</li>
-                <li><strong>KCA (淺灰色漆 / Gris Artense)</strong>：自動判定為「金屬漆/兩層清漆」，帶入固定時間代碼 <span class="code-badge">70E01U</span> (+1.00h)，全車鈑件自動匹配 <strong>P450 / P510 / P610 / P710</strong> 專用標準代碼與 FRT 工時。</li>
+                <li><strong>EPR (冰白漆)</strong>：自動判定為「不透明漆/素色漆」，帶入 <span class="code-badge">70E00V</span> (+0.70h)，鈑件自動匹配 <strong>P050/P110/P210/P310</strong>。</li>
+                <li><strong>KCA (淺灰色漆)</strong>：自動判定為「金屬漆/兩層清漆」，帶入 <span class="code-badge">70E01U</span> (+1.00h)，鈑件自動匹配 <strong>P450/P510/P610/P710</strong>。</li>
             </ul>
 
-            <strong>二、 施工鈑件與受損修復等級 (Servicebox 標準)：</strong>
+            <strong>二、 受損修復等級 (Servicebox)：</strong>
             <ul>
-                <li><strong>0 級 (全新空件)</strong>：全新部件噴漆，代碼如 P050/P450，不參與相鄰件工時折減。</li>
-                <li><strong>1 級 (修復 >20%)</strong>：嚴重受損修復後噴漆，代碼如 P110/P510。</li>
-                <li><strong>2 級 (修復 <20%)</strong>：輕微受損修復後噴漆，代碼如 P210/P610。</li>
-                <li><strong>3 級 (純噴無修)</strong>：純表面噴漆修飾，代碼如 P310/P710。</li>
+                <li><strong>0 級 (全新空件)</strong>：全新部件，不參與相鄰件折減。</li>
+                <li><strong>1 級 (修復 >20%)</strong>｜<strong>2 級 (修復 <20%)</strong>｜<strong>3 級 (純噴無修)</strong>。</li>
             </ul>
 
-            <strong>三、 噴漆相鄰件折減機制 (Servicebox 規範)：</strong>
+            <strong>三、 噴漆相鄰件折減機制：</strong>
             <ul>
-                <li><strong>相鄰件 1 件</strong>：不進行工時折減 (0%)。</li>
-                <li><strong>相鄰件 2 件</strong>：相鄰鈑件基礎工時合計折減 <strong>15% (-15%)</strong>。</li>
-                <li><strong>相鄰件 3 件</strong>：相鄰鈑件基礎工時合計折減 <strong>20% (-20%)</strong>。</li>
-                <li><strong>相鄰件 4 件（含以上）</strong>：相鄰鈑件基礎工時合計折減 <strong>25% (-25%)</strong>。</li>
-                <li><em>註：修復等級為「0 級（全新空件）」或取消勾選「相鄰件」者，不參與折減。</em></li>
-            </ul>
-
-            <strong>四、 費用計算與剪貼簿匯出格式：</strong>
-            <ul>
-                <li><strong>總請款工時</strong> = (相鄰件基礎工時合計 × 折減率) + 非折減件工時 + 漆面固定準備工時</li>
-                <li><strong>預估請款總金額</strong> = (總工時 × 廠內漆工費單價) + (總工時 × 漆料耗材費單價)</li>
-                <li><strong>複製請款文字格式</strong>：自動包含「鈑件中文名稱 + 標準代碼 + 請款工時」，便利保險報銷審核。</li>
+                <li>2 件折減 <strong>15%</strong>｜3 件折減 <strong>20%</strong>｜4 件(含)以上折減 <strong>25%</strong>。</li>
             </ul>
         </div>
     </details>
 
+    <!-- 車型與漆種設定 -->
     <div class="card">
         <div class="card-title">一、 車輛型號、車身色號與漆面單價設定</div>
         <div class="grid-4">
-            <div>
+            <div class="form-group">
                 <label>1. 車輛型號</label>
                 <input type="text" value="Citroën Berlingo (K9)" disabled style="background:#f1f5f9; font-weight:600;">
             </div>
-            <div>
+            <div class="form-group">
                 <label>2. 車身色號 (銘牌比對)</label>
                 <select id="colorSelect" onchange="onColorChange()"></select>
             </div>
-            <div>
-                <label>3. 漆面屬性 (Servicebox 規則)</label>
+            <div class="form-group">
+                <label>3. 漆面屬性 (Servicebox)</label>
                 <select id="coatType" onchange="onCoatTypeManualChange()">
                     <option value="0.70|70E00V">不透明漆 / 素色漆 (單層) (+0.70h) [70E00V]</option>
                     <option value="1.00|70E01U">金屬漆 / 清漆 (兩層) (+1.00h) [70E01U]</option>
@@ -156,7 +171,7 @@
                     <option value="1.60|70E04W">特殊彩色清漆 (+1.60h) [70E04W]</option>
                 </select>
             </div>
-            <div>
+            <div class="form-group">
                 <label>4. 廠內單價設定 (NT$)</label>
                 <div style="display:flex; gap:8px;">
                     <input type="number" id="laborRate" value="900" placeholder="漆工費/h" oninput="calculate()">
@@ -169,29 +184,17 @@
         </div>
     </div>
 
+    <!-- 噴漆部位選擇 (Mobile Dynamic Cards) -->
     <div class="card">
         <div class="card-title">二、 選擇噴漆鈑件與受損修復等級</div>
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>施工鈑件部位 (Servicebox 區域)</th>
-                        <th>受損修復等級</th>
-                        <th>標準代碼</th>
-                        <th>基礎工時</th>
-                        <th>相鄰件</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody id="partsList"></tbody>
-            </table>
-        </div>
-        <button class="btn" style="margin-top: 12px;" onclick="addPartRow()">+ 新增噴漆鈑件</button>
+        <div id="partsList" class="parts-container"></div>
+        <button class="btn" style="margin-top: 14px;" onclick="addPartRow()">+ 新增噴漆鈑件</button>
     </div>
 
+    <!-- 試算結果 -->
     <div class="result-card">
         <div class="result-title">📊 漆面請款明細總計</div>
-        <div class="grid-3" style="margin-bottom: 16px;">
+        <div class="grid-3" style="margin-bottom: 12px;">
             <div>
                 <div class="stat-label">折減後噴漆工時</div>
                 <div class="stat-val" id="resPaintHours">0.00 <span style="font-size:14px; font-weight:400;">hrs</span></div>
@@ -207,7 +210,7 @@
             </div>
         </div>
 
-        <hr style="border:0; border-top:1px solid #bfdbfe; margin:16px 0;">
+        <hr style="border:0; border-top:1px solid #bfdbfe; margin:12px 0;">
 
         <div class="grid-2">
             <div>
@@ -217,7 +220,7 @@
                     漆工費：NT$ 0 | 漆料耗材：NT$ 0
                 </div>
             </div>
-            <div style="margin-top: 10px;">
+            <div style="margin-top: 8px;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
                     <div class="stat-label">請款代碼組合 (保險審核)</div>
                     <button class="btn btn-secondary" onclick="copyClaimDetails()">📋 複製請款文字</button>
@@ -357,36 +360,42 @@ function getPartChineseName(partName) {
 
 function renderParts() {
     const partsDb = berlingoData.parts;
-    const tbody = document.getElementById('partsList');
-    tbody.innerHTML = '';
+    const container = document.getElementById('partsList');
+    container.innerHTML = '';
 
     selectedParts.forEach((item, index) => {
         const partData = partsDb[item.partKey] || Object.values(partsDb)[0];
         const [code, hours] = getPartCodeAndHours(partData, item.level);
 
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>
-                <select onchange="updatePart(${index}, 'partKey', this.value)">
+        const card = document.createElement('div');
+        card.className = 'part-card';
+        card.innerHTML = `
+            <div class="part-card-row">
+                <select style="flex: 1;" onchange="updatePart(${index}, 'partKey', this.value)">
                     ${Object.keys(partsDb).map(k => `<option value="${k}" ${k===item.partKey?'selected':''}>${partsDb[k].name}</option>`).join('')}
                 </select>
-            </td>
-            <td>
-                <select onchange="updatePart(${index}, 'level', parseInt(this.value))">
+                <button class="btn-danger-icon" onclick="removePart(${index})">刪除</button>
+            </div>
+            <div class="part-card-row">
+                <select style="flex: 1;" onchange="updatePart(${index}, 'level', parseInt(this.value))">
                     <option value="2" ${item.level===2?'selected':''}>2 級 (修復 <20%)</option>
                     <option value="1" ${item.level===1?'selected':''}>1 級 (修復 >20%)</option>
                     <option value="3" ${item.level===3?'selected':''}>3 級 (純噴無修)</option>
                     <option value="0" ${item.level===0?'selected':''}>0 級 (全新空件)</option>
                 </select>
-            </td>
-            <td><span class="code-badge">${code}</span></td>
-            <td><strong>${hours.toFixed(2)}</strong> h</td>
-            <td style="text-align:center;">
-                <input type="checkbox" style="min-height:initial; width:18px; height:18px;" ${item.isAdjacent ? 'checked' : ''} ${item.level===0?'disabled':''} onchange="updatePart(${index}, 'isAdjacent', this.checked)">
-            </td>
-            <td><button class="btn btn-danger" onclick="removePart(${index})">刪除</button></td>
+            </div>
+            <div class="part-card-row" style="border-top: 1px dashed var(--border); padding-top: 8px; margin-top: 8px;">
+                <div class="part-meta">
+                    <span class="code-badge">${code}</span>
+                    <span style="font-weight:700; color:var(--blue-700); font-size:15px;">${hours.toFixed(2)} h</span>
+                </div>
+                <label class="checkbox-label">
+                    <input type="checkbox" ${item.isAdjacent ? 'checked' : ''} ${item.level===0?'disabled':''} onchange="updatePart(${index}, 'isAdjacent', this.checked)">
+                    相鄰件折減
+                </label>
+            </div>
         `;
-        tbody.appendChild(tr);
+        container.appendChild(card);
     });
     calculate();
 }
