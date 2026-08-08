@@ -118,7 +118,7 @@
                 <li><strong>左右件代碼獨立</strong>：側圍與後翼子板已區分「右側 (85F3/85F4)」與「左側 (85F4/85F5)」，請精準選取以通過保險審核。</li>
                 <li><strong>相鄰件連帶折減</strong>：修復件 (1~3級) 勾選相鄰時，2件折減15%、3件折減20%、4件以上折減25%。</li>
                 <li><strong>全新空件 (0級) 規則</strong>：全新空件自動排除於連帶折減之外，且不參與相鄰數量計算。</li>
-                <li><strong>一鍵完整複製</strong>：點擊請款卡片右下角「📋 複製請款文字」，可一鍵導出包含「部位名稱 + 修復等級 + 代碼 + 工時 + 總金額」之完整明細。</li>
+                <li><strong>一鍵複製功能</strong>：點擊「📋 複製請款文字」，可直接導出「項目 + 代碼 + 工時」及總工時之精簡格式。</li>
             </ul>
         </div>
     </div>
@@ -183,7 +183,7 @@
 </div>
 
 <script>
-// Peugeot 408X (P54C) 專屬數據庫 (精準分拆左右側與區域版)
+// Peugeot 408X (P54C) 專屬數據庫 (已完全移除圖號括號)
 const p54cData = {
     colors: {
         "EDP": { name: "EDP - 深藍色 (金屬漆)", coatType: "1.00|70E01U", note: "✓ 已匹配 EDP 銘牌色號：深藍色金屬漆 [70E01U / +1.00 小時]" },
@@ -192,26 +192,26 @@ const p54cData = {
         "custom": { name: "手動指定 / 其他漆種", coatType: "", note: "📌 請由右方下拉選單手動選擇正確的漆面屬性。" }
     },
     parts: {
-        hood: { name: '引擎蓋 (1PP6774306)', codes: { 0: ['79E1HZ', 3.60], 1: ['79E1IU', 4.10], 2: ['79E1KV', 2.60], 3: ['79E1MW', 2.10] } },
-        fenderF: { name: '前翼子板 (一側) (1PP6771305)', codes: { 0: ['78EELZ', 0.90], 1: ['78EENU', 1.50], 2: ['78EEQV', 1.10], 3: ['78EESW', 1.00] } },
-        bumperF_main: { name: '前保險槓 (主體) (1PP6665303)', codes: { 0: ['74EQIZ', 1.20], 1: ['74EQPV', 2.60], 2: ['74EQMV', 2.10], 3: ['74EQOW', 2.10] } },
-        bumperF_upper: { name: '前保險槓 (上部) (1PP6665303)', codes: { 0: ['74EW2Z', 0.60], 1: ['74EW3V', 1.20], 2: ['74EW2V', 1.00], 3: ['74EW2W', 1.00] } },
-        bumperF_side1: { name: '前保險槓側面零件 (1側) (1PP6665303)', codes: { 0: ['74F3SA', 0.60], 1: ['74F3WA', 1.10], 2: ['74F3TA', 0.90], 3: ['74F3UA', 0.90] } },
-        bumperF_side2: { name: '前保險槓側面零件 (兩側) (1PP6665303)', codes: { 0: ['74F41A', 0.60], 1: ['74F45A', 1.40], 2: ['74F42A', 1.20], 3: ['74F43A', 1.20] } },
-        doorF: { name: '前鉸接側門 (前門 1PP6774350)', codes: { 0: ['90F02Z', 2.40], 1: ['90F04U', 3.50], 2: ['90F06V', 1.80], 3: ['90F08W', 1.60] } },
-        doorR: { name: '後鉸接側門 (後門 1PP6774360)', codes: { 0: ['90EUKZ', 2.30], 1: ['90EUMU', 3.30], 2: ['90EUPV', 1.80], 3: ['90EURW', 1.50] } },
-        roof_main: { name: '車頂 (1PP6883371)', codes: { 0: ['83EGDU', 4.70], 1: ['83EGDU', 4.70], 2: ['83EGFV', 4.00], 3: ['83EGHW', 2.70] } },
-        roof_rear: { name: '車頂後部 (1PP6883371)', codes: { 0: ['83EGJU', 2.50], 1: ['83EGJU', 2.50], 2: ['83EGLV', 2.10], 3: ['83EGNW', 1.60] } },
-        pillar_A: { name: '前門立柱 / A柱 (1PP6885341)', codes: { 0: ['85F50U', 1.40], 1: ['85F50U', 1.40], 2: ['85F50U', 1.40], 3: ['85F50U', 1.40] } },
-        pillar_B_L: { name: '中立柱 / 左側B柱 (1PP6885343)', codes: { 0: ['85F32U', 1.80], 1: ['85F32U', 1.80], 2: ['85F32U', 1.80], 3: ['85F32U', 1.80] } },
-        pillar_B_R: { name: '中立柱 / 右立柱 (1PP6885343)', codes: { 0: ['85F36U', 1.80], 1: ['85F36U', 1.80], 2: ['85F36U', 1.80], 3: ['85F36U', 1.80] } },
-        side_panel_R: { name: '右側面板 / 右側圍 (1PP6885344)', codes: { 0: ['85F4RU', 4.10], 1: ['85F4RU', 4.10], 2: ['85F4RU', 4.10], 3: ['85F4RU', 4.10] } },
-        side_panel_L: { name: '左側面板 / 左側圍 (1PP6885344)', codes: { 0: ['85F5RU', 4.10], 1: ['85F5RU', 4.10], 2: ['85F5RU', 4.10], 3: ['85F5RU', 4.10] } },
-        fenderR_part_R: { name: '後右翼子板 (部分 1PP6885344)', codes: { 0: ['85F3YU', 2.50], 1: ['85F3YU', 2.50], 2: ['85F40V', 1.30], 3: ['85F42W', 1.10] } },
-        fenderR_part_L: { name: '左後翼子板 (部分 1PP6885344)', codes: { 0: ['85F44U', 2.50], 1: ['85F44U', 2.50], 2: ['85F46V', 1.30], 3: ['85F48W', 1.10] } },
-        tailgate: { name: '尾門玻璃裝飾件 / 尾門 (1PP6665327)', codes: { 0: ['74EQAZ', 2.10], 1: ['74EQCU', 3.20], 2: ['74EQEV', 2.60], 3: ['74EQGW', 2.40] } },
-        bumperR_guard1: { name: '後保險槓護板 1側 (1PP6665321)', codes: { 0: ['74EP4Z', 0.60], 1: ['74EPXZ', 1.10], 2: ['74EP6Z', 0.90], 3: ['74EP7Z', 0.90] } },
-        bumperR_guard2: { name: '後保險槓護板 2側 (1PP6665321)', codes: { 0: ['74ES4Z', 0.80], 1: ['74ESXZ', 1.50], 2: ['74ES6Z', 1.30], 3: ['74ES7Z', 1.30] } }
+        hood: { name: '引擎蓋', codes: { 0: ['79E1HZ', 3.60], 1: ['79E1IU', 4.10], 2: ['79E1KV', 2.60], 3: ['79E1MW', 2.10] } },
+        fenderF: { name: '前翼子板 (一側)', codes: { 0: ['78EELZ', 0.90], 1: ['78EENU', 1.50], 2: ['78EEQV', 1.10], 3: ['78EESW', 1.00] } },
+        bumperF_main: { name: '前保險槓 (主體)', codes: { 0: ['74EQIZ', 1.20], 1: ['74EQPV', 2.60], 2: ['74EQMV', 2.10], 3: ['74EQOW', 2.10] } },
+        bumperF_upper: { name: '前保險槓 (上部)', codes: { 0: ['74EW2Z', 0.60], 1: ['74EW3V', 1.20], 2: ['74EW2V', 1.00], 3: ['74EW2W', 1.00] } },
+        bumperF_side1: { name: '前保險槓側面零件 (1側)', codes: { 0: ['74F3SA', 0.60], 1: ['74F3WA', 1.10], 2: ['74F3TA', 0.90], 3: ['74F3UA', 0.90] } },
+        bumperF_side2: { name: '前保險槓側面零件 (兩側)', codes: { 0: ['74F41A', 0.60], 1: ['74F45A', 1.40], 2: ['74F42A', 1.20], 3: ['74F43A', 1.20] } },
+        doorF: { name: '前鉸接側門 (前門)', codes: { 0: ['90F02Z', 2.40], 1: ['90F04U', 3.50], 2: ['90F06V', 1.80], 3: ['90F08W', 1.60] } },
+        doorR: { name: '後鉸接側門 (後門)', codes: { 0: ['90EUKZ', 2.30], 1: ['90EUMU', 3.30], 2: ['90EUPV', 1.80], 3: ['90EURW', 1.50] } },
+        roof_main: { name: '車頂', codes: { 0: ['83EGDU', 4.70], 1: ['83EGDU', 4.70], 2: ['83EGFV', 4.00], 3: ['83EGHW', 2.70] } },
+        roof_rear: { name: '車頂後部', codes: { 0: ['83EGJU', 2.50], 1: ['83EGJU', 2.50], 2: ['83EGLV', 2.10], 3: ['83EGNW', 1.60] } },
+        pillar_A: { name: '前門立柱 / A柱', codes: { 0: ['85F50U', 1.40], 1: ['85F50U', 1.40], 2: ['85F50U', 1.40], 3: ['85F50U', 1.40] } },
+        pillar_B_L: { name: '中立柱 / 左側B柱', codes: { 0: ['85F32U', 1.80], 1: ['85F32U', 1.80], 2: ['85F32U', 1.80], 3: ['85F32U', 1.80] } },
+        pillar_B_R: { name: '中立柱 / 右立柱', codes: { 0: ['85F36U', 1.80], 1: ['85F36U', 1.80], 2: ['85F36U', 1.80], 3: ['85F36U', 1.80] } },
+        side_panel_R: { name: '右側面板 / 右側圍', codes: { 0: ['85F4RU', 4.10], 1: ['85F4RU', 4.10], 2: ['85F4RU', 4.10], 3: ['85F4RU', 4.10] } },
+        side_panel_L: { name: '左側面板 / 左側圍', codes: { 0: ['85F5RU', 4.10], 1: ['85F5RU', 4.10], 2: ['85F5RU', 4.10], 3: ['85F5RU', 4.10] } },
+        fenderR_part_R: { name: '後右翼子板 (部分)', codes: { 0: ['85F3YU', 2.50], 1: ['85F3YU', 2.50], 2: ['85F40V', 1.30], 3: ['85F42W', 1.10] } },
+        fenderR_part_L: { name: '左後翼子板 (部分)', codes: { 0: ['85F44U', 2.50], 1: ['85F44U', 2.50], 2: ['85F46V', 1.30], 3: ['85F48W', 1.10] } },
+        tailgate: { name: '尾門玻璃裝飾件 / 尾門', codes: { 0: ['74EQAZ', 2.10], 1: ['74EQCU', 3.20], 2: ['74EQEV', 2.60], 3: ['74EQGW', 2.40] } },
+        bumperR_guard1: { name: '後保險槓護板 (1側)', codes: { 0: ['74EP4Z', 0.60], 1: ['74EPXZ', 1.10], 2: ['74EP6Z', 0.90], 3: ['74EP7Z', 0.90] } },
+        bumperR_guard2: { name: '後保險槓護板 (2側)', codes: { 0: ['74ES4Z', 0.80], 1: ['74ESXZ', 1.50], 2: ['74ES6Z', 1.30], 3: ['74ES7Z', 1.30] } }
     }
 };
 
@@ -300,17 +300,12 @@ function calculate() {
     let codeTags = [];
     let exportLines = [];
 
-    const levelNames = { 0: '0級全新件', 1: '1級大修', 2: '2級小修', 3: '3級純噴塗' };
-
-    exportLines.push(`【Peugeot 408X (P54C) 漆面請款明細表】`);
-
     selectedParts.forEach(item => {
         const partData = partsDb[item.partKey] || Object.values(partsDb)[0];
         const [code, hours] = partData.codes[item.level];
         codeTags.push(code);
 
-        // 建立完整複製項目（含部位名稱 + 修復等級 + 代碼 + 工時）
-        exportLines.push(`• ${partData.name} [${levelNames[item.level]}]: ${code} / ${hours.toFixed(2)}h`);
+        exportLines.push(`${partData.name}: ${code} / ${hours.toFixed(2)}h`);
 
         if (item.level === 0 || !item.isAdjacent) nonDiscountHours += hours;
         else { adjacentCount++; adjacentBaseHours += hours; }
@@ -328,13 +323,11 @@ function calculate() {
     const coatSelect = document.getElementById('coatType');
     const coatText = coatSelect.options[coatSelect.selectedIndex].text.split(' [')[0];
     
-    exportLines.push(`• 漆面固定準備 [${coatText}]: ${fixedCode} / ${fixedHours.toFixed(2)}h`);
-    if (discountRate > 0) {
-        exportLines.push(`• 相鄰連帶折減折扣: -${discountRate * 100}%`);
-    }
+    exportLines.push(`${coatText}: ${fixedCode} / ${fixedHours.toFixed(2)}h`);
     exportLines.push(`----------------------------------------`);
-    exportLines.push(`折減後噴漆工時: ${paintHours.toFixed(2)} 小時`);
-    exportLines.push(`總請款報銷工時: ${totalHours.toFixed(2)} 小時`);
+    exportLines.push(`總請款工時: ${totalHours.toFixed(2)}h`);
+
+    currentClaimExportText = exportLines.join('\n');
 
     const laborRate = parseFloat(document.getElementById('laborRate').value) || 0;
     const materialRate = parseFloat(document.getElementById('materialRate').value) || 0;
@@ -342,10 +335,6 @@ function calculate() {
     const laborMoney = totalHours * laborRate;
     const materialMoney = (paintHours + fixedHours) * materialRate;
     const totalMoney = laborMoney + materialMoney;
-
-    exportLines.push(`預估請款總金額: NT$ ${Math.round(totalMoney).toLocaleString()} (含漆工費: NT$ ${Math.round(laborMoney).toLocaleString()} / 耗材: NT$ ${Math.round(materialMoney).toLocaleString()})`);
-
-    currentClaimExportText = exportLines.join('\n');
 
     document.getElementById('resPaintHours').innerText = paintHours.toFixed(2);
     document.getElementById('resDiscountNotice').innerText = discountRate > 0 ? `✓ 相鄰件 -${discountRate*100}% 折減` : '';
@@ -360,7 +349,7 @@ function calculate() {
 function copyClaimDetails() {
     if (!currentClaimExportText) return;
     navigator.clipboard.writeText(currentClaimExportText).then(() => {
-        alert("已成功複製完整請款明細至剪貼簿！\n\n" + currentClaimExportText);
+        alert("已成功複製請款明細至剪貼簿！\n\n" + currentClaimExportText);
     }).catch(err => {
         console.error("複製失敗: ", err);
     });
