@@ -41,15 +41,15 @@
     /* Collapsible Manual */
     .manual-box { background: #f8fafc; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 12px; padding: 12px; }
     .manual-title { font-weight: 700; color: var(--slate-800); cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; font-size: 13.5px; }
-    .manual-content { margin-top: 10px; font-size: 13px; color: var(--slate-700); border-top: 1px solid var(--border); padding-top: 10px; line-height: 1.6; }
-    .manual-content ul { margin: 4px 0 8px 16px; padding: 0; }
+    .manual-content { margin-top: 10px; font-size: 13px; color: var(--slate-700); border-top: 1px solid var(--border); padding-top: 10px; line-height: 1.7; }
+    .manual-content ul { margin: 4px 0 8px 18px; padding: 0; }
 
     /* Form Inputs & Controls */
     .form-group { margin-bottom: 12px; }
     .form-group:last-child { margin-bottom: 0; }
     label { font-weight: 600; font-size: 13px; color: var(--slate-700); display: block; margin-bottom: 4px; }
     
-    /* 防 iOS 放大 (font-size >= 16px) 與觸控最佳化 */
+    /* 防 iOS 觸控自動放大 (font-size >= 16px) */
     select, input { 
         width: 100%; 
         padding: 10px 12px; 
@@ -83,7 +83,7 @@
     .checkbox-label input[type="checkbox"] { width: 20px; height: 20px; min-height: 20px; accent-color: var(--blue-600); margin: 0; }
 
     /* Badges & Buttons */
-    .code-badge { background: #e2e8f0; color: var(--slate-900); padding: 4px 8px; border-radius: 4px; font-family: monospace; font-size: 12px; font-weight: 600; display: inline-block; }
+    .code-badge { background: #e2e8f0; color: var(--slate-900); padding: 3px 8px; border-radius: 4px; font-family: monospace; font-size: 12px; font-weight: 600; display: inline-block; }
     .btn { background: var(--blue-600); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; font-size: 15px; width: 100%; min-height: 46px; }
     .btn:active { background: var(--blue-700); transform: scale(0.99); }
     .btn-secondary { background: #059669; min-height: 38px; padding: 6px 12px; font-size: 13px; width: auto; }
@@ -125,32 +125,45 @@
         </div>
     </div>
 
-    <!-- 系統說明 (收合) -->
+    <!-- 系統說明與演算法則 (完整還原 4 大項說明) -->
     <details class="manual-box">
         <summary class="manual-title">
-            <span>📖 運算邏輯與說明（點擊展開）</span>
+            <span>📖 系統運算邏輯與使用說明（點擊展開 / 收合）</span>
         </summary>
         <div class="manual-content">
             <strong>一、 雙軌漆種自動連動法則：</strong>
             <ul>
-                <li><strong>EPR (冰白漆)</strong>：自動判定為「不透明漆/素色漆」，帶入 <span class="code-badge">70E00V</span> (+0.70h)，鈑件自動匹配 <strong>P050/P110/P210/P310</strong>。</li>
-                <li><strong>KCA (淺灰色漆)</strong>：自動判定為「金屬漆/兩層清漆」，帶入 <span class="code-badge">70E01U</span> (+1.00h)，鈑件自動匹配 <strong>P450/P510/P610/P710</strong>。</li>
+                <li><strong>EPR (冰白漆 / Blanc Iquique)</strong>：自動判定為「不透明漆/素色漆」，帶入固定時間代碼 <span class="code-badge">70E00V</span> (+0.70h)，全車鈑件自動匹配 <strong>P050 / P110 / P210 / P310</strong> 專用標準代碼與 FRT 工時。</li>
+                <li><strong>KCA (淺灰色漆 / Gris Artense)</strong>：自動判定為「金屬漆/兩層清漆」，帶入固定時間代碼 <span class="code-badge">70E01U</span> (+1.00h)，全車鈑件自動匹配 <strong>P450 / P510 / P610 / P710</strong> 專用標準代碼與 FRT 工時。</li>
             </ul>
 
-            <strong>二、 受損修復等級 (Servicebox)：</strong>
+            <strong>二、 施工鈑件與受損修復等級 (Servicebox 標準)：</strong>
             <ul>
-                <li><strong>0 級 (全新空件)</strong>：全新部件，不參與相鄰件折減。</li>
-                <li><strong>1 級 (修復 >20%)</strong>｜<strong>2 級 (修復 <20%)</strong>｜<strong>3 級 (純噴無修)</strong>。</li>
+                <li><strong>0 級 (全新空件)</strong>：全新部件噴漆，代碼如 P050/P450，不參與相鄰件工時折減。</li>
+                <li><strong>1 級 (修復 >20%)</strong>：嚴重受損修復後噴漆，代碼如 P110/P510。</li>
+                <li><strong>2 級 (修復 <20%)</strong>：輕微受損修復後噴漆，代碼如 P210/P610。</li>
+                <li><strong>3 級 (純噴無修)</strong>：純表面噴漆修飾，代碼如 P310/P710。</li>
             </ul>
 
-            <strong>三、 噴漆相鄰件折減機制：</strong>
+            <strong>三、 噴漆相鄰件折減機制 (Servicebox 規範)：</strong>
             <ul>
-                <li>2 件折減 <strong>15%</strong>｜3 件折減 <strong>20%</strong>｜4 件(含)以上折減 <strong>25%</strong>。</li>
+                <li><strong>相鄰件 1 件</strong>：不進行工時折減 (0%)。</li>
+                <li><strong>相鄰件 2 件</strong>：相鄰鈑件基礎工時合計折減 <strong>15% (-15%)</strong>。</li>
+                <li><strong>相鄰件 3 件</strong>：相鄰鈑件基礎工時合計折減 <strong>20% (-20%)</strong>。</li>
+                <li><strong>相鄰件 4 件（含以上）</strong>：相鄰鈑件基礎工時合計折減 <strong>25% (-25%)</strong>。</li>
+                <li><em>註：修復等級為「0 級（全新空件）」或取消勾選「相鄰件」者，不參與折減。</em></li>
+            </ul>
+
+            <strong>四、 費用計算與剪貼簿匯出格式：</strong>
+            <ul>
+                <li><strong>總請款工時</strong> = (相鄰件基礎工時合計 × 折減率) + 非折減件工時 + 漆面固定準備工時</li>
+                <li><strong>預估請款總金額</strong> = (總工時 × 廠內漆工費單價) + (總工時 × 漆料耗材費單價)</li>
+                <li><strong>複製請款文字格式</strong>：自動包含「鈑件中文名稱 + 標準代碼 + 請款工時」，便利保險報銷審核。</li>
             </ul>
         </div>
     </details>
 
-    <!-- 車型與漆種設定 -->
+    <!-- 車型、色號與漆種設定 -->
     <div class="card">
         <div class="card-title">一、 車輛型號、車身色號與漆面單價設定</div>
         <div class="grid-4">
@@ -163,7 +176,7 @@
                 <select id="colorSelect" onchange="onColorChange()"></select>
             </div>
             <div class="form-group">
-                <label>3. 漆面屬性 (Servicebox)</label>
+                <label>3. 漆面屬性 (Servicebox 規則)</label>
                 <select id="coatType" onchange="onCoatTypeManualChange()">
                     <option value="0.70|70E00V">不透明漆 / 素色漆 (單層) (+0.70h) [70E00V]</option>
                     <option value="1.00|70E01U">金屬漆 / 清漆 (兩層) (+1.00h) [70E01U]</option>
@@ -184,7 +197,7 @@
         </div>
     </div>
 
-    <!-- 噴漆部位選擇 (Mobile Dynamic Cards) -->
+    <!-- 噴漆部位選擇 (Mobile Card Style) -->
     <div class="card">
         <div class="card-title">二、 選擇噴漆鈑件與受損修復等級</div>
         <div id="partsList" class="parts-container"></div>
@@ -232,6 +245,7 @@
 </div>
 
 <script>
+// Citroën Berlingo (K9) 嚴格限定 14 項實測資料數據庫
 const berlingoData = {
     colors: {
         "EPR": { name: "EPR - 冰白漆 (素色漆)", coatType: "0.70|70E00V", note: "✓ 已匹配 EPR 銘牌色號：冰白漆 [70E00V / +0.70 小時]，全車部位自動連動不透明漆代碼 (P050/P110/P210/P310)" },
