@@ -111,10 +111,11 @@
                 <li><em>註：修復等級為「0 級（全新空件）」或取消勾選「相鄰件」者，不參與折減。</em></li>
             </ul>
 
-            <strong>四、 費用計算公式：</strong>
+            <strong>四、 費用計算與剪貼簿匯出格式：</strong>
             <ul>
                 <li><strong>總請款工時</strong> = (相鄰件基礎工時合計 × 折減率) + 非折減件工時 + 漆面固定準備工時</li>
                 <li><strong>預估請款總金額</strong> = (總工時 × 廠內漆工費單價) + (總工時 × 漆料耗材費單價)</li>
+                <li><strong>複製請款文字格式</strong>：自動包含「鈑件中文名稱 + 標準代碼 + 請款工時」，便利保險報銷審核。</li>
             </ul>
         </div>
     </details>
@@ -213,7 +214,7 @@
 </div>
 
 <script>
-// Citroën Berlingo (K9) 精確校正數據庫 (包含所有最新圖檔真實標題與原廠料號)
+// Citroën Berlingo (K9) 精確校正數據庫
 const berlingoData = {
     colors: {
         "EPR": { name: "EPR - 冰白漆 (素色漆)", coatType: "0.70|70E00V", note: "✓ 已匹配 EPR 銘牌色號：冰白漆 [70E00V / +0.70 小時]，全車部位自動連動不透明漆代碼 (P050/P110/P210/P310)" },
@@ -391,6 +392,10 @@ function getPartCodeAndHours(partData, level) {
     return modeDb[level] || modeDb[2];
 }
 
+function getPartChineseName(partName) {
+    return partName.split(' (')[0];
+}
+
 function renderParts() {
     const partsDb = berlingoData.parts;
     const tbody = document.getElementById('partsList');
@@ -452,6 +457,7 @@ function calculate() {
     selectedParts.forEach(item => {
         const partData = partsDb[item.partKey] || Object.values(partsDb)[0];
         const [code, hours] = getPartCodeAndHours(partData, item.level);
+        const chineseName = getPartChineseName(partData.name);
         codeTags.push(code);
 
         if (item.level === 0 || !item.isAdjacent) nonDiscountHours += hours;
@@ -470,9 +476,10 @@ function calculate() {
     selectedParts.forEach(item => {
         const partData = partsDb[item.partKey] || Object.values(partsDb)[0];
         const [code, hours] = getPartCodeAndHours(partData, item.level);
-        exportLines.push(`${code}: ${hours.toFixed(2)}h`);
+        const chineseName = getPartChineseName(partData.name);
+        exportLines.push(`${chineseName} ${code}: ${hours.toFixed(2)}h`);
     });
-    exportLines.push(`${fixedCode}: ${fixedHours.toFixed(2)}h`);
+    exportLines.push(`漆面固定準備 ${fixedCode}: ${fixedHours.toFixed(2)}h`);
     exportLines.push(`--------------------`);
     exportLines.push(`總請款工時: ${totalHours.toFixed(2)}h`);
     currentClaimExportText = exportLines.join('\n');
