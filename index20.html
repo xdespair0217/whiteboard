@@ -1,609 +1,419 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Peugeot 408X (P54C) 漆面塗料請款試算系統</title>
-<style>
-    :root {
-        --slate-900: #0f172a;
-        --slate-800: #1e293b;
-        --slate-700: #334155;
-        --slate-100: #f1f5f9;
-        --blue-600: #2563eb;
-        --blue-700: #1d4ed8;
-        --blue-50: #eff6ff;
-        --green-600: #16a34a;
-        --red-600: #dc2626;
-        --border: #cbd5e1;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>漆面保固與請款系統索引</title>
+    <style>
+        :root {
+            --bg-color: #faf9f6;
+            --text-primary: #1a1a1a;
+            --text-secondary: #757575;
+            --border-color: #e2e0d8;
+            --accent-color: #2b303a;
+            --highlight-color: #8c7851;
+        }
 
-    * { 
-        box-sizing: border-box; 
-        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Arial, sans-serif; 
-        -webkit-tap-highlight-color: transparent;
-    }
-    
-    body { 
-        background-color: #f1f5f9; 
-        color: var(--slate-900); 
-        margin: 0; 
-        padding: 12px 8px; 
-        font-size: 14px; 
-        line-height: 1.5; 
-        -webkit-font-smoothing: antialiased;
-    }
-    
-    .container { 
-        max-width: 500px; 
-        margin: 0 auto; 
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    .header-panel {
-        background: var(--slate-900);
-        color: white;
-        padding: 16px;
-        border-radius: 12px;
-        margin-bottom: 12px;
-        border-bottom: 4px solid var(--blue-600);
-        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
-    }
-    .header-panel h1 { 
-        margin: 0; 
-        font-size: 18px; 
-        font-weight: 700; 
-        line-height: 1.3;
-    }
-    .header-panel p { 
-        margin: 6px 0 0 0; 
-        color: #94a3b8; 
-        font-size: 12px; 
-    }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 5rem 2rem;
+        }
 
-    .card { 
-        background: white; 
-        border-radius: 12px; 
-        border: 1px solid var(--border); 
-        padding: 16px 14px; 
-        margin-bottom: 12px; 
-        box-shadow: 0 2px 6px rgba(0,0,0,0.03); 
-    }
-    .card-title { 
-        font-size: 15px; 
-        font-weight: 700; 
-        color: var(--slate-900); 
-        border-left: 4px solid var(--blue-600); 
-        padding-left: 10px; 
-        margin-bottom: 14px; 
-    }
+        .container {
+            width: 100%;
+            max-width: 1100px;
+        }
 
-    .form-group {
-        margin-bottom: 12px;
-    }
-    .form-group:last-child {
-        margin-bottom: 0;
-    }
+        header {
+            margin-bottom: 4.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
 
-    .grid-2-rate {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
-    }
+        .header-title-group {
+            max-width: 600px;
+        }
 
-    label { 
-        font-weight: 600; 
-        font-size: 12.5px; 
-        color: var(--slate-700); 
-        display: block; 
-        margin-bottom: 5px; 
-    }
-    
-    select, input { 
-        width: 100%; 
-        padding: 10px 12px; 
-        border: 1px solid var(--border); 
-        border-radius: 8px; 
-        font-size: 14px; 
-        background-color: #fff; 
-        color: var(--slate-900); 
-        appearance: none;
-        -webkit-appearance: none;
-    }
-    
-    select {
-        background-image: url("data:image/svg+xml;utf8,<svg fill='%23334155' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
-        background-repeat: no-repeat;
-        background-position: right 8px center;
-        background-size: 20px;
-        padding-right: 30px;
-    }
+        .header-subtitle {
+            font-size: 0.75rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--highlight-color);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
 
-    select:focus, input:focus { 
-        outline: none; 
-        border-color: var(--blue-600); 
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15); 
-    }
+        .header-title {
+            font-size: 2.25rem;
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            color: var(--text-primary);
+        }
 
-    /* 手機卡片式鈑件清單 */
-    .part-card {
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
-        border-radius: 10px;
-        padding: 12px;
-        margin-bottom: 10px;
-        position: relative;
-    }
-    .part-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 8px;
-    }
-    .part-index {
-        font-size: 11px;
-        font-weight: 700;
-        color: var(--blue-600);
-        background: var(--blue-50);
-        padding: 2px 6px;
-        border-radius: 4px;
-    }
-    .part-body-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
-        margin-bottom: 8px;
-    }
-    .part-meta-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding-top: 8px;
-        border-top: 1px dashed #cbd5e1;
-        font-size: 12.5px;
-    }
-    .code-badge { 
-        background: #e2e8f0; 
-        color: var(--slate-900); 
-        padding: 3px 8px; 
-        border-radius: 4px; 
-        font-family: ui-monospace, SFMono-Regular, monospace; 
-        font-size: 12px; 
-        font-weight: 700; 
-    }
-    
-    .adjacent-label {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 12.5px;
-        color: var(--slate-700);
-        font-weight: 600;
-        cursor: pointer;
-    }
-    .adjacent-label input[type="checkbox"] {
-        width: 18px;
-        height: 18px;
-        accent-color: var(--blue-600);
-    }
+        .header-meta {
+            font-size: 0.825rem;
+            color: var(--text-secondary);
+            text-align: right;
+            font-family: monospace;
+            line-height: 1.6;
+        }
 
-    .btn { 
-        background: var(--blue-600); 
-        color: white; 
-        border: none; 
-        padding: 11px 16px; 
-        border-radius: 8px; 
-        font-weight: 600; 
-        cursor: pointer; 
-        display: inline-flex; 
-        align-items: center; 
-        justify-content: center;
-        gap: 6px; 
-        font-size: 14px; 
-        width: 100%;
-        transition: background 0.2s;
-    }
-    .btn:active { background: var(--blue-700); }
-    .btn-secondary { background: #059669; }
-    .btn-secondary:active { background: #047857; }
-    .btn-danger-sm { 
-        background: #fee2e2; 
-        color: var(--red-600); 
-        border: 1px solid #fca5a5;
-        padding: 4px 10px; 
-        font-size: 12px; 
-        border-radius: 6px;
-        font-weight: 600;
-        cursor: pointer;
-    }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
 
-    .result-card { 
-        background: var(--blue-50); 
-        border: 1px solid #bfdbfe; 
-        border-radius: 12px; 
-        padding: 16px; 
-        margin-top: 12px; 
-    }
-    .result-title { 
-        font-size: 15px; 
-        font-weight: 700; 
-        color: #1e40af; 
-        margin-bottom: 12px; 
-    }
-    
-    .stats-grid-3 {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 6px;
-        background: white;
-        padding: 12px 8px;
-        border-radius: 8px;
-        border: 1px solid #dbeafe;
-        margin-bottom: 12px;
-        text-align: center;
-    }
-    .stat-val { 
-        font-size: 18px; 
-        font-weight: 800; 
-        color: var(--blue-700); 
-        line-height: 1.2;
-    }
-    .stat-unit {
-        font-size: 11px;
-        font-weight: 400;
-    }
-    .stat-label { 
-        font-size: 11px; 
-        color: var(--slate-700); 
-        font-weight: 600; 
-        margin-bottom: 4px;
-    }
+        .item {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 240px;
+            padding: 1.75rem;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            color: inherit;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
 
-    .money-box {
-        background: white;
-        padding: 14px;
-        border-radius: 8px;
-        border: 1px solid #dbeafe;
-        margin-bottom: 12px;
-    }
+        .item.active:hover {
+            border-color: var(--text-primary);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.03);
+        }
 
-    .tag-container { 
-        display: flex; 
-        flex-wrap: wrap; 
-        gap: 6px; 
-        margin-top: 8px; 
-    }
-    .tag-item { 
-        background: #dbeafe; 
-        color: #1e40af; 
-        padding: 3px 8px; 
-        border-radius: 4px; 
-        font-size: 11.5px; 
-        font-weight: 700; 
-        border: 1px solid #bfdbfe; 
-        font-family: ui-monospace, monospace;
-    }
-    
-    .note-box { 
-        background: #fffbe0; 
-        border-left: 4px solid #f59e0b; 
-        padding: 10px 12px; 
-        font-size: 12px; 
-        color: #92400e; 
-        border-radius: 0 8px 8px 0; 
-        margin-top: 10px; 
-        line-height: 1.4;
-    }
-    
-    details summary {
-        font-weight: 700;
-        font-size: 13px;
-        color: var(--slate-700);
-        cursor: pointer;
-        padding: 8px 0;
-    }
-    .guide-box { 
-        background: #f8fafc; 
-        border: 1px solid #cbd5e1; 
-        padding: 12px; 
-        border-radius: 8px; 
-        margin-top: 10px; 
-        font-size: 12px; 
-        color: #334155; 
-    }
-</style>
+        .item-number {
+            font-size: 0.75rem;
+            font-family: monospace;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .item-brand {
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: var(--highlight-color);
+        }
+
+        .item-content {
+            margin-bottom: 1.5rem;
+        }
+
+        .item-title {
+            font-size: 1.35rem;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            font-weight: 300;
+        }
+
+        .item-footer-single {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: var(--text-primary);
+            text-decoration: none;
+            padding-top: 0.75rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .item-footer-dual {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            padding: 0.5rem 0.25rem;
+            background: #f4f3ef;
+            color: var(--text-primary);
+            text-decoration: none;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .action-btn:hover {
+            background: var(--text-primary);
+            color: #ffffff;
+        }
+
+        .arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .item-footer-single:hover .arrow {
+            transform: translateX(4px);
+        }
+
+        .item.disabled {
+            background: rgba(0, 0, 0, 0.01);
+            border-style: dashed;
+            border-color: #e8e6df;
+        }
+
+        .item.disabled .item-title {
+            color: #b0b0b0;
+            font-weight: 300;
+        }
+
+        .item.disabled .item-desc {
+            color: #c5c5c5;
+        }
+
+        .item.disabled .item-footer-single {
+            color: #d0d0d0;
+            border-top-color: transparent;
+        }
+
+        @media (max-width: 900px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 3rem 1.25rem;
+            }
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .header-meta {
+                text-align: left;
+            }
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="header-panel">
-        <h1>Peugeot 408X (P54C)<br>漆面塗料請款試算</h1>
-        <p>Servicebox EXXB011UP0 標準精準工時數據庫</p>
-    </div>
-
-    <!-- 車型、色號與漆種設定 -->
-    <div class="card">
-        <div class="card-title">一、 車輛與漆面設定</div>
+    <div class="container">
         
-        <div class="form-group">
-            <label>1. 車輛型號</label>
-            <input type="text" value="東風標致 408X (P54C)" disabled style="background:#f1f5f9; font-weight:600;">
-        </div>
-        
-        <div class="form-group">
-            <label>2. 車身色號 (銘牌比對)</label>
-            <select id="colorSelect" onchange="onColorChange()"></select>
-        </div>
-
-        <div class="form-group">
-            <label>3. 漆面屬性 (Servicebox 規則)</label>
-            <select id="coatType" onchange="calculate()">
-                <option value="1.00|70E01U" selected>金屬漆 / 清漆 (兩層) (+1.00h) [70E01U]</option>
-                <option value="0.70|70E00V">不透明漆 / 素色漆 (單層) (+0.70h) [70E00V]</option>
-                <option value="1.30|70E03Z">三層金屬 / 珠光漆 (+1.30h) [70E03Z]</option>
-                <option value="1.60|70E04W">特殊彩色清漆 (+1.60h) [70E04W]</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label>4. 廠內單價設定 (NT$)</label>
-            <div class="grid-2-rate">
-                <input type="number" id="laborRate" value="900" placeholder="漆工費/h" oninput="calculate()">
-                <input type="number" id="materialRate" value="900" placeholder="耗材費/h" oninput="calculate()">
+        <header>
+            <div class="header-title-group">
+                <div class="header-subtitle">Archive & Calculation System</div>
+                <h1 class="header-title">漆面保固與請款資料庫</h1>
             </div>
-        </div>
-
-        <div class="note-box" id="colorNote">
-            📌 銘牌色號對應提示：選取色號後系統將自動匹配對應的固定塗裝時間與請款代碼。
-        </div>
-
-        <!-- 折疊式系統說明書 -->
-        <details style="margin-top: 10px;">
-            <summary>📖 點擊查看操作規範須知 (EXXB011UP0)</summary>
-            <div class="guide-box">
-                <ul style="margin: 0; padding-left: 16px; line-height: 1.6;">
-                    <li><strong>左右件獨立</strong>：側圍與後翼子板區分「右側 (85F3/85F4)」與「左側 (85F4/85F5)」。</li>
-                    <li><strong>相鄰件折減</strong>：修復件 (1~3級) 勾選相鄰時，2件折15%、3件折20%、4件以上折25%。</li>
-                    <li><strong>全新空件 (0級)</strong>：自動排除於折減外，不參與相鄰數量計算。</li>
-                </ul>
+            <div class="header-meta">
+                STATUS: ONLINE<br>
+                CAPACITY: 3 / 9 INDEXED
             </div>
-        </details>
+        </header>
+
+        <main class="grid">
+
+            <!-- 01. Peugeot 408X (雙平台) -->
+            <div class="item active">
+                <div>
+                    <div class="item-number">
+                        <span>01</span>
+                        <span class="item-brand">PEUGEOT</span>
+                    </div>
+                    <div class="item-content">
+                        <h2 class="item-title">408X (P54C)</h2>
+                        <p class="item-desc">漆面塗料保固與規格數據系統</p>
+                    </div>
+                </div>
+                <div class="item-footer-dual">
+                    <a href="https://xdespair0217.github.io/whiteboard/index10A.html" target="_blank" class="action-btn">
+                        📱 手機端
+                    </a>
+                    <a href="https://xdespair0217.github.io/whiteboard/index10.html" target="_blank" class="action-btn">
+                        💻 電腦端
+                    </a>
+                </div>
+            </div>
+
+            <!-- 02. Peugeot 3008 -->
+            <div class="item active">
+                <div>
+                    <div class="item-number">
+                        <span>02</span>
+                        <span class="item-brand">PEUGEOT</span>
+                    </div>
+                    <div class="item-content">
+                        <h2 class="item-title">3008 (P64)</h2>
+                        <p class="item-desc">純漆面塗料數據與審核資訊</p>
+                    </div>
+                </div>
+                <a href="https://xdespair0217.github.io/whiteboard/index11.html" target="_blank" class="item-footer-single">
+                    <span>EXPLORE</span>
+                    <span class="arrow">→</span>
+                </a>
+            </div>
+
+            <!-- 03. Citroën Berlingo (雙平台) -->
+            <div class="item active">
+                <div>
+                    <div class="item-number">
+                        <span>03</span>
+                        <span class="item-brand">CITROËN</span>
+                    </div>
+                    <div class="item-content">
+                        <h2 class="item-title">Berlingo (K9)</h2>
+                        <p class="item-desc">漆面塗料請款試算系統</p>
+                    </div>
+                </div>
+                <div class="item-footer-dual">
+                    <a href="https://xdespair0217.github.io/whiteboard/index12A.html" target="_blank" class="action-btn">
+                        📱 手機端
+                    </a>
+                    <a href="https://xdespair0217.github.io/whiteboard/index12.html" target="_blank" class="action-btn">
+                        💻 電腦端
+                    </a>
+                </div>
+            </div>
+
+            <!-- 04. 預留擴充 -->
+            <div class="item disabled">
+                <div>
+                    <div class="item-number">
+                        <span>04</span>
+                        <span>PENDING</span>
+                    </div>
+                    <div class="item-content">
+                        <h2 class="item-title">預留空間 #04</h2>
+                        <p class="item-desc">待填入全新車型塗料與保固規格</p>
+                    </div>
+                </div>
+                <div class="item-footer-single">
+                    <span>UNASSIGNED</span>
+                </div>
+            </div>
+
+            <!-- 05. 預留擴充 -->
+            <div class="item disabled">
+                <div>
+                    <div class="item-number">
+                        <span>05</span>
+                        <span>PENDING</span>
+                    </div>
+                    <div class="item-content">
+                        <h2 class="item-title">預留空間 #05</h2>
+                        <p class="item-desc">待填入全新車型塗料與保固規格</p>
+                    </div>
+                </div>
+                <div class="item-footer-single">
+                    <span>UNASSIGNED</span>
+                </div>
+            </div>
+
+            <!-- 06. 預留擴充 -->
+            <div class="item disabled">
+                <div>
+                    <div class="item-number">
+                        <span>06</span>
+                        <span>PENDING</span>
+                    </div>
+                    <div class="item-content">
+                        <h2 class="item-title">預留空間 #06</h2>
+                        <p class="item-desc">待填入全新車型塗料與保固規格</p>
+                    </div>
+                </div>
+                <div class="item-footer-single">
+                    <span>UNASSIGNED</span>
+                </div>
+            </div>
+
+            <!-- 07. 預留擴充 -->
+            <div class="item disabled">
+                <div>
+                    <div class="item-number">
+                        <span>07</span>
+                        <span>PENDING</span>
+                    </div>
+                    <div class="item-content">
+                        <h2 class="item-title">預留空間 #07</h2>
+                        <p class="item-desc">待填入全新車型塗料與保固規格</p>
+                    </div>
+                </div>
+                <div class="item-footer-single">
+                    <span>UNASSIGNED</span>
+                </div>
+            </div>
+
+            <!-- 08. 預留擴充 -->
+            <div class="item disabled">
+                <div>
+                    <div class="item-number">
+                        <span>08</span>
+                        <span>PENDING</span>
+                    </div>
+                    <div class="item-content">
+                        <h2 class="item-title">預留空間 #08</h2>
+                        <p class="item-desc">待填入全新車型塗料與保固規格</p>
+                    </div>
+                </div>
+                <div class="item-footer-single">
+                    <span>UNASSIGNED</span>
+                </div>
+            </div>
+
+            <!-- 09. 預留擴充 -->
+            <div class="item disabled">
+                <div>
+                    <div class="item-number">
+                        <span>09</span>
+                        <span>PENDING</span>
+                    </div>
+                    <div class="item-content">
+                        <h2 class="item-title">預留空間 #09</h2>
+                        <p class="item-desc">待填入全新車型塗料與保固規格</p>
+                    </div>
+                </div>
+                <div class="item-footer-single">
+                    <span>UNASSIGNED</span>
+                </div>
+            </div>
+
+        </main>
+
     </div>
 
-    <!-- 噴漆部位選擇 -->
-    <div class="card">
-        <div class="card-title">二、 選擇噴漆鈑件與修復等級</div>
-        <div id="partsList"></div>
-        <button class="btn" style="margin-top: 6px;" onclick="addPartRow()">+ 新增噴漆鈑件</button>
-    </div>
-
-    <!-- 試算結果 -->
-    <div class="result-card">
-        <div class="result-title">📊 漆面請款明細總計</div>
-        
-        <div class="stats-grid-3">
-            <div>
-                <div class="stat-label">折減後噴漆</div>
-                <div class="stat-val" id="resPaintHours">0.00 <span class="stat-unit">h</span></div>
-                <div id="resDiscountNotice" style="font-size:10px; color:var(--green-600); font-weight:700; margin-top:2px;"></div>
-            </div>
-            <div>
-                <div class="stat-label">固定準備</div>
-                <div class="stat-val" id="resFixedHours" style="color:#475569;">1.00 <span class="stat-unit">h</span></div>
-            </div>
-            <div>
-                <div class="stat-label">總報銷工時</div>
-                <div class="stat-val" id="resTotalHours" style="color:#0284c7;">0.00 <span class="stat-unit">h</span></div>
-            </div>
-        </div>
-
-        <div class="money-box">
-            <div class="stat-label" style="font-size:12px; color:var(--slate-900);">預估請款總金額 (含工資與耗材)</div>
-            <div class="stat-val" id="resTotalMoney" style="font-size:26px; color:var(--blue-700); margin: 4px 0;">NT$ 0</div>
-            <div id="resFeeDetail" style="font-size:11.5px; color:var(--slate-700);">
-                工資 NT$ 0 | 耗材 NT$ 0
-            </div>
-        </div>
-
-        <div style="margin-top: 12px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                <div class="stat-label" style="margin-bottom:0;">請款代碼組合</div>
-                <button class="btn btn-secondary" style="width:auto; padding: 5px 12px; font-size: 12px;" onclick="copyClaimDetails()">📋 複製請款文字</button>
-            </div>
-            <div id="resCodeTags" class="tag-container"></div>
-        </div>
-    </div>
-</div>
-
-<script>
-// Peugeot 408X (P54C) 專屬數據庫
-const p54cData = {
-    colors: {
-        "EDP": { name: "EDP - 深藍色 (金屬漆)", coatType: "1.00|70E01U", note: "✓ 已匹配 EDP 銘牌色號：深藍色金屬漆 [70E01U / +1.00 小時]" },
-        "EWP": { name: "EWP - 水矽鈣石白 (金屬漆)", coatType: "1.00|70E01U", note: "✓ 已匹配 EWP 銘牌色號：水矽鈣石白金屬漆 [70E01U / +1.00 小時]" },
-        "KTV": { name: "KTV - 珍珠黑 (金屬漆)", coatType: "1.00|70E01U", note: "✓ 已匹配 KTV 銘牌色號：珍珠黑金屬漆 [70E01U / +1.00 小時]" },
-        "custom": { name: "手動指定 / 其他漆種", coatType: "", note: "📌 請由右方下拉選單手動選擇正確的漆面屬性。" }
-    },
-    parts: {
-        hood: { name: '引擎蓋', codes: { 0: ['79E1HZ', 3.60], 1: ['79E1IU', 4.10], 2: ['79E1KV', 2.60], 3: ['79E1MW', 2.10] } },
-        fenderF: { name: '前翼子板 (一側)', codes: { 0: ['78EELZ', 0.90], 1: ['78EENU', 1.50], 2: ['78EEQV', 1.10], 3: ['78EESW', 1.00] } },
-        bumperF_main: { name: '前保險槓 (主體)', codes: { 0: ['74EQIZ', 1.20], 1: ['74EQPV', 2.60], 2: ['74EQMV', 2.10], 3: ['74EQOW', 2.10] } },
-        bumperF_upper: { name: '前保險槓 (上部)', codes: { 0: ['74EW2Z', 0.60], 1: ['74EW3V', 1.20], 2: ['74EW2V', 1.00], 3: ['74EW2W', 1.00] } },
-        bumperF_side1: { name: '前保險槓側面零件 (1側)', codes: { 0: ['74F3SA', 0.60], 1: ['74F3WA', 1.10], 2: ['74F3TA', 0.90], 3: ['74F3UA', 0.90] } },
-        bumperF_side2: { name: '前保險槓側面零件 (兩側)', codes: { 0: ['74F41A', 0.60], 1: ['74F45A', 1.40], 2: ['74F42A', 1.20], 3: ['74F43A', 1.20] } },
-        doorF: { name: '前鉸接側門 (前門)', codes: { 0: ['90F02Z', 2.40], 1: ['90F04U', 3.50], 2: ['90F06V', 1.80], 3: ['90F08W', 1.60] } },
-        doorR: { name: '後鉸接側門 (後門)', codes: { 0: ['90EUKZ', 2.30], 1: ['90EUMU', 3.30], 2: ['90EUPV', 1.80], 3: ['90EURW', 1.50] } },
-        roof_main: { name: '車頂', codes: { 0: ['83EGDU', 4.70], 1: ['83EGDU', 4.70], 2: ['83EGFV', 4.00], 3: ['83EGHW', 2.70] } },
-        roof_rear: { name: '車頂後部', codes: { 0: ['83EGJU', 2.50], 1: ['83EGJU', 2.50], 2: ['83EGLV', 2.10], 3: ['83EGNW', 1.60] } },
-        pillar_A: { name: '前門立柱 / A柱', codes: { 0: ['85F50U', 1.40], 1: ['85F50U', 1.40], 2: ['85F50U', 1.40], 3: ['85F50U', 1.40] } },
-        pillar_B_L: { name: '中立柱 / 左側B柱', codes: { 0: ['85F32U', 1.80], 1: ['85F32U', 1.80], 2: ['85F32U', 1.80], 3: ['85F32U', 1.80] } },
-        pillar_B_R: { name: '中立柱 / 右立柱', codes: { 0: ['85F36U', 1.80], 1: ['85F36U', 1.80], 2: ['85F36U', 1.80], 3: ['85F36U', 1.80] } },
-        side_panel_R: { name: '右側面板 / 右側圍', codes: { 0: ['85F4RU', 4.10], 1: ['85F4RU', 4.10], 2: ['85F4RU', 4.10], 3: ['85F4RU', 4.10] } },
-        side_panel_L: { name: '左側面板 / 左側圍', codes: { 0: ['85F5RU', 4.10], 1: ['85F5RU', 4.10], 2: ['85F5RU', 4.10], 3: ['85F5RU', 4.10] } },
-        fenderR_part_R: { name: '後右翼子板 (部分)', codes: { 0: ['85F3YU', 2.50], 1: ['85F3YU', 2.50], 2: ['85F40V', 1.30], 3: ['85F42W', 1.10] } },
-        fenderR_part_L: { name: '左後翼子板 (部分)', codes: { 0: ['85F44U', 2.50], 1: ['85F44U', 2.50], 2: ['85F46V', 1.30], 3: ['85F48W', 1.10] } },
-        tailgate: { name: '尾門玻璃裝飾件 / 尾門', codes: { 0: ['74EQAZ', 2.10], 1: ['74EQCU', 3.20], 2: ['74EQEV', 2.60], 3: ['74EQGW', 2.40] } },
-        bumperR_guard1: { name: '後保險槓護板 (1側)', codes: { 0: ['74EP4Z', 0.60], 1: ['74EPXZ', 1.10], 2: ['74EP6Z', 0.90], 3: ['74EP7Z', 0.90] } },
-        bumperR_guard2: { name: '後保險槓護板 (2側)', codes: { 0: ['74ES4Z', 0.80], 1: ['74ESXZ', 1.50], 2: ['74ES6Z', 1.30], 3: ['74ES7Z', 1.30] } }
-    }
-};
-
-let selectedParts = [{ partKey: 'hood', level: 2, isAdjacent: true }];
-let currentClaimExportText = "";
-
-function initColorOptions() {
-    const colorSelect = document.getElementById('colorSelect');
-    colorSelect.innerHTML = '';
-    const colors = p54cData.colors;
-    Object.keys(colors).forEach(code => {
-        const opt = document.createElement('option');
-        opt.value = code;
-        opt.innerText = colors[code].name;
-        colorSelect.appendChild(opt);
-    });
-    onColorChange();
-}
-
-function onColorChange() {
-    const colorKey = document.getElementById('colorSelect').value;
-    const colorData = p54cData.colors[colorKey];
-    
-    if (colorData && colorData.coatType) {
-        document.getElementById('coatType').value = colorData.coatType;
-    }
-    document.getElementById('colorNote').innerHTML = colorData.note || '📌 銘牌色號對應提示：選取色號後系統將自動匹配對應的固定塗裝時間與請款代碼。';
-    calculate();
-}
-
-function renderParts() {
-    const partsDb = p54cData.parts;
-    const container = document.getElementById('partsList');
-    container.innerHTML = '';
-
-    selectedParts.forEach((item, index) => {
-        const partData = partsDb[item.partKey] || Object.values(partsDb)[0];
-        const [code, hours] = partData.codes[item.level];
-
-        const card = document.createElement('div');
-        card.className = 'part-card';
-        card.innerHTML = `
-            <div class="part-header">
-                <span class="part-index">項目 #${index + 1}</span>
-                <button class="btn-danger-sm" onclick="removePart(${index})">刪除</button>
-            </div>
-            <div class="part-body-grid">
-                <div>
-                    <label>施工鈑件</label>
-                    <select onchange="updatePart(${index}, 'partKey', this.value)">
-                        ${Object.keys(partsDb).map(k => `<option value="${k}" ${k===item.partKey?'selected':''}>${partsDb[k].name}</option>`).join('')}
-                    </select>
-                </div>
-                <div>
-                    <label>受損修復等級</label>
-                    <select onchange="updatePart(${index}, 'level', parseInt(this.value))">
-                        <option value="2" ${item.level===2?'selected':''}>2 級 (修復 <20%)</option>
-                        <option value="1" ${item.level===1?'selected':''}>1 級 (修復 >20%)</option>
-                        <option value="3" ${item.level===3?'selected':''}>3 級 (純噴無修)</option>
-                        <option value="0" ${item.level===0?'selected':''}>0 級 (全新空件)</option>
-                    </select>
-                </div>
-            </div>
-            <div class="part-meta-row">
-                <div>
-                    代碼: <span class="code-badge">${code}</span>
-                    <span style="margin-left:6px; font-weight:700; color:var(--blue-600);">${hours.toFixed(2)} h</span>
-                </div>
-                <div>
-                    <label class="adjacent-label">
-                        <input type="checkbox" ${item.isAdjacent ? 'checked' : ''} ${item.level===0?'disabled':''} onchange="updatePart(${index}, 'isAdjacent', this.checked)">
-                        勾選相鄰件
-                    </label>
-                </div>
-            </div>
-        `;
-        container.appendChild(card);
-    });
-    calculate();
-}
-
-function addPartRow() { 
-    const partsDb = p54cData.parts;
-    const firstKey = Object.keys(partsDb)[0];
-    selectedParts.push({ partKey: firstKey, level: 2, isAdjacent: true }); 
-    renderParts(); 
-}
-
-function removePart(index) { selectedParts.splice(index, 1); renderParts(); }
-function updatePart(index, field, value) { selectedParts[index][field] = value; renderParts(); }
-
-function calculate() {
-    const partsDb = p54cData.parts;
-    const coatVal = document.getElementById('coatType').value.split('|');
-    const fixedHours = parseFloat(coatVal[0]);
-    const fixedCode = coatVal[1];
-
-    let adjacentCount = 0;
-    let adjacentBaseHours = 0;
-    let nonDiscountHours = 0;
-    let codeTags = [];
-    let exportLines = [];
-
-    selectedParts.forEach(item => {
-        const partData = partsDb[item.partKey] || Object.values(partsDb)[0];
-        const [code, hours] = partData.codes[item.level];
-        codeTags.push(code);
-
-        exportLines.push(`${partData.name}: ${code} / ${hours.toFixed(2)}h`);
-
-        if (item.level === 0 || !item.isAdjacent) nonDiscountHours += hours;
-        else { adjacentCount++; adjacentBaseHours += hours; }
-    });
-
-    let discountRate = 0;
-    if (adjacentCount === 2) discountRate = 0.15;
-    else if (adjacentCount === 3) discountRate = 0.20;
-    else if (adjacentCount >= 4) discountRate = 0.25;
-
-    const paintHours = (adjacentBaseHours * (1 - discountRate)) + nonDiscountHours;
-    const totalHours = paintHours + fixedHours;
-    codeTags.push(fixedCode);
-
-    const coatSelect = document.getElementById('coatType');
-    const coatText = coatSelect.options[coatSelect.selectedIndex].text.split(' [')[0];
-    
-    exportLines.push(`${coatText}: ${fixedCode} / ${fixedHours.toFixed(2)}h`);
-    exportLines.push(`----------------------------------------`);
-    exportLines.push(`總請款工時: ${totalHours.toFixed(2)}h`);
-
-    currentClaimExportText = exportLines.join('\n');
-
-    const laborRate = parseFloat(document.getElementById('laborRate').value) || 0;
-    const materialRate = parseFloat(document.getElementById('materialRate').value) || 0;
-
-    const laborMoney = totalHours * laborRate;
-    const materialMoney = (paintHours + fixedHours) * materialRate;
-    const totalMoney = laborMoney + materialMoney;
-
-    document.getElementById('resPaintHours').innerHTML = `${paintHours.toFixed(2)} <span class="stat-unit">h</span>`;
-    document.getElementById('resDiscountNotice').innerText = discountRate > 0 ? `相鄰 -${discountRate*100}%` : '';
-    document.getElementById('resFixedHours').innerHTML = `${fixedHours.toFixed(2)} <span class="stat-unit">h</span>`;
-    document.getElementById('resTotalHours').innerHTML = `${totalHours.toFixed(2)} <span class="stat-unit">h</span>`;
-    
-    document.getElementById('resTotalMoney').innerText = `NT$ ${Math.round(totalMoney).toLocaleString()}`;
-    document.getElementById('resFeeDetail').innerText = `工資 NT$ ${Math.round(laborMoney).toLocaleString()} | 耗材 NT$ ${Math.round(materialMoney).toLocaleString()}`;
-    document.getElementById('resCodeTags').innerHTML = codeTags.map(c => `<div class="tag-item">${c}</div>`).join('');
-}
-
-function copyClaimDetails() {
-    if (!currentClaimExportText) return;
-    navigator.clipboard.writeText(currentClaimExportText).then(() => {
-        alert("已成功複製請款明細至剪貼簿！\n\n" + currentClaimExportText);
-    }).catch(err => {
-        console.error("複製失敗: ", err);
-    });
-}
-
-initColorOptions();
-renderParts();
-</script>
 </body>
 </html>
