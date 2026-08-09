@@ -65,6 +65,11 @@
     .tag-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
     .tag-item { background: #dbeafe; color: #1e40af; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; border: 1px solid #bfdbfe; }
     .note-box { background: #fffbe0; border-left: 4px solid #f59e0b; padding: 10px 14px; font-size: 12.5px; color: #92400e; border-radius: 0 6px 6px 0; margin-top: 12px; }
+    
+    .guide-box { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 16px; margin-bottom: 20px; }
+    .guide-title { font-size: 14px; font-weight: 700; color: #166534; margin-bottom: 8px; }
+    .guide-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; font-size: 12.5px; color: #14532d; }
+    .guide-item { background: white; padding: 8px 12px; border-radius: 6px; border: 1px solid #dcfce7; }
 </style>
 </head>
 <body>
@@ -74,6 +79,17 @@
         <div>
             <h1>Peugeot 3008 (P64) 純漆面塗料請款試算系統</h1>
             <p>標準規範：Servicebox 官方 P2 塗料漆面專屬工時數據庫</p>
+        </div>
+    </div>
+
+    <!-- 漆面等級說明書 -->
+    <div class="guide-box">
+        <div class="guide-title">📖 原廠漆面塗裝等級（P2）說明書</div>
+        <div class="guide-grid">
+            <div class="guide-item"><strong>0 級 (等級0)</strong>：標準單色不透明漆或基本清漆處理 (全新空件)</div>
+            <div class="guide-item"><strong>1 級 (Level 1)</strong>：標準雙層工法或高亮度金屬清漆塗裝 (修復 >20%)</div>
+            <div class="guide-item"><strong>2 級 (Level 2)</strong>：中階多層塗裝、特殊清漆或高光澤面漆 (修復 <20%)</div>
+            <div class="guide-item"><strong>3 級 (Level 3)</strong>：高階多層塗裝、三層珍珠漆或特殊彩色清漆 (純噴無修)</div>
         </div>
     </div>
 
@@ -117,12 +133,12 @@
         <table>
             <thead>
                 <tr>
-                    <th>施工鈑件部位 (100% P2 漆面塗料專屬區域)</th>
-                    <th>受損修復等級</th>
-                    <th>標準漆面代碼</th>
-                    <th>基礎漆工時 (FRT)</th>
-                    <th>相鄰件屬性</th>
-                    <th>操作</th>
+                    <th style="width: 30%;">施工鈑件部位 (100% P2 漆面塗料專屬區域)</th>
+                    <th style="width: 25%;">受損修復等級</th>
+                    <th style="width: 15%;">標準代碼</th>
+                    <th style="width: 12%;">基礎工時 (FRT)</th>
+                    <th style="width: 10%;">相鄰件</th>
+                    <th style="width: 8%;">操作</th>
                 </tr>
             </thead>
             <tbody id="partsList"></tbody>
@@ -162,7 +178,7 @@
             <div>
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
                     <div class="stat-label">請款代碼組合 (提供保險審核)</div>
-                    <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 12px;" onclick="copyClaimDetails()">📋 複製請款文字</button>
+                    <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 12px;" onclick="copyClaimDetails()">📋 複製請款文字 (項目+代碼+工時)</button>
                 </div>
                 <div id="resCodeTags" class="tag-container"></div>
             </div>
@@ -171,32 +187,175 @@
 </div>
 
 <script>
-// Peugeot 3008 (P64) 純塗料漆面 (P2) 資料庫
+// Peugeot 3008 (P64) 專屬純漆面資料庫 (自動整合等級 0, 1, 2, 3 對應之 Servicebox 精確名稱、代碼與工時)
 const p64Data = {
     colors: {
         "EDP": { name: "EDP / EDPC - 深藍色 (金屬漆)", coatType: "1.00|70E01U", note: "✓ 已匹配 EDP/EDPC 銘牌色號：深藍色金屬漆 [70E01U / +1.00 小時]" },
         "custom": { name: "手動指定 / 其他漆種", coatType: "", note: "📌 請由右方下拉選單手動選擇正確的漆面屬性。" }
     },
     parts: {
-        hood: { name: '引擎罩 (1PPD306 7 74)', codes: { 0: ['79E1GZ', 3.40], 1: ['79E1HU', 2.80], 2: ['79E1KV', 2.50], 3: ['79E1MW', 2.00] } },
-        fenderF: { name: '前翼子板 (1PPD305 7 71)', codes: { 0: ['78EELZ', 1.00], 1: ['78EENU', 1.00], 2: ['78EEQV', 1.00], 3: ['78EESW', 0.90] } },
-        bumperF_main: { name: '前保險槓主體 (1PPD303 6 65)', codes: { 0: ['74EQIZ', 1.10], 1: ['74EQMV', 2.10], 2: ['74EQMV', 2.10], 3: ['74EQOW', 2.00] } },
-        bumperF_upper: { name: '前保險槓上部 (1PPD303 6 65)', codes: { 0: ['74EW2Z', 0.50], 1: ['74EW2V', 0.70], 2: ['74EW2V', 0.70], 3: ['74EW2W', 0.70] } },
-        doorF: { name: '前鉸接側門 (1PPD350 7 74)', codes: { 0: ['90F02Z', 2.20], 1: ['90F04U', 2.90], 2: ['90F06V', 1.50], 3: ['90F08W', 1.30] } },
-        doorR: { name: '後鉸接側門 (1PPD360 7 74)', codes: { 0: ['90EUKZ', 2.20], 1: ['90EUMU', 2.90], 2: ['90EUPV', 1.40], 3: ['90EURW', 1.20] } },
-        pillarF: { name: '前門立柱/A柱 (1PPD341 8 85)', codes: { 0: ['85F49U', 0.90], 1: ['85F50U', 1.10], 2: ['85F50U', 1.10], 3: ['85F53U', 1.30] } },
-        pillarM: { name: '中立柱/B柱 (1PPD343 8 85)', codes: { 0: ['85F35U', 1.30], 1: ['85F36U', 1.50], 2: ['85F36U', 1.50], 3: ['85F37U', 1.70] } },
-        sideFrame: { name: '側板側門框 (1PPD344 8 85)', codes: { 0: ['85F4QU', 3.60], 1: ['85F4RU', 3.80], 2: ['85F4RU', 3.80], 3: ['85F4SU', 4.00] } },
-        sill_beam: { name: '車身門檻外側梁 (1PPD324 8 85)', codes: { 0: ['85F3ZU', 1.40], 1: ['85F40U', 1.60], 2: ['85F42V', 1.50], 3: ['85F44W', 1.20] } },
-        fenderR_part: { name: '後翼子板-局部 (1PPD324 8 85)', codes: { 0: ['85F3XU', 0.80], 1: ['85F3YU', 1.00], 2: ['85F40V', 1.00], 3: ['85F42W', 0.90] } },
-        fenderR_full: { name: '後翼子板-總成 (1PPD324 8 85)', codes: { 0: ['85F4AU', 2.80], 1: ['85F4CU', 3.00], 2: ['85F4BV', 1.00], 3: ['85F4BW', 0.90] } },
-        tailgate: { name: '尾門 (1PPD327 6 65)', codes: { 0: ['74EQAZ', 1.40], 1: ['74EQCU', 2.20], 2: ['74EQEV', 2.10], 3: ['74EQGW', 1.80] } },
-        spoilerR: { name: '後尾門上擾流板 (1PPD327 6 65)', codes: { 0: ['74F2MA', 1.00], 1: ['74F2MA', 1.00], 2: ['74F2PA', 1.00], 3: ['74F2SA', 1.00] } },
-        bumperR_skirt: { name: '後保險桿裙板 (1PPD321 6 65)', codes: { 0: ['74E15Z', 1.20], 1: ['74E15V', 2.10], 2: ['74E15V', 2.10], 3: ['74E15W', 2.00] } },
-        bumperR_guard1: { name: '後保險桿護板-1側 (1PPD321 6 65)', codes: { 0: ['74EP4Z', 0.60], 1: ['74EP6Z', 0.90], 2: ['74EP6Z', 0.90], 3: ['74EP7Z', 0.90] } },
-        bumperR_guard2: { name: '後保險桿護板-2側 (1PPD321 6 65)', codes: { 0: ['74ES4Z', 0.80], 1: ['74ES6Z', 1.30], 2: ['74ES6Z', 1.30], 3: ['74ES7Z', 1.30] } },
-        roof_std: { name: '車頂板-標準 (1PPD371 8 83)', codes: { 0: ['83EGDU', 3.70], 1: ['83EGDU', 3.70], 2: ['83EGFV', 2.90], 3: ['83EGHW', 1.90] } },
-        roof_sun: { name: '車頂板-帶天窗 (1PPD371 8 83)', codes: { 0: ['83EIPA', 2.90], 1: ['83EIPA', 2.90], 2: ['83EISA', 2.20], 3: ['83EIVA', 1.70] } }
+        hood: { 
+            name: '引擎蓋 (1PPD306 7 74)', 
+            codes: { 
+                0: ['79E1GZ', 3.40, '0級清漆：引擎蓋'], 
+                1: ['79E1HU', 2.60, '一級不透明塗裝：引擎蓋'], 
+                2: ['79E1KV', 2.50, '二級清漆：引擎蓋'], 
+                3: ['79E1MW', 2.00, '三級清漆：引擎蓋'] 
+            } 
+        },
+        fenderF: { 
+            name: '前葉子板 (1PPD305 7 71)', 
+            codes: { 
+                0: ['78EELZ', 1.00, '0級清漆：一側或右前翼副板'], 
+                1: ['78EENU', 1.00, '一級清漆：一側或右前翼副板'], 
+                2: ['78EEQV', 1.00, '二級清漆：一側或右前翼子板'], 
+                3: ['78EESW', 0.90, '三級清漆：一側或右前翼子板'] 
+            } 
+        },
+        bumperF_main: { 
+            name: '前保險槓主體 (1PPD303 6 65)', 
+            codes: { 
+                0: ['74EQIZ', 1.10, '等級0清漆：前保險桿'], 
+                1: ['74EQHZ', 0.90, '0級不透明漆：前保險桿'], 
+                2: ['74EQMV', 2.10, '二級清漆：前保險桿'], 
+                3: ['74EQOW', 2.00, '三級清漆：前保險桿'] 
+            } 
+        },
+        bumperF_upper: { 
+            name: '前保險槓上方 (1PPD303 6 65)', 
+            codes: { 
+                0: ['74EW2Z', 0.50, '等級0：前保險桿上方'], 
+                1: ['74EW1V', 0.50, 'Level 2 不透明漆：前保險桿上方'], 
+                2: ['74EW2V', 0.70, '二級清漆：前保險桿上部'], 
+                3: ['74EW2W', 0.70, '三級清漆：前保險桿上方'] 
+            } 
+        },
+        doorF: { 
+            name: '前門 (1PPD350 7 74)', 
+            codes: { 
+                0: ['90F02Z', 2.20, '0級清漆：前門'], 
+                1: ['90F04U', 2.90, '一級清漆：前門'], 
+                2: ['90F06V', 1.50, '二級清漆：前門'], 
+                3: ['90F08W', 1.30, '三級清漆：前門'] 
+            } 
+        },
+        doorR: { 
+            name: '後門 (1PPD360 7 74)', 
+            codes: { 
+                0: ['90EUKZ', 2.20, '0級清漆：後門'], 
+                1: ['90EUMU', 2.90, '一級透明塗層：後門'], 
+                2: ['90EUPV', 1.40, '二級透明漆：後門'], 
+                3: ['90EURW', 1.20, '三級透明漆：後門'] 
+            } 
+        },
+        pillarF: { 
+            name: '前A柱 (1PPD341 8 85)', 
+            codes: { 
+                0: ['85F49U', 0.90, '一級不透明塗料：正面柱子的右側或一側'], 
+                1: ['85F50U', 1.10, '一級清漆：前柱右側或一側'], 
+                2: ['85F50U', 1.10, '一級清漆：前柱右側或一側'], 
+                3: ['85F53U', 1.30, '一級光面漆：正面柱子的右側或一側'] 
+            } 
+        },
+        pillarM: { 
+            name: 'B柱 (1PPD343 8 85)', 
+            codes: { 
+                0: ['85F35U', 1.30, '一級不透明油漆：右側柱'], 
+                1: ['85F29U', 1.30, '一級不透明塗料：左側B柱'], 
+                2: ['85F32U', 1.50, '一級清漆：左B柱'], 
+                3: ['85F36U', 1.50, '一級清漆：右柱'] 
+            } 
+        },
+        sideFrame: { 
+            name: '側板側門框 (1PPD344 8 85)', 
+            codes: { 
+                0: ['85F4QU', 3.60, '1級不透明漆：右側面板'], 
+                1: ['85F4RU', 3.80, '1級清漆：右側面板'], 
+                2: ['85F4RU', 3.80, '1級清漆：右側面板'], 
+                3: ['85F4SU', 4.00, '1級亮漆：右側面板'] 
+            } 
+        },
+        sill_beam: { 
+            name: '車身側外門檻橫樑 (1PPD324 8 85)', 
+            codes: { 
+                0: ['85F40U', 1.60, '一級透明漆：車身門檻右側外側橫樑'], 
+                1: ['85F40U', 1.60, '一級透明漆：車身門檻右側外側橫樑'], 
+                2: ['85F42V', 1.50, '二級清漆：右側車門門檻外側樑'], 
+                3: ['85F44W', 1.20, '三級清漆：車身門檻右側外側橫樑'] 
+            } 
+        },
+        fenderR_part: { 
+            name: '一側後葉子板部分 (1PPD324 8 85)', 
+            codes: { 
+                0: ['85F3XU', 0.80, '一級不透明漆：後右翼子板（部分）'], 
+                1: ['85F3XU', 0.80, '一級不透明漆：後右翼子板（部分）'], 
+                2: ['85F3ZV', 0.80, '二級不透明塗裝：右後翼（部分）'], 
+                3: ['85F4NW', 1.10, '三級光面漆：右後翼子面板（部分）'] 
+            } 
+        },
+        tailgate: { 
+            name: '尾門 (1PPD327 6 65)', 
+            codes: { 
+                0: ['74EQAZ', 1.40, '0級清漆：尾門漆'], 
+                1: ['74EQCU', 2.20, '一級清漆：尾門'], 
+                2: ['74EQEV', 2.10, '二級清漆：尾門漆'], 
+                3: ['74EQGW', 1.80, '三級清漆：尾門'] 
+            } 
+        },
+        spoilerR: { 
+            name: '尾門擾流板 (1PPD327 6 65)', 
+            codes: { 
+                0: ['74F2LA', 0.80, '一級不透明漆：後尾門上擾流板'], 
+                1: ['74F2MA', 1.00, '一級清漆：後尾門上擾流板'], 
+                2: ['74F2PA', 1.00, '二級清漆：後尾門上擾流板'], 
+                3: ['74F2SA', 1.00, '三級清漆：後尾門上擾流板'] 
+            } 
+        },
+        bumperR_guard1: { 
+            name: '一側後保桿護板 (1PPD321 6 65)', 
+            codes: { 
+                0: ['74EP4Z', 0.60, '0級清漆：一側後保險桿護板'], 
+                1: ['74EP0Z', 0.40, '0級不透明漆：一側後保險桿護板'], 
+                2: ['74EP8Z', 0.80, '0級光面漆：一側後保險桿護板'], 
+                3: ['74EPXZ', 1.10, 'Level 2 光面漆面：一側後保險桿護板'] 
+            } 
+        },
+        bumperR_guard2: { 
+            name: '後保桿兩側護板 (1PPD321 6 65)', 
+            codes: { 
+                0: ['74ES2Z', 1.10, '二級不透明塗裝：後保險桿護板兩側'], 
+                1: ['74ES3Z', 1.10, '等級3不透明漆：後保險桿護板兩側'], 
+                2: ['74ES6Z', 1.30, '二級清漆：後保險桿護板的兩側'], 
+                3: ['74ESXZ', 1.50, '二級光面漆：後保險桿護板兩側'] 
+            } 
+        },
+        bumperR_skirt: { 
+            name: '後保險桿裙 (1PPD321 6 65)', 
+            codes: { 
+                0: ['74E15Z', 1.20, '0級清漆：後保險桿裙'], 
+                1: ['74E14Z', 1.00, '0級不透明漆：後保險桿裙'], 
+                2: ['74E15V', 2.10, '二級清漆：後保險桿裙'], 
+                3: ['74E15W', 2.00, '第三級清漆：後保險桿裙'] 
+            } 
+        },
+        roof_std: { 
+            name: '屋頂 (1PPD371 8 83)', 
+            codes: { 
+                0: ['83EGDU', 3.70, '一級清漆：屋頂'], 
+                1: ['83EGBU', 3.50, '一級不透明油漆：屋頂'], 
+                2: ['83EGFV', 2.90, '二級清漆：屋頂'], 
+                3: ['83EGHW', 1.90, '三級清漆：屋頂'] 
+            } 
+        },
+        roof_sun: { 
+            name: '屋頂-帶天窗 (1PPD371 8 83)', 
+            codes: { 
+                0: ['83EIPA', 2.90, '一級清漆：車頂 (帶天窗)'], 
+                1: ['83EIOA', 2.70, '一級不透明漆：車頂 (帶天窗)'], 
+                2: ['83EISA', 2.20, '二級清漆：車頂 (帶天窗)'], 
+                3: ['83EIVA', 1.70, '三級清漆：車頂 (帶天窗)'] 
+            } 
+        }
     }
 };
 
@@ -287,11 +446,14 @@ function calculate() {
 
     selectedParts.forEach(item => {
         const partData = partsDb[item.partKey] || Object.values(partsDb)[0];
-        const [code, hours] = partData.codes[item.level];
+        const [code, hours, fullName] = partData.codes[item.level];
         codeTags.push(code);
 
         if (item.level === 0 || !item.isAdjacent) nonDiscountHours += hours;
         else { adjacentCount++; adjacentBaseHours += hours; }
+
+        // 導出文字：項目 + 代碼 + 工時
+        exportLines.push(`${fullName} ${code} ${hours.toFixed(2)}h`);
     });
 
     let discountRate = 0;
@@ -303,12 +465,7 @@ function calculate() {
     const totalHours = paintHours + fixedHours;
     codeTags.push(fixedCode);
 
-    selectedParts.forEach(item => {
-        const partData = partsDb[item.partKey] || Object.values(partsDb)[0];
-        const [code, hours] = partData.codes[item.level];
-        exportLines.push(`${code}: ${hours.toFixed(2)}h`);
-    });
-    exportLines.push(`${fixedCode}: ${fixedHours.toFixed(2)}h`);
+    exportLines.push(`漆面固定準備時間 ${fixedCode} ${fixedHours.toFixed(2)}h`);
     exportLines.push(`--------------------`);
     exportLines.push(`總請款工時: ${totalHours.toFixed(2)}h`);
     currentClaimExportText = exportLines.join('\n');
@@ -333,7 +490,7 @@ function calculate() {
 function copyClaimDetails() {
     if (!currentClaimExportText) return;
     navigator.clipboard.writeText(currentClaimExportText).then(() => {
-        alert("已成功複製請款代碼與工時至剪貼簿！\n\n" + currentClaimExportText);
+        alert("已成功複製請款明細至剪貼簿！\n\n" + currentClaimExportText);
     }).catch(err => {
         console.error("複製失敗: ", err);
     });
