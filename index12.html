@@ -92,6 +92,7 @@
             <ul>
                 <li><strong>EPR (冰白漆 / Blanc Iquique)</strong>：自動判定為「不透明漆/素色漆」，帶入固定時間代碼 <span class="code-badge">70E00V</span> (+0.70h)，全車鈑件自動匹配 <strong>P050 / P110 / P210 / P310</strong> 專用標準代碼與 FRT 工時。</li>
                 <li><strong>KCA (淺灰色漆 / Gris Artense)</strong>：自動判定為「金屬漆/兩層清漆」，帶入固定時間代碼 <span class="code-badge">70E01U</span> (+1.00h)，全車鈑件自動匹配 <strong>P450 / P510 / P610 / P710</strong> 專用標準代碼與 FRT 工時。</li>
+                <li><strong>KTV (珍珠黑 / Perle Nera)</strong>：自動判定為「金屬漆/兩層清漆」，帶入固定時間代碼 <span class="code-badge">70E01U</span> (+1.00h)，全車鈑件自動匹配 <strong>P450 / P510 / P610 / P710</strong> 專用標準代碼與 FRT 工時。</li>
             </ul>
 
             <strong>二、 施工鈑件與受損修復等級 (Servicebox 標準)：</strong>
@@ -214,11 +215,12 @@
 </div>
 
 <script>
-// Citroën Berlingo (K9) 嚴格限定 14 項實測資料數據庫 (含最新補充 後視鏡罩 1CK90352636A)
+// Citroën Berlingo (K9) 嚴格限定 14 項實測資料數據庫 (已新增 KTV 色號)
 const berlingoData = {
     colors: {
         "EPR": { name: "EPR - 冰白漆 (素色漆)", coatType: "0.70|70E00V", note: "✓ 已匹配 EPR 銘牌色號：冰白漆 [70E00V / +0.70 小時]，全車部位自動連動不透明漆代碼 (P050/P110/P210/P310)" },
         "KCA": { name: "KCA - 淺灰色漆 (金屬漆)", coatType: "1.00|70E01U", note: "✓ 已匹配 KCA 銘牌色號：淺灰色漆/金屬漆 [70E01U / +1.00 小時]，全車部位自動連動清漆代碼 (P450/P510/P610/P710)" },
+        "KTV": { name: "KTV - 珍珠黑 (金屬漆)", coatType: "1.00|70E01U", note: "✓ 已匹配 KTV 銘牌色號：珍珠黑/金屬漆 [70E01U / +1.00 小時]，全車部位自動連動清漆代碼 (P450/P510/P610/P710)" },
         "custom": { name: "手動指定 / 其他漆種", coatType: "", note: "📌 請由右方下拉選單手動選擇正確的漆面屬性。" }
     },
     parts: {
