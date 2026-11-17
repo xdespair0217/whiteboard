@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PEUGEOT & CITROËN & JEEP 漆面保固專屬作業與鈑烤估價控制台 V18</title>
+    <title>PEUGEOT & CITROËN & JEEP 漆面保固專屬作業與鈑烤估價控制台 V19</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;700&display=swap" rel="stylesheet">
     
@@ -618,7 +618,7 @@
         <div>
             <h1>PEUGEOT & CITROËN & JEEP 漆面保固專屬稽核與專案作業控制台</h1>
         </div>
-        <div style="font-size: 12px;"><i class="fa-solid fa-shield-halved"></i> 2026 年度 Stellantis 法系保固整備規範 V18</div>
+        <div style="font-size: 12px;"><i class="fa-solid fa-shield-halved"></i> 2026 年度 Stellantis 法系保固整備規範 V19</div>
     </header>
 
     <!-- 雙模式切換導覽列 -->
@@ -850,7 +850,7 @@
                     右側估價單已依<strong>尚鵬汽車內湖服務廠</strong>原始 Excel 版面 1:1 還原（含橫向擺正的收發章與完整車牌/車型欄寬）。表單內所有欄位皆可直接點擊修改，金額會自動加總。
                 </p>
 
-                <button type="button" class="btn-print-excel" onclick="window.print()">
+                <button type="button" class="btn-print-excel" onclick="printQuoteWithFilename()">
                     <i class="fa-solid fa-print"></i> 一鍵列印估價單 / 另存 PDF
                 </button>
 
@@ -1247,6 +1247,43 @@
         const LABOR_ROW_COUNT = 13;
         const PART_ROW_COUNT = 17;
 
+        const DEFAULT_PAGE_TITLE = "PEUGEOT & CITROËN & JEEP 漆面保固專屬作業與鈑烤估價控制台 V19";
+
+        function getFormattedQuoteFilename() {
+            const vin = document.getElementById('vin_code').value.trim();
+            const plateOrVin = document.getElementById('q_plate_vin').value.trim();
+            const plate = document.getElementById('car_plate').value.trim();
+            // 優先取 17 碼車身碼 (VIN)，若無則取估價單車牌/車號欄，再無則取控制台車牌
+            const idCode = (vin || plateOrVin || plate || '').replace(/[\\/:*?"<>|\s]+/g, '');
+            return idCode ? `${idCode}_報價單` : '報價單';
+        }
+
+        function syncDynamicDocumentTitle() {
+            const viewQuote = document.getElementById('view_quote');
+            if (viewQuote && viewQuote.style.display === 'block') {
+                document.title = getFormattedQuoteFilename();
+            } else {
+                document.title = DEFAULT_PAGE_TITLE;
+            }
+        }
+
+        function printQuoteWithFilename() {
+            const quoteFilename = getFormattedQuoteFilename();
+            document.title = quoteFilename;
+            setTimeout(() => {
+                window.print();
+            }, 60);
+        }
+
+        window.addEventListener('beforeprint', () => {
+            document.title = getFormattedQuoteFilename();
+        });
+
+        window.addEventListener('afterprint', () => {
+            syncDynamicDocumentTitle();
+        });
+
+
         /* -------------------------------------------------------------
            分頁切換邏輯
         ------------------------------------------------------------- */
@@ -1262,11 +1299,13 @@
                 btnConsole.classList.remove('active');
                 btnQuote.classList.add('active');
                 syncVehicleMetaToQuote();
+                syncDynamicDocumentTitle();
             } else {
                 viewConsole.style.display = 'grid';
                 viewQuote.style.display = 'none';
                 btnConsole.classList.add('active');
                 btnQuote.classList.remove('active');
+                syncDynamicDocumentTitle();
             }
         }
 
@@ -1391,6 +1430,7 @@
             document.getElementById('q_model').value = customModel;
             document.getElementById('q_work_order').value = wo;
             document.getElementById('q_mileage').value = mileage;
+            syncDynamicDocumentTitle();
         }
 
         function syncQuoteToConsole() {
@@ -1398,6 +1438,7 @@
             document.getElementById('quick_quote_model').value = document.getElementById('q_model').value;
             document.getElementById('quick_wo_no').value = document.getElementById('q_work_order').value;
             document.getElementById('quick_mileage').value = document.getElementById('q_mileage').value;
+            syncDynamicDocumentTitle();
         }
 
         /* -------------------------------------------------------------
