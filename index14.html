@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STELLANTIS | YAKIMA 車頂架保固流程與操作指南</title>
+  <style>
+    :root {
+      --primary: #1e293b;
+      --accent: #0f4c81;
+      --accent-hover: #0a365c;
+      --highlight: #d97706;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --border: #e2e8f0;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --success: #059669;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", "PingFang TC", sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.65;
+      padding: 24px 16px 60px;
+    }
+
+    .container {
+      max-width: 1020px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+      color: #ffffff;
+      padding: 28px 32px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    header .badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    header h1 {
+      font-size: 1.65rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    header p {
+      color: #cbd5e1;
+      font-size: 0.95rem;
+      margin-top: 4px;
+    }
+
+    .header-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .quick-jump {
+      background: #f59e0b;
+      color: #0f172a;
+      text-decoration: none;
+      font-weight: 700;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .quick-jump:hover {
+      background: #fbbf24;
+      transform: translateY(-1px);
+    }
+
+    .doc-link-btn {
+      background: rgba(255, 255, 255, 0.14);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .doc-link-btn:hover {
+      background: rgba(255, 255, 255, 0.24);
+      transform: translateY(-1px);
+    }
+
+    /* Cards & Sections */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin-bottom: 22px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--primary);
+      border-left: 4px solid var(--accent);
+      padding-left: 12px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* Workflow Steps */
+    .workflow {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .workflow {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .step-box {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 16px;
+      position: relative;
+      text-align: center;
+    }
+
+    .step-box.active {
+      background: #eff6ff;
+      border-color: #93c5fd;
+    }
+
+    .step-num {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      width: 26px;
+      height: 26px;
+      line-height: 26px;
+      border-radius: 50%;
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .step-title {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--primary);
+    }
+
+    .step-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Contact Card */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 16px 20px;
+    }
+
+    .contact-item span.label {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .contact-item span.value {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: var(--primary);
+      word-break: break-all;
+    }
+
+    /* Product Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 0.93rem;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      text-align: left;
+    }
+
+    th {
+      background: #f1f5f9;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .code-pill {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      background: #e2e8f0;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    /* Checklist & Terms */
+    .rules-list {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .rules-list li {
+      padding-left: 24px;
+      position: relative;
+      font-size: 0.95rem;
+    }
+
+    .rules-list li::before {
+      content: "■";
+      color: var(--accent);
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .info-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .info-box h4 {
+      font-size: 0.98rem;
+      color: var(--accent);
+      margin-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 6px;
+    }
+
+    .info-box p, .info-box ol {
+      font-size: 0.88rem;
+      color: #334155;
+    }
+
+    .info-box ol {
+      padding-left: 18px;
+    }
+
+    .warning-box {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-left: 4px solid #d97706;
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-top: 14px;
+      font-size: 0.9rem;
+      color: #78350f;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .inline-pdf-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #d97706;
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 700;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.86rem;
+      white-space: nowrap;
+      transition: background 0.15s ease;
+    }
+
+    .inline-pdf-btn:hover {
+      background: #b45309;
+    }
+
+    /* Interactive Mail Builder */
+    .mail-builder {
+      border: 2px solid #bfdbfe;
+      background: #f8fbff;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .form-group input, .form-group select {
+      padding: 9px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 0.92rem;
+      background: #ffffff;
+      font-family: inherit;
+    }
+
+    .form-group input:focus, .form-group select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(15, 76, 129, 0.12);
+    }
+
+    .preview-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 330px;
+      padding: 14px 16px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.94rem;
+      line-height: 1.6;
+      background: #ffffff;
+      color: #1e293b;
+      resize: vertical;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 16px;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: 8px;
+      font-size: 0.96rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #ffffff;
+      box-shadow: 0 2px 6px rgba(15, 76, 129, 0.25);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: #ffffff;
+      color: var(--primary);
+      border: 1px solid #cbd5e1;
+    }
+
+    .btn-secondary:hover {
+      background: #f1f5f9;
+    }
+
+    .toast {
+      display: inline-block;
+      background: var(--success);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+
+    .hint-note {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div>
+        <div class="badge">STELLANTIS 售後服務標準作業程序 (SOP)</div>
+        <h1>YAKIMA 車頂架保固流程與操作指南</h1>
+        <p>適用據點：尚鵬汽車股份有限公司（內湖廠）｜保固判定與通報作業手冊</p>
+      </div>
+      <div class="header-actions">
+        <a href="https://drive.google.com/file/d/180lVLXKCqzP1JOp_YWNACD7lC8IqiYzg/view" target="_blank" rel="noopener noreferrer" class="doc-link-btn">📄 檢視原廠規範與保固卡原檔</a>
+        <a href="#mail-section" class="quick-jump">✉️ 前往一鍵發信工具</a>
+      </div>
+    </header>
+
+    <!-- Section 1: 保固流程與聯繫窗口 -->
+    <section class="card">
+      <div class="section-title">一、YAKIMA 車頂架保固通報流程與窗口</div>
+      <div class="workflow">
+        <div class="step-box">
+          <div class="step-num">1</div>
+          <div class="step-title">車主問題反應</div>
+          <div class="step-desc">車主進廠反應車頂架異常，確認保固卡與購買/領牌憑證</div>
+        </div>
+        <div class="step-box active">
+          <div class="step-num">2</div>
+          <div class="step-title">經銷商初步檢視</div>
+          <div class="step-desc">尚鵬汽車內湖廠拍照存證、核對料號，發信通報原廠窗口</div>
+        </div>
+        <div class="step-box">
+          <div class="step-num">3</div>
+          <div class="step-title">STELLANTIS / YAKIMA 判定</div>
+          <div class="step-desc">由 YAKIMA 窗口審核損壞照片是否屬非人為之保固範圍</div>
+        </div>
+        <div class="step-box">
+          <div class="step-num">4</div>
+          <div class="step-title">後續維修與零件更換</div>
+          <div class="step-desc">依原廠判定結果安排無償維修、零件替換或材料報價</div>
+        </div>
+      </div>
+
+      <div class="contact-grid">
+        <div class="contact-item">
+          <span class="label">STELLANTIS / YAKIMA 專屬窗口</span>
+          <span class="value">李勇億 David Lee 經理</span>
+        </div>
+        <div class="contact-item">
+          <span class="label">行動電話</span>
+          <span class="value">0937-646-326</span>
+        </div>
+        <div class="contact-item">
+          <span class="label">公司電話</span>
+          <span class="value">08-7524736 #6532</span>
+        </div>
+        <div class="contact-item">
+          <span class="label">電子信箱 (E-Mail)</span>
+          <span class="value">david.lee@kemflointernational.com.tw</span>
+        </div>
+        <div class="contact-item" style="grid-column: 1 / -1;">
+          <span class="label">寄件 / 聯絡地址</span>
+          <span class="value">屏東市大洲里環東街3號</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: 保固卡規範與料號對照 -->
+    <section class="card">
+      <div class="section-title">二、保固卡作業注意事項與料號對照</div>
+      <ul class="rules-list">
+        <li><strong>保固卡發放：</strong>依據配車台數發放至各經銷商（<strong>腳架與橫桿共用同一張保固卡</strong>）。</li>
+        <li><strong>保固期限與起算：</strong>保固期為 <strong>5 年</strong>，保固起始日期以「<strong>領牌日期</strong>」為準，並須<strong>加蓋經銷商印章</strong>（尚鵬汽車股份有限公司）。</li>
+        <li><strong>DMS 系統文件上傳：</strong>YAKIMA 車頂架保固卡連同「新車交車前檢查表」、「電瓶檢測報告」等相關文件，須一同上傳至 <strong>DMS 派工單附件內備查</strong>。</li>
+        <li><strong>交車交付規範：</strong>紙本保固卡請於交車時併同相關文件交付予車主妥善保管。</li>
+      </ul>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 10%;">項次</th>
+            <th style="width: 55%;">車頂架品名</th>
+            <th style="width: 35%;">車頂架品名代號</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>(1)</td>
+            <td>LockNLoad Gutter Mount 雨槽腳座</td>
+            <td><span class="code-pill">#HB80-00-351-Z</span></td>
+          </tr>
+          <tr>
+            <td>(2)</td>
+            <td>LockNLoad Bar 黑色載重橫桿</td>
+            <td><span class="code-pill">#8000507</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Section 3: 保固條款與填寫範例重點 -->
+    <section class="card">
+      <div class="section-title">三、保固條款與保固卡填寫範例重點</div>
+      <div class="two-col">
+        <div class="info-box">
+          <h4>保固適用範圍與注意事項</h4>
+          <ol>
+            <li>僅限 YAKIMA 台灣地區授權經銷商購買，且保固卡資料完整、真實、有效。</li>
+            <li>申請維修服務時，車主須出示<strong>購買憑證及有效的保固卡</strong>（需蓋有經銷商章，購買/領牌日期完整填寫）。</li>
+            <li>如有需要相關產品之維修及更換的<strong>郵寄、運送費用，將由顧客負擔</strong>。</li>
+            <li>如需進行產品更換或維修，請先聯繫購買方（經銷商）進行售後服務通報。</li>
+          </ol>
+        </div>
+        <div class="info-box">
+          <h4>產品維修與免責聲明</h4>
+          <ol>
+            <li>保修期內（5年），原廠將提供無償維修／更換零件以保證正常使用；若需新增配件（如 <strong>FITTING KIT</strong> 等），則將收取材料費。</li>
+            <li>保修期內若因產品設計更新或停止產售導致無法替換零件，請與經銷商聯繫具體處理方式。</li>
+            <li><strong>免責聲明：</strong>YAKIMA 不保固因濫用而導致之損壞（如人為改裝造成外觀損壞、割傷或破洞，或使用不當造成之非自然損壞），<strong>由 YAKIMA 原廠判定是否為人為破壞</strong>。</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="warning-box">
+        <div style="flex: 1; min-width: 260px;">
+          <strong>📌 實務填寫與送審提醒：</strong>保固卡欄位需完整填寫「車主姓名、電話、地址、E-MAIL、品名與代號、購買（領牌）日期、保固期限 5 年」並加蓋「尚鵬汽車股份有限公司」經銷商章（內湖廠地址：台北市內湖區民善路70號）。發信請原廠判定時，請務必隨信夾帶<strong>現場損壞特寫照片</strong>與<strong>已蓋章之保固卡照片</strong>。
+        </div>
+        <a href="https://drive.google.com/file/d/180lVLXKCqzP1JOp_YWNACD7lC8IqiYzg/view" target="_blank" rel="noopener noreferrer" class="inline-pdf-btn">
+          📂 開啟保固卡範例與點交單原檔 (PDF)
+        </a>
+      </div>
+    </section>
+
+    <!-- Section 4: 一鍵發信與罐頭訊息生成器 -->
+    <section class="card mail-builder" id="mail-section">
+      <div class="section-title">
+        <span>四、一鍵發信給 YAKIMA 窗口（罐頭訊息自動產生器）</span>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="plateNo">車牌號碼</label>
+          <input type="text" id="plateNo" placeholder="例如：ABC-1234" oninput="updateEmail()" />
+        </div>
+        <div class="form-group">
+          <label for="ownerName">車主姓名</label>
+          <input type="text" id="ownerName" placeholder="例如：王小明" oninput="updateEmail()" />
+        </div>
+        <div class="form-group">
+          <label for="regDate">領牌日期（保固起算日）</label>
+          <input type="date" id="regDate" onchange="updateEmail()" />
+        </div>
+        <div class="form-group">
+          <label for="partSelect">異常品項</label>
+          <select id="partSelect" onchange="updateEmail()">
+            <option value="(1) LockNLoad Gutter Mount 雨槽腳座（#HB80-00-351-Z）">(1) 雨槽腳座 (#HB80-00-351-Z)</option>
+            <option value="(2) LockNLoad Bar 黑色載重橫桿（#8000507）">(2) 黑色載重橫桿 (#8000507)</option>
+            <option value="(1) LockNLoad Gutter Mount 雨槽腳座（#HB80-00-351-Z）及 (2) LockNLoad Bar 黑色載重橫桿（#8000507）">兩者皆有異常（腳座 + 橫桿）</option>
+          </select>
+        </div>
+        <div class="form-group" style="grid-column: 1 / -1;">
+          <label for="damageDesc">損壞狀況簡述（將自動帶入信件內文）</label>
+          <input type="text" id="damageDesc" placeholder="例如：右側雨槽腳座表面塗層剝落／鎖扣異常（詳如附件照片）" oninput="updateEmail()" />
+        </div>
+      </div>
+
+      <div class="preview-label">
+        <span>信件主旨預覽：<span id="subjectPreview" style="color: var(--accent);">【保固判定申請】尚鵬汽車內湖廠 - YAKIMA車頂架異常確認</span></span>
+        <span style="font-weight: 400; color: var(--text-muted); font-size: 0.82rem;">可直接於下方文字框微調內容</span>
+      </div>
+
+      <textarea id="emailBody"></textarea>
+
+      <div class="btn-group">
+        <a id="mailtoBtn" href="#" class="btn btn-primary" onclick="prepareMailto(event)">
+          🚀 一鍵開啟信箱並帶入內容
+        </a>
+        <button type="button" class="btn btn-secondary" onclick="copyEmailBody()">
+          📋 複製信件內文
+        </button>
+        <button type="button" class="btn btn-secondary" onclick="copyRecipient()">
+          📧 複製窗口信箱
+        </button>
+        <span id="toastMsg" class="toast">已複製到剪貼簿！</span>
+      </div>
+
+      <p class="hint-note">
+        💡 <strong>操作提示：</strong>點擊「一鍵開啟信箱並帶入內容」會自動開啟電腦預設郵件軟體（如 Outlook / Mail）並填入收件人（<code>david.lee@kemflointernational.com.tw</code>）、主旨與內文。開啟視窗後，<strong>請記得手動夾帶「損壞照片」與「保固卡照片」附件</strong>再按送出！若您使用網頁版信箱（如 Gmail 網頁版），可點擊「複製信件內文」貼上使用。
+      </p>
+    </section>
+  </div>
+
+  <script>
+    const RECIPIENT = "david.lee@kemflointernational.com.tw";
+
+    function getSubject() {
+      const plate = document.getElementById("plateNo").value.trim();
+      return plate
+        ? `【保固判定申請】尚鵬汽車內湖廠 - YAKIMA車頂架異常確認（車號：${plate}）`
+        : `【保固判定申請】尚鵬汽車內湖廠 - YAKIMA車頂架異常確認`;
+    }
+
+    function updateEmail() {
+      const plate = document.getElementById("plateNo").value.trim() || "（請填寫車號）";
+      const owner = document.getElementById("ownerName").value.trim() || "（請填寫車主姓名）";
+      const regDate = document.getElementById("regDate").value || "（請填寫領牌日期）";
+      const part = document.getElementById("partSelect").value;
+      const damage = document.getElementById("damageDesc").value.trim() || "（請簡述損壞部位與狀況，詳如隨信附件照片）";
+
+      document.getElementById("subjectPreview").textContent = getSubject();
+
+      const bodyText = `李經理（David）您好：
+
+這裡是「尚鵬汽車內湖廠」，以下有件 YAKIMA 車頂架的售後保固案件需請您協助評估。
+
+【案件基本資料】
+● 經銷據點：尚鵬汽車股份有限公司（內湖廠）
+● 車主姓名：${owner}
+● 車牌號碼：${plate}
+● 領牌日期（保固起算日）：${regDate}
+● 異常品項：${part}
+
+【損壞狀況說明】
+${damage}
+
+隨信附上「現場損壞狀況照片」及「已蓋章之保固卡」供您檢視，煩請協助確認此損壞狀況是否符合原廠保固範圍，以及後續維修或零件更換流程。
+
+感謝您的協助，再請撥冗回覆，謝謝！
+
+敬祝 順心
+
+尚鵬汽車股份有限公司 內湖廠 敬上
+地址：台北市內湖區民善路70號`;
+
+      document.getElementById("emailBody").value = bodyText;
+    }
+
+    function prepareMailto(event) {
+      const subject = encodeURIComponent(getSubject());
+      const body = encodeURIComponent(document.getElementById("emailBody").value);
+      const mailtoUrl = `mailto:${RECIPIENT}?subject=${subject}&body=${body}`;
+      document.getElementById("mailtoBtn").setAttribute("href", mailtoUrl);
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById("toastMsg");
+      toast.textContent = msg;
+      toast.classList.add("show");
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2500);
+    }
+
+    function copyEmailBody() {
+      const textarea = document.getElementById("emailBody");
+      textarea.select();
+      navigator.clipboard.writeText(textarea.value).then(() => {
+        showToast("✅ 已複製信件內文！");
+      });
+    }
+
+    function copyRecipient() {
+      navigator.clipboard.writeText(RECIPIENT).then(() => {
+        showToast("✅ 已複製窗口信箱：david.lee@kemflointernational.com.tw");
+      });
+    }
+
+    // Initialize on load
+    window.addEventListener("DOMContentLoaded", updateEmail);
+  </script>
+</body>
+</html>
