@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>尚鵬汽車新車入庫、到點分流暨交車整備全流程標準作業規範</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'Noto Sans TC', 'sans-serif'],
+            mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace']
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    :root {
+      --bg-slate: #f8fafc;
+      --brand-navy: #0f172a;
+      --brand-orange: #ea580c;
+    }
+    body {
+      background-color: var(--bg-slate);
+      color: var(--brand-navy);
+      -webkit-tap-highlight-color: transparent;
+    }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-orange-600 selection:text-white">
+
+  <!-- 1. 頂部尚鵬汽車 × STELLANTIS 品牌與官方雲端檔案導覽列 -->
+  <header class="sticky top-0 z-40 bg-[#0f172a] text-white border-b border-slate-800 shadow-lg">
+    <div class="max-w-[1640px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-3">
+      <!-- 品牌識別與制定資訊 -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#ea580c] to-amber-500 flex items-center justify-center shadow-md shadow-orange-600/30 shrink-0">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+          </svg>
+        </div>
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="text-xs font-extrabold tracking-widest uppercase text-orange-400">尚鵬汽車 內湖服務廠｜STELLANTIS 寶嘉聯合</span>
+            <span class="text-[11px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-200 border border-slate-700 font-semibold">PEUGEOT · CITROËN · ALFA ROMEO · JEEP</span>
+          </div>
+          <h1 class="text-base sm:text-lg font-bold text-white leading-tight">新車入庫、到點分流暨交車整備全流程標準作業規範（SOP）</h1>
+        </div>
+      </div>
+
+      <!-- 右側外部原始檔案直連 + 三禾範例燈箱 -->
+      <div class="flex flex-wrap items-center gap-2">
+        <a href="https://docs.google.com/presentation/d/1J5tlJM-DxjS23-FMXPs0hdX15pnaG9A2/edit?usp=sharing&ouid=102482519529125762788&rtpof=true&sd=true"
+          target="_blank" rel="noopener noreferrer"
+          class="px-3 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold shadow-sm flex items-center gap-1.5 transition">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5" />
+          </svg>
+          <span>01. 全流程簡報</span>
+        </a>
+
+        <a href="https://drive.google.com/file/d/1kb3ZXHceX7CaoTr95JeGb596LtMXvZTb/view?usp=sharing"
+          target="_blank" rel="noopener noreferrer"
+          class="px-3 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold shadow-sm flex items-center gap-1.5 transition">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+          </svg>
+          <span>02. 管制卡與通報 PDF</span>
+        </a>
+
+        <a href="https://drive.google.com/file/d/1mNhc3xAh7XjpsAmh2y-aqykbl1YXS3p5/view?usp=sharing"
+          target="_blank" rel="noopener noreferrer"
+          class="px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-sm flex items-center gap-1.5 transition">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
+          </svg>
+          <span>03. 回報範例 PDF</span>
+        </a>
+
+        <button type="button" onclick="openLightbox('https://xdespair0217.github.io/whiteboard/A07.png', '三禾儲倉外觀檢修與異常回報範例（A07）')"
+          class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 flex items-center gap-1.5 transition">
+          <svg class="w-4 h-4 text-orange-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+          </svg>
+          <span>三禾範例 (A07)</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 2. 主內容區塊 -->
+  <main class="flex-1 max-w-[1640px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_370px] gap-6 items-start">
+
+      <!-- 左側主流程視覺區塊 -->
+      <div class="min-w-0 space-y-6">
+
+        <!-- 2.1 全局作業架構｜四大核心階段方塊總覽 -->
+        <section class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-[#ea580c]"></span>
+                <h2 class="text-base sm:text-lg font-black text-slate-900">全局作業架構｜從三禾稅倉入庫、三立下放到據點交付完整閉環</h2>
+              </div>
+              <p class="text-xs text-slate-500 mt-0.5 ml-4">制定人：尚鵬內湖服務廠 廠長 謝或翰 ｜ 權責明確 · 雙軌分流 · 零失誤交付</p>
+            </div>
+            <span class="px-3 py-1 rounded-xl bg-orange-50 text-[#ea580c] text-xs font-extrabold border border-orange-200">四大階段標準閉環</span>
+          </div>
+
+          <!-- 四階段連動方塊列 -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+            <!-- 階段 01 -->
+            <a href="#phase-1" class="group p-4 rounded-2xl bg-slate-50 hover:bg-orange-50/60 border-2 border-slate-200 hover:border-[#ea580c] transition flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="px-2.5 py-0.5 rounded-lg bg-[#0f172a] text-white text-xs font-black">第一篇</span>
+                  <span class="text-xs font-mono font-bold text-[#ea580c]">D 日 ～ D+1 日</span>
+                </div>
+                <h3 class="text-sm sm:text-base font-black text-slate-900 group-hover:text-[#ea580c] transition">三禾儲倉前端把關</h3>
+                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                  DMS 轉檔預告 ➔ D+1 實車清點拍照 ➔ <strong>三軌判定（原廠保固／漆面水險／三立求償）</strong> ➔ 烤漆前後雙向通報所長與車管。
+                </p>
+              </div>
+              <div class="mt-3 pt-2.5 border-t border-slate-200/80 flex items-center justify-between text-[11px] font-bold text-slate-500">
+                <span>窗口：車管 / 三禾 / 內湖廠長</span>
+                <span class="text-[#ea580c]">檢視明細 ↓</span>
+              </div>
+            </a>
+
+            <!-- 階段 02 -->
+            <a href="#phase-2" class="group p-4 rounded-2xl bg-orange-50/70 hover:bg-orange-50 border-2 border-[#ea580c] shadow-sm transition flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="px-2.5 py-0.5 rounded-lg bg-[#ea580c] text-white text-xs font-black">第二篇 · 核心新增</span>
+                  <span class="text-xs font-mono font-bold text-[#ea580c]">據點到車</span>
+                </div>
+                <h3 class="text-sm sm:text-base font-black text-slate-900">三立到點與業服雙軌分流</h3>
+                <p class="text-xs text-slate-700 mt-1.5 leading-relaxed">
+                  三立卸車後業務點交，停妥<strong>後方八格（1-8號）</strong>填寫管制卡置於前擋 ➔ 分流<strong>「2A 展間庫存維護」</strong>或<strong>「2B 業務通知接待啟動 PDI」</strong>。
+                </p>
+              </div>
+              <div class="mt-3 pt-2.5 border-t border-orange-200 flex items-center justify-between text-[11px] font-bold text-[#ea580c]">
+                <span>窗口：營業所業務 / 服務廠 SA</span>
+                <span>檢視明細 ↓</span>
+              </div>
+            </a>
+
+            <!-- 階段 03 -->
+            <a href="#phase-3" class="group p-4 rounded-2xl bg-slate-50 hover:bg-emerald-50/60 border-2 border-slate-200 hover:border-emerald-600 transition flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="px-2.5 py-0.5 rounded-lg bg-emerald-600 text-white text-xs font-black">第三篇</span>
+                  <span class="text-xs font-mono font-bold text-emerald-700">超 14 天週期</span>
+                </div>
+                <h3 class="text-sm sm:text-base font-black text-slate-900 group-hover:text-emerald-700 transition">庫存維護與一車一夾制度</h3>
+                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                  釐清「庫存維護（動態防禦）」與「交車準備（最終實證）」差異；<strong>12V ≥12.5V / SOC≥80%、48V SOC≥60%</strong>，雙面維護單隨車＋上傳 ARGOS。
+                </p>
+              </div>
+              <div class="mt-3 pt-2.5 border-t border-slate-200/80 flex items-center justify-between text-[11px] font-bold text-slate-500">
+                <span>統籌：技師長黃宗南 / 引擎組</span>
+                <span class="text-emerald-700">檢視明細 ↓</span>
+              </div>
+            </a>
+
+            <!-- 階段 04 -->
+            <a href="#phase-4" class="group p-4 rounded-2xl bg-slate-50 hover:bg-sky-50/60 border-2 border-slate-200 hover:border-sky-600 transition flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="px-2.5 py-0.5 rounded-lg bg-sky-600 text-white text-xs font-black">第四篇</span>
+                  <span class="text-xs font-mono font-bold text-sky-700">交車前 48H</span>
+                </div>
+                <h3 class="text-sm sm:text-base font-black text-slate-900 group-hover:text-sky-700 transition">黃金 48H、點交簽名與歸檔</h3>
+                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                  交車前 48H 內 E-XTEQ 量測 12V 電瓶（工單 <strong>UPDI0002</strong>），完工通知業務簽名點交；<strong>交車後 5 日內上傳 DMS</strong>，紙本交車管存 1 年。
+                </p>
+              </div>
+              <div class="mt-3 pt-2.5 border-t border-slate-200/80 flex items-center justify-between text-[11px] font-bold text-slate-500">
+                <span>稽核：SA 組長徐漢威 / 楊志遠經理</span>
+                <span class="text-sky-700">檢視明細 ↓</span>
+              </div>
+            </a>
+          </div>
+        </section>
+
+        <!-- 2.2 第一篇｜三禾儲倉前端把關 ＆ 瑕疵責任三軌判定方塊 -->
+        <section id="phase-1" class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-200">
+            <div class="flex items-center gap-2.5">
+              <span class="px-3 py-1 rounded-xl bg-[#0f172a] text-white text-xs font-black">第一篇｜三禾儲倉入庫與審核把關</span>
+              <h2 class="text-base sm:text-lg font-black text-slate-900">進車預告、D+1 實車點檢、三軌責任判定與兩段式通報</h2>
+            </div>
+            <button type="button" onclick="openLightbox('https://xdespair0217.github.io/whiteboard/A07.png', '三禾儲倉外觀檢修與異常回報範例（A07）')"
+              class="text-xs font-bold text-[#ea580c] hover:underline">
+              檢視三禾現場檢修範例圖 (A07) ↗
+            </button>
+          </div>
+
+          <!-- 4 步驟橫向方塊 -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+              <div class="text-xs font-black text-[#ea580c] mb-1">步驟 01｜D 日轉檔預告</div>
+              <div class="text-sm font-extrabold text-slate-900">DMS 明細連動接車排程</div>
+              <p class="text-xs text-slate-600 mt-1 leading-relaxed">寶嘉每日將出車明細轉入 DMS，新車部車管單位依明細通知三禾儲倉安排接車入庫。</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+              <div class="text-xs font-black text-[#ea580c] mb-1">步驟 02｜D+1 日清點留證</div>
+              <div class="text-sm font-extrabold text-slate-900">逐車外觀點檢與群組回報</div>
+              <p class="text-xs text-slate-600 mt-1 leading-relaxed">隔日完成外觀漆面、鈑件清點並逐項核對發貨驗收單；發現漆粒、刮痕或凹點立即拍遠近照上傳群組。</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+              <div class="text-xs font-black text-[#ea580c] mb-1">步驟 03｜烤漆兩段式通報</div>
+              <div class="text-sm font-extrabold text-slate-900">施工前調交期 · 完工雙向解鎖</div>
+              <p class="text-xs text-slate-600 mt-1 leading-relaxed">留倉烤漆施工前個別通報所長調整交期（約 3 天內完工）；完工後同步通知所長與車管解鎖調度。</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+              <div class="text-xs font-black text-[#ea580c] mb-1">步驟 04｜依領牌日拖運</div>
+              <div class="text-sm font-extrabold text-slate-900">點對點派車送達各據點</div>
+              <p class="text-xs text-slate-600 mt-1 leading-relaxed">無異常或烤漆完工解鎖之車輛，由車管對齊各車實際領牌時間，排程三立拖運至指定服務廠據點。</p>
+            </div>
+          </div>
+
+          <!-- 內湖廠長核心審核節點：三軌責任判定方塊 -->
+          <div class="p-4 rounded-2xl bg-[#0f172a] text-white space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span class="text-xs font-extrabold tracking-wider text-orange-400">核心審核節點｜尚鵬內湖服務廠 廠長 謝或翰 — 瑕疵責任「三軌判定與專案請款路徑」</span>
+              <span class="text-[11px] text-slate-300">※ 無異常車輛直接進入「待領牌調度」，不進施工排程</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+              <div class="p-3.5 rounded-xl bg-slate-900 border border-blue-500/40">
+                <div class="font-black text-blue-300 text-sm mb-1">1. 原廠保固（PV0 / P06）</div>
+                <div class="text-slate-300 leading-relaxed">
+                  <strong class="text-white">認定基準：</strong>出廠製程缺陷、缺錯裝或原廠塗裝不良。<br/>
+                  <strong class="text-blue-300">處理路徑：</strong>建立 DIDI 軌跡並向國外原廠保固平台申請工資與漆料核銷。
+                </div>
+              </div>
+              <div class="p-3.5 rounded-xl bg-slate-900 border border-emerald-500/40">
+                <div class="font-black text-emerald-300 text-sm mb-1">2. 漆面水險理賠</div>
+                <div class="text-slate-300 leading-relaxed">
+                  <strong class="text-white">認定基準：</strong>海運或到港期間產生之漆面損傷。<br/>
+                  <strong class="text-emerald-300">處理路徑：</strong>補拍遠近細節相片發信予 PGU 總代理確認，依規範檢附驗收單辦理水險理賠。
+                </div>
+              </div>
+              <div class="p-3.5 rounded-xl bg-slate-900 border border-orange-500/40">
+                <div class="font-black text-orange-300 text-sm mb-1">3. 三立拖運商責任</div>
+                <div class="text-slate-300 leading-relaxed">
+                  <strong class="text-white">認定基準：</strong>三立拖運載運或上下板車造成之外力損傷。<br/>
+                  <strong class="text-orange-300">處理路徑：</strong>鎖定發貨驗收單簽收差異，直接向三立拖運提出求償。
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2.3 第二篇｜三立到點現場作業與業服雙軌分流（核心新增規範） -->
+        <section id="phase-2" class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border-2 border-[#ea580c]/40 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-200">
+            <div class="flex items-center gap-2.5">
+              <span class="px-3 py-1 rounded-xl bg-[#ea580c] text-white text-xs font-black">第二篇｜三立到點與業服分流（核心新增規範）</span>
+              <h2 class="text-base sm:text-lg font-black text-slate-900">營業所業務 ＆ 服務廠接待（SA）現場協同閉環</h2>
+            </div>
+            <span class="text-xs font-bold text-slate-500">後方八格（1-8號）＋ 前擋管制卡防呆</span>
+          </div>
+
+          <!-- 步驟 1 -> 雙軌 2A / 2B -> 步驟 3 視覺動線方塊 -->
+          <div class="grid grid-cols-1 lg:grid-cols-4 gap-3.5 items-stretch">
+            <!-- Step 1 -->
+            <div class="p-4 rounded-xl bg-slate-900 text-white flex flex-col justify-between">
+              <div>
+                <span class="px-2 py-0.5 rounded bg-orange-500 text-white text-[11px] font-black">步驟 1｜三立卸車驗收</span>
+                <h3 class="text-sm font-black mt-2">業務現場點交 ＆ 停妥後方八格</h3>
+                <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">
+                  三立托運卸車後，由<strong class="text-white">營業所業務</strong>核對外觀與點交單簽收，停妥後方八格（1-8號），立即以<strong class="text-amber-300">粗黑色麥克筆寫滿 17 碼 VIN</strong> 於「新車整備管制卡」並置於前擋。
+                </p>
+              </div>
+              <div class="mt-3 pt-2 border-t border-slate-700 text-[11px] text-orange-300 font-semibold">
+                ※ 夜間到車須於次日中午前回報三立＋副本 PGU
+              </div>
+            </div>
+
+            <!-- Step 2A -->
+            <div class="p-4 rounded-xl bg-emerald-50 border-2 border-emerald-500 flex flex-col justify-between">
+              <div>
+                <span class="px-2 py-0.5 rounded bg-emerald-600 text-white text-[11px] font-black">路徑 2A｜展間 / 未綁單車</span>
+                <h3 class="text-sm font-black text-emerald-950 mt-2">直接移入展間轉「庫存維護」</h3>
+                <p class="text-xs text-emerald-900 mt-1.5 leading-relaxed">
+                  若為展間展示車或尚未綁定訂單之車輛，直接移入展間轉入<strong>「庫存維護」</strong>狀態，建立一車一夾納入<strong>每 14 天定期電池巡檢</strong>週期。
+                </p>
+              </div>
+              <div class="mt-3 pt-2 border-t border-emerald-200 text-[11px] text-emerald-800 font-bold">
+                管制卡勾選：☑ 庫存車
+              </div>
+            </div>
+
+            <!-- Step 2B -->
+            <div class="p-4 rounded-xl bg-orange-50 border-2 border-[#ea580c] flex flex-col justify-between">
+              <div>
+                <span class="px-2 py-0.5 rounded bg-[#ea580c] text-white text-[11px] font-black">路徑 2B｜已綁單待交車</span>
+                <h3 class="text-sm font-black text-slate-900 mt-2">業務主動告知接待啟動 PDI</h3>
+                <p class="text-xs text-slate-800 mt-1.5 leading-relaxed">
+                  若為待交車，由<strong class="text-[#ea580c]">業務端主動現場或書面告知接待（SA）</strong>並完整交代選配件施工細節，接待方能開立 UPDI0002 工單執行交車前檢查。
+                </p>
+              </div>
+              <div class="mt-3 pt-2 border-t border-orange-200 text-[11px] text-[#ea580c] font-bold">
+                管制卡勾選：☑ 待交車
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="p-4 rounded-xl bg-sky-50 border-2 border-sky-500 flex flex-col justify-between">
+              <div>
+                <span class="px-2 py-0.5 rounded bg-sky-600 text-white text-[11px] font-black">步驟 3｜完工責任移轉</span>
+                <h3 class="text-sm font-black text-sky-950 mt-2">接待主動通知業務簽名點交</h3>
+                <p class="text-xs text-sky-900 mt-1.5 leading-relaxed">
+                  PDI 交車前檢查與選配件安裝完成後，由<strong>接待人員（SA）主動通知業務</strong>前往服務廠簽名點交，確認車況與配件無誤後完成責任移轉。
+                </p>
+              </div>
+              <div class="mt-3 pt-2 border-t border-sky-200 text-[11px] text-sky-800 font-bold">
+                管制卡勾選：☑ 完成 PDI 作業
+              </div>
+            </div>
+          </div>
+
+          <!-- 現場防呆與海外圖資特別但書兩大提示方塊 -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-1">
+              <div class="font-extrabold text-slate-900">📌 業服協同作業界線（防呆鐵律）</div>
+              <p class="text-slate-600">• <strong>未獲業務明確指示前，保養廠絕不擅自啟動 PDI 作業。</strong></p>
+              <p class="text-slate-600">• 業務須同步交付完整選配件明細，並於收到接待正式完工通知後再前往簽名取車。</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-amber-50/90 border border-amber-300 text-xs space-y-1">
+              <div class="font-extrabold text-amber-950">⚠️ 1.6 408 海外圖資中文化變數 ＆ 拒收急單但書</div>
+              <p class="text-amber-900">• 如 <strong>1.6 408</strong> 等車型系統中文化須連線海外原廠伺服器，遇連線壅塞時工時將大幅延長。</p>
+              <p class="text-amber-900">• <strong>保養廠恕不接受臨時急單壓迫</strong>；若業務未預留充裕時間或遇國外連線延遲，由業務端與客戶溝通承擔。</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2.4 第三篇＆第四篇｜庫存維護 vs 待交車檢查對照 ＋ 各車系 DMS 必傳單據方塊 -->
+        <section id="phase-3" class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200 space-y-5">
+          <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-200">
+            <div class="flex items-center gap-2.5">
+              <span class="px-3 py-1 rounded-xl bg-emerald-600 text-white text-xs font-black">第三篇 ＆ 第四篇｜技術通報與稽核規範</span>
+              <h2 class="text-base sm:text-lg font-black text-slate-900">釐清「庫存維護」vs「交車準備」兩大概念 ＆ DMS 必傳單據矩陣</h2>
+            </div>
+            <span class="text-xs font-semibold text-slate-500">技服通字第 114027 號 ＆ 第 202605001 號</span>
+          </div>
+
+          <!-- 概念一 vs 概念二 雙欄對比方塊 -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="px-2.5 py-0.5 rounded-md bg-emerald-600 text-white text-xs font-black">概念一｜動態防禦（庫存車）</span>
+                <span class="text-xs font-bold text-slate-600">統籌：技師長 黃宗南</span>
+              </div>
+              <h3 class="text-sm font-black text-slate-900">【庫存車】週期性電池與車況維護（到貨超 14 天未綁單）</h3>
+              <ul class="text-xs text-slate-700 space-y-1.5 leading-relaxed">
+                <li>• <strong>雙廠區輪替巡檢：</strong>第一週內湖（必巡一樓側邊、頂樓停放區、樓上庫存區）、第二週昆陽，兩週一檢；三禾儲倉亦比照保養廠執行 4 天週期發動補電。</li>
+                <li>• <strong>固定作業時段：</strong>週二早點名後及 15:30 後執行（可提前週一/週六部署）。</li>
+                <li>• <strong>引擎組四步驟：</strong>① 接診斷電腦解除展間模式 ➔ ② 打入 P 檔怠速回充至少 10 分鐘 ➔ ③ 量測低於標準（<strong>12V &lt; 12.5V / SOC &lt; 80%、48V SOC &lt; 60%</strong>）立即強充 ➔ ④ 開回展間模式，雙面維護單隨車＋報告上傳 <strong>ARGOS 伺服器</strong>。</li>
+              </ul>
+            </div>
+
+            <div id="phase-4" class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="px-2.5 py-0.5 rounded-md bg-[#ea580c] text-white text-xs font-black">概念二｜最終實證（待交車）</span>
+                <span class="text-xs font-bold text-slate-600">稽核：SA 組長徐漢威 / 楊志遠經理</span>
+              </div>
+              <h3 class="text-sm font-black text-slate-900">【待交車】黃金 48 小時交車前檢查（工時代碼 UPDI0002）</h3>
+              <ul class="text-xs text-slate-700 space-y-1.5 leading-relaxed">
+                <li>• <strong>開單與時效鐵律：</strong>開立 PDI 派工單（代碼 <span class="font-mono font-bold text-[#ea580c]">UPDI0002</span>、價別零服內轉），於<strong>正式交車前 48 小時內</strong>使用 E-XTEQ 量測 12V 電瓶並印出 GOOD 報告。</li>
+                <li>• <strong>一車一夾防呆：</strong>新車運抵 2 天內建夾，內含驗收單、雙面庫存維護表（必填到車日，<strong>SA 錯印單面當場退回</strong>）、12V 與 48V 報告。</li>
+                <li>• <strong>結案歸檔期限：</strong><strong>交車後 5 日內</strong>將全套附件上傳 DMS 派工單，紙本一車一夾交<strong>車管保存 1 年</strong>；漏傳將遭保固拒賠與原廠稽核扣款。</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 三大車系交車前 48H 必傳 DMS 附件方塊矩陣 -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div class="p-4 rounded-xl bg-sky-50/70 border border-sky-200">
+              <div class="text-xs font-black text-sky-800 mb-1">Peugeot / Citroën 常規車型（標準 5 張）</div>
+              <ol class="text-xs text-slate-700 space-y-1 list-decimal list-inside">
+                <li>發貨驗收單（經銷商聯）</li>
+                <li>12V 電瓶檢測報告（交車前 48H 內）</li>
+                <li>48V 電池檢測報告（交車前 48H 內）</li>
+                <li>新車交車前檢查表（PDI Checklist）</li>
+                <li>經銷商庫存維護單（雙面歷次紀錄）</li>
+              </ol>
+            </div>
+
+            <div class="p-4 rounded-xl bg-orange-50 border-2 border-[#ea580c]">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-black text-[#ea580c]">Peugeot 408 / 3008 / 5008（必傳 6 張）</span>
+                <span class="px-1.5 py-0.5 rounded bg-[#ea580c] text-white text-[10px] font-black">稽核重點</span>
+              </div>
+              <p class="text-xs text-slate-800 leading-relaxed">
+                除左列標準 5 張單據外，<strong>必須加附第 6 張：「新車交車前功能檢查項目表」</strong>（涵蓋 5008 飾條/尾門/按摩/天窗/空調冷熱分區 RSUM4C、3008 左後六角鎖 9846629780/膠條/IVI、408 IVI/大燈等項目）。
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-rose-50/70 border border-rose-200">
+              <div class="text-xs font-black text-rose-800 mb-1">Alfa Romeo Giulia / Stelvio（專屬 4 張）</div>
+              <ol class="text-xs text-slate-700 space-y-1 list-decimal list-inside">
+                <li>發貨驗收單（經銷商聯）</li>
+                <li>12V 電瓶檢測報告（交車前 48H 內）</li>
+                <li>經銷商庫存維護單（雙面歷次紀錄）</li>
+                <li><strong>替換為「Giulia / Stelvio 專屬全新交車前檢查表」</strong></li>
+              </ol>
+            </div>
+          </div>
+
+          <!-- 2.5 跨部門權責分工總覽速查表（簡報第 10 頁原汁原味呈現） -->
+          <div class="overflow-x-auto rounded-xl border border-slate-200">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="bg-[#0f172a] text-white whitespace-nowrap">
+                  <th class="py-2.5 px-3 font-bold">作業階段</th>
+                  <th class="py-2.5 px-3 font-bold">車管單位</th>
+                  <th class="py-2.5 px-3 font-bold">三禾儲倉</th>
+                  <th class="py-2.5 px-3 font-bold text-orange-300">內湖廠長（專案窗口）</th>
+                  <th class="py-2.5 px-3 font-bold">營業所（所長／業務）</th>
+                  <th class="py-2.5 px-3 font-bold">據點服務廠（SA／技師）</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200 bg-white">
+                <tr class="hover:bg-slate-50">
+                  <td class="py-2.5 px-3 font-extrabold text-slate-900 whitespace-nowrap">1. 進車通知</td>
+                  <td class="py-2.5 px-3 text-slate-700">依 DMS 明細通知進車</td>
+                  <td class="py-2.5 px-3 text-slate-700">安排接車入庫</td>
+                  <td class="py-2.5 px-3 text-slate-400">—</td>
+                  <td class="py-2.5 px-3 text-slate-400">—</td>
+                  <td class="py-2.5 px-3 text-slate-400">—</td>
+                </tr>
+                <tr class="hover:bg-slate-50">
+                  <td class="py-2.5 px-3 font-extrabold text-slate-900 whitespace-nowrap">2. 實車點檢</td>
+                  <td class="py-2.5 px-3 text-slate-400">—</td>
+                  <td class="py-2.5 px-3 text-slate-700">外觀清點＋比對＋拍照</td>
+                  <td class="py-2.5 px-3 font-semibold text-slate-800">監控群組回報</td>
+                  <td class="py-2.5 px-3 text-slate-400">—</td>
+                  <td class="py-2.5 px-3 text-slate-400">—</td>
+                </tr>
+                <tr class="hover:bg-slate-50">
+                  <td class="py-2.5 px-3 font-extrabold text-slate-900 whitespace-nowrap">3. 專案判定</td>
+                  <td class="py-2.5 px-3 text-slate-400">—</td>
+                  <td class="py-2.5 px-3 text-slate-700">配合補拍細節遠近照</td>
+                  <td class="py-2.5 px-3 font-bold text-[#ea580c]">判定保固／水險／三立</td>
+                  <td class="py-2.5 px-3 text-slate-400">—</td>
+                  <td class="py-2.5 px-3 text-slate-400">—</td>
+                </tr>
+                <tr class="hover:bg-slate-50">
+                  <td class="py-2.5 px-3 font-extrabold text-slate-900 whitespace-nowrap">4. 施工通報</td>
+                  <td class="py-2.5 px-3 text-slate-700">接獲完工通知安排調度</td>
+                  <td class="py-2.5 px-3 text-slate-700">留車／交接烤漆施工</td>
+                  <td class="py-2.5 px-3 font-semibold text-slate-800">前後通報所長＋車管</td>
+                  <td class="py-2.5 px-3 text-slate-700">所長掌握調整交車時程</td>
+                  <td class="py-2.5 px-3 text-slate-400">—</td>
+                </tr>
+                <tr class="hover:bg-slate-50">
+                  <td class="py-2.5 px-3 font-extrabold text-slate-900 whitespace-nowrap">5. 到點分流與 PDI</td>
+                  <td class="py-2.5 px-3 text-slate-700">依領牌日派三立拖運</td>
+                  <td class="py-2.5 px-3 text-slate-700">核對放行出庫</td>
+                  <td class="py-2.5 px-3 text-slate-400">—</td>
+                  <td class="py-2.5 px-3 font-semibold text-slate-800">業務點交填卡、分流庫存或通知 SA</td>
+                  <td class="py-2.5 px-3 font-semibold text-emerald-700">庫存巡檢 / 黃金48H PDI / 通知點交</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <!-- 3. 右側黏性現場輔助區：一車一夾檢核 ＋ 通報範本複製 ＋ 三禾範例圖 -->
+      <aside class="w-full xl:sticky xl:top-20 space-y-4">
+        <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200">
+          <div class="flex items-center justify-between mb-3">
+            <h2 class="text-base font-extrabold text-slate-900 flex items-center gap-2">
+              <svg class="w-5 h-5 text-[#ea580c]" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>交車前 48H 一車一夾檢核</span>
+            </h2>
+            <button type="button" onclick="resetChecklist()" class="text-xs font-semibold text-slate-400 hover:text-rose-600 transition">重置勾選</button>
+          </div>
+
+          <!-- 車系切換 -->
+          <div class="mb-3">
+            <label for="modelProfileSelect" class="block text-[11px] font-bold text-slate-600 mb-1">選擇交車車系（切換必傳 DMS 單據清單）：</label>
+            <select id="modelProfileSelect" onchange="changeChecklistProfile()"
+              class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-300 text-xs font-bold text-slate-900 focus:border-[#ea580c] focus:outline-none">
+              <option value="PSA_SPECIAL">Peugeot 408 / 3008 / 5008（必傳 6 張表）</option>
+              <option value="PSA_STD">Peugeot / Citroën 常規車型（標準 5 張表）</option>
+              <option value="ALFA">Alfa Romeo Giulia / Stelvio（專屬 4 張表）</option>
+            </select>
+          </div>
+
+          <!-- 檢核進度條 -->
+          <div class="p-3.5 rounded-xl bg-[#0f172a] text-white mb-4 shadow-inner">
+            <div class="flex items-baseline justify-between mb-1.5">
+              <span class="text-xs text-slate-300">DMS 派工單附件齊備度</span>
+              <span id="checkCountDisplay" class="text-xl font-black font-mono text-white">0 / 6 項</span>
+            </div>
+            <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden mb-2">
+              <div id="checkProgressBar" class="h-full bg-gradient-to-r from-[#ea580c] to-amber-400 transition-all duration-300" style="width: 0%"></div>
+            </div>
+            <div id="checkStatusText" class="text-xs font-semibold text-amber-300 flex items-center justify-between">
+              <span>尚有必傳附件未確認</span>
+              <span>0%</span>
+            </div>
+          </div>
+
+          <!-- 勾選明細 -->
+          <div id="checklistItemsContainer" class="space-y-2 max-h-[260px] overflow-y-auto pr-1"></div>
+
+          <!-- 一鍵複製現場常用訊息 -->
+          <div class="mt-4 pt-3 border-t border-slate-200 space-y-2">
+            <button type="button" onclick="copyReportTemplate(this)"
+              class="w-full py-2.5 px-4 rounded-xl bg-[#ea580c] hover:bg-orange-700 text-white text-xs sm:text-sm font-bold shadow-md shadow-orange-600/20 flex items-center justify-center gap-2 transition">
+              <span data-copy-badge>複製「三禾新車異常回報」標準格式</span>
+            </button>
+
+            <button type="button" onclick="copyHandoverAlert(this)"
+              class="w-full py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold border border-slate-300 flex items-center justify-center gap-1.5 transition">
+              <span data-copy-badge>複製「PDI 完工通知業務簽名點交」訊息</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 三禾範例預覽卡 -->
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200 space-y-2">
+          <div class="text-xs font-extrabold text-slate-900">三禾儲倉外觀檢修與回報範例（點擊放大）</div>
+          <button type="button" onclick="openLightbox('https://xdespair0217.github.io/whiteboard/A07.png', '三禾儲倉外觀檢修與異常回報範例（A07）')"
+            class="group relative w-full rounded-xl overflow-hidden border border-slate-200 bg-slate-900 aspect-[16/10] text-left block">
+            <img src="https://xdespair0217.github.io/whiteboard/A07.png" alt="三禾範例 A07"
+              onerror="this.onerror=null; this.src='https://placehold.co/600x380/0F172A/EA580C?text=%E4%B8%89%E7%A6%BE%E5%84%B2%E5%80%89%E5%9B%9E%E5%A0%B1%E7%AF%84%E4%BE%8B+A07';"
+              class="w-full h-full object-cover opacity-95 group-hover:scale-105 transition duration-300" />
+            <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/55 to-transparent p-2.5">
+              <span class="text-xs font-bold text-white block">三禾儲倉回報範例圖 (A07.png)</span>
+              <span class="text-[11px] text-orange-300">點擊開啟全螢幕燈箱檢視 ↗</span>
+            </div>
+          </button>
+        </div>
+
+        <!-- 異常通報窗口速查卡 -->
+        <div class="bg-[#0f172a] rounded-2xl p-4 shadow-sm border border-slate-800 text-white space-y-2 text-xs">
+          <div class="font-extrabold text-orange-400">📞 官方異常通報 ＆ 系統代碼速查</div>
+          <div class="text-slate-300 space-y-1 leading-relaxed">
+            <p>• <strong class="text-white">夜間到車損傷（次日中午前）：</strong>三立 詹清香 #2123 / 梁珈禎 #2390 / 陳世昌主任 0912-606280（副本 PGU 袁菁蔚 <span class="font-mono text-sky-300">weiwei.yuan@pgu.com.tw</span>）</p>
+            <p>• <strong class="text-white">新車保固預授權窗口：</strong>PGU 吳皓鈞 (<span class="font-mono text-sky-300">jack.wu@pgu.com.tw</span>)</p>
+            <p>• <strong class="text-white">PDI 工時代碼 / 價別：</strong><span class="font-mono font-bold text-amber-300">UPDI0002</span> / 零服內轉</p>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- 4. 全螢幕 Lightbox 燈箱 -->
+  <div id="lightboxModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4" onclick="closeLightbox()">
+    <div class="relative max-w-5xl w-full bg-[#0f172a] rounded-2xl border border-slate-700 overflow-hidden shadow-2xl" onclick="event.stopPropagation()">
+      <div class="flex items-center justify-between px-4 py-3 bg-slate-950 border-b border-slate-800">
+        <h3 id="lightboxTitle" class="text-sm sm:text-base font-bold text-white truncate pr-4">三禾範例預覽</h3>
+        <button type="button" onclick="closeLightbox()" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition" aria-label="關閉預覽">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="p-3 sm:p-5 flex flex-col items-center justify-center max-h-[84vh] overflow-auto bg-slate-900">
+        <img id="lightboxImage" src="" alt="三禾範例"
+          onerror="this.onerror=null; this.src='https://placehold.co/800x600/0F172A/EA580C?text=%E4%B8%89%E7%A6%BE%E5%84%B2%E5%80%89%E5%9B%9E%E5%A0%B1%E7%AF%84%E4%BE%8B+A07';"
+          class="max-h-[72vh] w-auto rounded-xl shadow-lg object-contain" />
+        <p class="mt-2.5 text-xs text-slate-400">提示：點擊背景空白處、按 ESC 鍵或右上角 ✕ 可關閉預覽</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Toast 訊息通知框 -->
+  <div id="toastBox" class="fixed bottom-5 right-5 z-50 pointer-events-none opacity-0 translate-y-3 transition-all duration-300">
+    <div id="toastContent" class="px-4 py-3 rounded-xl bg-[#0f172a] text-white text-sm font-semibold border border-slate-700 shadow-2xl flex items-center gap-2"></div>
+  </div>
+
+  <script>
+    const CHECKLIST_PROFILES = {
+      PSA_SPECIAL: [
+        { id: "c1", title: "1. 發貨驗收單（三聯單經銷商聯）", desc: "核對 17 碼 VIN、隨車鑰匙×2、點交簽收無誤" },
+        { id: "c2", title: "2. 12V 電瓶 E-XTEQ 檢測報告（48H內）", desc: "交車前 48 小時內量測（≥12.5V / SOC ≥80% / PASS）" },
+        { id: "c3", title: "3. 48V 電池檢測報告（48H內）", desc: "診斷電腦讀取 SOC ≥60%（Hybrid 車型必附）" },
+        { id: "c4", title: "4. 新車交車前檢查表（PDI Checklist）", desc: "工單代碼 UPDI0002，地面/頂起/最終整備全項簽名" },
+        { id: "c5", title: "5. 經銷商庫存維護單（雙面列印歷次紀錄）", desc: "必填到車日，錯印單面當場退回（庫存車必附）" },
+        { id: "c6", title: "6. 新車交車前功能檢查項目表（408/3008/5008專屬）", desc: "第 202605001 號強制必傳！漏傳將遭保固拒賠與稽核扣款" }
+      ],
+      PSA_STD: [
+        { id: "c1", title: "1. 發貨驗收單（三聯單經銷商聯）", desc: "核對 17 碼 VIN、隨車配備與外觀簽收紀錄" },
+        { id: "c2", title: "2. 12V 電瓶 E-XTEQ 檢測報告（48H內）", desc: "交車前 48 小時內量測（≥12.5V / SOC ≥80%）" },
+        { id: "c3", title: "3. 48V 電池檢測報告（若為油電車型）", desc: "診斷電腦讀取 SOC ≥60% 並印出存檔" },
+        { id: "c4", title: "4. 新車交車前檢查表（PDI Checklist）", desc: "工單代碼 UPDI0002，技師與品管雙簽名" },
+        { id: "c5", title: "5. 經銷商庫存維護單（雙面列印歷次紀錄）", desc: "交車後 5 日內上傳 DMS，紙本交車管保存 1 年" }
+      ],
+      ALFA: [
+        { id: "c1", title: "1. 發貨驗收單（三聯單經銷商聯）", desc: "核對 Giulia / Stelvio 17 碼 VIN 與隨車配件" },
+        { id: "c2", title: "2. 12V 電瓶 E-XTEQ 檢測報告（48H內）", desc: "交車前 48 小時內量測良好並印出報告" },
+        { id: "c3", title: "3. 經銷商庫存維護單（雙面列印歷次紀錄）", desc: "包含水箱精/電池定期維護紀錄" },
+        { id: "c4", title: "4. Giulia / Stelvio 專屬全新交車前檢查表", desc: "Alfa 車系須替換為專屬版本檢查表上傳 DMS" }
+      ]
+    };
+
+    let currentProfile = 'PSA_SPECIAL';
+    let checkedIds = new Set();
+
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function copyTextGuaranteed(text, successMsg, btnEl = null) {
+      let ok = false;
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, text.length);
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      document.body.removeChild(ta);
+
+      if (ok) {
+        onCopySuccess(successMsg, btnEl);
+      } else if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text)
+          .then(() => onCopySuccess(successMsg, btnEl))
+          .catch(() => showToast('複製失敗，請手動選取複製', 'rose'));
+      }
+    }
+
+    function onCopySuccess(msg, btnEl) {
+      showToast(msg, 'emerald');
+      if (btnEl) {
+        const badge = btnEl.querySelector('[data-copy-badge]') || btnEl;
+        if (badge && !badge.dataset.copying) {
+          badge.dataset.copying = '1';
+          const orig = badge.innerHTML;
+          badge.innerHTML = '✔ 已複製';
+          setTimeout(() => {
+            badge.innerHTML = orig;
+            delete badge.dataset.copying;
+          }, 1500);
+        }
+      }
+    }
+
+    function changeChecklistProfile() {
+      currentProfile = document.getElementById('modelProfileSelect').value;
+      checkedIds.clear();
+      renderChecklist();
+    }
+
+    function toggleCheckItem(id) {
+      if (checkedIds.has(id)) checkedIds.delete(id);
+      else checkedIds.add(id);
+      renderChecklist();
+    }
+
+    function resetChecklist() {
+      checkedIds.clear();
+      renderChecklist();
+      showToast('已重置一車一夾檢核勾選狀態', 'slate');
+    }
+
+    function renderChecklist() {
+      const list = CHECKLIST_PROFILES[currentProfile] || [];
+      const container = document.getElementById('checklistItemsContainer');
+      const total = list.length;
+      const done = list.filter(i => checkedIds.has(i.id)).length;
+      const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+
+      document.getElementById('checkCountDisplay').textContent = `${done} / ${total} 項`;
+      const bar = document.getElementById('checkProgressBar');
+      const status = document.getElementById('checkStatusText');
+      bar.style.width = `${pct}%`;
+
+      if (done === total && total > 0) {
+        bar.className = 'h-full bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-300';
+        status.className = 'text-xs font-bold text-emerald-400 flex items-center justify-between';
+        status.innerHTML = `<span>🎉 單據全數齊備！可上傳 DMS 並點交</span><span>100%</span>`;
+      } else {
+        bar.className = 'h-full bg-gradient-to-r from-[#ea580c] to-amber-400 transition-all duration-300';
+        status.className = 'text-xs font-semibold text-amber-300 flex items-center justify-between';
+        status.innerHTML = `<span>尚缺 ${total - done} 項必備單據未核對</span><span>${pct}%</span>`;
+      }
+
+      container.innerHTML = list.map(item => {
+        const isChecked = checkedIds.has(item.id);
+        return `
+          <label onclick="toggleCheckItem('${item.id}')"
+            class="p-2.5 rounded-xl border transition cursor-pointer flex items-start gap-2.5 ${isChecked ? 'bg-emerald-50/80 border-emerald-400' : 'bg-slate-50 hover:bg-slate-100 border-slate-200'}">
+            <input type="checkbox" ${isChecked ? 'checked' : ''} onclick="event.stopPropagation(); toggleCheckItem('${item.id}')"
+              class="mt-0.5 w-4 h-4 accent-[#ea580c] rounded cursor-pointer shrink-0" />
+            <div class="min-w-0 flex-1">
+              <div class="text-xs font-extrabold ${isChecked ? 'text-emerald-900 line-through' : 'text-slate-900'}">${escapeHtml(item.title)}</div>
+              <div class="text-[11px] text-slate-600 mt-0.5 leading-snug">${escapeHtml(item.desc)}</div>
+            </div>
+          </label>
+        `;
+      }).join('');
+    }
+
+    function copyReportTemplate(btnEl) {
+      const tpl = [
+        '【三禾新車到車與外觀異常回報】',
+        '車身號碼（後8碼）：________ 回 ＿＿所 業代＿＿＿',
+        '異常部位明細：',
+        '1. 左前門／護定漆粒',
+        '2. 右前門／葉子板漆粒',
+        '（已附遠近照片上傳群組，請確認施工排程）'
+      ].join('\n');
+      copyTextGuaranteed(tpl, '已複製「三禾新車異常回報」標準格式！', btnEl);
+    }
+
+    function copyHandoverAlert(btnEl) {
+      const msg = [
+        '【尚鵬服務廠｜PDI 交車前檢查完工點交通知】',
+        '車身號碼：________________',
+        '✔ 已於交車前 48 小時內完成 E-XTEQ 電瓶量測（PASS）',
+        '✔ 已依技服通字第 202605001 號完成全項功能與選配件檢查',
+        '請負責業務同仁前往服務廠接待櫃檯簽名點交，謝謝！'
+      ].join('\n');
+      copyTextGuaranteed(msg, '已複製「PDI 完工通知業務簽名點交」訊息！', btnEl);
+    }
+
+    function openLightbox(url, title) {
+      document.getElementById('lightboxTitle').textContent = title;
+      document.getElementById('lightboxImage').src = url;
+      document.getElementById('lightboxModal').classList.remove('hidden');
+    }
+    function closeLightbox() {
+      document.getElementById('lightboxModal').classList.add('hidden');
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+    let toastTimer = null;
+    function showToast(message, color = 'emerald') {
+      const box = document.getElementById('toastBox');
+      const content = document.getElementById('toastContent');
+      const dots = { emerald: 'bg-emerald-400', orange: 'bg-orange-400', rose: 'bg-rose-400', slate: 'bg-slate-400' };
+      content.innerHTML = `<span class="w-2.5 h-2.5 rounded-full ${dots[color] || 'bg-emerald-400'}"></span><span>${escapeHtml(message)}</span>`;
+      box.classList.remove('opacity-0', 'translate-y-3');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => box.classList.add('opacity-0', 'translate-y-3'), 2600);
+    }
+
+    window.addEventListener('DOMContentLoaded', renderChecklist);
+  </script>
+</body>
+</html>
