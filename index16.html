@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>保固備註標準資料庫｜快速複製系統</title>
+  <style>
+    :root {
+      --bg-body: #0f172a;
+      --bg-card: #1e293b;
+      --bg-input: #0b1120;
+      --border: #334155;
+      --border-focus: #38bdf8;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent: #0284c7;
+      --accent-hover: #0369a1;
+      --success: #10b981;
+      --tag-bg: rgba(56, 189, 248, 0.12);
+      --tag-text: #38bdf8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", sans-serif;
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 24px 16px 60px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* 頂部標題區 */
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 16px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+
+    .title-group h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: #ffffff;
+    }
+
+    .title-group p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* 控制列：搜尋與單號快速帶入 */
+    .toolbar {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 24px;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr;
+      gap: 12px;
+      align-items: end;
+    }
+
+    @media (max-width: 860px) {
+      .toolbar {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .toolbar {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    .field input {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 9px 12px;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .field input:focus {
+      border-color: var(--border-focus);
+    }
+
+    .field input::placeholder {
+      color: #475569;
+    }
+
+    /* 卡片網格 */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(460px, 1fr));
+      gap: 20px;
+    }
+
+    @media (max-width: 540px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: transform 0.15s ease, border-color 0.2s ease;
+    }
+
+    .card:hover {
+      border-color: #475569;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #f8fafc;
+    }
+
+    .tag {
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 6px;
+      white-space: nowrap;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+    }
+
+    .note-box {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: #e2e8f0;
+      font-family: "Consolas", "Microsoft JhengHei", monospace;
+      font-size: 0.92rem;
+      line-height: 1.65;
+      padding: 12px 14px;
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .note-box:focus {
+      border-color: var(--border-focus);
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+    }
+
+    .hint {
+      font-size: 0.75rem;
+      color: #64748b;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 8px;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-reset {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 8px 12px;
+      font-size: 0.8rem;
+    }
+
+    .btn-reset:hover {
+      color: var(--text-main);
+      border-color: #64748b;
+    }
+
+    .btn-copy {
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    .btn-copy:hover {
+      background: var(--accent-hover);
+    }
+
+    .btn-copy.copied {
+      background: var(--success);
+      color: #042f2e;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 48px 20px;
+      color: var(--text-muted);
+      grid-column: 1 / -1;
+      background: var(--bg-card);
+      border-radius: 12px;
+      border: 1px dashed var(--border);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div class="title-group">
+      <h1>保固結帳備註罐頭系統</h1>
+      <p>點擊文字框可直接微調細節（如車門位置），右側按鈕一鍵複製標準格式</p>
+    </div>
+  </header>
+
+  <!-- 檢索與動態單號填入列 -->
+  <section class="toolbar">
+    <div class="field">
+      <label for="searchInput">🔍 關鍵字／通報編號篩選</label>
+      <input type="text" id="searchInput" placeholder="輸入 六角鎖、P21C5、400V、通報碼...">
+    </div>
+    <div class="field">
+      <label for="didiInput">DIDI 單號（自動替換 xxx）</label>
+      <input type="text" id="didiInput" placeholder="例如：123456">
+    </div>
+    <div class="field">
+      <label for="didaInput">DIDA 單號（自動替換 xxx）</label>
+      <input type="text" id="didaInput" placeholder="例如：789012">
+    </div>
+    <div class="field">
+      <label for="taskInput">任務編碼（自動替換 xxxx）</label>
+      <input type="text" id="taskInput" placeholder="例如：9527">
+    </div>
+  </section>
+
+  <!-- 卡片容器 -->
+  <main class="grid" id="cardsContainer"></main>
+</div>
+
+<script>
+  const templates = [
+    {
+      id: "lock-dead-battery",
+      title: "車輛無法啟動／沒電（六角鎖通報）",
+      code: "C5JW0176Q0",
+      rows: 5,
+      content: `車輛無法啟動\n車輛已沒電-依照C5JW0176Q0操作執行\n更新全車六角鎖後問題得到解決\ndidi-xxx`
+    },
+    {
+      id: "door-ajar",
+      title: "行駛中顯示車門未關（六角鎖故障）",
+      code: "六角鎖單品",
+      rows: 5,
+      content: `行駛中出現左後門未關\n檢查為左後門六角鎖故障\n更新新品後問題得到解決\ndida-xxx didi-xxx`
+    },
+    {
+      id: "whistle-noise",
+      title: "引擎室異音 口哨聲（搖臂蓋滲油）",
+      code: "B1BW017KQ0",
+      rows: 5,
+      content: `引擎室異音 口哨聲\n依照B1BW017KQ0操作檢查\n確實搖臂蓋左上方頂部有機油\n更新新品後問題得到解決\ndidi-xxx`
+    },
+    {
+      id: "urea-p21c5",
+      title: "引擎燈及尿素燈亮（P21C5 尿素桶）",
+      code: "B1HW01NYQ0",
+      rows: 6,
+      content: `引擎燈及尿素燈亮\n電腦檢測故障代碼為P21C5\n依照B1HW01NYQ0操作\n更新尿素桶後問題得到解決\n任務編碼-xxxx`
+    },
+    {
+      id: "ev-compressor",
+      title: "空調不冷及牽引系統異常（電動壓縮機）",
+      code: "TSB 1PP1-C5HW015PQ0",
+      rows: 9,
+      content: `空調不冷及牽引系統異常進廠\n依照TSB 1PP1-C5HW015PQ0規範執行檢測\n檢查 1 確認高壓接頭外觀正常\n檢查 2 經 DiagBox 進入讀取參數，確認壓縮機高壓供電正常達 400V\n檢查 3 確認壓縮機轉速卡在 0 rpm 無法運轉\n進一步使用兆歐表量測卸下之舊壓縮機對外殼絕緣阻抗，實測值僅剩 0.06 MΩ，證實電動壓縮機內部線圈絕緣擊穿\n更換新品後問題得到解決\ndidi-xxx`
+    }
+  ];
+
+  const container = document.getElementById("cardsContainer");
+  const searchInput = document.getElementById("searchInput");
+  const didiInput = document.getElementById("didiInput");
+  const didaInput = document.getElementById("didaInput");
+  const taskInput = document.getElementById("taskInput");
+
+  // 依據頂端單號欄位動態替換佔位符
+  function formatContent(raw) {
+    const didiVal = didiInput.value.trim();
+    const didaVal = didaInput.value.trim();
+    const taskVal = taskInput.value.trim();
+
+    let text = raw;
+    if (didiVal) text = text.replace(/didi-xxx/g, `didi-${didiVal}`);
+    if (didaVal) text = text.replace(/dida-xxx/g, `dida-${didaVal}`);
+    if (taskVal) text = text.replace(/任務編碼-xxxx/g, `任務編碼-${taskVal}`);
+    return text;
+  }
+
+  function renderCards() {
+    const keyword = searchInput.value.trim().toLowerCase();
+    container.innerHTML = "";
+
+    const filtered = templates.filter(item => {
+      const target = `${item.title} ${item.code} ${item.content}`.toLowerCase();
+      return target.includes(keyword);
+    });
+
+    if (filtered.length === 0) {
+      container.innerHTML = `<div class="empty-state">找不到符合「${searchInput.value}」的保固備註範本</div>`;
+      return;
+    }
+
+    filtered.forEach(item => {
+      const card = document.createElement("article");
+      card.className = "card";
+
+      const formattedText = formatContent(item.content);
+
+      card.innerHTML = `
+        <div class="card-header">
+          <div class="card-title">${item.title}</div>
+          <span class="tag">${item.code}</span>
+        </div>
+        <textarea class="note-box" rows="${item.rows}" spellcheck="false">${formattedText}</textarea>
+        <div class="card-footer">
+          <span class="hint">可直接點擊上方文字修改</span>
+          <div class="btn-group">
+            <button type="button" class="btn-reset" title="還原預設文字">還原</button>
+            <button type="button" class="btn-copy">📋 一鍵複製</button>
+          </div>
+        </div>
+      `;
+
+      const textarea = card.querySelector(".note-box");
+      const copyBtn = card.querySelector(".btn-copy");
+      const resetBtn = card.querySelector(".btn-reset");
+
+      // 還原按鈕
+      resetBtn.addEventListener("click", () => {
+        textarea.value = formatContent(item.content);
+      });
+
+      // 複製按鈕
+      copyBtn.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(textarea.value);
+          copyBtn.classList.add("copied");
+          copyBtn.innerHTML = "✓ 已複製到剪貼簿";
+          setTimeout(() => {
+            copyBtn.classList.remove("copied");
+            copyBtn.innerHTML = "📋 一鍵複製";
+          }, 1600);
+        } catch (err) {
+          textarea.select();
+          document.execCommand("copy");
+        }
+      });
+
+      container.appendChild(card);
+    });
+  }
+
+  // 綁定即時事件
+  searchInput.addEventListener("input", renderCards);
+  didiInput.addEventListener("input", renderCards);
+  didaInput.addEventListener("input", renderCards);
+  taskInput.addEventListener("input", renderCards);
+
+  // 初始化渲染
+  renderCards();
+</script>
+
+</body>
+</html>
